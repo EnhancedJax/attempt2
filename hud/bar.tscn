@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://bx4hgifisgaag"]
+
+[ext_resource type="FontFile" uid="uid://df64tdvvkoab1" path="res://assets/Fonts/minecraft_font.ttf" id="1_4eee5"]
+[ext_resource type="Script" path="res://hud/bar.gd" id="1_rq752"]
+
+[node name="Bar" type="NinePatchRect"]
+offset_right = 484.0
+offset_bottom = 84.0
+script = ExtResource("1_rq752")
+
+[node name="Value" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -40.0
+offset_right = 144.0
+offset_bottom = 40.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_4eee5")
+theme_override_font_sizes/font_size = 64
+text = "1/2"
+vertical_alignment = 1
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -297.0
+offset_top = -20.0
+offset_bottom = 24.0
+grow_horizontal = 0
+grow_vertical = 2

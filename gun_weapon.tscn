@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://dilrysobmi76h"]
+
+[ext_resource type="Script" path="res://gun_weapon.gd" id="1_l36yq"]
+[ext_resource type="Texture2D" uid="uid://b6tfo452w4d0b" path="res://assets/Guns/AK47.png" id="2_kh6xk"]
+
+[node name="GunWeapon" type="Node2D"]
+script = ExtResource("1_l36yq")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+scale = Vector2(2, 2)
+target_position = Vector2(25.5, 0)
+
+[node name="SpriteWrapper" type="Node2D" parent="."]
+scale = Vector2(2, 2)
+
+[node name="GunSprite" type="Sprite2D" parent="SpriteWrapper"]
+position = Vector2(11, 1)
+texture = ExtResource("2_kh6xk")
+
+[node name="BulletSpawn" type="Marker2D" parent="."]
+position = Vector2(51, -2)
