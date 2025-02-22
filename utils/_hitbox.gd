@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var _health : _Health
-
-func do_hit(damage : int):
-	_health.do_damage(damage)
+func do_hit(attack : Attack):
+	var parent = get_parent()
+	if parent is EntityBase:
+		parent.take_attack(attack)

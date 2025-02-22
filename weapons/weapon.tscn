@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bpj1uriwueypd"]
+
+[ext_resource type="Script" path="res://src/base/weapon.gd" id="1_ycrb0"]
+[ext_resource type="Resource" uid="uid://b8liuu6s451k5" path="res://weapons/rifle.tres" id="2_g8rd0"]
+
+[node name="Weapon" type="Node2D"]
+scale = Vector2(0.75, 0.75)
+script = ExtResource("1_ycrb0")
+WEAPON = ExtResource("2_g8rd0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="RayCast2D" type="RayCast2D" parent="."]

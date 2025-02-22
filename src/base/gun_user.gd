@@ -1,5 +1,5 @@
-extends Node
-class_name GunUser
+class_name GunUser extends EntityBase
+
 
 # Must be implemented by children
 func get_aim_position() -> Vector2:

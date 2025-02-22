@@ -2,7 +2,7 @@ extends Node2D
 
 const SPEED: int = 4000
 var owner_node: Node2D
-var hit_points: int
+var attack: Attack
 
 func _process(delta: float) -> void:
 	position += transform.x * SPEED * delta
@@ -13,7 +13,6 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	print(area)
 	if area.has_method("do_hit"):
-		area.do_hit(hit_points)
-		queue_free()
+		area.do_hit(attack)
+		# queue_free()

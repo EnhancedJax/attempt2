@@ -1,71 +1,66 @@
-[gd_scene load_steps=30 format=3 uid="uid://nl6av3r2mo54"]
+[gd_scene load_steps=25 format=3 uid="uid://bbx1txsscbfkm"]
 
-[ext_resource type="Script" path="res://src/player/player.gd" id="1_2v6uj"]
-[ext_resource type="Texture2D" uid="uid://j3gso0vhpoj5" path="res://assets/Player/Player.png" id="2_hqffl"]
-[ext_resource type="Shader" uid="uid://b4ndlpkl4rwho" path="res://entities/player/player.tres" id="2_k7sbt"]
-[ext_resource type="Script" path="res://src/camera.gd" id="3_i6wkx"]
-[ext_resource type="Script" path="res://src/player/state_node.gd" id="8_lf60e"]
-[ext_resource type="Script" path="res://src/player/states/idle.gd" id="9_gqem6"]
-[ext_resource type="PackedScene" uid="uid://piih37x1adkq" path="res://components/_hitbox.tscn" id="9_i1meg"]
-[ext_resource type="Script" path="res://utils/floating_number.gd" id="10_c8sy3"]
-[ext_resource type="Script" path="res://src/player/states/walk.gd" id="10_imwe0"]
-[ext_resource type="Script" path="res://src/player/states/roll.gd" id="11_cymf6"]
+[ext_resource type="Script" path="res://src/enemies/dummy.gd" id="1_or8rf"]
+[ext_resource type="Shader" uid="uid://d0i0632n1suaa" path="res://entities/enemies/take_attack.tres" id="2_cvtcx"]
+[ext_resource type="Texture2D" uid="uid://j3gso0vhpoj5" path="res://assets/Player/Player.png" id="3_vootm"]
+[ext_resource type="PackedScene" uid="uid://piih37x1adkq" path="res://components/_hitbox.tscn" id="4_lnaqo"]
+[ext_resource type="Script" path="res://utils/floating_number.gd" id="5_ms1yh"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xpbf4"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n4yhw"]
 resource_local_to_scene = true
-shader = ExtResource("2_k7sbt")
-shader_parameter/enabled = false
+shader = ExtResource("2_cvtcx")
+shader_parameter/enabled = true
 shader_parameter/tint = Color(1, 1, 1, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7qo1x"]
-atlas = ExtResource("2_hqffl")
+atlas = ExtResource("3_vootm")
 region = Rect2(0, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_04bai"]
-atlas = ExtResource("2_hqffl")
+atlas = ExtResource("3_vootm")
 region = Rect2(32, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ckkyw"]
-atlas = ExtResource("2_hqffl")
+atlas = ExtResource("3_vootm")
 region = Rect2(64, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7tfp8"]
-atlas = ExtResource("2_hqffl")
+atlas = ExtResource("3_vootm")
 region = Rect2(96, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vdrtm"]
-atlas = ExtResource("2_hqffl")
+atlas = ExtResource("3_vootm")
 region = Rect2(128, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pw2dv"]
-atlas = ExtResource("2_hqffl")
+atlas = ExtResource("3_vootm")
 region = Rect2(160, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5y417"]
-atlas = ExtResource("2_hqffl")
+atlas = ExtResource("3_vootm")
 region = Rect2(0, 128, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5e7dd"]
-atlas = ExtResource("2_hqffl")
+atlas = ExtResource("3_vootm")
 region = Rect2(32, 128, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wmt46"]
-atlas = ExtResource("2_hqffl")
+atlas = ExtResource("3_vootm")
 region = Rect2(64, 128, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t41dj"]
-atlas = ExtResource("2_hqffl")
+atlas = ExtResource("3_vootm")
 region = Rect2(96, 128, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tvxvx"]
-atlas = ExtResource("2_hqffl")
+atlas = ExtResource("3_vootm")
 region = Rect2(128, 128, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_16lx1"]
-atlas = ExtResource("2_hqffl")
+atlas = ExtResource("3_vootm")
 region = Rect2(160, 128, 32, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_w103t"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_nvx87"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -126,11 +121,11 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_f27go"]
-resource_name = "flash"
+resource_name = "take_attack"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -138,7 +133,7 @@ tracks/0/path = NodePath(".:material:shader_parameter/enabled")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
+"times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -147,25 +142,26 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_aufv5"]
 _data = {
 "RESET": SubResource("Animation_i6u7x"),
-"flash": SubResource("Animation_f27go")
+"take_attack": SubResource("Animation_f27go")
 }
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_syv2a"]
-radius = 5.0
-height = 12.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sbw4g"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pur53"]
 radius = 6.0
 height = 18.0
 
-[node name="Player" type="CharacterBody2D"]
-script = ExtResource("1_2v6uj")
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ax6dc"]
+radius = 5.0
+height = 12.0
+
+[node name="Dummy" type="CharacterBody2D"]
+script = ExtResource("1_or8rf")
+MAX_HEALTH = 10000
+INITIAL_HEALTH = 10000
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-material = SubResource("ShaderMaterial_xpbf4")
-sprite_frames = SubResource("SpriteFrames_w103t")
-frame_progress = 0.883307
+material = SubResource("ShaderMaterial_n4yhw")
+sprite_frames = SubResource("SpriteFrames_nvx87")
 metadata/_edit_lock_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D"]
@@ -173,37 +169,16 @@ libraries = {
 "": SubResource("AnimationLibrary_aufv5")
 }
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1)
-shape = SubResource("CapsuleShape2D_syv2a")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("3_i6wkx")
-metadata/_edit_lock_ = true
-
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("animatedSprite", "animator", "initial_state")]
-script = ExtResource("8_lf60e")
-animatedSprite = NodePath("../AnimatedSprite2D")
-animator = NodePath("../AnimatedSprite2D/AnimationPlayer")
-initial_state = NodePath("Idle")
-
-[node name="Idle" type="Node" parent="StateMachine"]
-script = ExtResource("9_gqem6")
-
-[node name="Walk" type="Node" parent="StateMachine"]
-script = ExtResource("10_imwe0")
-
-[node name="RollCooldown" type="Timer" parent="StateMachine/Walk"]
-
-[node name="Roll" type="Node" parent="StateMachine"]
-script = ExtResource("11_cymf6")
-
-[node name="_Hitbox" parent="." instance=ExtResource("9_i1meg")]
+[node name="_Hitbox" parent="." instance=ExtResource("4_lnaqo")]
 
 [node name="Shape" type="CollisionShape2D" parent="_Hitbox"]
 position = Vector2(0, -2)
-shape = SubResource("CapsuleShape2D_sbw4g")
+shape = SubResource("CapsuleShape2D_pur53")
 
 [node name="DamageNumbersOrigin" type="Marker2D" parent="."]
 position = Vector2(0, -18)
-script = ExtResource("10_c8sy3")
+script = ExtResource("5_ms1yh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_ax6dc")

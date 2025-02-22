@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://culkeogipbs3r"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dji8i"]
+random_pitch = 1.5
+random_volume_offset_db = 0.5
+
+[node name="RandomizedAudio" type="AudioStreamPlayer2D"]
+stream = SubResource("AudioStreamRandomizer_dji8i")
+volume_db = -5.0
