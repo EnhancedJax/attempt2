@@ -1,13 +1,18 @@
 extends Control
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
 
 func update_health(value: int = 1, max: int = 1):
-	$Bar.update(value, max)
+	$HealthBar.update(value, max)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+var is_paused: bool = false
+
 func _process(delta: float) -> void:
-	pass
+	if Input.is_action_just_pressed("menu"):
+		toggle_pause()
+
+func toggle_pause() -> void:
+	is_paused = !is_paused
+	get_tree().paused = is_paused

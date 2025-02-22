@@ -1,0 +1,66 @@
+[gd_scene load_steps=11 format=3 uid="uid://bx2vd8srtjl3u"]
+
+[ext_resource type="Script" path="res://entities/enemies/shooting_enemy.gd" id="1_ghmmt"]
+[ext_resource type="Texture2D" uid="uid://bdtq30ar282jb" path="res://assets/Enemies/Skeleton.png" id="1_uapey"]
+[ext_resource type="PackedScene" uid="uid://dilrysobmi76h" path="res://weapons/gun_weapon.tscn" id="2_0wq3r"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_afllo"]
+atlas = ExtResource("1_uapey")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pfoc3"]
+atlas = ExtResource("1_uapey")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x44a3"]
+atlas = ExtResource("1_uapey")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kg2gf"]
+atlas = ExtResource("1_uapey")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4shjh"]
+atlas = ExtResource("1_uapey")
+region = Rect2(128, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y483q"]
+atlas = ExtResource("1_uapey")
+region = Rect2(160, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cumps"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_afllo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pfoc3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x44a3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kg2gf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4shjh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y483q")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="ShootingEnemy" type="CharacterBody2D"]
+script = ExtResource("1_ghmmt")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_cumps")
+autoplay = "default"
+
+[node name="GunWeapon" parent="." instance=ExtResource("2_0wq3r")]
+position = Vector2(0, 1)
+scale = Vector2(0.348, 0.348)

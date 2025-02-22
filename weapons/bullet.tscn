@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bu7mbgrqmaybu"]
 
-[ext_resource type="Script" path="res://bullet.gd" id="1_8xav1"]
+[ext_resource type="Script" path="res://weapons/bullet.gd" id="1_8xav1"]
 [ext_resource type="Texture2D" uid="uid://b01e1qjah6km7" path="res://assets/Bullets/RifleAmmoBig.png" id="1_e3edb"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3epb3"]
@@ -25,4 +25,5 @@ position = Vector2(-3.58877e-06, -15.8965)
 scale = Vector2(4.65517, 4.65517)
 shape = SubResource("CapsuleShape2D_3epb3")
 
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
