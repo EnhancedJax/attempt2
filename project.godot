@@ -32,7 +32,7 @@ enabled=PackedStringArray()
 
 [gui]
 
-theme/custom_font="res://assets/Fonts/minecraft_font.ttf"
+theme/custom_font="res://pending_assets/Fonts/minecraft_font.ttf"
 
 [input]
 

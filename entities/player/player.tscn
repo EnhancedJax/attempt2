@@ -1,15 +1,14 @@
 [gd_scene load_steps=30 format=3 uid="uid://nl6av3r2mo54"]
 
-[ext_resource type="Script" path="res://src/player/player.gd" id="1_2v6uj"]
-[ext_resource type="Texture2D" uid="uid://j3gso0vhpoj5" path="res://assets/Player/Player.png" id="2_hqffl"]
+[ext_resource type="Script" path="res://entities/player/player.gd" id="1_2v6uj"]
+[ext_resource type="Texture2D" uid="uid://j3gso0vhpoj5" path="res://entities/player/Player.png" id="2_hqffl"]
 [ext_resource type="Shader" uid="uid://b4ndlpkl4rwho" path="res://entities/player/player.tres" id="2_k7sbt"]
-[ext_resource type="Script" path="res://src/camera.gd" id="3_i6wkx"]
-[ext_resource type="Script" path="res://src/player/state_node.gd" id="8_lf60e"]
-[ext_resource type="Script" path="res://src/player/states/idle.gd" id="9_gqem6"]
-[ext_resource type="PackedScene" uid="uid://piih37x1adkq" path="res://components/_hitbox.tscn" id="9_i1meg"]
-[ext_resource type="Script" path="res://utils/floating_number.gd" id="10_c8sy3"]
-[ext_resource type="Script" path="res://src/player/states/walk.gd" id="10_imwe0"]
-[ext_resource type="Script" path="res://src/player/states/roll.gd" id="11_cymf6"]
+[ext_resource type="Script" path="res://entities/player/camera.gd" id="3_i6wkx"]
+[ext_resource type="Script" path="res://entities/player/state_node.gd" id="8_lf60e"]
+[ext_resource type="Script" path="res://entities/player/states/idle.gd" id="9_gqem6"]
+[ext_resource type="PackedScene" uid="uid://piih37x1adkq" path="res://components/hitbox/_hitbox.tscn" id="9_i1meg"]
+[ext_resource type="Script" path="res://entities/player/states/walk.gd" id="10_imwe0"]
+[ext_resource type="Script" path="res://entities/player/states/roll.gd" id="11_cymf6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xpbf4"]
 resource_local_to_scene = true
@@ -158,6 +157,10 @@ height = 12.0
 radius = 6.0
 height = 18.0
 
+[sub_resource type="GDScript" id="GDScript_jp7cd"]
+script/source = "extends Marker2D
+"
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_2v6uj")
 
@@ -206,4 +209,4 @@ shape = SubResource("CapsuleShape2D_sbw4g")
 
 [node name="DamageNumbersOrigin" type="Marker2D" parent="."]
 position = Vector2(0, -18)
-script = ExtResource("10_c8sy3")
+script = SubResource("GDScript_jp7cd")

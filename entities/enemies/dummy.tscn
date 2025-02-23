@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://src/enemies/dummy.gd" id="1_or8rf"]
 [ext_resource type="Shader" uid="uid://d0i0632n1suaa" path="res://entities/enemies/take_attack.tres" id="2_cvtcx"]
-[ext_resource type="Texture2D" uid="uid://j3gso0vhpoj5" path="res://assets/Player/Player.png" id="3_vootm"]
-[ext_resource type="PackedScene" uid="uid://piih37x1adkq" path="res://components/_hitbox.tscn" id="4_lnaqo"]
+[ext_resource type="Texture2D" uid="uid://j3gso0vhpoj5" path="res://entities/player/Player.png" id="3_vootm"]
+[ext_resource type="PackedScene" uid="uid://piih37x1adkq" path="res://components/hitbox/_hitbox.tscn" id="4_lnaqo"]
 [ext_resource type="Script" path="res://utils/floating_number.gd" id="5_ms1yh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n4yhw"]
