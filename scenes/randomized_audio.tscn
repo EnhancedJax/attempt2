@@ -1,6 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://culkeogipbs3r"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dji8i"]
+resource_local_to_scene = true
 random_pitch = 1.5
 random_volume_offset_db = 0.5
 

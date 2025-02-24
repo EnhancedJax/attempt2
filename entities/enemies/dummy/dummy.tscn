@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bjpiy74xjwbu4"]
+
+[ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_5f17m"]
+[ext_resource type="Shader" uid="uid://b4ndlpkl4rwho" path="res://entities/flash.tres" id="3_irhkp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b2cvo"]
+resource_local_to_scene = true
+shader = ExtResource("3_irhkp")
+shader_parameter/enabled = false
+shader_parameter/tint = Color(1, 1, 1, 1)
+
+[node name="Dummy" instance=ExtResource("1_5f17m")]
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+material = SubResource("ShaderMaterial_b2cvo")
+
+[node name="HealthComponent" parent="." index="3"]
+MAX_HEALTH = 1000
+INITIAL_HEALTH = 1000

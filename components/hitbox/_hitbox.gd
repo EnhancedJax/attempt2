@@ -1,6 +1,6 @@
-extends Area2D
+class_name HitboxComponent extends Area2D
 
-func do_hit(attack : Attack):
-	var parent = get_parent()
-	if parent is EntityBase:
-		parent.take_attack(attack)
+signal signal_hit(attack: AttackBase)
+
+func hit(attack: AttackBase) -> void:
+	emit_signal("signal_hit", attack)

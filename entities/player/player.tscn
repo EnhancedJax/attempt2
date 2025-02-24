@@ -1,212 +1,43 @@
-[gd_scene load_steps=30 format=3 uid="uid://nl6av3r2mo54"]
+[gd_scene load_steps=10 format=3 uid="uid://qgtqua65lnyp"]
 
-[ext_resource type="Script" path="res://entities/player/player.gd" id="1_2v6uj"]
-[ext_resource type="Texture2D" uid="uid://j3gso0vhpoj5" path="res://entities/player/Player.png" id="2_hqffl"]
-[ext_resource type="Shader" uid="uid://b4ndlpkl4rwho" path="res://entities/player/player.tres" id="2_k7sbt"]
-[ext_resource type="Script" path="res://entities/player/camera.gd" id="3_i6wkx"]
-[ext_resource type="Script" path="res://entities/player/state_node.gd" id="8_lf60e"]
-[ext_resource type="Script" path="res://entities/player/states/idle.gd" id="9_gqem6"]
-[ext_resource type="PackedScene" uid="uid://piih37x1adkq" path="res://components/hitbox/_hitbox.tscn" id="9_i1meg"]
-[ext_resource type="Script" path="res://entities/player/states/walk.gd" id="10_imwe0"]
-[ext_resource type="Script" path="res://entities/player/states/roll.gd" id="11_cymf6"]
+[ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_mfkho"]
+[ext_resource type="Script" path="res://entities/player/player.gd" id="2_2vuf7"]
+[ext_resource type="Shader" uid="uid://b4ndlpkl4rwho" path="res://entities/flash.tres" id="2_k7sbt"]
+[ext_resource type="Script" path="res://entities/player/state_node.gd" id="3_l7dpn"]
+[ext_resource type="Script" path="res://entities/player/states/idle.gd" id="4_fuwg5"]
+[ext_resource type="Script" path="res://entities/player/states/walk.gd" id="5_80dvk"]
+[ext_resource type="Script" path="res://entities/player/states/roll.gd" id="6_uefxj"]
+[ext_resource type="Script" path="res://entities/player/camera.gd" id="8_p7rki"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xpbf4"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gpl2p"]
 resource_local_to_scene = true
 shader = ExtResource("2_k7sbt")
 shader_parameter/enabled = false
 shader_parameter/tint = Color(1, 1, 1, 1)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7qo1x"]
-atlas = ExtResource("2_hqffl")
-region = Rect2(0, 32, 32, 32)
+[node name="Player" instance=ExtResource("1_mfkho")]
+script = ExtResource("2_2vuf7")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_04bai"]
-atlas = ExtResource("2_hqffl")
-region = Rect2(32, 32, 32, 32)
+[node name="AnimatedSprite2D" parent="." index="0"]
+material = SubResource("ShaderMaterial_gpl2p")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ckkyw"]
-atlas = ExtResource("2_hqffl")
-region = Rect2(64, 32, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7tfp8"]
-atlas = ExtResource("2_hqffl")
-region = Rect2(96, 32, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vdrtm"]
-atlas = ExtResource("2_hqffl")
-region = Rect2(128, 32, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pw2dv"]
-atlas = ExtResource("2_hqffl")
-region = Rect2(160, 32, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5y417"]
-atlas = ExtResource("2_hqffl")
-region = Rect2(0, 128, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5e7dd"]
-atlas = ExtResource("2_hqffl")
-region = Rect2(32, 128, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wmt46"]
-atlas = ExtResource("2_hqffl")
-region = Rect2(64, 128, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_t41dj"]
-atlas = ExtResource("2_hqffl")
-region = Rect2(96, 128, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tvxvx"]
-atlas = ExtResource("2_hqffl")
-region = Rect2(128, 128, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_16lx1"]
-atlas = ExtResource("2_hqffl")
-region = Rect2(160, 128, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_w103t"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7qo1x")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_04bai")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ckkyw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7tfp8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vdrtm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pw2dv")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5y417")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5e7dd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wmt46")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_t41dj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tvxvx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_16lx1")
-}],
-"loop": true,
-"name": &"walk",
-"speed": 5.0
-}]
-
-[sub_resource type="Animation" id="Animation_i6u7x"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:material:shader_parameter/enabled")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
-[sub_resource type="Animation" id="Animation_f27go"]
-resource_name = "flash"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:material:shader_parameter/enabled")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_aufv5"]
-_data = {
-"RESET": SubResource("Animation_i6u7x"),
-"flash": SubResource("Animation_f27go")
-}
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_syv2a"]
-radius = 5.0
-height = 12.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sbw4g"]
-radius = 6.0
-height = 18.0
-
-[sub_resource type="GDScript" id="GDScript_jp7cd"]
-script/source = "extends Marker2D
-"
-
-[node name="Player" type="CharacterBody2D"]
-script = ExtResource("1_2v6uj")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-texture_filter = 1
-material = SubResource("ShaderMaterial_xpbf4")
-sprite_frames = SubResource("SpriteFrames_w103t")
-frame_progress = 0.883307
-metadata/_edit_lock_ = true
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D"]
-libraries = {
-"": SubResource("AnimationLibrary_aufv5")
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1)
-shape = SubResource("CapsuleShape2D_syv2a")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("3_i6wkx")
-metadata/_edit_lock_ = true
-
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("animatedSprite", "animator", "initial_state")]
-script = ExtResource("8_lf60e")
+[node name="StateMachine" type="Node" parent="." index="5" node_paths=PackedStringArray("animatedSprite", "animator", "initial_state")]
+script = ExtResource("3_l7dpn")
 animatedSprite = NodePath("../AnimatedSprite2D")
 animator = NodePath("../AnimatedSprite2D/AnimationPlayer")
 initial_state = NodePath("Idle")
 
-[node name="Idle" type="Node" parent="StateMachine"]
-script = ExtResource("9_gqem6")
+[node name="Idle" type="Node" parent="StateMachine" index="0"]
+script = ExtResource("4_fuwg5")
 
-[node name="Walk" type="Node" parent="StateMachine"]
-script = ExtResource("10_imwe0")
+[node name="Walk" type="Node" parent="StateMachine" index="1"]
+script = ExtResource("5_80dvk")
 
-[node name="RollCooldown" type="Timer" parent="StateMachine/Walk"]
+[node name="RollCooldown" type="Timer" parent="StateMachine/Walk" index="0"]
 
-[node name="Roll" type="Node" parent="StateMachine"]
-script = ExtResource("11_cymf6")
+[node name="Roll" type="Node" parent="StateMachine" index="2"]
+script = ExtResource("6_uefxj")
 
-[node name="_Hitbox" parent="." instance=ExtResource("9_i1meg")]
-
-[node name="Shape" type="CollisionShape2D" parent="_Hitbox"]
-position = Vector2(0, -2)
-shape = SubResource("CapsuleShape2D_sbw4g")
-
-[node name="DamageNumbersOrigin" type="Marker2D" parent="."]
-position = Vector2(0, -18)
-script = SubResource("GDScript_jp7cd")
+[node name="Camera2D" type="Camera2D" parent="." index="6"]
+script = ExtResource("8_p7rki")
+metadata/_edit_lock_ = true

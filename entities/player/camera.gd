@@ -1,4 +1,4 @@
-extends Camera2D
+class_name PlayerCamera extends Camera2D
 
 @export var shakeFade: float = 5.0
 
@@ -8,7 +8,7 @@ var shake_strength: float = 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	Main.register_camera(self)
 
 func apply_shake(strength: float = 5.0):
 	shake_strength = strength

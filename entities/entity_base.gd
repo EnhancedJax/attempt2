@@ -1,36 +1,63 @@
 class_name EntityBase extends CharacterBody2D
 
 const FLOATING_NUMBER = preload("res://scenes/floating_number.tscn")
-@export var MAX_HEALTH : int = 1
-@export var INITIAL_HEALTH : int = 1
+
 @onready var animatedSprite2D: AnimatedSprite2D = $AnimatedSprite2D
 @onready var animationPlayer: AnimationPlayer = $AnimatedSprite2D/AnimationPlayer
 @onready var damageNumbersOrigin : Node = $DamageNumbersOrigin
-var health : int 
+@onready var _health : HealthComponent = $HealthComponent
+
 var is_walking_left : bool = false
 var is_walking_backwards : bool = false
 var is_invincible : bool = false
-var is_dead : bool = false
 var weapon_node : Node2D
 
 const FRICTION: float = 1000.0  # Base friction force
 const FORCE_THRESHOLD: float = 5.0  # Minimum velocity to apply friction
 
 func _ready() -> void:
-	health = INITIAL_HEALTH
 	animatedSprite2D.play("default")
+	_health.connect("signal_health_deducted", rsignal_health_deducted)
+	_health.connect("signal_health_depleted", rsignal_health_depleted)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	is_walking_left = velocity.x < 0
-	is_walking_backwards = is_moving_backwards(is_walking_left)
+	is_walking_backwards = velocity.x > 0 if is_walking_left else velocity.x < 0
 	animatedSprite2D.flip_h = get_aim_position().x < global_position.x
-
-func get_aim_position() -> Vector2:
-	return get_global_mouse_position()
 
 func _physics_process(delta: float) -> void:
 	apply_friction(delta)
 	move_and_slide()
+
+# /* ------------- Methods ------------ */
+
+func get_aim_position() -> Vector2: 
+	var player = Main.player
+	return player.global_position
+
+func rsignal_hitbox_hit(attack: AttackBase):
+	if is_invincible:
+		return
+	
+	# Apply knockback force
+	apply_force(attack.direction * attack.knockback)
+	show_damage_number(attack.damage)
+	_health.take_damage(attack.damage)
+
+func rsignal_health_deducted(health: int, max_health: int):
+	animationPlayer.play("RESET")
+	animationPlayer.play("take_attack")
+
+func rsignal_health_depleted():
+	do_die()
+
+func rsignal_weapon_did_use(attack: AttackBase):
+	print('Entity used weapon with attack: ', attack)
+
+func do_die():
+	queue_free()
+
+# /* ------------ Interals ------------ */
 
 func apply_friction(delta: float) -> void:
 	if velocity.length() < FORCE_THRESHOLD:
@@ -43,41 +70,17 @@ func apply_friction(delta: float) -> void:
 	else:
 		velocity += friction_force
 
-func is_moving_backwards(walking_left: bool) -> bool:
-	if walking_left:
-		return velocity.x > 0
-	return velocity.x < 0
-
-func equip_weapon(weapon: Array):
-	print("Equipping weapon: ", weapon[1])
+func equip_weapon(weapon: PackedScene):
+	print("Equipping weapon: ", weapon)
 	if weapon_node:
 		weapon_node.queue_free()
 	
-	weapon_node = weapon[0].new()
-	weapon_node.WEAPON = weapon[1]
+	weapon_node = weapon.instantiate()
+	connect("signal_weapon_did_use", rsignal_weapon_did_use)
 	add_child(weapon_node)
-
-func take_attack(attack: Attack):
-	if is_invincible:
-		return
-	health -= attack.damage
-	animationPlayer.play("RESET")
-	animationPlayer.play("take_attack")
-	
-	# Apply knockback force
-	apply_force(attack.direction * attack.knockback)
-	
-	show_damage_number(attack.damage)
-
-	if health <= 0:
-		do_die()
 
 func apply_force(force: Vector2) -> void:
 	velocity += force
-
-func do_die():
-	is_dead = true
-	queue_free()
 
 func show_damage_number(damage: int):
 	var damage_number = FLOATING_NUMBER.instantiate()
