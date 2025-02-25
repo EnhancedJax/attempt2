@@ -4,7 +4,8 @@ const FLOATING_NUMBER = preload("res://scenes/floating_number.tscn")
 
 @onready var animatedSprite2D: AnimatedSprite2D = $AnimatedSprite2D
 @onready var animationPlayer: AnimationPlayer = $AnimatedSprite2D/AnimationPlayer
-@onready var damageNumbersOrigin : Node = $DamageNumbersOrigin
+@onready var damageNumbersOrigin : Marker2D = $DamageNumbersOrigin
+@onready var weaponOrigin : Marker2D = $WeaponOrigin
 @onready var _health : HealthComponent = $HealthComponent
 @onready var _hitbox : Area2D = $HitboxComponent
 
@@ -82,8 +83,9 @@ func equip_weapon(weapon: PackedScene):
 		weapon_node.queue_free()
 	
 	weapon_node = weapon.instantiate()
-	connect("signal_weapon_did_use", rsignal_weapon_did_use)
+	weapon_node.connect("signal_weapon_did_use", rsignal_weapon_did_use)
 	add_child(weapon_node)
+	weapon_node.position = weaponOrigin.position
 
 func apply_force(force: Vector2) -> void:
 	velocity += force

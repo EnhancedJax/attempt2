@@ -151,7 +151,7 @@ texture = ExtResource("2_tepco")
 7:11/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_qlxsp"]
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 3
 sources/0 = SubResource("TileSetAtlasSource_5kuof")
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_gttkg"]

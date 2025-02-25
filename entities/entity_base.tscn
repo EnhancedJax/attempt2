@@ -183,7 +183,11 @@ script = SubResource("GDScript_jp7cd")
 script = ExtResource("9_vj8qu")
 
 [node name="HitboxComponent" parent="." instance=ExtResource("9_i1meg")]
+collision_mask = 3
 
 [node name="Shape" type="CollisionShape2D" parent="HitboxComponent"]
 position = Vector2(0, -2)
 shape = SubResource("CapsuleShape2D_sbw4g")
+
+[node name="WeaponOrigin" type="Marker2D" parent="."]
+position = Vector2(3.18, 4.27)

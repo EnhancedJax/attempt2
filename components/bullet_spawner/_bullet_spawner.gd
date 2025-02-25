@@ -9,9 +9,10 @@ func shoot(towards: float) -> bool:
 		var atk = ATTACK.duplicate()
 		atk.towards_vector = Vector2(cos(towards), sin(towards))
 		var bullet = BULLET.instantiate()
-		bullet.ATTACK = ATTACK
+		bullet.register_attack(atk)
 		get_tree().root.add_child(bullet)
 
-		bullet.global_position = global_position + target_position
+		var global_target_offset = target_position.rotated(towards) * abs(global_scale)
+		bullet.global_position = global_position + global_target_offset
 		bullet.rotation = towards
 	return did_shoot
