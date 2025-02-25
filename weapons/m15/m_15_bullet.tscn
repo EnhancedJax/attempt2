@@ -5,16 +5,17 @@
 [ext_resource type="Script" path="res://weapons/m15/m_15_bullet.gd" id="2_gweii"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rhs8y"]
-size = Vector2(7, 4)
+size = Vector2(48.5, 20)
 
 [node name="M15Bullet" instance=ExtResource("1_0dk0s")]
 script = ExtResource("2_gweii")
+SPEED = 4000.0
 
 [node name="Sprite2D" parent="." index="0"]
 position = Vector2(3, -2.98023e-08)
-scale = Vector2(2, 2)
+scale = Vector2(3.125, 3.125)
 texture = ExtResource("2_0opni")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
-position = Vector2(3.5, 0)
+position = Vector2(4.75, 0)
 shape = SubResource("RectangleShape2D_rhs8y")

@@ -21,6 +21,9 @@ script = ExtResource("2_2vuf7")
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_gpl2p")
 
+[node name="HitboxComponent" parent="." index="4"]
+collision_layer = 2
+
 [node name="StateMachine" type="Node" parent="." index="5" node_paths=PackedStringArray("animatedSprite", "animator", "initial_state")]
 script = ExtResource("3_l7dpn")
 animatedSprite = NodePath("../AnimatedSprite2D")

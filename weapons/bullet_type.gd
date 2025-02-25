@@ -1,3 +1,3 @@
 class_name BulletType extends AttackBase
 
-var speed : int = 4000
+@export var speed : int = 4000

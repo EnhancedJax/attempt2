@@ -4,6 +4,7 @@ var weapons : Array[PackedScene] = [preload("res://weapons/m15/m_15.tscn")]
 var equipped_weapon_index : int = 0
 
 func _ready():
+	super._ready()
 	Main.register_player(self)
 	equip_weapon(weapons[equipped_weapon_index])
 

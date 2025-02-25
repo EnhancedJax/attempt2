@@ -6,6 +6,7 @@ const FLOATING_NUMBER = preload("res://scenes/floating_number.tscn")
 @onready var animationPlayer: AnimationPlayer = $AnimatedSprite2D/AnimationPlayer
 @onready var damageNumbersOrigin : Node = $DamageNumbersOrigin
 @onready var _health : HealthComponent = $HealthComponent
+@onready var _hitbox : Area2D = $HitboxComponent
 
 var is_walking_left : bool = false
 var is_walking_backwards : bool = false
@@ -19,6 +20,7 @@ func _ready() -> void:
 	animatedSprite2D.play("default")
 	_health.connect("signal_health_deducted", rsignal_health_deducted)
 	_health.connect("signal_health_depleted", rsignal_health_depleted)
+	_hitbox.connect("signal_hit", rsignal_hitbox_hit)
 
 func _process(_delta: float) -> void:
 	is_walking_left = velocity.x < 0
@@ -33,14 +35,18 @@ func _physics_process(delta: float) -> void:
 
 func get_aim_position() -> Vector2: 
 	var player = Main.player
-	return player.global_position
+	if player:
+		return player.global_position
+	else:
+		return Vector2.ZERO
 
 func rsignal_hitbox_hit(attack: AttackBase):
+	print('Entity was hit')
 	if is_invincible:
 		return
 	
 	# Apply knockback force
-	apply_force(attack.direction * attack.knockback)
+	apply_force(attack.towards_vector * attack.knockback)
 	show_damage_number(attack.damage)
 	_health.take_damage(attack.damage)
 
