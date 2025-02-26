@@ -1,0 +1,37 @@
+[gd_scene load_steps=8 format=3 uid="uid://yembkp5ltkyf"]
+
+[ext_resource type="PackedScene" uid="uid://dnxw7kqi21unw" path="res://weapons/weapon_base.tscn" id="1_0ayoa"]
+[ext_resource type="Script" path="res://weapons/antagonists/pistol/gun.gd" id="2_rm0xp"]
+[ext_resource type="AudioStream" uid="uid://d0d2lkh2xvthi" path="res://pending_assets/sounds/rifle_single.wav" id="3_1ji76"]
+[ext_resource type="Texture2D" uid="uid://380aiwvwqavg" path="res://weapons/antagonists/pistol/Luger.png" id="4_bnuy4"]
+[ext_resource type="PackedScene" uid="uid://cyyhdytcpd73i" path="res://components/bullet_spawner/basic_linear/node.tscn" id="5_loh1g"]
+[ext_resource type="PackedScene" uid="uid://cuiahy254v43" path="res://components/fire/full_auto/_full_auto.tscn" id="6_pm4em"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_uuhya"]
+resource_local_to_scene = true
+random_pitch = 1.5
+random_volume_offset_db = 0.5
+streams_count = 1
+stream_0/stream = ExtResource("3_1ji76")
+
+[node name="Gun" instance=ExtResource("1_0ayoa")]
+script = ExtResource("2_rm0xp")
+damage = 1
+knockback = 200.0
+recoil = 100.0
+spread = 5.0
+
+[node name="RandomizedAudio" parent="." index="0"]
+stream = SubResource("AudioStreamRandomizer_uuhya")
+
+[node name="Sprite2D" parent="." index="1"]
+position = Vector2(4, -1.5)
+scale = Vector2(0.8125, 0.8125)
+texture = ExtResource("4_bnuy4")
+
+[node name="BulletSpawnerComponent" parent="." index="2" instance=ExtResource("5_loh1g")]
+position = Vector2(-1, -4.5)
+target_position = Vector2(11, 0.5)
+
+[node name="FullAutoComponent" parent="." index="3" instance=ExtResource("6_pm4em")]
+fire_rate = 3

@@ -1,0 +1,39 @@
+[gd_scene load_steps=8 format=3 uid="uid://8m3clp0wpfeg"]
+
+[ext_resource type="PackedScene" uid="uid://dnxw7kqi21unw" path="res://weapons/weapon_base.tscn" id="1_j4sq8"]
+[ext_resource type="Script" path="res://weapons/protagonists/shotgun/shotgun.gd" id="2_p0o1h"]
+[ext_resource type="AudioStream" uid="uid://d0d2lkh2xvthi" path="res://pending_assets/sounds/rifle_single.wav" id="3_ceglm"]
+[ext_resource type="Texture2D" uid="uid://bix83sprcwica" path="res://weapons/protagonists/shotgun/SawedOffShotgun.png" id="4_qvuy7"]
+[ext_resource type="PackedScene" uid="uid://cqpaelsgoqk53" path="res://components/bullet_spawner/basic_shotgun/node.tscn" id="5_v5jvg"]
+[ext_resource type="PackedScene" uid="uid://4fr4ngaevi8a" path="res://components/fire/semi_auto/_semi_auto.tscn" id="6_ircoe"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_uuhya"]
+resource_local_to_scene = true
+random_pitch = 1.5
+random_volume_offset_db = 0.5
+streams_count = 1
+stream_0/stream = ExtResource("3_ceglm")
+
+[node name="Gun" instance=ExtResource("1_j4sq8")]
+script = ExtResource("2_p0o1h")
+damage = 3
+knockback = 200.0
+recoil = 100.0
+spread = 5.0
+weapon_name = &"Shotgun"
+
+[node name="RandomizedAudio" parent="." index="0"]
+stream = SubResource("AudioStreamRandomizer_uuhya")
+
+[node name="Sprite2D" parent="." index="1"]
+position = Vector2(5, 0)
+scale = Vector2(0.8125, 0.8125)
+texture = ExtResource("4_qvuy7")
+
+[node name="BasicShotgun" parent="." index="2" instance=ExtResource("5_v5jvg")]
+position = Vector2(0, -2)
+target_position = Vector2(17, 0)
+SPREAD_ANGLE = 10.0
+
+[node name="SemiAutoComponent" parent="." index="3" instance=ExtResource("6_ircoe")]
+fire_rate = 1

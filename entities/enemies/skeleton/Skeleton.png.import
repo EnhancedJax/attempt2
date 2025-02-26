@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bix83sprcwica"
-path="res://.godot/imported/SawedOffShotgun.png-5f56614aa008de7e740018d866254268.ctex"
+uid="uid://bdtq30ar282jb"
+path="res://.godot/imported/Skeleton.png-27b0f4263db32e1109536ab77f52cd78.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://pending_assets/Guns/SawedOffShotgun.png"
-dest_files=["res://.godot/imported/SawedOffShotgun.png-5f56614aa008de7e740018d866254268.ctex"]
+source_file="res://entities/enemies/skeleton/Skeleton.png"
+dest_files=["res://.godot/imported/Skeleton.png-27b0f4263db32e1109536ab77f52cd78.ctex"]
 
 [params]
 

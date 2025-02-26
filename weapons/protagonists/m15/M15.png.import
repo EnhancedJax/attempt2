@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdtq30ar282jb"
-path="res://.godot/imported/Skeleton.png-bf79bff4756a47a7321cedd2f71fc950.ctex"
+uid="uid://d1q7jn6ca14si"
+path="res://.godot/imported/M15.png-90a97da532d0aba26263b7bd4c9544ec.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://pending_assets/Enemies/Skeleton.png"
-dest_files=["res://.godot/imported/Skeleton.png-bf79bff4756a47a7321cedd2f71fc950.ctex"]
+source_file="res://weapons/protagonists/m15/M15.png"
+dest_files=["res://.godot/imported/M15.png-90a97da532d0aba26263b7bd4c9544ec.ctex"]
 
 [params]
 

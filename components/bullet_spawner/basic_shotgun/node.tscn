@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqpaelsgoqk53"]
+
+[ext_resource type="Script" path="res://components/bullet_spawner/basic_shotgun/script.gd" id="1_gjvyr"]
+
+[node name="BasicShotgun" type="RayCast2D"]
+target_position = Vector2(58, 0)
+script = ExtResource("1_gjvyr")

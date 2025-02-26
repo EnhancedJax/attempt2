@@ -93,7 +93,6 @@ func apply_force(force: Vector2) -> void:
 func show_damage_number(damage: int):
 	var damage_number = FLOATING_NUMBER.instantiate()
 	get_tree().root.add_child(damage_number)
-	add_child(damage_number)
 	damage_number.global_position = damageNumbersOrigin.global_position
 	damage_number.get_child(0).text = str(damage)
 

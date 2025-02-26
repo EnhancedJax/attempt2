@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://8m3clp0wpfeg"]
 
 [ext_resource type="PackedScene" uid="uid://dnxw7kqi21unw" path="res://weapons/weapon_base.tscn" id="1_j4sq8"]
-[ext_resource type="Script" path="res://weapons/m15/m_15.gd" id="2_xu0o0"]
-[ext_resource type="PackedScene" uid="uid://cyyhdytcpd73i" path="res://components/bullet_spawner/_bullet_spawner.tscn" id="3_1ifyx"]
-[ext_resource type="Texture2D" uid="uid://d1q7jn6ca14si" path="res://pending_assets/Guns/M15.png" id="3_66i1o"]
+[ext_resource type="Script" path="res://weapons/protagonists/m15/m_15.gd" id="2_xu0o0"]
+[ext_resource type="PackedScene" uid="uid://cyyhdytcpd73i" path="res://components/bullet_spawner/basic_linear/node.tscn" id="3_1ifyx"]
+[ext_resource type="Texture2D" uid="uid://d1q7jn6ca14si" path="res://weapons/protagonists/m15/M15.png" id="3_66i1o"]
 [ext_resource type="AudioStream" uid="uid://d0d2lkh2xvthi" path="res://pending_assets/sounds/rifle_single.wav" id="3_ceglm"]
 [ext_resource type="PackedScene" uid="uid://cuiahy254v43" path="res://components/fire/full_auto/_full_auto.tscn" id="6_n1vsn"]
 
@@ -32,7 +32,6 @@ texture = ExtResource("3_66i1o")
 [node name="BulletSpawnerComponent" parent="." index="2" instance=ExtResource("3_1ifyx")]
 position = Vector2(-1, -4.5)
 target_position = Vector2(18, 0)
-collision_mask = 2
 
 [node name="FullAutoComponent" parent="." index="3" instance=ExtResource("6_n1vsn")]
 fire_rate = 10

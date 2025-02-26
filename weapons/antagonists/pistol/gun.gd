@@ -1,3 +1,4 @@
+
 extends WeaponBase
 
 @export var damage : int = 10
@@ -5,7 +6,7 @@ extends WeaponBase
 @export var recoil : float = 100.0
 @export var spread : float = 5
 @onready var bullet_spawner = $BulletSpawnerComponent
-const BULLET = preload("res://weapons/revolver/revolver_bullet.tscn")
+const BULLET = preload("res://weapons/antagonists/pistol/bullet.tscn")
 var ATTACK = BulletType.new()
 
 func _ready() -> void:
@@ -14,7 +15,7 @@ func _ready() -> void:
 	ATTACK.knockback = knockback
 	bullet_spawner.BULLET = BULLET
 	bullet_spawner.ATTACK = ATTACK
-	register_firing_handler($SemiAutoComponent)
+	register_firing_handler($FullAutoComponent)
 
 func attack() -> void:
 	var towards = rotation + deg_to_rad(randf_range(-spread, spread))

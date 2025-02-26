@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1q7jn6ca14si"
-path="res://.godot/imported/M15.png-814284fea84888bbbef71493ce31fc75.ctex"
+uid="uid://bix83sprcwica"
+path="res://.godot/imported/SawedOffShotgun.png-02d6ac23dce7dc03960472b54861bd92.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://pending_assets/Guns/M15.png"
-dest_files=["res://.godot/imported/M15.png-814284fea84888bbbef71493ce31fc75.ctex"]
+source_file="res://weapons/protagonists/shotgun/SawedOffShotgun.png"
+dest_files=["res://.godot/imported/SawedOffShotgun.png-02d6ac23dce7dc03960472b54861bd92.ctex"]
 
 [params]
 

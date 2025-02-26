@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cyyhdytcpd73i"]
-
-[ext_resource type="Script" path="res://components/bullet_spawner/_bullet_spawner.gd" id="1_jl4vi"]
-
-[node name="BulletSpawnerComponent" type="RayCast2D"]
-target_position = Vector2(58, 0)
-script = ExtResource("1_jl4vi")

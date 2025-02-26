@@ -1,30 +1,178 @@
-[gd_scene load_steps=10 format=3 uid="uid://qgtqua65lnyp"]
+[gd_scene load_steps=27 format=3 uid="uid://qgtqua65lnyp"]
 
 [ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_mfkho"]
 [ext_resource type="Script" path="res://entities/player/player.gd" id="2_2vuf7"]
 [ext_resource type="Shader" uid="uid://b4ndlpkl4rwho" path="res://entities/flash.tres" id="2_k7sbt"]
 [ext_resource type="Script" path="res://entities/player/state_node.gd" id="3_l7dpn"]
 [ext_resource type="Script" path="res://entities/player/states/idle.gd" id="4_fuwg5"]
+[ext_resource type="Texture2D" uid="uid://j3gso0vhpoj5" path="res://entities/player/Player.png" id="4_vo5if"]
 [ext_resource type="Script" path="res://entities/player/states/walk.gd" id="5_80dvk"]
 [ext_resource type="Script" path="res://entities/player/states/roll.gd" id="6_uefxj"]
 [ext_resource type="Script" path="res://entities/player/camera.gd" id="8_p7rki"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gpl2p"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7rklg"]
 resource_local_to_scene = true
 shader = ExtResource("2_k7sbt")
 shader_parameter/enabled = false
 shader_parameter/tint = Color(1, 1, 1, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_7qo1x"]
+atlas = ExtResource("4_vo5if")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_04bai"]
+atlas = ExtResource("4_vo5if")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ckkyw"]
+atlas = ExtResource("4_vo5if")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7tfp8"]
+atlas = ExtResource("4_vo5if")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vdrtm"]
+atlas = ExtResource("4_vo5if")
+region = Rect2(128, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pw2dv"]
+atlas = ExtResource("4_vo5if")
+region = Rect2(160, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5y417"]
+atlas = ExtResource("4_vo5if")
+region = Rect2(0, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5e7dd"]
+atlas = ExtResource("4_vo5if")
+region = Rect2(32, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wmt46"]
+atlas = ExtResource("4_vo5if")
+region = Rect2(64, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t41dj"]
+atlas = ExtResource("4_vo5if")
+region = Rect2(96, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tvxvx"]
+atlas = ExtResource("4_vo5if")
+region = Rect2(128, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_16lx1"]
+atlas = ExtResource("4_vo5if")
+region = Rect2(160, 128, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7ppp2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7qo1x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_04bai")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ckkyw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7tfp8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vdrtm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pw2dv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5y417")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5e7dd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wmt46")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t41dj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tvxvx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_16lx1")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_i6u7x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/enabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_f27go"]
+resource_name = "take_attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/enabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_aufv5"]
+_data = {
+"RESET": SubResource("Animation_i6u7x"),
+"take_attack": SubResource("Animation_f27go")
+}
+
 [node name="Player" instance=ExtResource("1_mfkho")]
+collision_layer = 2
+collision_mask = 5
 script = ExtResource("2_2vuf7")
 
-[node name="AnimatedSprite2D" parent="." index="0"]
-material = SubResource("ShaderMaterial_gpl2p")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_7rklg")
+sprite_frames = SubResource("SpriteFrames_7ppp2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D" index="0"]
+libraries = {
+"": SubResource("AnimationLibrary_aufv5")
+}
+
+[node name="HealthComponent" parent="." index="3"]
+MAX_HEALTH = 100
+INITIAL_HEALTH = 100
 
 [node name="HitboxComponent" parent="." index="4"]
-collision_layer = 2
+collision_layer = 32
+collision_mask = 0
 
-[node name="StateMachine" type="Node" parent="." index="5" node_paths=PackedStringArray("animatedSprite", "animator", "initial_state")]
+[node name="StateMachine" type="Node" parent="." index="6" node_paths=PackedStringArray("animatedSprite", "animator", "initial_state")]
 script = ExtResource("3_l7dpn")
 animatedSprite = NodePath("../AnimatedSprite2D")
 animator = NodePath("../AnimatedSprite2D/AnimationPlayer")
@@ -35,12 +183,14 @@ script = ExtResource("4_fuwg5")
 
 [node name="Walk" type="Node" parent="StateMachine" index="1"]
 script = ExtResource("5_80dvk")
+MAX_SPEED = 500.0
 
-[node name="RollCooldown" type="Timer" parent="StateMachine/Walk" index="0"]
-
-[node name="Roll" type="Node" parent="StateMachine" index="2"]
+[node name="Roll" type="Node" parent="StateMachine" index="2" node_paths=PackedStringArray("PLAYER_HITBOX")]
 script = ExtResource("6_uefxj")
+PLAYER_HITBOX = NodePath("../../HitboxComponent")
 
-[node name="Camera2D" type="Camera2D" parent="." index="6"]
+[node name="RollCooldown" type="Timer" parent="StateMachine" index="3"]
+
+[node name="Camera2D" type="Camera2D" parent="." index="7"]
 script = ExtResource("8_p7rki")
 metadata/_edit_lock_ = true
