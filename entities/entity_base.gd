@@ -84,8 +84,9 @@ func equip_weapon(weapon: PackedScene):
 	
 	weapon_node = weapon.instantiate()
 	weapon_node.connect("signal_weapon_did_use", rsignal_weapon_did_use)
-	add_child(weapon_node)
 	weapon_node.position = weaponOrigin.position
+	weapon_node.visible = false
+	add_child(weapon_node)
 
 func apply_force(force: Vector2) -> void:
 	velocity += force

@@ -20,6 +20,7 @@ damage = 10
 knockback = 200.0
 recoil = 100.0
 spread = 5.0
+weapon_name = &"M15"
 
 [node name="RandomizedAudio" parent="." index="0"]
 stream = SubResource("AudioStreamRandomizer_uuhya")

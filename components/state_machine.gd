@@ -6,18 +6,12 @@ var current_state: State
 var states: Dictionary = {}
 
 func _ready() -> void:
-	
-	print("[StateMachine] Initializing state machine...")
-	
 	for child in get_children():
 		if child is State:
 			states[child.name.to_lower()] = child
 			child.signal_transitioned.connect(on_child_transition)
 			
-			print("[StateMachine] Registered state: ", child.name)
-	
 	if initial_state:
-		print("[StateMachine] Setting initial state to: ", initial_state.name)
 		initial_state.enter()
 		current_state = initial_state
 	else:
@@ -33,16 +27,12 @@ func _physics_process(delta: float) -> void:
 
 func on_child_transition(state, new_state_name: String) -> void:
 	if state != current_state:
-		print("[StateMachine] Ignoring transition from non-active state: ", state)
 		return
 	
 	var new_state = states.get(new_state_name.to_lower())
 	if not new_state:
 		push_error("[StateMachine] Attempted to transition to non-existent state: " + new_state_name)
 		return
-
-	
-	print("[StateMachine] Transitioning from ", current_state.name, " to ", new_state_name)
 	
 	if current_state:
 		current_state.exit()

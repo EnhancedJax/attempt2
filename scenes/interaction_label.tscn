@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://728xqa5cdqim"]
+
+[ext_resource type="FontFile" uid="uid://df64tdvvkoab1" path="res://pending_assets/Fonts/minecraft_font.ttf" id="1_gi4im"]
+[ext_resource type="Script" path="res://scenes/interaction_label.gd" id="2_87jry"]
+
+[sub_resource type="Theme" id="Theme_dn8rj"]
+default_font = ExtResource("1_gi4im")
+default_font_size = 48
+
+[node name="InteractionLabel" type="CenterContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1000.0
+offset_top = -575.0
+offset_right = -1000.0
+offset_bottom = -575.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.99838, 0.966179)
+theme = SubResource("Theme_dn8rj")
+use_top_left = true
+script = ExtResource("2_87jry")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.545098)
+theme_override_constants/shadow_offset_x = 8
+theme_override_constants/shadow_offset_y = 8
+text = "Some super long name"
+horizontal_alignment = 1
+vertical_alignment = 2

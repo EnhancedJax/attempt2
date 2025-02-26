@@ -1,11 +1,12 @@
 class_name WeaponBase extends Node2D
 
+
 signal signal_weapon_did_use(attack: AttackBase) # to be called by weapon implementation
 
 @export var weapon_name : StringName
 var firing_handler : FiringHandlerBase
 
-@onready var sprite2D : Sprite2D = $Sprite2D
+@onready var sprite2D : Sprite2D = $Sprite2D 
 @onready var randomized_audio : AudioStreamPlayer2D = $RandomizedAudio
 	
 # /* ------------- Methods ------------ */
