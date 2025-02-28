@@ -4,6 +4,7 @@ var player : Player
 var camera : PlayerCamera
 var hud : HUD
 var interaction_label : InteractionLabel
+var control : Control
 
 var interactions: Array[Interaction]
 var is_paused: bool = false
@@ -23,6 +24,9 @@ func register_camera(c : PlayerCamera) -> void:
 func register_interaction_label(l : InteractionLabel) -> void:
 	interaction_label = l
 
+func register_control(c : Control) -> void:
+	control = c
+
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("menu"):
 		toggle_pause()
@@ -33,7 +37,7 @@ func _process(delta: float) -> void:
 		var scene = floor_item.instantiate()
 		scene.item = weapons[randi() % weapons.size()]
 		scene.global_position = player.global_position 
-		get_tree().current_scene.add_child(scene)
+		control.get_child(1).add_child(scene)
 
 func toggle_pause() -> void:
 	is_paused = !is_paused

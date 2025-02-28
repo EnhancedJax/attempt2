@@ -150,6 +150,7 @@ _data = {
 }
 
 [node name="Player" instance=ExtResource("1_mfkho")]
+y_sort_enabled = true
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("2_2vuf7")
@@ -194,3 +195,20 @@ PLAYER_HITBOX = NodePath("../../HitboxComponent")
 [node name="Camera2D" type="Camera2D" parent="." index="7"]
 script = ExtResource("8_p7rki")
 metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="." index="8"]
+offset_left = -31.0
+offset_top = -22.0
+offset_right = 179.0
+offset_bottom = -2.0
+scale = Vector2(0.3, 0.3)
+theme_override_font_sizes/font_size = 16
+text = "Weapon"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="LabelTimeout" type="Timer" parent="." index="9"]
+
+[node name="InvincibilityTimer" type="Timer" parent="." index="10"]
+wait_time = 0.1
+one_shot = true

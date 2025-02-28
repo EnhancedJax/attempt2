@@ -2,8 +2,10 @@ class_name Player extends EntityBase
 
 var weapons : Array[PackedScene] = []
 var equipped_weapon_index : int = 0
-var invincibility_timer: Timer
 var max_weapons_count : int = 2
+@onready var label : Label = $Label
+@onready var label_timeout : Timer = $LabelTimeout
+@onready var invincibility_timer: Timer = $InvincibilityTimer
 
 func _ready():
 	super._ready()
@@ -11,11 +13,9 @@ func _ready():
 	if equipped_weapon_index + 1 <= weapons.size():
 		equip_weapon(weapons[equipped_weapon_index])
 	
-	# Setup invincibility timer
-	invincibility_timer = Timer.new()
-	invincibility_timer.one_shot = true
 	invincibility_timer.timeout.connect(func(): is_invincible = false)
-	add_child(invincibility_timer)
+	label.visible = false
+	label_timeout.timeout.connect(handle_label_timeout)
 
 func _process(delta: float) -> void:
 	super._process(delta)
@@ -47,12 +47,23 @@ func rsignal_hitbox_hit(attack: AttackBase):
 	
 	# Start brief invincibility
 	is_invincible = true
-	invincibility_timer.start(0.1)
+	invincibility_timer.start()
 
 func rsignal_health_deducted(health: int, max_health: int):
 	super.rsignal_health_deducted(health, max_health)
 	$Camera2D.apply_shake(10)
 	Main.update_health()
+
+func equip_weapon(weapon: PackedScene):
+	super.equip_weapon(weapon)
+	label.visible = true
+	label.text = weapon.instantiate().weapon_name
+	label_timeout.start()
+
+func handle_label_timeout():
+	label.visible = false
+	label.text = ""
+	label_timeout.stop()
 
 func do_die():
 	self.process_mode = Node.PROCESS_MODE_DISABLED

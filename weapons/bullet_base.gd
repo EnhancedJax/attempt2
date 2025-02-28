@@ -20,7 +20,7 @@ func handle_hitbox_entered(area: Area2D) -> void:
 # /* ------------ Interals ------------ */
 
 func rsignal_body_entered(body: Node2D) -> void:
-	if body.name == "TileMapLayer2":
+	if body.name == "WallTileLayer":
 		queue_free()
 
 func rsignal_area_entered(area: Area2D) -> void:
