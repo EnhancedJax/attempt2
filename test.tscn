@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://o4gnxfkwntm"]
+
+[ext_resource type="Script" path="res://dungeon_generator.gd" id="1_iiod8"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_iiod8")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 20.0
+rotation = 0.0015826
+text = "Generating dungeon with 6 enemies and 2 loot rooms
+generate_dungeon_graph
+Building dungeon graph
+Creating backbone chain with directions
+"
