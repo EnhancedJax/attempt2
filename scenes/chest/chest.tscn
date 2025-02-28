@@ -1,0 +1,131 @@
+[gd_scene load_steps=19 format=3 uid="uid://c3f8flnplphu5"]
+
+[ext_resource type="Script" path="res://scenes/chest/chest.gd" id="1_57ibk"]
+[ext_resource type="Texture2D" uid="uid://6xe42ay02t06" path="res://scenes/chest/Chest_Closed.png" id="1_pykl5"]
+[ext_resource type="PackedScene" uid="uid://ct60dg4e24be8" path="res://components/interaction/_interaction.tscn" id="2_3dx1m"]
+[ext_resource type="Texture2D" uid="uid://bmj3abgqfwrry" path="res://scenes/chest/Chest_Open_Empty.png" id="3_qwiqt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_anxht"]
+atlas = ExtResource("1_pykl5")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_boo2k"]
+atlas = ExtResource("1_pykl5")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gdqp5"]
+atlas = ExtResource("1_pykl5")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yep88"]
+atlas = ExtResource("1_pykl5")
+region = Rect2(48, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jh10r"]
+atlas = ExtResource("1_pykl5")
+region = Rect2(64, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xx7ea"]
+atlas = ExtResource("1_pykl5")
+region = Rect2(80, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qo8cx"]
+atlas = ExtResource("1_pykl5")
+region = Rect2(96, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yte6x"]
+atlas = ExtResource("3_qwiqt")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqakf"]
+atlas = ExtResource("3_qwiqt")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2o8td"]
+atlas = ExtResource("3_qwiqt")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o3o7x"]
+atlas = ExtResource("3_qwiqt")
+region = Rect2(48, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g2lem"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_anxht")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_boo2k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gdqp5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yep88")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jh10r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xx7ea")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qo8cx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yte6x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mqakf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2o8td")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o3o7x")
+}],
+"loop": false,
+"name": &"open",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0k4r4"]
+radius = 14.8392
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mbi0u"]
+radius = 4.50174
+
+[node name="Chest" type="StaticBody2D"]
+y_sort_enabled = true
+scale = Vector2(8, 8)
+script = ExtResource("1_57ibk")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
+position = Vector2(0, -6)
+sprite_frames = SubResource("SpriteFrames_g2lem")
+animation = &"open"
+autoplay = "default"
+
+[node name="InteractionComponent" parent="." instance=ExtResource("2_3dx1m")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionComponent"]
+shape = SubResource("CircleShape2D_0k4r4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_mbi0u")
+
+[node name="LabelPosition" type="Marker2D" parent="."]
+position = Vector2(0, -17.085)
+
+[node name="ItemSpawnPosition" type="Marker2D" parent="."]
+position = Vector2(0, 11.43)
+
+[connection signal="signal_player_entered" from="InteractionComponent" to="." method="rsignal_player_entered"]
+[connection signal="signal_player_exited" from="InteractionComponent" to="." method="rsignal_player_exited"]

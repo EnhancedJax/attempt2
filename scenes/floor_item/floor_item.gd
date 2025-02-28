@@ -1,25 +1,12 @@
 extends Node2D
 
-var item : PackedScene = null
-	# set(value):
-	# 	if not value:
-	# 		print('Floor item has no item. Removing.')
-	# 		item = null
-	# 		$Sprite2D.texture = null
-	# 		return
-		
-	# 	item = value
-	# 	var scene = value.instantiate()
-	# 	for child in scene.get_children():
-	# 		if child is Sprite2D:
-	# 			$Sprite2D.texture = child.texture
+var item_id : int = -1
 
 var interaction : Interaction
 
 func _ready() -> void:
-	print(item)
-	if item == null:
-		print('Floor item has no item. Removing.')
+	if item_id == null:
+		print('Floor item_id is -1. Removing.')
 		queue_free()
 	interaction = Interaction.new()
 	interaction.callable = interaction_action
@@ -28,9 +15,9 @@ func _ready() -> void:
 	_update_item_metadata()
 	
 func interaction_action() -> void:
-	var dropped_item = Main.player.pickup_weapon(item)
-	if dropped_item:
-		item = dropped_item
+	var dropped_item = Main.player.pickup_weapon(item_id)
+	if dropped_item != -1:
+		item_id = dropped_item
 		_update_item_metadata()
 		Main.reregister_interaction(interaction)
 	else:
@@ -44,10 +31,12 @@ func rsignal_player_exited() -> void:
 	Main.deregister_interaction(interaction)
 
 func _update_item_metadata() -> void:
-	if item:
-		var scene: WeaponBase = item.instantiate()
+	if item_id != -1:
+		var weapon = Lookup.get_weapon(item_id)
+		var scene: WeaponBase = weapon.scene.instantiate()
+		print(scene.get_children())
 		for child in scene.get_children():
 			if child is Sprite2D:
 				$Sprite2D.texture = child.texture
 		
-		interaction.label = scene.weapon_name
+		interaction.label = weapon.name

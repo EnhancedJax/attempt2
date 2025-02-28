@@ -1,0 +1,80 @@
+Your task is to generate a gdscript to produce a randomized graph represented as an adjacency matrix, representing a dungeon layout. The adjacency matrix should be the size of the total number of rooms. If there are no connections between rooms, code 0. Otherwise, the codes 1,2,3,4 represent a top,left,bottom,right edge.
+
+Representations:
+
+Beginning room B
+Enemy room E
+Loot room L
+Shop room S
+Final room F
+
+The adjacency matrix columns and rows should represent rooms in the following order: 
+i = 0: B
+n >= i > 0: E
+m+n >= i > n: L
+i = m+n+1: S
+i = m+n+2: F
+
+Valid random dungeon graph rules:
+1. Must have only one B, S, F
+2. B must have one edge only, and only to an E room
+3. F must have one edge only, and only to an E room
+4. E must be equal to some number n
+5. Graph cannot be linear
+6. L must be equal to some number m
+7. Should not contain loops
+8. F must connect to a E
+9. B and F must have the furthest distance in the graph
+10. E rooms does not necessarily have to generate in a chain.
+11. Generated directions should be randomized.
+12. E->L->E and E->S->E rooms are valid, and should be supported, but doesn't have to always generated as so.
+13. Do not generate rooms in the same room tile (e.g. E -1-> S -3-> L, which will have E and L both under S)
+
+The script should produce the required structure. Also print out the generated dungeon in the end.
+
+The following is an example of valid dungeon for n = 3, m = 1:
+
+BEEL
+ ES
+ F
+
+or represented as a graph:
+B (right) E1
+E1 (right) E2
+E2 (right) L
+E1 (down) E3
+E3 (right) S
+E3 (down) F
+
+---
+
+Implement the function `place_rooms` to place pre-defined rooms onto the world Node2D (self), using the previous adjacency matrix as input.
+
+Define a constant for a list of PackedScenes for each room type, and randomly select one from the list to use when placing them on the map. 
+
+Use `var scene = PackedScene.instantiate()` to instantiate a scene, and access the following data with `scene.<data_name>`:
+```
+var dimension : Vector2i (1-based)
+var entrances_top : Vector2i (0-based)
+var entrances_left : Vector2i
+var entrances_bottom : Vector2i
+var entrances_right : Vector2i
+```
+
+The following are some rules for alignment:
+0. One tile is 16px. Set a constant for this.
+1. Must be based on the adjacency list
+2. Entrances must align with a room's neighbors (same y level for left right neighbors, same x level for top down neighbors). 
+3. Rooms must not overlap (important!)
+4. Distance between each room must be at least 3 tiles.
+
+You can place a room onto the world by `call_deferred('add_child', scene)` and move it by setting `scene.position = <position> + self.global_position`
+
+It is important to understand that rooms can have different dimensions, and entrance positions. For example, for a room with:
+```
+dimension = 16,9
+entrances_top=3,0
+...
+entrances_bottom=12,8
+```
+If another square room, for example dimension = 9,9 with entrances at the center of each sides, is placed above and below the previous wide room, the entrances must align, so the top square room would be on the left, and the bottom square room would be on the right, relative to the previous wide room. This should apply to different dimensions, such as tall rooms or irregular rooms. 

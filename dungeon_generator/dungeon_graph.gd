@@ -1,0 +1,390 @@
+
+
+extends Node2D
+
+# Room type constants
+enum RoomType { B, E, L, S, F }
+
+# Direction codes (from the current room perspective)
+const DIR_TOP = 1   # neighbor is at (0,-1)
+const DIR_LEFT = 2  # neighbor is at (-1,0)
+const DIR_BOTTOM = 3# neighbor is at (0,1)
+const DIR_RIGHT = 4 # neighbor is at (1,0)
+
+# Opposite direction mapping (for the reverse connection)
+var opposite_direction = {
+	DIR_TOP: DIR_BOTTOM,
+	DIR_LEFT: DIR_RIGHT,
+	DIR_BOTTOM: DIR_TOP,
+	DIR_RIGHT: DIR_LEFT,
+}
+
+# Direction vectors (and corresponding random label order)
+var directions = [
+	{"vec": Vector2(0,-1), "code": DIR_TOP},
+	{"vec": Vector2(-1,0), "code": DIR_LEFT},
+	{"vec": Vector2(0,1),  "code": DIR_BOTTOM},
+	{"vec": Vector2(1,0),  "code": DIR_RIGHT}
+]
+
+# A room is represented by a dictionary with:
+#  id: int
+#  pos: Vector2 - grid position
+#  neighbors: Array of dictionaries { "id": neighbor_id, "dir": edge_code }
+#  type: RoomType (optional at first)
+var nodes = []         # List of nodes; index is the room id.
+var grid = {}          # Dictionary mapping "x,y" -> room id
+
+func _ready():
+	generate()
+
+# Utility: convert a Vector2 position to a unique string key.
+func pos_key(pos: Vector2) -> String:
+	return str(pos.x) + "," + str(pos.y)
+
+func generate():
+	# Example parameters:
+	var n = 3  # number of enemy rooms (E)
+	var m = 1  # number of loot rooms (L)
+	# Total nodes = B + n E + m L + S + F = (n + m + 3)
+	
+	var total_rooms = n + m + 3
+	# Try generation repeatedly until we get a valid non-linear dungeon.
+	var max_attempts = 20
+	var attempt = 0
+	while attempt < max_attempts:
+		if generate_dungeon(total_rooms):
+			if assign_room_types(n, m):
+				# if room types were assigned (and non-linear conditions met), break
+				break
+		attempt += 1
+		reset_dungeon()
+	
+	if attempt >= max_attempts:
+		print("Failed to generate a valid dungeon.")
+		return
+	
+	var matrix = build_adjacency_matrix()
+	print("Adjacency Matrix:")
+	for row in matrix:
+		print(row)
+	print("")
+	print("Dungeon Layout:")
+	print_dungeon_layout()
+	# Optionally, print node info:
+	print("Node details:")
+	for room in nodes:
+		print("ID: %d, Pos: %s, Type: %s, Neighbors: %s" % [room.id, room.pos, room.type, room.neighbors])
+	return matrix
+	
+	
+# Reset the global dungeon data.
+func reset_dungeon():
+	nodes.clear()
+	grid.clear()
+
+# Generates the spanning tree on an infinite grid. Returns true if successful.
+func generate_dungeon(total_rooms: int) -> bool:
+	reset_dungeon()
+	var next_id = 0
+		
+	# Place Beginning room B at (0,0)
+	var b_room = {
+		"id": next_id,
+		"pos": Vector2(0,0),
+		"neighbors": [],
+		"type": RoomType.B
+	}
+	nodes.append(b_room)
+	grid[pos_key(b_room.pos)] = next_id
+	next_id += 1
+	
+	# B must have one edge only. Pick one random adjacent neighbor.
+	var available_dirs = directions.duplicate()
+	available_dirs.shuffle()
+	var b_neighbor_pos
+	var b_edge_code = 0
+	for d in available_dirs:
+		var candidate = b_room.pos + d.vec
+		# No other room exists so candidate is free.
+		b_neighbor_pos = candidate
+		b_edge_code = d.code
+		break
+	# Create the neighbor. Its type will be forced to be E later.
+	var neighbor = {
+		"id": next_id,
+		"pos": b_neighbor_pos,
+		"neighbors": [],
+		"type": null  # to be assigned
+	}
+	nodes.append(neighbor)
+	grid[pos_key(b_neighbor_pos)] = next_id
+	
+	# Connect B <-> neighbor.
+	add_connection(0, neighbor.id, b_edge_code)
+	next_id += 1
+
+	# Frontier: list of indices of nodes that can expand.
+	# We do not allow B anymore since it must remain degree 1.
+	var frontier = [ neighbor.id ]
+	
+	# Grow dungeon until total_rooms reached.
+	while nodes.size() < total_rooms and frontier.size() > 0:
+		# Pick a random node from frontier.
+		frontier.shuffle()
+		var current_id = frontier[0]
+		var current_node = nodes[current_id]
+		var placed = false
+		
+		# Try the directions in random order.
+		var test_dirs = directions.duplicate()
+		test_dirs.shuffle()
+		for d in test_dirs:
+			var candidate_pos = current_node.pos + d.vec
+			var key = pos_key(candidate_pos)
+			# Check if there is already a room here.
+			if grid.has(key):
+				continue
+			# IMPORTANT: check that the candidate room will only touch the current node.
+			# (We check all four cardinal neighbors of candidate_pos; if any room exists other than current_node, then skip.)
+			var valid_candidate = true
+			for adj in directions:
+				var adj_pos = candidate_pos + adj.vec
+				var adj_key = pos_key(adj_pos)
+				if grid.has(adj_key):
+					var adjacent_room_id = grid[adj_key]
+					if adjacent_room_id != current_id:
+						# If adjacent to B and B is not the current node, that would add an extra edge to B (or form a cycle)
+						if nodes[adjacent_room_id].type == RoomType.B:
+							valid_candidate = false
+							break
+						# Otherwise, touching another room means a potential cycle.
+						valid_candidate = false
+						break
+			if not valid_candidate:
+				continue
+			# Valid candidate found. Create the new room.
+			var new_room = {
+				"id": next_id,
+				"pos": candidate_pos,
+				"neighbors": [],
+				"type": null
+			}
+			nodes.append(new_room)
+			grid[key] = next_id
+			# Connect current node and new room.
+			add_connection(current_id, next_id, d.code)
+			next_id += 1
+			placed = true
+			# Add new room to frontier.
+			frontier.append(new_room.id)
+			# Also if the current node now has no more free directions, remove it from frontier.
+			# (In our simple approach, we let the frontier remain and check later.)
+			break
+		if not placed:
+			# If current frontier node cannot expand further, remove it from frontier.
+			frontier.remove_at(current_id)
+	# Check if we reached the total number of rooms:
+	return nodes.size() == total_rooms
+
+# Helper: Connect two nodes in our data structure, adding the direction code.
+func add_connection(from_id: int, to_id: int, code: int) -> void:
+	# Add connection in both directions.
+	nodes[from_id].neighbors.append({"id": to_id, "dir": code})
+	nodes[to_id].neighbors.append({"id": from_id, "dir": opposite_direction[code]})
+
+# Assign the room types (E, L, S, F) according to the requested rules.
+func assign_room_types(n: int, m: int) -> bool:
+	# We already have B (id 0) and B's neighbor will remain E.
+	# Total E should equal n. We already have B's neighbor forced to be E.
+	# Next, choose F as the farthest room from B.
+	var farthest = get_farthest_node(0)
+	if farthest == null:
+		return false
+	farthest.type = RoomType.F
+	
+	# S must be a leaf (degree1) that is not B (id 0) or F.
+	var candidate_S = []
+	for room in nodes:
+		# A leaf has exactly one neighbor.
+		if room.neighbors.size() == 1 and room.id != 0 and room.id != farthest.id:
+			candidate_S.append(room)
+		# Also ensure that S's only neighbor is an E eventually. At this point we haven’t assigned the neighbor types yet,
+		# but in our spanning tree the neighbor of any leaf is its parent – which we plan to assign as E or L later.
+	if candidate_S.size() == 0:
+		# If no candidate for S exists (i.e. dungeon is linear with only 2 leaves: B and F)
+		return false
+	candidate_S.shuffle()
+	var s_room = candidate_S[0]
+	s_room.type = RoomType.S
+
+	# Now assign the remaining nodes with types E or L.
+	# Total remaining rooms (excluding B, S, F) should equal n-? + m.
+	var remaining_nodes = []
+	for room in nodes:
+		if room.id == 0 or room.id == s_room.id or room.type == RoomType.F:
+			continue
+		if room.type != null:
+			# B's neighbor is already forced to be E. (We assume that if a type is set, it must be E.)
+			continue
+		remaining_nodes.append(room)
+	# Count how many E are already set aside (besides B)...
+	var count_E = 0
+	for room in nodes:
+		if room.type == RoomType.E:
+			count_E += 1
+	# B's neighbor should already be E; if not set, then force it.
+	# Determine how many E still need to be assigned.
+	var remaining_E_needed = n - count_E
+	# There are remaining_nodes.size() rooms that need to be assigned among E and L.
+	if remaining_nodes.size() != (remaining_E_needed + m):
+		# Inconsistent count – generation failure.
+		return false
+	remaining_nodes.shuffle()
+	# First assign remaining_E_needed as E.
+	for i in range(remaining_E_needed):
+		remaining_nodes[i].type = RoomType.E
+	# Then assign the rest as L.
+	for i in range(remaining_E_needed, remaining_nodes.size()):
+		remaining_nodes[i].type = RoomType.L
+
+	# Also, for any room that is still not set but is adjacent to B's neighbor (should be E if reached from B) force to E.
+	# (This is extra precaution.)
+	for room in nodes:
+		if room.type == null:
+			room.type = RoomType.E
+	# Check that B and F are leaves.
+	if nodes[0].neighbors.size() != 1 or farthest.neighbors.size() != 1:
+		return false
+	# Also, basic check: dungeon should not be linear, so there must be at least 3 leaves.
+	var leaves = 0
+	for room in nodes:
+		if room.neighbors.size() == 1:
+			leaves += 1
+	if leaves < 3:
+		return false
+	return true
+
+# Returns the node (dictionary) that is farthest (largest number of steps) from the start_id using BFS.
+func get_farthest_node(start_id: int) -> Dictionary:
+	var dist = {}
+	var visited = {}
+	var q = []
+	for room in nodes:
+		dist[room.id] = -1
+		visited[room.id] = false
+	dist[start_id] = 0
+	q.append(start_id)
+	visited[start_id] = true
+	while q.size() > 0:
+		var current = q.pop_front()
+		for edge in nodes[current].neighbors:
+			var nb = edge.id
+			if not visited[nb]:
+				visited[nb] = true
+				dist[nb] = dist[current] + 1
+				q.append(nb)
+			# If already visited, we keep the smaller distance.
+	var max_d = -1
+	var farthest_node = null
+	for room in nodes:
+		if dist[room.id] > max_d:
+			max_d = dist[room.id]
+			farthest_node = room
+		# In case of tie, the first found.
+	return farthest_node
+
+# Build the adjacency (connection) matrix.
+func build_adjacency_matrix():
+	var total = nodes.size()
+	# Create a 2D array (an array of arrays).
+	var mat = []
+	for i in range(total):
+		mat.append([])
+		for j in range(total):
+			mat[i].append(0)
+	# For each node, for each neighbor, set the corresponding edge code.
+	for room in nodes:
+		for edge in room.neighbors:
+			# Compute direction from room.pos to neighbor.pos.
+			var neighbor_room = nodes[edge.id]
+			var delta = neighbor_room.pos - room.pos
+			var code = 0
+			if delta == Vector2(0,-1):
+				code = DIR_TOP
+			elif delta == Vector2(-1,0):
+				code = DIR_LEFT
+			elif delta == Vector2(0,1):
+				code = DIR_BOTTOM
+			elif delta == Vector2(1,0):
+				code = DIR_RIGHT
+			# Set the matrix entry.
+			mat[room.id][edge.id] = code
+		# (Since connections are symmetric, the neighbor entry was set when the connection was added.)
+	return mat
+
+# Print the dungeon layout by printing a grid with the room letter.
+func print_dungeon_layout() -> void:
+	# Determine grid bounds.
+	var min_x = INF
+	var max_x = -INF
+	var min_y = INF
+	var max_y = -INF
+	for room in nodes:
+		min_x = min(min_x, room.pos.x)
+		max_x = max(max_x, room.pos.x)
+		min_y = min(min_y, room.pos.y)
+		max_y = max(max_y, room.pos.y)
+	# Create a dictionary mapping positions to room letter.
+	var layout = {}
+	for room in nodes:
+		var letter = ""
+		match room.type:
+			RoomType.B:
+				letter = "B"
+			RoomType.E:
+				letter = "E"
+			RoomType.L:
+				letter = "L"
+			RoomType.S:
+				letter = "S"
+			RoomType.F:
+				letter = "F"
+			_:
+				letter = "?"
+		layout[pos_key(room.pos)] = letter
+	# Print grid row by row.
+	for y in range(min_y, max_y+1):
+		var line = ""
+		for x in range(min_x, max_x+1):
+			var key = pos_key(Vector2(x,y))
+			if layout.has(key):
+				line += layout[key]
+			else:
+				line += " "
+		print(line)
+
+
+#===============================================================================
+# CONSTANTS AND ROOM SCENES
+#===============================================================================
+const TILE_SIZE := 16
+const GAP      := 3 * TILE_SIZE  # minimum pixel gap between rooms
+
+const ROOM_SCENES = {
+	RoomType.B: [
+		preload("res://scenes/rooms/room_base.tscn"),
+	],
+	RoomType.E: [
+		preload("res://scenes/rooms/room_base.tscn"),
+	],
+	RoomType.L: [
+		preload("res://scenes/rooms/room_base.tscn"),
+	],
+	RoomType.S: [
+		preload("res://scenes/rooms/room_base.tscn"),
+	],
+	RoomType.F: [
+		preload("res://scenes/rooms/room_base.tscn"),
+	]
+}

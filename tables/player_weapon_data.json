@@ -1,0 +1,17 @@
+{
+  "0": {
+    "name": "M15",
+    "desc": "All around good rifle",
+    "rarity": 0
+  },
+  "1": {
+    "name": "Revolver",
+    "desc": "Bang bang",
+    "rarity": 0
+  },
+  "2": {
+    "name": "Shotgun",
+    "desc": "Generic shotgun",
+    "rarity": 0
+  }
+}

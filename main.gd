@@ -8,8 +8,8 @@ var control : Control
 
 var interactions: Array[Interaction]
 var is_paused: bool = false
-const floor_item = preload("res://scenes/floor_item.tscn")
-const weapons = [preload("res://weapons/protagonists/revolver/revolver.tscn"), preload("res://weapons/protagonists/m15/m_15.tscn"), preload("res://weapons/protagonists/shotgun/shotgun.tscn")]
+const floor_item = preload("res://scenes/floor_item/floor_item.tscn")
+const weapons = [0,1,2]
 
 func register_hud(h : HUD) -> void:
 	hud = h
@@ -27,6 +27,10 @@ func register_interaction_label(l : InteractionLabel) -> void:
 func register_control(c : Control) -> void:
 	control = c
 
+func spawn_node(node : Node, position_global : Vector2, layer: int = 0) -> void:
+	node.global_position = position_global
+	control.get_child(layer).add_child(node)
+
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("menu"):
 		toggle_pause()
@@ -35,7 +39,7 @@ func _process(delta: float) -> void:
 			interactions[0].callable.call()
 	if Input.is_action_just_pressed("dev"):
 		var scene = floor_item.instantiate()
-		scene.item = weapons[randi() % weapons.size()]
+		scene.item_id = weapons[randi() % weapons.size()]
 		scene.global_position = player.global_position 
 		control.get_child(1).add_child(scene)
 

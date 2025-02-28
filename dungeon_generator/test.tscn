@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://o4gnxfkwntm"]
+
+[ext_resource type="Script" path="res://dungeon_generator/dungeon_graph.gd" id="1_tlbc4"]
+
+[node name="Node2D" type="Node2D"]
+position = Vector2(381, 291)
+script = ExtResource("1_tlbc4")

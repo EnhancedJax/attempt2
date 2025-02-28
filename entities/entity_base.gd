@@ -14,7 +14,7 @@ var is_walking_backwards : bool = false
 var is_invincible : bool = false
 var weapon_node : Node2D
 
-const FRICTION: float = 1000.0  # Base friction force
+const FRICTION: float = 4000.0  # Base friction force
 const FORCE_THRESHOLD: float = 5.0  # Minimum velocity to apply friction
 
 func _ready() -> void:
@@ -29,7 +29,6 @@ func _process(_delta: float) -> void:
 	animatedSprite2D.flip_h = get_aim_position().x < global_position.x
 
 func _physics_process(delta: float) -> void:
-	apply_friction(delta)
 	move_and_slide()
 
 # /* ------------- Methods ------------ */
@@ -77,16 +76,19 @@ func apply_friction(delta: float) -> void:
 	else:
 		velocity += friction_force
 
-func equip_weapon(weapon: PackedScene):
-	print("Equipping weapon: ", weapon)
+func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
+	var weapon = Lookup.get_weapon(weapon_id)
+	print("Equipping weapon: ", weapon_id)
 	if weapon_node:
 		weapon_node.queue_free()
 	
-	weapon_node = weapon.instantiate()
+	weapon_node = weapon.scene.instantiate()
 	weapon_node.connect("signal_weapon_did_use", rsignal_weapon_did_use)
 	weapon_node.position = weaponOrigin.position
 	weapon_node.visible = false
 	add_child(weapon_node)
+
+	return weapon
 
 func apply_force(force: Vector2) -> void:
 	velocity += force

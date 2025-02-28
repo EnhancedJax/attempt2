@@ -1,6 +1,6 @@
 class_name Player extends EntityBase
 
-var weapons : Array[PackedScene] = []
+var weapons : Array[int] = []
 var equipped_weapon_index : int = 0
 var max_weapons_count : int = 2
 @onready var label : Label = $Label
@@ -54,11 +54,12 @@ func rsignal_health_deducted(health: int, max_health: int):
 	$Camera2D.apply_shake(10)
 	Main.update_health()
 
-func equip_weapon(weapon: PackedScene):
-	super.equip_weapon(weapon)
+func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
+	var weapon = super.equip_weapon(weapon_id)
 	label.visible = true
-	label.text = weapon.instantiate().weapon_name
+	label.text = weapon.name
 	label_timeout.start()
+	return weapon
 
 func handle_label_timeout():
 	label.visible = false
@@ -68,17 +69,17 @@ func handle_label_timeout():
 func do_die():
 	self.process_mode = Node.PROCESS_MODE_DISABLED
 
-func pickup_weapon(item: PackedScene) -> PackedScene:
+func pickup_weapon(weapon_id: int) -> int:
 	"""
 	Picks up weapon and returns the weapon that was dropped
 	"""
-	equip_weapon(item)
+	equip_weapon(weapon_id)
 	if weapons.size() == max_weapons_count:
 		var dropped_weapon = weapons[equipped_weapon_index]
 		weapons.remove_at(equipped_weapon_index)
-		weapons.insert(equipped_weapon_index, item)
+		weapons.insert(equipped_weapon_index, weapon_id)
 		return dropped_weapon
 	else:
-		weapons.push_back(item)
+		weapons.push_back(weapon_id)
 		equipped_weapon_index = weapons.size() - 1
-		return null
+		return -1

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4lqnnvgpx560"]
+
+[ext_resource type="PackedScene" uid="uid://oue2kr2eaavc" path="res://scenes/rooms/room_base.tscn" id="1_odgwy"]
+
+[node name="RoomBase" instance=ExtResource("1_odgwy")]
+
+[node name="EntranceDetector" parent="." index="2"]
+monitoring = false
+monitorable = false

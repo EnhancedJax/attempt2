@@ -2,7 +2,7 @@ extends EntityBase
 
 func _ready():
 	super._ready()
-	equip_weapon(load("res://weapons/antagonists/pistol/gun.tscn"))
+	equip_weapon(0)
 
 func _process(delta: float) -> void:
 	super._process(delta)

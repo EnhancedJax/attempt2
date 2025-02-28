@@ -5,7 +5,7 @@ extends WeaponBase
 @export var recoil : float = 100.0
 @export var spread : float = 5
 @onready var bullet_spawner = $BulletSpawnerComponent
-const BULLET = preload("res://weapons/protagonists/m15/m_15_bullet.tscn")
+const BULLET = preload("res://weapons/protagonists/m15/m15_bullet.tscn")
 var ATTACK = BulletType.new()
 
 func _ready() -> void:
