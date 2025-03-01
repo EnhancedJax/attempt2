@@ -8,7 +8,7 @@ Loot room L
 Shop room S
 Final room F
 
-The adjacency matrix columns and rows should represent rooms in the following order: 
+The adjacency matrix columns and rows should represent rooms in the following order:
 i = 0: B
 n >= i > 0: E
 m+n >= i > n: L
@@ -16,6 +16,7 @@ i = m+n+1: S
 i = m+n+2: F
 
 Valid random dungeon graph rules:
+
 1. Must have only one B, S, F
 2. B must have one edge only, and only to an E room
 3. F must have one edge only, and only to an E room
@@ -35,8 +36,8 @@ The script should produce the required structure. Also print out the generated d
 The following is an example of valid dungeon for n = 3, m = 1:
 
 BEEL
- ES
- F
+ES
+F
 
 or represented as a graph:
 B (right) E1
@@ -48,11 +49,27 @@ E3 (down) F
 
 ---
 
-Implement the function `place_rooms` to place pre-defined rooms onto the world Node2D (self), using the previous adjacency matrix as input.
+The following script is the skeleton you are working on. `generate` returns the adjacency matrix of the dungeon digraph with spatial annotations. The adjacency matrix should be the size of the total number of rooms. If there are no connections between rooms, code 0. Otherwise, the codes 1,2,3,4 represent a top,left,bottom,right edge.
 
-Define a constant for a list of PackedScenes for each room type, and randomly select one from the list to use when placing them on the map. 
+Representations:
+
+Beginning room B
+Enemy room E
+Loot room L
+Shop room S
+Final room F
+
+The adjacency matrix columns and rows should represent rooms in the following order:
+i = 0: B
+n >= i > 0: E
+m+n >= i > n: L
+i = m+n+1: S
+i = m+n+2: F
+
+Implement the function `place_rooms` to place pre-defined rooms onto the world Node2D (self), using the previous adjacency matrix as input. Follow the implementation method you suggested.
 
 Use `var scene = PackedScene.instantiate()` to instantiate a scene, and access the following data with `scene.<data_name>`:
+
 ```
 var dimension : Vector2i (1-based)
 var entrances_top : Vector2i (0-based)
@@ -61,20 +78,77 @@ var entrances_bottom : Vector2i
 var entrances_right : Vector2i
 ```
 
-The following are some rules for alignment:
-0. One tile is 16px. Set a constant for this.
-1. Must be based on the adjacency list
-2. Entrances must align with a room's neighbors (same y level for left right neighbors, same x level for top down neighbors). 
-3. Rooms must not overlap (important!)
-4. Distance between each room must be at least 3 tiles.
-
 You can place a room onto the world by `call_deferred('add_child', scene)` and move it by setting `scene.position = <position> + self.global_position`
 
-It is important to understand that rooms can have different dimensions, and entrance positions. For example, for a room with:
+---
+
+```gdscript
+extends Node2D
+
+# Room type constants
+enum RoomType { B, E, L, S, F }
+
+# Direction codes (from the current room perspective)
+const DIR_TOP = 1   # neighbor is at (0,-1)
+const DIR_LEFT = 2  # neighbor is at (-1,0)
+const DIR_BOTTOM = 3# neighbor is at (0,1)
+const DIR_RIGHT = 4 # neighbor is at (1,0)
+
+# Opposite direction mapping (for the reverse connection)
+var opposite_direction = {
+	DIR_TOP: DIR_BOTTOM,
+	DIR_LEFT: DIR_RIGHT,
+	DIR_BOTTOM: DIR_TOP,
+	DIR_RIGHT: DIR_LEFT,
+}
+
+# Direction vectors (and corresponding random label order)
+var directions = [
+	{"vec": Vector2(0,-1), "code": DIR_TOP},
+	{"vec": Vector2(-1,0), "code": DIR_LEFT},
+	{"vec": Vector2(0,1),  "code": DIR_BOTTOM},
+	{"vec": Vector2(1,0),  "code": DIR_RIGHT}
+]
+
+# A room is represented by a dictionary with:
+#  id: int
+#  pos: Vector2 - grid position
+#  neighbors: Array of dictionaries { "id": neighbor_id, "dir": edge_code }
+#  type: RoomType (optional at first)
+var nodes = []         # List of nodes; index is the room id.
+var grid = {}          # Dictionary mapping "x,y" -> room id
+
+func _ready():
+	var matrix = generate()
+
+
+#===============================================================================
+# CONSTANTS AND ROOM SCENES
+#===============================================================================
+const TILE_SIZE := 16
+const GAP      := 3 * TILE_SIZE  # minimum pixel gap between rooms
+
+const ROOM_SCENES = {
+	RoomType.B: [
+		preload("res://scenes/rooms/room_base.tscn"),
+	],
+	RoomType.E: [
+		preload("res://scenes/rooms/room_base.tscn"),
+	],
+	RoomType.L: [
+		preload("res://scenes/rooms/room_base.tscn"),
+	],
+	RoomType.S: [
+		preload("res://scenes/rooms/room_base.tscn"),
+	],
+	RoomType.F: [
+		preload("res://scenes/rooms/room_base.tscn"),
+	]
+}
 ```
-dimension = 16,9
-entrances_top=3,0
-...
-entrances_bottom=12,8
-```
-If another square room, for example dimension = 9,9 with entrances at the center of each sides, is placed above and below the previous wide room, the entrances must align, so the top square room would be on the left, and the bottom square room would be on the right, relative to the previous wide room. This should apply to different dimensions, such as tall rooms or irregular rooms. 
+
+---
+
+Your task is to implement `draw_corridors`, based on the following gdscript, which already properly handles generating a dungeon graph, and placing the rooms on the world. You can use the two helper functions `_draw_floor` and `_draw_wall` to draw the corridors. The corridors are two wide (so vertical corridors have one more tile to the right of the `get_door_value` door tile corrdinates, and horizontal corridors have one more tile to the bottom of the door tile corrdinates.), and should additionally have walls (so total 4 tiles thick, including walls). Please set a constant `corridor_width`.
+
+The gdscript is as follows:

@@ -33,10 +33,6 @@ func rsignal_player_exited() -> void:
 func _update_item_metadata() -> void:
 	if item_id != -1:
 		var weapon = Lookup.get_weapon(item_id)
-		var scene: WeaponBase = weapon.scene.instantiate()
-		print(scene.get_children())
-		for child in scene.get_children():
-			if child is Sprite2D:
-				$Sprite2D.texture = child.texture
+		$Sprite2D.texture = Lookup.get_weapon_texture(-1, weapon)
 		
 		interaction.label = weapon.name

@@ -52,13 +52,14 @@ func rsignal_hitbox_hit(attack: AttackBase):
 func rsignal_health_deducted(health: int, max_health: int):
 	super.rsignal_health_deducted(health, max_health)
 	$Camera2D.apply_shake(10)
-	Main.update_health()
+	Main.update_health_ui()
 
 func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
 	var weapon = super.equip_weapon(weapon_id)
 	label.visible = true
 	label.text = weapon.name
 	label_timeout.start()
+	Main.update_equipped_weapon_ui(weapon)
 	return weapon
 
 func handle_label_timeout():

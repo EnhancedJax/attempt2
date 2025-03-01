@@ -9,7 +9,7 @@ var interaction : Interaction
 
 func _ready() -> void:
 	items = [0,1,2]
-	items_count = 3
+	items_count = 1
 	interaction = Interaction.new()
 	interaction.callable = interaction_action
 	interaction.source = self

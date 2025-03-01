@@ -2,6 +2,8 @@ class_name EntityBase extends CharacterBody2D
 
 const FLOATING_NUMBER = preload("res://scenes/floating_number.tscn")
 
+@export var is_protagonist: bool = true # changes weapon class
+
 @onready var animatedSprite2D: AnimatedSprite2D = $AnimatedSprite2D
 @onready var animationPlayer: AnimationPlayer = $AnimatedSprite2D/AnimationPlayer
 @onready var damageNumbersOrigin : Marker2D = $DamageNumbersOrigin
@@ -77,7 +79,7 @@ func apply_friction(delta: float) -> void:
 		velocity += friction_force
 
 func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
-	var weapon = Lookup.get_weapon(weapon_id)
+	var weapon = Lookup.get_weapon(weapon_id, is_protagonist)
 	print("Equipping weapon: ", weapon_id)
 	if weapon_node:
 		weapon_node.queue_free()
@@ -86,6 +88,7 @@ func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
 	weapon_node.connect("signal_weapon_did_use", rsignal_weapon_did_use)
 	weapon_node.position = weaponOrigin.position
 	weapon_node.visible = false
+	print(weapon_node)
 	add_child(weapon_node)
 
 	return weapon

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scene.gd" id="1_riv52"]
 [ext_resource type="PackedScene" uid="uid://oue2kr2eaavc" path="res://scenes/rooms/room_base.tscn" id="2_ki1u6"]
-[ext_resource type="PackedScene" uid="uid://vo0xrja3uy5k" path="res://game_hud.tscn" id="4_suixc"]
+[ext_resource type="PackedScene" uid="uid://vo0xrja3uy5k" path="res://hud/game.tscn" id="4_suixc"]
 [ext_resource type="PackedScene" uid="uid://728xqa5cdqim" path="res://scenes/interaction_label.tscn" id="4_ydhss"]
 [ext_resource type="PackedScene" uid="uid://c3f8flnplphu5" path="res://scenes/chest/chest.tscn" id="6_4ulnq"]
 [ext_resource type="PackedScene" uid="uid://qgtqua65lnyp" path="res://entities/player/player.tscn" id="6_uw4k8"]
@@ -28,6 +28,22 @@ position = Vector2(0.125, 0)
 position = Vector2(-38.125, 43.75)
 scale = Vector2(1, 1)
 
+[node name="Chest2" parent="TileLayer" instance=ExtResource("6_4ulnq")]
+position = Vector2(-57.75, 91)
+scale = Vector2(1, 1)
+
+[node name="Chest3" parent="TileLayer" instance=ExtResource("6_4ulnq")]
+position = Vector2(-96, 86.5)
+scale = Vector2(1, 1)
+
+[node name="Chest4" parent="TileLayer" instance=ExtResource("6_4ulnq")]
+position = Vector2(-114.25, 42.25)
+scale = Vector2(1, 1)
+
+[node name="Chest5" parent="TileLayer" instance=ExtResource("6_4ulnq")]
+position = Vector2(-74, 43.625)
+scale = Vector2(1, 1)
+
 [node name="GroundLayer" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("6_uw4k8")]
@@ -42,7 +58,6 @@ z_index = 10
 visible = false
 
 [node name="Viewport" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="HUD" parent="Viewport" instance=ExtResource("4_suixc")]
 process_mode = 3

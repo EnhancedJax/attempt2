@@ -13,7 +13,7 @@ extends Node2D
 @onready var tilemap_px : int = wall_tilemap.tile_set.tile_size.x
 
 var room_state : int = 0 # 0: unvisited, 1: visited, 2: cleared
-var door_config = [true, true, false, false]
+var door_config =  [true, true, true, true]
 
 const ENTRANCES = {
 	0: "top",
@@ -23,6 +23,8 @@ const ENTRANCES = {
 }
 
 func _ready() -> void:
+	if not door_config:
+		door_config = [true, true, true, true]
 	set_door_opened(true)
 
 func rsignal_player_entered() -> void:

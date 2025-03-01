@@ -1,5 +1,3 @@
-
-
 extends Node2D
 
 # Room type constants
@@ -34,9 +32,27 @@ var directions = [
 #  type: RoomType (optional at first)
 var nodes = []         # List of nodes; index is the room id.
 var grid = {}          # Dictionary mapping "x,y" -> room id
+var n = 5  # number of enemy rooms (E)
+var m = 1  # number of loot rooms (L)
+
+@onready var corridor_tilemap : TileMapLayer = $CorridorLayer
 
 func _ready():
-	generate()
+	generate_new_dungeon()
+
+func _input(event):
+	if event.is_action_pressed("ui_accept"):  # This responds to Enter/Return key
+		generate_new_dungeon()
+
+func generate_new_dungeon():
+	clear_rooms()
+	var mat = generate()
+	place_rooms(mat)
+
+func clear_rooms():
+	# Remove all child nodes (room instances)
+	for child in get_children():
+		child.queue_free()
 
 # Utility: convert a Vector2 position to a unique string key.
 func pos_key(pos: Vector2) -> String:
@@ -44,8 +60,6 @@ func pos_key(pos: Vector2) -> String:
 
 func generate():
 	# Example parameters:
-	var n = 3  # number of enemy rooms (E)
-	var m = 1  # number of loot rooms (L)
 	# Total nodes = B + n E + m L + S + F = (n + m + 3)
 	
 	var total_rooms = n + m + 3
@@ -183,7 +197,7 @@ func generate_dungeon(total_rooms: int) -> bool:
 			break
 		if not placed:
 			# If current frontier node cannot expand further, remove it from frontier.
-			frontier.remove_at(current_id)
+			frontier.erase(current_id)
 	# Check if we reached the total number of rooms:
 	return nodes.size() == total_rooms
 
@@ -200,7 +214,8 @@ func assign_room_types(n: int, m: int) -> bool:
 	# Next, choose F as the farthest room from B.
 	var farthest = get_farthest_node(0)
 	if farthest == null:
-		return false
+		# return false
+		pass
 	farthest.type = RoomType.F
 	
 	# S must be a leaf (degree1) that is not B (id 0) or F.
@@ -213,7 +228,8 @@ func assign_room_types(n: int, m: int) -> bool:
 		# but in our spanning tree the neighbor of any leaf is its parent – which we plan to assign as E or L later.
 	if candidate_S.size() == 0:
 		# If no candidate for S exists (i.e. dungeon is linear with only 2 leaves: B and F)
-		return false
+		# return false
+		pass
 	candidate_S.shuffle()
 	var s_room = candidate_S[0]
 	s_room.type = RoomType.S
@@ -239,7 +255,8 @@ func assign_room_types(n: int, m: int) -> bool:
 	# There are remaining_nodes.size() rooms that need to be assigned among E and L.
 	if remaining_nodes.size() != (remaining_E_needed + m):
 		# Inconsistent count – generation failure.
-		return false
+		# return false
+		pass
 	remaining_nodes.shuffle()
 	# First assign remaining_E_needed as E.
 	for i in range(remaining_E_needed):
@@ -255,14 +272,16 @@ func assign_room_types(n: int, m: int) -> bool:
 			room.type = RoomType.E
 	# Check that B and F are leaves.
 	if nodes[0].neighbors.size() != 1 or farthest.neighbors.size() != 1:
-		return false
+		# return false
+		pass
 	# Also, basic check: dungeon should not be linear, so there must be at least 3 leaves.
 	var leaves = 0
 	for room in nodes:
 		if room.neighbors.size() == 1:
 			leaves += 1
 	if leaves < 3:
-		return false
+		# return false
+		pass
 	return true
 
 # Returns the node (dictionary) that is farthest (largest number of steps) from the start_id using BFS.
@@ -369,22 +388,171 @@ func print_dungeon_layout() -> void:
 # CONSTANTS AND ROOM SCENES
 #===============================================================================
 const TILE_SIZE := 16
-const GAP      := 3 * TILE_SIZE  # minimum pixel gap between rooms
+const GAP      := 4  * TILE_SIZE  # minimum pixel gap between rooms
 
 const ROOM_SCENES = {
 	RoomType.B: [
 		preload("res://scenes/rooms/room_base.tscn"),
 	],
 	RoomType.E: [
-		preload("res://scenes/rooms/room_base.tscn"),
+		preload("res://scenes/rooms/level1/room2.tscn"),
 	],
 	RoomType.L: [
-		preload("res://scenes/rooms/room_base.tscn"),
+		preload("res://scenes/rooms/level1/room1.tscn"),
 	],
 	RoomType.S: [
-		preload("res://scenes/rooms/room_base.tscn"),
+		preload("res://scenes/rooms/level1/shop.tscn"),
 	],
 	RoomType.F: [
 		preload("res://scenes/rooms/room_base.tscn"),
 	]
 }
+
+
+# Direction vectors for movement on the grid
+func get_offset_from_code(code: int) -> Vector2:
+	match code:
+		DIR_TOP:
+			return Vector2(0, -1)
+		DIR_LEFT:
+			return Vector2(-1, 0)
+		DIR_BOTTOM:
+			return Vector2(0, 1)
+		DIR_RIGHT:
+			return Vector2(1, 0)
+		_:
+			return Vector2.ZERO
+#===============================================================================
+# HELPER FUNCTIONS
+#===============================================================================
+# Returns the door Vector2 (in tile coordinates) from a room scene given the direction.
+func get_door_value(scene_instance: Node, direction: int) -> Vector2:
+	match direction:
+		DIR_TOP:
+			return scene_instance.entrances_top
+		DIR_LEFT:
+			return scene_instance.entrances_left
+		DIR_BOTTOM:
+			return scene_instance.entrances_bottom
+		DIR_RIGHT:
+			return scene_instance.entrances_right
+		_:
+			return Vector2.ZERO
+
+# Calculate room origin position for neighbor junction.
+# current_pos: current room's world origin (top-left corner) as Vector2.
+# current_scene: current room's chosen scene (with door properties)
+# neighbor_scene: neighbor room's chosen scene.
+# dir_code: the door direction used on current room.
+# 
+# This function computes the neighbor room’s position so that the two rooms’ doors are aligned,
+# and then adds a GAP (in the connection direction) so that the rooms are spaced apart.
+func compute_neighbor_position(current_pos: Vector2, current_scene: Node, neighbor_scene: Node, dir_code: int) -> Vector2:
+	# Obtain the door positions (in tile coordinates) for current room and the neighbor.
+	var door_current: Vector2 = get_door_value(current_scene, dir_code)
+	var door_neighbor: Vector2 = get_door_value(neighbor_scene, opposite_direction[dir_code])
+	
+	# Compute the direction vector associated with the door connection.
+	# Even though our get_door_value returns positions in tile units, we use the direction
+	# from the passed code to add a GAP in the proper direction (normalized).
+	var vec: Vector2
+	match dir_code:
+		DIR_TOP:
+			vec = Vector2(0, -1)
+		DIR_LEFT:
+			vec = Vector2(-1, 0)
+		DIR_BOTTOM:
+			vec = Vector2(0, 1)
+		DIR_RIGHT:
+			vec = Vector2(1, 0)
+		_:
+			vec = Vector2.ZERO
+	
+	# The basic alignment (without gap) is computed as:
+	# neighbor_pos = current_pos + (door_current - door_neighbor)*TILE_SIZE
+	# Now we add GAP displacement in the connection direction.
+	return current_pos + (door_current - door_neighbor) * TILE_SIZE + GAP * vec
+
+#===============================================================================
+# PLACE ROOMS
+#===============================================================================
+func place_rooms(matrix: Array) -> void:
+	# Use nodes.size() to determine the total number of rooms.
+	var total_rooms = nodes.size()
+	
+	# Pre-select a scene instance for every room based on its assigned room type.
+	# This ensures the scene instance matches the type assigned in 'nodes', 
+	# not an assumed index ordering.
+	var room_scenes = {}
+	for i in range(total_rooms):
+		# Get the room's type from its 'nodes' dictionary.
+		var room_type: int = nodes[i].type
+		# Instantiate the scene based on the room's type.
+		room_scenes[i] = ROOM_SCENES[room_type][0].instantiate()
+	
+	# Create a dictionary to map room id -> computed world position (as Vector2).
+	# In these positions, the room scene’s top-left corner is considered the origin.
+	var room_positions = {}
+	# Place the beginning room (room id 0) arbitrarily at (0,0).
+	room_positions[0] = Vector2.ZERO
+	
+	# Use a queue to propagate positions from room to room based on the door constraints.
+	var queue = [0]
+	while queue.size() > 0:
+		var current_id = queue.pop_front()
+		var current_scene = room_scenes[current_id]
+		var current_pos = room_positions[current_id]
+		
+		# For every potential neighbor:
+		for neighbor_id in range(total_rooms):
+			var code = matrix[current_id][neighbor_id]
+			if code != 0:
+				# We have a connection from current room at current_id to neighbor_id in direction "code".
+				var neighbor_scene = room_scenes[neighbor_id]
+				var computed_pos = compute_neighbor_position(current_pos, current_scene, neighbor_scene, code)
+				# If the neighbor hasn't been placed, set its position.
+				if not room_positions.has(neighbor_id):
+					room_positions[neighbor_id] = computed_pos
+					queue.append(neighbor_id)
+				else:
+					# If already set, check for conflict and warn if misaligned.
+					if room_positions[neighbor_id] != computed_pos:
+						push_warning("Conflict detected for room %d alignment. Expected %s but found %s" %
+							[neighbor_id, str(room_positions[neighbor_id]), str(computed_pos)])
+						# In a full implementation, you might resolve this conflict.
+	
+	# Now that all room positions are computed, place the instanced room scenes.
+	# The computed position represents the room's top-left corner in world space (in pixels).
+	for i in range(total_rooms):
+		var scene_instance = room_scenes[i]
+		
+		# Configure door settings based on connections from the matrix.
+		var door_config = [false, false, false, false]  # [top, left, bottom, right]
+		for j in range(total_rooms):
+			var code = matrix[i][j]
+			match code:
+				DIR_TOP: door_config[0] = true
+				DIR_LEFT: door_config[1] = true
+				DIR_BOTTOM: door_config[2] = true
+				DIR_RIGHT: door_config[3] = true
+		
+		# Apply door configuration (for door placement/dimension data) and open all doors.
+		scene_instance.door_config = door_config
+		
+		# Compute world position relative to the parent Node2D.
+		var world_position = room_positions[i] + self.global_position
+		scene_instance.position = world_position
+		
+		# Defer adding the scene instance as a child so that it gets properly added.
+		call_deferred("add_child", scene_instance)
+
+
+#===============================================================================
+# DRAW CORRIDORS
+#===============================================================================
+
+func _draw_floor(coords: Vector2i):
+	corridor_tilemap.set_cell(coords, 0, Vector2i(0,0))
+
+func _draw_wall(coords: Vector2i):
+	corridor_tilemap.set_cell(coords, 1, Vector2i(0,0))

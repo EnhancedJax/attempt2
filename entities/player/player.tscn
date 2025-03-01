@@ -166,8 +166,8 @@ libraries = {
 }
 
 [node name="HealthComponent" parent="." index="3"]
-MAX_HEALTH = 100
-INITIAL_HEALTH = 100
+MAX_HEALTH = 10
+INITIAL_HEALTH = 9
 
 [node name="HitboxComponent" parent="." index="4"]
 collision_layer = 32
@@ -210,5 +210,5 @@ vertical_alignment = 2
 [node name="LabelTimeout" type="Timer" parent="." index="9"]
 
 [node name="InvincibilityTimer" type="Timer" parent="." index="10"]
-wait_time = 0.1
+wait_time = 0.5
 one_shot = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c4o48ugectpl8"]
+[gd_scene load_steps=8 format=3 uid="uid://bj81oeyskct0"]
 
 [ext_resource type="PackedScene" uid="uid://dnxw7kqi21unw" path="res://weapons/weapon_base.tscn" id="1_j4sq8"]
 [ext_resource type="Script" path="res://weapons/protagonists/m15/m15.gd" id="2_xu0o0"]
@@ -18,7 +18,7 @@ stream_0/stream = ExtResource("3_ceglm")
 script = ExtResource("2_xu0o0")
 damage = 10
 knockback = 200.0
-recoil = 2000.0
+recoil = 100.0
 spread = 5.0
 
 [node name="RandomizedAudio" parent="." index="0"]
