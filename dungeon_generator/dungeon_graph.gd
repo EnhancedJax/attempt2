@@ -35,6 +35,12 @@ var grid = {}          # Dictionary mapping "x,y" -> room id
 var n = 5  # number of enemy rooms (E)
 var m = 1  # number of loot rooms (L)
 
+# Constant for corridor floor width.
+const corridor_width = 2
+
+# We'll also store the room scenes in a dictionary for corridor drawing.
+var room_scenes = {}
+
 @onready var corridor_tilemap : TileMapLayer = $CorridorLayer
 
 func _ready():
@@ -45,14 +51,19 @@ func _input(event):
 		generate_new_dungeon()
 
 func generate_new_dungeon():
+	# Clear previously drawn corridors, if needed.
+	corridor_tilemap.clear()
 	clear_rooms()
 	var mat = generate()
 	place_rooms(mat)
+	# Once the rooms are placed, draw the corridors.
+	draw_corridors()
 
 func clear_rooms():
 	# Remove all child nodes (room instances)
 	for child in get_children():
-		child.queue_free()
+		if not child is TileMapLayer:
+			child.queue_free()
 
 # Utility: convert a Vector2 position to a unique string key.
 func pos_key(pos: Vector2) -> String:
@@ -225,7 +236,7 @@ func assign_room_types(n: int, m: int) -> bool:
 		if room.neighbors.size() == 1 and room.id != 0 and room.id != farthest.id:
 			candidate_S.append(room)
 		# Also ensure that S's only neighbor is an E eventually. At this point we haven’t assigned the neighbor types yet,
-		# but in our spanning tree the neighbor of any leaf is its parent – which we plan to assign as E or L later.
+		# but in our spanning tree the neighbor of any leaf is its parent -- which we plan to assign as E or L later.
 	if candidate_S.size() == 0:
 		# If no candidate for S exists (i.e. dungeon is linear with only 2 leaves: B and F)
 		# return false
@@ -254,7 +265,7 @@ func assign_room_types(n: int, m: int) -> bool:
 	var remaining_E_needed = n - count_E
 	# There are remaining_nodes.size() rooms that need to be assigned among E and L.
 	if remaining_nodes.size() != (remaining_E_needed + m):
-		# Inconsistent count – generation failure.
+		# Inconsistent count -- generation failure.
 		# return false
 		pass
 	remaining_nodes.shuffle()
@@ -388,7 +399,7 @@ func print_dungeon_layout() -> void:
 # CONSTANTS AND ROOM SCENES
 #===============================================================================
 const TILE_SIZE := 16
-const GAP      := 4  * TILE_SIZE  # minimum pixel gap between rooms
+const GAP      := 6  * TILE_SIZE  # minimum pixel gap between rooms
 
 const ROOM_SCENES = {
 	RoomType.B: [
@@ -483,7 +494,7 @@ func place_rooms(matrix: Array) -> void:
 	# Pre-select a scene instance for every room based on its assigned room type.
 	# This ensures the scene instance matches the type assigned in 'nodes', 
 	# not an assumed index ordering.
-	var room_scenes = {}
+	room_scenes.clear()
 	for i in range(total_rooms):
 		# Get the room's type from its 'nodes' dictionary.
 		var room_type: int = nodes[i].type
@@ -550,7 +561,95 @@ func place_rooms(matrix: Array) -> void:
 #===============================================================================
 # DRAW CORRIDORS
 #===============================================================================
+#
+# This function iterates over each connection (each edge in the dungeon graph) and
+# draws a corridor between the two rooms. It uses the room scenes (which were placed earlier)
+# to retrieve the door tile coordinates. For a vertical connection (DIR_TOP/DIR_BOTTOM),
+# the corridor floor is drawn as a 2–tile–wide vertical column (using the door tile X coordinate
+# and one tile to its right). For horizontal connections the corridor floor is drawn as a 2–tile–high
+# horizontal row (using the door tile Y coordinate and one tile below it). Walls are then drawn
+# surrounding the floor such that the overall corridor is 4 tiles thick.
+#
+func draw_corridors() -> void:
+	# Iterate over every node.
+	for room in nodes:
+		var id = room.id
+		# Get the corresponding scene instance for this room.
+		var scene_a = room_scenes[id]
+		# For each neighbor connection:
+		for edge in room.neighbors:
+			# To avoid drawing duplicate corridors, only process when room.id < neighbor id.
+			if id < edge.id:
+				var scene_b = room_scenes[edge.id]
+				var d = edge.dir  # door direction on room 'id'
+				
+				# Get door positions (in tile coordinates) from the room scene.
+				# We assume that the room scene stores its door offset as a Vector2.
+				var door_a_offset: Vector2 = get_door_value(scene_a, d)
+				var door_b_offset: Vector2 = get_door_value(scene_b, opposite_direction[d])
+				
+				# Compute the door world positions in pixels.
+				# (Remember: scene_instance.position is the room’s top–left corner in world space.)
+				var door_a_world: Vector2 = scene_a.position + door_a_offset * TILE_SIZE
+				var door_b_world: Vector2 = scene_b.position + door_b_offset * TILE_SIZE
+				
+				# Convert world positions to corridor tilemap coordinates (assuming TILE_SIZE)
+				var door_a_tile: Vector2 = door_a_world / TILE_SIZE
+				var door_b_tile: Vector2 = door_b_world / TILE_SIZE
+				
+				# Draw corridor floors and walls based on the connection orientation.
+				if d == DIR_TOP or d == DIR_BOTTOM:
+					# Vertical corridor.
+					# For vertical corridors, we use door_a_tile.x as the left floor column.
+					# The floor occupies two columns: door_a_tile.x and door_a_tile.x + 1
+					var col = int(door_a_tile.x)
+					# Determine start and end Y (tile coordinates) of the corridor floor.
+					var start_y = int(min(door_a_tile.y, door_b_tile.y))
+					var end_y = int(max(door_a_tile.y, door_b_tile.y))
+					
+					# Draw the floor tiles for the corridor.
+					for x in [col, col + 1]:
+						for y in range(start_y, end_y + 1):
+							_draw_floor(Vector2i(x, y))
+					
+					# Draw walls.
+					# Vertical sides: one column to the left (col - 1) and one column to the right (col + 2)
+					for y in range(start_y, end_y + 1):
+						_draw_wall(Vector2i(col - 1, y))
+						_draw_wall(Vector2i(col + 2, y))
+					# Horizontal walls: one row above and one row below.
+					# They span from (col - 1) to (col + 2).
+					for x in range(col - 1, col + 3):
+						_draw_wall(Vector2i(x, start_y - 1))
+						_draw_wall(Vector2i(x, end_y + 1))
+						
+				elif d == DIR_LEFT or d == DIR_RIGHT:
+					# Horizontal corridor.
+					# For horizontal corridors, we use door_a_tile.y as the top floor row.
+					# The floor occupies two rows: door_a_tile.y and door_a_tile.y + 1
+					var row = int(door_a_tile.y)
+					# Determine start and end X (tile coordinates) of the corridor floor.
+					var start_x = int(min(door_a_tile.x, door_b_tile.x))
+					var end_x = int(max(door_a_tile.x, door_b_tile.x))
+					
+					# Draw the floor tiles for the corridor.
+					for x in range(start_x, end_x + 1):
+						for y in [row, row + 1]:
+							_draw_floor(Vector2i(x, y))
+					
+					# Draw walls.
+					# Horizontal sides: one row above (row - 1) and one row below (row + 2)
+					for x in range(start_x, end_x + 1):
+						_draw_wall(Vector2i(x, row - 1))
+						_draw_wall(Vector2i(x, row + 2))
+					# Vertical walls: one column left of start_x and one column right of end_x.
+					for y in range(row - 1, row + 3):
+						_draw_wall(Vector2i(start_x - 1, y))
+						_draw_wall(Vector2i(end_x + 1, y))
 
+#===============================================================================
+# HELPER DRAW FUNCTIONS (for corridors)
+#===============================================================================
 func _draw_floor(coords: Vector2i):
 	corridor_tilemap.set_cell(coords, 0, Vector2i(0,0))
 
