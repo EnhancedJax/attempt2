@@ -45,7 +45,7 @@ var room_scenes = {}
 @onready var corridor_wall_tilemap : TileMapLayer = $CorridorWallLayer
 @onready var room_container : Node = $RoomNodes
 
-func generate_new_dungeon() -> Array:
+func generate_new_dungeon() -> Dictionary:
 	# Clear previously drawn corridors, if needed.
 	corridor_tilemap.clear()
 	corridor_wall_tilemap.clear()
@@ -53,7 +53,11 @@ func generate_new_dungeon() -> Array:
 	var mat = generate()
 	place_rooms(mat)
 	draw_corridors()
-	return nodes
+	return {
+		"nodes": nodes,
+		"matrix": mat,
+		"room_scenes": room_scenes
+	}
 
 func clear_rooms():
 	# Remove all child nodes (room instances)
@@ -546,6 +550,7 @@ func place_rooms(matrix: Array) -> void:
 		
 		# Apply door configuration (for door placement/dimension data) and open all doors.
 		scene_instance.door_config = door_config
+		# scene_instance.room_id = i
 
 		# Compute world position relative to the parent Node2D.
 		var world_position = room_positions[i]

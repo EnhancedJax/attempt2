@@ -24,8 +24,6 @@ Lookup="*res://tables/lookup.gd"
 
 window/size/viewport_width=2000
 window/size/viewport_height=1150
-window/size/window_width_override=1150
-window/size/window_height_override=800
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 

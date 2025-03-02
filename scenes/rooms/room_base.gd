@@ -1,5 +1,8 @@
 extends Node2D
 
+signal signal_room_cleared()
+signal signal_player_entered()
+
 @export var id: String
 @export var dimension : Vector2i
 @export var entrances_top : Vector2i
@@ -14,9 +17,11 @@ extends Node2D
 @onready var floor_tilemap : TileMapLayer = $FloorTileLayer
 @onready var tilemap_px : int = wall_tilemap.tile_set.tile_size.x
 
+var enemy_counter : int = 0
+
+# values to be set by generator
 var room_state : int = 0 # 0: unvisited, 1: visited, 2: cleared
 var door_config =  [true, true, true, true]
-var enemy_counter : int = 0
 
 const ENTRANCES = {
 	0: "top",
@@ -31,16 +36,19 @@ func _ready() -> void:
 	set_door_opened(true)
 
 func rsignal_player_entered() -> void:
-	room_state = 1
-	set_door_opened(false)
-	$EntranceDetector.queue_free()
-	await get_tree().create_timer(2).timeout
-	start_wave()
+	signal_player_entered.emit()
+	if is_peaceful_room:
+		room_state = 2
+	elif room_state == 0:
+		room_state = 1
+		set_door_opened(false)
+		await get_tree().create_timer(1).timeout
+		start_wave()
 
 func clear_room() -> void:
 	room_state = 2
-	Main.show_title_ui("Clear!")
 	set_door_opened(true)
+	signal_room_cleared.emit()
 
 func start_wave(spawn_delay: float = 0.1) -> void: # externally managed waves`
 	var used_cells = floor_tilemap.get_used_cells()
