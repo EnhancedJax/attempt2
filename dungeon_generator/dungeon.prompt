@@ -152,3 +152,19 @@ const ROOM_SCENES = {
 Your task is to implement `draw_corridors`, based on the following gdscript, which already properly handles generating a dungeon graph, and placing the rooms on the world. You can use the two helper functions `_draw_floor` and `_draw_wall` to draw the corridors. The corridors are two wide (so vertical corridors have one more tile to the right of the `get_door_value` door tile corrdinates, and horizontal corridors have one more tile to the bottom of the door tile corrdinates.), and should additionally have walls (so total 4 tiles thick, including walls). Please set a constant `corridor_width`.
 
 The gdscript is as follows:
+
+---
+
+The following gdscript script generates a dungeon graph, and places rooms and draws corridors according to that graph. Your task is to write the functions `draw_minimap` and `update_minimap`, accept the produced `nodes` as input, and use godot's low level `_draw` process to draw the minimap. Assume the functions will not be placed in the provided script.
+
+`draw_minimap` will draw the initial minimap. The minimap works by assuming the player starts at the starting room. It only shows the rooms as well as the neighboring rooms the players has explored. When `update_minimap` is called, a node index is provided, which is the room that the player is currently at, and all the neighboring rooms should be shown.
+
+Instructions on drawing minimap:
+1. Maintain relative positions of the rooms specified in `nodes`
+2. Display each room as a transparent white square
+3. Connect each room with a transparent white line, based on the neighbor directions
+4. Each room should also have the room label (B,S,F,L,E) in the square
+5. The room the player is at should have 0.9 opacity
+6. The rooms the player did explore should have 0.7 opacity
+7. The rooms the player hasn't explored, and neighboring the explored rooms, should have 0.3 opacity
+8. Corridors should have 0.5 opacity regardless of the connected room's state
