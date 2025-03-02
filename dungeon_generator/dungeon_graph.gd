@@ -42,9 +42,23 @@ const corridor_width = 2
 var room_scenes = {}
 
 @onready var corridor_tilemap : TileMapLayer = $CorridorLayer
+@onready var room_container : Node = $RoomNodes
 
 func _ready():
 	generate_new_dungeon()
+
+func _draw():
+	
+	var color = Color(255.0, 0.0, 0.0)
+
+	var tilemap_rect = corridor_tilemap.get_used_rect()
+	var tilemap_cell_size = corridor_tilemap.tile_set.tile_size
+
+	for y in range(0, tilemap_rect.size.y):
+		draw_line(Vector2(0, y * tilemap_cell_size.y), Vector2(tilemap_rect.size.x * tilemap_cell_size.x, y * tilemap_cell_size.y), color)
+		
+	for x in range(0, tilemap_rect.size.x):
+		draw_line(Vector2(x * tilemap_cell_size.x, 0), Vector2(x * tilemap_cell_size.x, tilemap_rect.size.y * tilemap_cell_size.y), color)
 
 func _input(event):
 	if event.is_action_pressed("ui_accept"):  # This responds to Enter/Return key
@@ -61,9 +75,8 @@ func generate_new_dungeon():
 
 func clear_rooms():
 	# Remove all child nodes (room instances)
-	for child in get_children():
-		if not child is TileMapLayer:
-			child.queue_free()
+	for child in room_container.get_children():
+		child.queue_free()
 
 # Utility: convert a Vector2 position to a unique string key.
 func pos_key(pos: Vector2) -> String:
@@ -555,7 +568,7 @@ func place_rooms(matrix: Array) -> void:
 		scene_instance.position = world_position
 		
 		# Defer adding the scene instance as a child so that it gets properly added.
-		call_deferred("add_child", scene_instance)
+		room_container.call_deferred("add_child", scene_instance)
 
 
 #===============================================================================
@@ -609,19 +622,16 @@ func draw_corridors() -> void:
 					
 					# Draw the floor tiles for the corridor.
 					for x in [col, col + 1]:
-						for y in range(start_y, end_y + 1):
+						for y in range(start_y + 1, end_y ):
 							_draw_floor(Vector2i(x, y))
 					
 					# Draw walls.
 					# Vertical sides: one column to the left (col - 1) and one column to the right (col + 2)
-					for y in range(start_y, end_y + 1):
+					# Skip first to avoid overwriting existing walls. 
+					# TODO: Skip last wall. Currently, it overwrites to fix z-issues
+					for y in range(start_y + 1, end_y + 1):
 						_draw_wall(Vector2i(col - 1, y))
 						_draw_wall(Vector2i(col + 2, y))
-					# Horizontal walls: one row above and one row below.
-					# They span from (col - 1) to (col + 2).
-					for x in range(col - 1, col + 3):
-						_draw_wall(Vector2i(x, start_y - 1))
-						_draw_wall(Vector2i(x, end_y + 1))
 						
 				elif d == DIR_LEFT or d == DIR_RIGHT:
 					# Horizontal corridor.
@@ -633,19 +643,16 @@ func draw_corridors() -> void:
 					var end_x = int(max(door_a_tile.x, door_b_tile.x))
 					
 					# Draw the floor tiles for the corridor.
-					for x in range(start_x, end_x + 1):
+					for x in range(start_x + 1, end_x ):
 						for y in [row, row + 1]:
 							_draw_floor(Vector2i(x, y))
 					
 					# Draw walls.
 					# Horizontal sides: one row above (row - 1) and one row below (row + 2)
-					for x in range(start_x, end_x + 1):
+					# Skip first and last column to avoid overwriting existing walls
+					for x in range(start_x + 1, end_x):
 						_draw_wall(Vector2i(x, row - 1))
 						_draw_wall(Vector2i(x, row + 2))
-					# Vertical walls: one column left of start_x and one column right of end_x.
-					for y in range(row - 1, row + 3):
-						_draw_wall(Vector2i(start_x - 1, y))
-						_draw_wall(Vector2i(end_x + 1, y))
 
 #===============================================================================
 # HELPER DRAW FUNCTIONS (for corridors)

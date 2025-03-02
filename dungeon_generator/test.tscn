@@ -1,11 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://o4gnxfkwntm"]
+[gd_scene load_steps=4 format=3 uid="uid://o4gnxfkwntm"]
 
 [ext_resource type="Script" path="res://dungeon_generator/dungeon_graph.gd" id="1_tlbc4"]
 [ext_resource type="TileSet" uid="uid://b3hq822pff26v" path="res://scenes/rooms/level1/tileset_level1.tres" id="2_qmuf6"]
+[ext_resource type="PackedScene" uid="uid://cse6ohmf7ss6d" path="res://scenes/dev_camera_2d.tscn" id="3_c7yjr"]
 
-[node name="Node2D" type="Node2D"]
-position = Vector2(381, 291)
+[node name="Dungeon" type="Node2D"]
 script = ExtResource("1_tlbc4")
+
+[node name="DevCamera2D" parent="." instance=ExtResource("3_c7yjr")]
+
+[node name="RoomNodes" type="Node2D" parent="."]
 
 [node name="CorridorLayer" type="TileMapLayer" parent="."]
 z_as_relative = false
