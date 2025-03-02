@@ -7,6 +7,8 @@ extends Node2D
 @export var entrances_bottom : Vector2i
 @export var entrances_right : Vector2i
 @export var enemy_scenes: Array[PackedScene] = []
+@export var is_peaceful_room : bool = false
+@export var enemy_count : int
 
 @onready var wall_tilemap : TileMapLayer = $WallTileLayer
 @onready var floor_tilemap : TileMapLayer = $FloorTileLayer
@@ -14,6 +16,7 @@ extends Node2D
 
 var room_state : int = 0 # 0: unvisited, 1: visited, 2: cleared
 var door_config =  [true, true, true, true]
+var enemy_counter : int = 0
 
 const ENTRANCES = {
 	0: "top",
@@ -36,19 +39,25 @@ func rsignal_player_entered() -> void:
 
 func clear_room() -> void:
 	room_state = 2
+	Main.show_title_ui("Clear!")
 	set_door_opened(true)
 
-func start_wave(enemy_count: int = 5, spawn_delay: float = 0.1) -> void: # externally managed waves`
+func start_wave(spawn_delay: float = 0.1) -> void: # externally managed waves`
 	var used_cells = floor_tilemap.get_used_cells()
 	used_cells.shuffle()
 	for i in range(enemy_count):
 		var random_index = randi() % enemy_scenes.size()
-		var enemy = enemy_scenes[random_index].instantiate()
+		var enemy: EntityBase = enemy_scenes[random_index].instantiate()
 		var local: Vector2 = used_cells[i] * tilemap_px
 		enemy.global_position = local * global_scale + self.global_position
-		Main.control.get_child(1).add_child(enemy)
+		enemy.connect("signal_death", rsignal_spawned_enemy_died)
+		Main.control.get_child(3).add_child(enemy)
 		await get_tree().create_timer(spawn_delay).timeout
 
+func rsignal_spawned_enemy_died() -> void:
+	enemy_counter += 1
+	if enemy_counter == enemy_count:
+		clear_room()
 
 # /* ------------ Internals ----------- */
 

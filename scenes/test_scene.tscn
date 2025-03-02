@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://n8q8byxcgm0s"]
+
+[ext_resource type="Script" path="res://scene.gd" id="1_x2po7"]
+[ext_resource type="PackedScene" uid="uid://qgtqua65lnyp" path="res://entities/player/player.tscn" id="2_sccm7"]
+[ext_resource type="PackedScene" uid="uid://728xqa5cdqim" path="res://scenes/misc/interaction_label.tscn" id="3_xtngn"]
+[ext_resource type="PackedScene" uid="uid://vo0xrja3uy5k" path="res://hud/game_hud.tscn" id="4_kj5q2"]
+
+[node name="GameLevel" type="Control"]
+y_sort_enabled = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = -1.0
+offset_top = -1.0
+offset_right = -1.0
+offset_bottom = -1.0
+script = ExtResource("1_x2po7")
+
+[node name="TileLayer" type="Node2D" parent="."]
+y_sort_enabled = true
+scale = Vector2(8, 8)
+
+[node name="GroundLayer" type="Node2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("2_sccm7")]
+position = Vector2(-309, 628)
+
+[node name="EnemyLayer" type="Node2D" parent="."]
+
+[node name="TextLayer" type="Node2D" parent="."]
+z_index = 10
+
+[node name="InteractionLabel" parent="TextLayer" instance=ExtResource("3_xtngn")]
+visible = false
+
+[node name="Viewport" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="Viewport" instance=ExtResource("4_kj5q2")]
+process_mode = 3
+metadata/_edit_lock_ = true

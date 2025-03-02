@@ -42,36 +42,18 @@ const corridor_width = 2
 var room_scenes = {}
 
 @onready var corridor_tilemap : TileMapLayer = $CorridorLayer
+@onready var corridor_wall_tilemap : TileMapLayer = $CorridorWallLayer
 @onready var room_container : Node = $RoomNodes
 
-func _ready():
-	generate_new_dungeon()
-
-func _draw():
-	
-	var color = Color(255.0, 0.0, 0.0)
-
-	var tilemap_rect = corridor_tilemap.get_used_rect()
-	var tilemap_cell_size = corridor_tilemap.tile_set.tile_size
-
-	for y in range(0, tilemap_rect.size.y):
-		draw_line(Vector2(0, y * tilemap_cell_size.y), Vector2(tilemap_rect.size.x * tilemap_cell_size.x, y * tilemap_cell_size.y), color)
-		
-	for x in range(0, tilemap_rect.size.x):
-		draw_line(Vector2(x * tilemap_cell_size.x, 0), Vector2(x * tilemap_cell_size.x, tilemap_rect.size.y * tilemap_cell_size.y), color)
-
-func _input(event):
-	if event.is_action_pressed("ui_accept"):  # This responds to Enter/Return key
-		generate_new_dungeon()
-
-func generate_new_dungeon():
+func generate_new_dungeon() -> Array:
 	# Clear previously drawn corridors, if needed.
 	corridor_tilemap.clear()
+	corridor_wall_tilemap.clear()
 	clear_rooms()
 	var mat = generate()
 	place_rooms(mat)
-	# Once the rooms are placed, draw the corridors.
 	draw_corridors()
+	return nodes
 
 func clear_rooms():
 	# Remove all child nodes (room instances)
@@ -416,19 +398,19 @@ const GAP      := 6  * TILE_SIZE  # minimum pixel gap between rooms
 
 const ROOM_SCENES = {
 	RoomType.B: [
-		preload("res://scenes/rooms/room_base.tscn"),
+		preload("res://scenes/rooms/level1/start.tscn"),
 	],
 	RoomType.E: [
-		preload("res://scenes/rooms/level1/room2.tscn"),
+		preload("res://scenes/rooms/level1/enemy1.tscn"),
 	],
 	RoomType.L: [
-		preload("res://scenes/rooms/level1/room1.tscn"),
+		preload("res://scenes/rooms/level1/loot.tscn"),
 	],
 	RoomType.S: [
 		preload("res://scenes/rooms/level1/shop.tscn"),
 	],
 	RoomType.F: [
-		preload("res://scenes/rooms/room_base.tscn"),
+		preload("res://scenes/rooms/level1/end.tscn"),
 	]
 }
 
@@ -512,7 +494,8 @@ func place_rooms(matrix: Array) -> void:
 		# Get the room's type from its 'nodes' dictionary.
 		var room_type: int = nodes[i].type
 		# Instantiate the scene based on the room's type.
-		room_scenes[i] = ROOM_SCENES[room_type][0].instantiate()
+		var scene_list = ROOM_SCENES[room_type]
+		room_scenes[i] = scene_list[randi() % scene_list.size()].instantiate()
 	
 	# Create a dictionary to map room id -> computed world position (as Vector2).
 	# In these positions, the room scene’s top-left corner is considered the origin.
@@ -549,6 +532,7 @@ func place_rooms(matrix: Array) -> void:
 	# The computed position represents the room's top-left corner in world space (in pixels).
 	for i in range(total_rooms):
 		var scene_instance = room_scenes[i]
+		# var room_type = nodes[i].type
 		
 		# Configure door settings based on connections from the matrix.
 		var door_config = [false, false, false, false]  # [top, left, bottom, right]
@@ -562,9 +546,9 @@ func place_rooms(matrix: Array) -> void:
 		
 		# Apply door configuration (for door placement/dimension data) and open all doors.
 		scene_instance.door_config = door_config
-		
+
 		# Compute world position relative to the parent Node2D.
-		var world_position = room_positions[i] + self.global_position
+		var world_position = room_positions[i]
 		scene_instance.position = world_position
 		
 		# Defer adding the scene instance as a child so that it gets properly added.
@@ -661,4 +645,4 @@ func _draw_floor(coords: Vector2i):
 	corridor_tilemap.set_cell(coords, 0, Vector2i(0,0))
 
 func _draw_wall(coords: Vector2i):
-	corridor_tilemap.set_cell(coords, 1, Vector2i(0,0))
+	corridor_wall_tilemap.set_cell(coords, 1, Vector2i(0,0))

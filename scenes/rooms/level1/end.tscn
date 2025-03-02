@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://28vuvuyo3ku5"]
+
+[ext_resource type="PackedScene" uid="uid://oue2kr2eaavc" path="res://scenes/rooms/room_base.tscn" id="1_23qks"]
+
+[node name="RoomBase" instance=ExtResource("1_23qks")]
+entrances_top = Vector2i(4, 0)
+entrances_bottom = Vector2i(4, 8)
+entrances_right = Vector2i(8, 4)
+enemy_scenes = Array[PackedScene]([])
+is_peaceful_room = true
+
+[node name="EntranceDetector" parent="." index="2"]
+visible = false
+monitoring = false
+monitorable = false

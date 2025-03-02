@@ -1,8 +1,10 @@
 class_name EntityBase extends CharacterBody2D
 
-const FLOATING_NUMBER = preload("res://scenes/floating_number.tscn")
+const FLOATING_NUMBER = preload("res://scenes/misc/floating_number.tscn")
 
 @export var is_protagonist: bool = true # changes weapon class
+
+signal signal_death()
 
 @onready var animatedSprite2D: AnimatedSprite2D = $AnimatedSprite2D
 @onready var animationPlayer: AnimationPlayer = $AnimatedSprite2D/AnimationPlayer
@@ -63,6 +65,7 @@ func rsignal_weapon_did_use(attack: AttackBase):
 	print('Entity used weapon with attack: ', attack)
 
 func do_die():
+	signal_death.emit()
 	queue_free()
 
 # /* ------------ Interals ------------ */

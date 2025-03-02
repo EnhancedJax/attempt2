@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://728xqa5cdqim"]
 
 [ext_resource type="FontFile" uid="uid://df64tdvvkoab1" path="res://pending_assets/Fonts/minecraft_font.ttf" id="1_gi4im"]
-[ext_resource type="Script" path="res://scenes/interaction_label.gd" id="2_87jry"]
+[ext_resource type="Script" path="res://scenes/misc/interaction_label.gd" id="2_87jry"]
 
 [sub_resource type="Theme" id="Theme_dn8rj"]
 default_font = ExtResource("1_gi4im")

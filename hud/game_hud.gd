@@ -51,4 +51,7 @@ func show_title(str: String):
 	var scene = title.instantiate()
 	scene.set_text(str)
 	add_child(scene)
-	
+
+
+func load_minimap(room_nodes: Array):
+	pass
