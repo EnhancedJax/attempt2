@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bi2vgn0gq31rt"]
+
+[node name="MinimapCorridor" type="ColorRect"]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.760784, 0.752941, 0.74902, 1)

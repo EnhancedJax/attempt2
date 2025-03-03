@@ -43,7 +43,8 @@ func rsignal_player_entered() -> void:
 		room_state = 1
 		set_door_opened(false)
 		await get_tree().create_timer(1).timeout
-		start_wave()
+		# start_wave()
+		clear_room()
 
 func clear_room() -> void:
 	room_state = 2

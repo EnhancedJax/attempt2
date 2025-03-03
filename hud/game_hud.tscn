@@ -1,11 +1,23 @@
-[gd_scene load_steps=8 format=3 uid="uid://vo0xrja3uy5k"]
+[gd_scene load_steps=10 format=3 uid="uid://vo0xrja3uy5k"]
 
 [ext_resource type="Script" path="res://hud/game_hud.gd" id="1_msi3a"]
-[ext_resource type="PackedScene" uid="uid://c0ruejq22ceds" path="res://hud/minimap/minimap.tscn" id="2_mdmeu"]
+[ext_resource type="Script" path="res://hud/minimap.gd" id="2_5l0xr"]
 [ext_resource type="Texture2D" uid="uid://ci77yje5cwen5" path="res://hud/heart_bg.tres" id="2_ti8pg"]
 [ext_resource type="Texture2D" uid="uid://g2j8odyvauwq" path="res://hud/heart_half_color.tres" id="3_4w0yt"]
 [ext_resource type="Texture2D" uid="uid://c36y3l0uhyhak" path="res://hud/assets/circle.png" id="3_n6fa7"]
 [ext_resource type="PackedScene" uid="uid://hbscyswbcwmc" path="res://hud/title/title.tscn" id="5_iwsok"]
+
+[sub_resource type="Gradient" id="Gradient_flvoc"]
+offsets = PackedFloat32Array(0.687356, 0.751724)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wgepp"]
+gradient = SubResource("Gradient_flvoc")
+width = 400
+height = 400
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.046398, 0)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xm3kd"]
 texture = ExtResource("3_n6fa7")
@@ -20,8 +32,34 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_msi3a")
 
-[node name="Minimap" parent="." instance=ExtResource("2_mdmeu")]
+[node name="Minimap" type="Control" parent="."]
 layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -450.0
+offset_top = 50.0
+offset_right = -50.0
+offset_bottom = 450.0
+grow_horizontal = 0
+
+[node name="Clipper" type="Sprite2D" parent="Minimap"]
+clip_children = 1
+texture = SubResource("GradientTexture2D_wgepp")
+centered = false
+
+[node name="MinimapGenerator" type="Control" parent="Minimap/Clipper"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -400.0
+offset_bottom = 400.0
+grow_horizontal = 0
+script = ExtResource("2_5l0xr")
+
+[node name="Positioner" type="Node2D" parent="Minimap/Clipper/MinimapGenerator"]
+clip_children = 1
 
 [node name="HeartConainer" type="HBoxContainer" parent="."]
 layout_mode = 0
