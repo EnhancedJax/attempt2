@@ -18,8 +18,8 @@ var is_walking_backwards : bool = false
 var is_invincible : bool = false
 var weapon_node : Node2D
 
-const FRICTION: float = 4000.0  # Base friction force
-const FORCE_THRESHOLD: float = 5.0  # Minimum velocity to apply friction
+const FRICTION: float = 40000.0
+var extra_velocity: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	animatedSprite2D.play("default")
@@ -32,7 +32,13 @@ func _process(_delta: float) -> void:
 	is_walking_backwards = velocity.x > 0 if is_walking_left else velocity.x < 0
 	animatedSprite2D.flip_h = get_aim_position().x < global_position.x
 
-func _physics_process(delta: float) -> void:
+func physics_update(delta: float) -> void:
+	var extra_velocity_move_toward = Vector2.ZERO
+	if extra_velocity:
+		extra_velocity_move_toward = lerp(extra_velocity, Vector2.ZERO, 0.1)
+		extra_velocity = Vector2.ZERO
+	
+	velocity = velocity + extra_velocity_move_toward
 	move_and_slide()
 
 # /* ------------- Methods ------------ */
@@ -45,7 +51,6 @@ func get_aim_position() -> Vector2:
 		return Vector2.ZERO
 
 func rsignal_hitbox_hit(attack: AttackBase):
-	print('Entity was hit')
 	if is_invincible:
 		return
 	
@@ -62,24 +67,13 @@ func rsignal_health_depleted():
 	do_die()
 
 func rsignal_weapon_did_use(attack: AttackBase):
-	print('Entity used weapon with attack: ', attack)
+	pass
 
 func do_die():
 	signal_death.emit()
 	queue_free()
 
 # /* ------------ Interals ------------ */
-
-func apply_friction(delta: float) -> void:
-	if velocity.length() < FORCE_THRESHOLD:
-		velocity = Vector2.ZERO
-		return
-		
-	var friction_force = velocity.normalized() * -FRICTION * delta
-	if friction_force.length() > velocity.length():
-		velocity = Vector2.ZERO
-	else:
-		velocity += friction_force
 
 func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
 	var weapon = Lookup.get_weapon(weapon_id, is_protagonist)
@@ -97,7 +91,7 @@ func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
 	return weapon
 
 func apply_force(force: Vector2) -> void:
-	velocity += force
+	extra_velocity += force
 
 func show_damage_number(damage: int):
 	var damage_number = FLOATING_NUMBER.instantiate()

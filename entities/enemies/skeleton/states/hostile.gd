@@ -15,10 +15,12 @@ var is_bursting := false
 var strafe_direction := 1.0  # 1 for right, -1 for left
 var strafe_change_timer := 0.0
 
+var p
 
 func enter():
     sm.animatedSprite.play("default")
     randomize()
+    p = sm.parent
     
 func physics_update(delta : float):
     var player = Main.player
@@ -76,12 +78,14 @@ func physics_update(delta : float):
         elif distance < IDEAL_DISTANCE - DISTANCE_TOLERANCE:
             movement -= direction * STRAFE_SPEED
         
-        # Apply movement
-        sm.parent.velocity = movement
-        sm.parent.move_and_slide()
+        # Apply movement using move_toward
+        p.velocity = p.velocity.move_toward(movement, 40000 * delta)
         
         # Handle weapon use during burst
         if is_bursting:
             sm.parent.weapon_node.handle_use(delta, true)
     else:
-        sm.parent.velocity = Vector2.ZERO
+        p.velocity = Vector2.ZERO
+    
+    # Call physics_update on sm.parent
+    p.physics_update(delta)

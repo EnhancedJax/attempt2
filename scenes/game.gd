@@ -6,6 +6,7 @@ func _ready() -> void:
 	Main.hud.draw_minimap(result_dict['nodes'])
 	for i in result_dict['room_scenes'].size():
 		var scene = result_dict['room_scenes'][i]
+	
 		scene.signal_player_entered.connect(rsignal_player_entered.bind(i))
 		scene.signal_room_cleared.connect(rsignal_room_cleared)
 

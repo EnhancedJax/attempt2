@@ -10,12 +10,12 @@ script = ExtResource("1_ff6w2")
 [node name="RoomNodes" type="Node2D" parent="."]
 y_sort_enabled = true
 
-[node name="CorridorLayer" type="TileMapLayer" parent="."]
+[node name="FloorTileLayer" type="TileMapLayer" parent="."]
 z_index = -1
 z_as_relative = false
 tile_set = ExtResource("2_mnl1e")
 
-[node name="CorridorWallLayer" type="TileMapLayer" parent="."]
+[node name="WallTileLayer" type="TileMapLayer" parent="."]
 z_as_relative = false
 y_sort_enabled = true
 tile_set = ExtResource("2_mnl1e")

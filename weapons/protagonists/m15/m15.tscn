@@ -17,8 +17,8 @@ stream_0/stream = ExtResource("3_ceglm")
 [node name="M15" instance=ExtResource("1_j4sq8")]
 script = ExtResource("2_xu0o0")
 damage = 10
-knockback = 200.0
-recoil = 100.0
+knockback = 2000.0
+recoil = 1000.0
 spread = 5.0
 
 [node name="RandomizedAudio" parent="." index="0"]

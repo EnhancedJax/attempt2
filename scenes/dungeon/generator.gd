@@ -41,8 +41,8 @@ const corridor_width = 2
 # We'll also store the room scenes in a dictionary for corridor drawing.
 var room_scenes = {}
 
-@onready var corridor_tilemap : TileMapLayer = $CorridorLayer
-@onready var corridor_wall_tilemap : TileMapLayer = $CorridorWallLayer
+@onready var corridor_tilemap : TileMapLayer = $FloorTileLayer
+@onready var corridor_wall_tilemap : TileMapLayer = $WallTileLayer
 @onready var room_container : Node = $RoomNodes
 
 func generate_new_dungeon() -> Dictionary:

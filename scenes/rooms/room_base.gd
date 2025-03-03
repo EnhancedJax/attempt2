@@ -42,9 +42,9 @@ func rsignal_player_entered() -> void:
 	elif room_state == 0:
 		room_state = 1
 		set_door_opened(false)
-		await get_tree().create_timer(1).timeout
-		# start_wave()
-		clear_room()
+		# await get_tree().create_timer(1).timeout
+		start_wave()
+		# clear_room()
 
 func clear_room() -> void:
 	room_state = 2
@@ -60,7 +60,7 @@ func start_wave(spawn_delay: float = 0.1) -> void: # externally managed waves`
 		var local: Vector2 = used_cells[i] * tilemap_px
 		enemy.global_position = local * global_scale + self.global_position
 		enemy.connect("signal_death", rsignal_spawned_enemy_died)
-		Main.control.get_child(3).add_child(enemy)
+		Main.control.get_child(3).call_deferred("add_child", enemy)
 		await get_tree().create_timer(spawn_delay).timeout
 
 func rsignal_spawned_enemy_died() -> void:

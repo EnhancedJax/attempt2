@@ -1,38 +1,43 @@
 class_name PlayerRoll extends State
 
-@export var ROLL_SPEED : float = 1500
+@export var ROLL_SPEED : float = 2000
 @export var ROLL_DURATION : float = 0.2
 @export var PLAYER_HITBOX : HitboxComponent
 
 @onready var sm: PlayerStateMachine = get_parent()
+var p
 var roll_direction : Vector2
 var roll_timer : float = 0
 var rotation_direction : float
 
 func enter() -> void:
+	p = sm.player
 	roll_timer = ROLL_DURATION
 	set_invincible(true)
 	
 	var input_dir = Input.get_vector("left", "right", "up", "down")
-	roll_direction = input_dir if input_dir != Vector2.ZERO else (sm.player.get_aim_position() - sm.player.global_position).normalized()
+	roll_direction = input_dir if input_dir != Vector2.ZERO else (p.get_aim_position() - p.global_position).normalized()
 	
 	# Determine rotation direction based on facing and movement
-	rotation_direction = -1.0 if sm.player.is_walking_backwards else 1.0
-	if sm.player.is_walking_left:
+	rotation_direction = -1.0 if p.is_walking_backwards else 1.0
+	if p.is_walking_left:
 		rotation_direction *= -1
+	
+	p.extra_velocity += ROLL_SPEED * roll_direction
 
 func physics_update(delta: float) -> void:
 	roll_timer -= delta
-	sm.player.velocity = roll_direction * ROLL_SPEED
 	sm.animatedSprite.rotation_degrees += rotation_direction * (360.0 * delta / ROLL_DURATION)
 	
 	if roll_timer <= 0:
 		sm.animatedSprite.rotation_degrees = 0
 		set_invincible(false)
 		sm.on_child_transition(self, "Walk")
+	
+	p.physics_update(delta)
 
 func exit() -> void:
-	sm.player.rotation_degrees = 0
+	p.rotation_degrees = 0
 	set_invincible(false)
 
 func set_invincible(value: bool) -> void:

@@ -13,7 +13,6 @@ func register_attack(attack: AttackBase) -> void:
 	ATTACK = attack
 
 func handle_hitbox_entered(area: Area2D) -> void:
-	print(ATTACK.towards_vector)
 	area.hit(ATTACK)
 	queue_free()
 
@@ -24,6 +23,5 @@ func rsignal_body_entered(body: Node2D) -> void:
 		queue_free()
 
 func rsignal_area_entered(area: Area2D) -> void:
-	print('entered area', area)
 	if area.has_method("hit"):
 		handle_hitbox_entered(area)

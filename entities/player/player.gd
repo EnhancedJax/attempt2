@@ -34,10 +34,9 @@ func get_aim_position() -> Vector2:
 
 func rsignal_weapon_did_use(attack: AttackBase):
 	$Camera2D.apply_shake(5)
-	self.apply_force(-attack.towards_vector * attack.recoil)
+	apply_force(-attack.towards_vector * attack.recoil)
 
 func rsignal_hitbox_hit(attack: AttackBase):
-	print('Entity was hit')
 	if is_invincible:
 		return
 	
