@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://4fr4ngaevi8a"]
 
-[ext_resource type="Script" path="res://components/fire/semi_auto/_semi_auto.gd" id="1_shcdx"]
+[ext_resource type="Script" uid="uid://ckou2wumfu060" path="res://components/fire/semi_auto/_semi_auto.gd" id="1_shcdx"]
 
 [node name="SemiAutoComponent" type="Node"]
 script = ExtResource("1_shcdx")

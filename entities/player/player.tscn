@@ -1,14 +1,14 @@
 [gd_scene load_steps=27 format=3 uid="uid://qgtqua65lnyp"]
 
 [ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_mfkho"]
-[ext_resource type="Script" path="res://entities/player/player.gd" id="2_2vuf7"]
+[ext_resource type="Script" uid="uid://ba5txnl57okqe" path="res://entities/player/player.gd" id="2_2vuf7"]
 [ext_resource type="Shader" uid="uid://b4ndlpkl4rwho" path="res://entities/flash.tres" id="2_k7sbt"]
-[ext_resource type="Script" path="res://entities/player/state_node.gd" id="3_l7dpn"]
-[ext_resource type="Script" path="res://entities/player/states/idle.gd" id="4_fuwg5"]
+[ext_resource type="Script" uid="uid://bbfbndv4n0nys" path="res://entities/player/state_node.gd" id="3_l7dpn"]
+[ext_resource type="Script" uid="uid://bux4n7x1kdcds" path="res://entities/player/states/idle.gd" id="4_fuwg5"]
 [ext_resource type="Texture2D" uid="uid://j3gso0vhpoj5" path="res://entities/player/Player.png" id="4_vo5if"]
-[ext_resource type="Script" path="res://entities/player/states/walk.gd" id="5_80dvk"]
-[ext_resource type="Script" path="res://entities/player/states/roll.gd" id="6_uefxj"]
-[ext_resource type="Script" path="res://entities/player/camera.gd" id="8_p7rki"]
+[ext_resource type="Script" uid="uid://b4081cqtyc53y" path="res://entities/player/states/walk.gd" id="5_80dvk"]
+[ext_resource type="Script" uid="uid://dff7xdwabhnu" path="res://entities/player/states/roll.gd" id="6_uefxj"]
+[ext_resource type="Script" uid="uid://3urgwh1665ut" path="res://entities/player/camera.gd" id="8_p7rki"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7rklg"]
 resource_local_to_scene = true
@@ -145,8 +145,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_aufv5"]
 _data = {
-"RESET": SubResource("Animation_i6u7x"),
-"take_attack": SubResource("Animation_f27go")
+&"RESET": SubResource("Animation_i6u7x"),
+&"take_attack": SubResource("Animation_f27go")
 }
 
 [node name="Player" instance=ExtResource("1_mfkho")]

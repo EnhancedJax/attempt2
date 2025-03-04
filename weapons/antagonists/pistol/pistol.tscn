@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://yembkp5ltkyf"]
 
 [ext_resource type="PackedScene" uid="uid://dnxw7kqi21unw" path="res://weapons/weapon_base.tscn" id="1_0ayoa"]
-[ext_resource type="Script" path="res://weapons/antagonists/pistol/pistol.gd" id="2_rm0xp"]
+[ext_resource type="Script" uid="uid://tldu2i7h8rky" path="res://weapons/antagonists/pistol/pistol.gd" id="2_rm0xp"]
 [ext_resource type="AudioStream" uid="uid://d0d2lkh2xvthi" path="res://pending_assets/sounds/rifle_single.wav" id="3_1ji76"]
 [ext_resource type="Texture2D" uid="uid://380aiwvwqavg" path="res://weapons/antagonists/pistol/Luger.png" id="4_bnuy4"]
 [ext_resource type="PackedScene" uid="uid://cyyhdytcpd73i" path="res://components/bullet_spawner/basic_linear/node.tscn" id="5_loh1g"]

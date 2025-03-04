@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cuiahy254v43"]
 
-[ext_resource type="Script" path="res://components/fire/full_auto/_full_auto.gd" id="1_bk3q8"]
+[ext_resource type="Script" uid="uid://dbscjf8gin5xl" path="res://components/fire/full_auto/_full_auto.gd" id="1_bk3q8"]
 
 [node name="FullAutoComponent" type="Node"]
 script = ExtResource("1_bk3q8")

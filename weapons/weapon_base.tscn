@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dnxw7kqi21unw"]
 
-[ext_resource type="Script" path="res://weapons/weapon_base.gd" id="1_fqo6c"]
+[ext_resource type="Script" uid="uid://nhljx7rj7myl" path="res://weapons/weapon_base.gd" id="1_fqo6c"]
 [ext_resource type="PackedScene" uid="uid://culkeogipbs3r" path="res://scenes/misc/randomized_audio.tscn" id="2_mnvwy"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8bifm"]

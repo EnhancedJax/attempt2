@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=4 uid="uid://oue2kr2eaavc"]
 
-[ext_resource type="Script" path="res://scenes/rooms/room_base.gd" id="1_ptmbc"]
+[ext_resource type="Script" uid="uid://drxtp5a6b6sav" path="res://scenes/rooms/room_base.gd" id="1_ptmbc"]
 [ext_resource type="TileSet" uid="uid://b3hq822pff26v" path="res://scenes/rooms/level1/tileset_level1.tres" id="3_y663u"]
-[ext_resource type="Script" path="res://scenes/rooms/room_entrance_detector.tres.gd" id="3_yvixq"]
+[ext_resource type="Script" uid="uid://c3v8sc1ja8df1" path="res://scenes/rooms/room_entrance_detector.tres.gd" id="3_yvixq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pu58b"]
 size = Vector2(32, 16)

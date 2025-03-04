@@ -1,12 +1,12 @@
 [gd_scene load_steps=25 format=3 uid="uid://dvecs081bwo7i"]
 
 [ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_hs5hs"]
-[ext_resource type="Script" path="res://entities/enemies/skeleton/skeleton.gd" id="2_0cjm2"]
+[ext_resource type="Script" uid="uid://bknvveymhi5f2" path="res://entities/enemies/skeleton/skeleton.gd" id="2_0cjm2"]
 [ext_resource type="Shader" uid="uid://b4ndlpkl4rwho" path="res://entities/flash.tres" id="2_rqo55"]
 [ext_resource type="Texture2D" uid="uid://bdtq30ar282jb" path="res://entities/enemies/skeleton/Skeleton.png" id="4_1r53m"]
-[ext_resource type="Script" path="res://entities/enemies/skeleton/state_node.gd" id="5_p3ot6"]
-[ext_resource type="Script" path="res://entities/enemies/skeleton/states/idle.gd" id="6_3510d"]
-[ext_resource type="Script" path="res://entities/enemies/skeleton/states/hostile.gd" id="7_rs3xq"]
+[ext_resource type="Script" uid="uid://4508clq887vd" path="res://entities/enemies/skeleton/state_node.gd" id="5_p3ot6"]
+[ext_resource type="Script" uid="uid://dwgubkt6224iq" path="res://entities/enemies/skeleton/states/idle.gd" id="6_3510d"]
+[ext_resource type="Script" uid="uid://0gq6mfuh3tex" path="res://entities/enemies/skeleton/states/hostile.gd" id="7_rs3xq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rwji0"]
 resource_local_to_scene = true
@@ -143,8 +143,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_aufv5"]
 _data = {
-"RESET": SubResource("Animation_i6u7x"),
-"take_attack": SubResource("Animation_f27go")
+&"RESET": SubResource("Animation_i6u7x"),
+&"take_attack": SubResource("Animation_f27go")
 }
 
 [node name="Skeleton" instance=ExtResource("1_hs5hs")]

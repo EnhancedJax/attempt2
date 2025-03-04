@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://nl6av3r2mo54"]
 
-[ext_resource type="Script" path="res://entities/entity_base.gd" id="1_cwi3m"]
+[ext_resource type="Script" uid="uid://ba77mn8y1am0t" path="res://entities/entity_base.gd" id="1_cwi3m"]
 [ext_resource type="PackedScene" uid="uid://piih37x1adkq" path="res://components/hitbox/_hitbox.tscn" id="9_i1meg"]
-[ext_resource type="Script" path="res://components/health/_health.gd" id="9_vj8qu"]
+[ext_resource type="Script" uid="uid://d1hvaioyu3shf" path="res://components/health/_health.gd" id="9_vj8qu"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_16ehe"]
 radius = 5.0

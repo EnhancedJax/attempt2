@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ga3jop4y2drr"]
 
-[ext_resource type="Script" path="res://minimap_tile.gd" id="1_8i6iv"]
+[ext_resource type="Script" uid="uid://ck6w2tayss4yv" path="res://minimap_tile.gd" id="1_8i6iv"]
 [ext_resource type="StyleBox" uid="uid://dcluax4u0tfc8" path="res://hud/minimap/current.tres" id="1_naqit"]
 
 [node name="MinimapTile" type="PanelContainer"]
