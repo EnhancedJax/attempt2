@@ -6,6 +6,7 @@ var max_weapons_count : int = 2
 @onready var label : Label = $Label
 @onready var label_timeout : Timer = $LabelTimeout
 @onready var invincibility_timer: Timer = $InvincibilityTimer
+var weapon_nodes: Dictionary[int, WeaponBase] = {} # new: cache for weapon nodes
 
 func _ready():
 	super._ready()
@@ -54,7 +55,28 @@ func rsignal_health_deducted(health: int, max_health: int):
 	Main.update_health_ui()
 
 func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
-	var weapon = super.equip_weapon(weapon_id)
+	var weapon = Lookup.get_weapon(weapon_id, is_protagonist)
+	if weapon_node:
+		# disable current weapon instead of unloading
+		weapon_node.visible = false
+		# weapon_node.set_process(false)
+	
+	# reuse cached weapon node if exists; otherwise, instantiate and cache it.
+	if weapon_id in weapon_nodes:
+		weapon_node = weapon_nodes[weapon_id]
+		weapon_node.visible = true
+		# weapon_node.set_process(true)
+	else:
+		weapon_node = weapon.scene.instantiate()
+		weapon_node.connect("signal_weapon_did_use", rsignal_weapon_did_use)
+		weapon_node.position = weaponOrigin.position
+		weapon_node.visible = false
+		add_child(weapon_node)
+		weapon_nodes[weapon_id] = weapon_node
+		weapon_node.visible = true
+		# weapon_node.set_process(true)
+	
+	# update UI and label
 	label.visible = true
 	label.text = weapon.name
 	label_timeout.start()
@@ -73,13 +95,18 @@ func pickup_weapon(weapon_id: int) -> int:
 	"""
 	Picks up weapon and returns the weapon that was dropped
 	"""
-	equip_weapon(weapon_id)
 	if weapons.size() == max_weapons_count:
 		var dropped_weapon = weapons[equipped_weapon_index]
 		weapons.remove_at(equipped_weapon_index)
 		weapons.insert(equipped_weapon_index, weapon_id)
+		# if dropped weapon has a cached node, unload it since it is being dropped
+		if dropped_weapon in weapon_nodes:
+			weapon_nodes[dropped_weapon].queue_free()
+			weapon_nodes.erase(dropped_weapon)
+		equip_weapon(weapon_id)
 		return dropped_weapon
 	else:
 		weapons.push_back(weapon_id)
 		equipped_weapon_index = weapons.size() - 1
+		equip_weapon(weapon_id)
 		return -1

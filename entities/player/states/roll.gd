@@ -2,7 +2,7 @@ class_name PlayerRoll extends State
 
 @export var ROLL_SPEED : float = 2000
 @export var ROLL_DURATION : float = 0.2
-@export var PLAYER_HITBOX : HitboxComponent
+@export var PLAYER_HURTBOX : HurtboxComponent
 
 @onready var sm: PlayerStateMachine = get_parent()
 var p
@@ -41,4 +41,4 @@ func exit() -> void:
 	set_invincible(false)
 
 func set_invincible(value: bool) -> void:
-	PLAYER_HITBOX.set_collision_layer_value(6, !value)
+	PLAYER_HURTBOX.set_collision_mask_value(2, !value)

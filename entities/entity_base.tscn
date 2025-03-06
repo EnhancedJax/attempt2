@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://nl6av3r2mo54"]
 
 [ext_resource type="Script" uid="uid://ba77mn8y1am0t" path="res://entities/entity_base.gd" id="1_cwi3m"]
-[ext_resource type="PackedScene" uid="uid://piih37x1adkq" path="res://components/hitbox/_hitbox.tscn" id="9_i1meg"]
+[ext_resource type="PackedScene" uid="uid://piih37x1adkq" path="res://components/hurtbox/_hurtbox.tscn" id="9_i1meg"]
 [ext_resource type="Script" uid="uid://d1hvaioyu3shf" path="res://components/health/_health.gd" id="9_vj8qu"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_16ehe"]
@@ -31,10 +31,10 @@ script = SubResource("GDScript_jp7cd")
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("9_vj8qu")
 
-[node name="HitboxComponent" parent="." instance=ExtResource("9_i1meg")]
-collision_mask = 3
+[node name="HurtboxComponent" parent="." instance=ExtResource("9_i1meg")]
+collision_mask = 5
 
-[node name="Shape" type="CollisionShape2D" parent="HitboxComponent"]
+[node name="Shape" type="CollisionShape2D" parent="HurtboxComponent"]
 position = Vector2(0, -2)
 shape = SubResource("CapsuleShape2D_sbw4g")
 

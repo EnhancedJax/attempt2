@@ -11,7 +11,7 @@ signal signal_death()
 @onready var damageNumbersOrigin : Marker2D = $DamageNumbersOrigin
 @onready var weaponOrigin : Marker2D = $WeaponOrigin
 @onready var _health : HealthComponent = $HealthComponent
-@onready var _hitbox : Area2D = $HitboxComponent
+@onready var _hurtbox : Area2D = $HurtboxComponent
 
 var is_walking_left : bool = false
 var is_walking_backwards : bool = false
@@ -25,7 +25,7 @@ func _ready() -> void:
 	animatedSprite2D.play("default")
 	_health.connect("signal_health_deducted", rsignal_health_deducted)
 	_health.connect("signal_health_depleted", rsignal_health_depleted)
-	_hitbox.connect("signal_hit", rsignal_hitbox_hit)
+	_hurtbox.connect("signal_hit", rsignal_hitbox_hit)
 
 func _process(_delta: float) -> void:
 	is_walking_left = velocity.x < 0
@@ -75,9 +75,9 @@ func do_die():
 
 # /* ------------ Interals ------------ */
 
+# overriden by the player class for custom implementation. Still valid for enemies and allies.
 func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
 	var weapon = Lookup.get_weapon(weapon_id, is_protagonist)
-	print("Equipping weapon: ", weapon_id)
 	if weapon_node:
 		weapon_node.queue_free()
 	
@@ -85,7 +85,6 @@ func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
 	weapon_node.connect("signal_weapon_did_use", rsignal_weapon_did_use)
 	weapon_node.position = weaponOrigin.position
 	weapon_node.visible = false
-	print(weapon_node)
 	add_child(weapon_node)
 
 	return weapon

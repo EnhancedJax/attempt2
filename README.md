@@ -9,8 +9,15 @@ rsignal for signal receivers which require `connect`
 3. Enemy
 4. Interactions
 
-> mask: A scans for object that has layer in ask of mask
-> layer: A is in layer
+|  | Collision layer | ← Collision mask (looks for, interacts with) |
+| --- | --- | --- |
+| 1 | Main | [Bullets] [Entities] |
+| 2 | Player EBullet | PHurtbox |
+| 3 | Enemy PBullet | EHurtbox |
+| 4 |  |  |
+
+> mask: What it collides with
+> layer: What it is on
 
 ## Weapon system
 

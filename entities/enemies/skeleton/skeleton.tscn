@@ -149,7 +149,6 @@ _data = {
 
 [node name="Skeleton" instance=ExtResource("1_hs5hs")]
 collision_layer = 4
-collision_mask = 3
 script = ExtResource("2_0cjm2")
 is_protagonist = false
 
@@ -161,16 +160,15 @@ animation = &"walk"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D" index="0"]
 libraries = {
-"": SubResource("AnimationLibrary_aufv5")
+&"": SubResource("AnimationLibrary_aufv5")
 }
 
 [node name="HealthComponent" parent="." index="3"]
 MAX_HEALTH = 100
 INITIAL_HEALTH = 100
 
-[node name="HitboxComponent" parent="." index="4"]
-collision_layer = 4
-collision_mask = 0
+[node name="HurtboxComponent" parent="." index="4"]
+collision_mask = 4
 
 [node name="StateMachine" type="Node" parent="." index="6" node_paths=PackedStringArray("animatedSprite", "animator", "initial_state")]
 script = ExtResource("5_p3ot6")
