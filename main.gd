@@ -11,6 +11,7 @@ var is_paused: bool = false
 const floor_item = preload("res://scenes/floor_item/floor_item.tscn")
 const weapons = [0,1,2]
 
+var coins = 0
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("menu"):
@@ -83,6 +84,10 @@ func update_equipped_weapon_ui(weapon: Lookup.WeaponType) -> void:
 
 func show_title_ui(str: String):
 	hud.show_title(str)
+
+func update_coins(amount: int) -> void:
+	coins += amount
+	hud.update_coins(coins)
 
 # /* ------------- Helpers ------------ */
 

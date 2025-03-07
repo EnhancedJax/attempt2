@@ -122,3 +122,12 @@ size_flags_vertical = 4
 
 [node name="Title" parent="." instance=ExtResource("5_iwsok")]
 layout_mode = 1
+
+[node name="CoinLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 47.0
+offset_top = 151.0
+offset_right = 239.0
+offset_bottom = 191.0
+theme_override_font_sizes/font_size = 48
+text = "Coins: 123"

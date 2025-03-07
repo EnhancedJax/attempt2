@@ -5,6 +5,7 @@ class_name HUD extends Control
 @onready var heart_container: HBoxContainer = $HeartConainer
 @onready var heart : Control = $HeartConainer/Heart
 @onready var weapon_texture: TextureRect = $WeaponContainer/MarginContainer/AspectRatioContainer/TextureRect
+@onready var coin_label: Label = $CoinLabel
 const heart_full_texture = preload('res://hud/heart_full_color.tres')
 const heart_half_texture = preload('res://hud/heart_half_color.tres')
 const title = preload("res://hud/title/title.tscn")
@@ -53,6 +54,9 @@ func show_title(str: String):
 	var scene = title.instantiate()
 	scene.set_text(str)
 	add_child(scene)
+
+func update_coins(amount: int):
+	coin_label.text = 'Coins: ' + str(amount)
 
 func draw_minimap(n):
 	minimap_generator.draw_minimap(n)
