@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://g2v0fkvn0a7o" path="res://weapons/bullet_base.tscn" id="1_4kd6k"]
 [ext_resource type="Script" uid="uid://gdjr6kr0lewn" path="res://weapons/protagonists/revolver/revolver_bullet.gd" id="2_8yqj0"]
-[ext_resource type="Texture2D" uid="uid://b01e1qjah6km7" path="res://pending_assets/Bullets/RifleAmmoBig.png" id="3_4px8s"]
+[ext_resource type="Texture2D" uid="uid://b01e1qjah6km7" path="res://weapons/protagonists/m15/RifleAmmoBig.png" id="3_4px8s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rhs8y"]
 size = Vector2(48.5, 20)

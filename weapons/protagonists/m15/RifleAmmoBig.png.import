@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b01e1qjah6km7"
-path="res://.godot/imported/RifleAmmoBig.png-e4720cae965ec5d4979d53f974f6200c.ctex"
+path="res://.godot/imported/RifleAmmoBig.png-a20be5bd77f4649d7f7398a1af64c149.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://pending_assets/Bullets/RifleAmmoBig.png"
-dest_files=["res://.godot/imported/RifleAmmoBig.png-e4720cae965ec5d4979d53f974f6200c.ctex"]
+source_file="res://weapons/protagonists/m15/RifleAmmoBig.png"
+dest_files=["res://.godot/imported/RifleAmmoBig.png-a20be5bd77f4649d7f7398a1af64c149.ctex"]
 
 [params]
 
