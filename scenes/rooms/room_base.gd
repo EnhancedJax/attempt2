@@ -17,6 +17,8 @@ signal signal_player_entered()
 @onready var floor_tilemap : TileMapLayer = $FloorTileLayer
 @onready var tilemap_px : int = wall_tilemap.tile_set.tile_size.x
 
+@onready var entrance_detector: Area2D = $EntranceDetector
+
 var enemy_counter : int = 0
 
 # values to be set by generator
@@ -30,10 +32,13 @@ const ENTRANCES = {
 	3: "right"
 }
 
+const ENTRANCE_WIDTH = 2  # tiles wide
+
 func _ready() -> void:
 	if not door_config:
 		door_config = [true, true, true, true]
 	set_door_opened(true)
+	setup_entrance_detection()
 
 func rsignal_player_entered() -> void:
 	signal_player_entered.emit()
@@ -84,3 +89,39 @@ func set_door_opened(is_open: bool) -> void:
 					wall_tilemap.set_cell(pos, 0, Vector2i(0,0))
 				else:
 					wall_tilemap.set_cell(pos, 1, Vector2i(0,0))
+
+func setup_entrance_detection() -> void:
+	for dir in range(4):
+		if not door_config[dir]:
+			continue
+			
+		var shape = RectangleShape2D.new()
+		var collision = CollisionShape2D.new()
+		collision.shape = shape
+		
+		# Get entrance position based on direction
+		var entrance: Vector2i = get("entrances_" + ENTRANCES[dir])
+		var pos = Vector2(entrance) * tilemap_px
+		
+		# Configure shape size and position based on direction
+		if dir in [0, 2]:  # top or bottom
+			shape.size = Vector2(ENTRANCE_WIDTH * tilemap_px, tilemap_px)
+			pos.x = (pos.x + (ENTRANCE_WIDTH * tilemap_px) / 2)
+			pos.y = pos.y + (tilemap_px / 2)
+			# Adjust top and bottom positions
+			if dir == 0:  # top
+				pos.y += tilemap_px
+			else:  # bottom
+				pos.y -= tilemap_px
+		else:  # left or right
+			shape.size = Vector2(tilemap_px, ENTRANCE_WIDTH * tilemap_px)
+			pos.x = pos.x + (tilemap_px / 2)
+			pos.y = (pos.y + (ENTRANCE_WIDTH * tilemap_px) / 2)
+			# Adjust left and right positions
+			if dir == 1:  # left
+				pos.x += tilemap_px
+			else:  # right
+				pos.x -= tilemap_px
+			
+		collision.position = pos
+		entrance_detector.add_child(collision)

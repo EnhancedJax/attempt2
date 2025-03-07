@@ -1,20 +1,8 @@
-[gd_scene load_steps=8 format=4 uid="uid://oue2kr2eaavc"]
+[gd_scene load_steps=4 format=4 uid="uid://oue2kr2eaavc"]
 
 [ext_resource type="Script" uid="uid://drxtp5a6b6sav" path="res://scenes/rooms/room_base.gd" id="1_ptmbc"]
 [ext_resource type="TileSet" uid="uid://b3hq822pff26v" path="res://scenes/rooms/level1/tileset_level1.tres" id="3_y663u"]
 [ext_resource type="Script" uid="uid://c3v8sc1ja8df1" path="res://scenes/rooms/room_entrance_detector.tres.gd" id="3_yvixq"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_pu58b"]
-size = Vector2(32, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2augm"]
-size = Vector2(32, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_g2vrf"]
-size = Vector2(16, 32)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_c5dcs"]
-size = Vector2(16, 32)
 
 [node name="RoomBase" type="Node2D"]
 y_sort_enabled = true
@@ -41,22 +29,6 @@ tile_set = ExtResource("3_y663u")
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("3_yvixq")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EntranceDetector"]
-position = Vector2(48, 24)
-shape = SubResource("RectangleShape2D_pu58b")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="EntranceDetector"]
-position = Vector2(96, 120)
-shape = SubResource("RectangleShape2D_2augm")
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="EntranceDetector"]
-position = Vector2(24, 80)
-shape = SubResource("RectangleShape2D_g2vrf")
-
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="EntranceDetector"]
-position = Vector2(120, 64)
-shape = SubResource("RectangleShape2D_c5dcs")
 
 [connection signal="body_entered" from="EntranceDetector" to="EntranceDetector" method="_on_body_entered"]
 [connection signal="signal_player_entered" from="EntranceDetector" to="." method="rsignal_player_entered"]
