@@ -146,6 +146,7 @@ damage = 10
 knockback = 2000.0
 recoil = 1000.0
 spread = 5.0
+mag_size = 2
 
 [node name="RandomizedAudio" parent="." index="0"]
 stream = SubResource("AudioStreamRandomizer_uuhya")

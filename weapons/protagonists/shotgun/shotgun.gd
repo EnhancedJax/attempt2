@@ -18,7 +18,7 @@ func _ready() -> void:
 	bullet_spawner.ATTACK = ATTACK
 	register_firing_handler($SemiAutoComponent)
 
-func attack() -> void:
+func handle_attack() -> void:
 	var towards = rotation + deg_to_rad(randf_range(-spread, spread))
 	var towards_vector = Vector2(cos(towards), sin(towards))
 	var atk = ATTACK.duplicate()

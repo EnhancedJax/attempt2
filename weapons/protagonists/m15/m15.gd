@@ -9,6 +9,8 @@ const BULLET = preload("res://weapons/protagonists/m15/m15_bullet.tscn")
 var ATTACK = BulletType.new()
 
 func _ready() -> void:
+	mag_size = 2
+	mag_count = mag_size
 	Main.signal_player_equipped_weapon.connect(rsignal_weapon_equipped)
 	bullet_spawner.signal_shot.connect(rsignal_shot)
 	ATTACK.damage = damage
@@ -18,7 +20,8 @@ func _ready() -> void:
 	bullet_spawner.ATTACK = ATTACK
 	register_firing_handler($FullAutoComponent)
 
-func attack() -> void:
+func handle_attack() -> void:
+	mag_count -= 1
 	var towards = rotation + deg_to_rad(randf_range(-spread, spread))
 	var towards_vector = Vector2(cos(towards), sin(towards))
 	var atk = ATTACK.duplicate()
@@ -27,6 +30,9 @@ func attack() -> void:
 	if shot: 
 		randomized_audio.play()
 		emit_signal("signal_weapon_did_use", atk)
+
+func handle_reload() -> void:
+	pass
 
 func rsignal_weapon_equipped(node: Node2D):
 	if self == node:
