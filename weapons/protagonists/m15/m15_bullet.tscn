@@ -16,6 +16,10 @@ position = Vector2(4.75, 0)
 shape = SubResource("RectangleShape2D_rhs8y")
 
 [node name="Sprite2D" parent="." index="1"]
-position = Vector2(3, -2.98023e-08)
+scale = Vector2(3.125, 3.125)
+texture = ExtResource("2_0opni")
+
+[node name="ShadowSprite" parent="." index="2"]
+position = Vector2(0, 32)
 scale = Vector2(3.125, 3.125)
 texture = ExtResource("2_0opni")

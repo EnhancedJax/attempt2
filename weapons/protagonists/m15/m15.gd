@@ -9,6 +9,8 @@ const BULLET = preload("res://weapons/protagonists/m15/m15_bullet.tscn")
 var ATTACK = BulletType.new()
 
 func _ready() -> void:
+	Main.signal_player_equipped_weapon.connect(rsignal_weapon_equipped)
+	bullet_spawner.signal_shot.connect(rsignal_shot)
 	ATTACK.damage = damage
 	ATTACK.recoil = recoil
 	ATTACK.knockback = knockback
@@ -25,3 +27,11 @@ func attack() -> void:
 	if shot: 
 		randomized_audio.play()
 		emit_signal("signal_weapon_did_use", atk)
+
+func rsignal_weapon_equipped(node: Node2D):
+	if self == node:
+		$Sprite2D/AnimationPlayer.play("equip")
+
+func rsignal_shot():
+	$Sprite2D/AnimationPlayer.play("RESET")
+	$Sprite2D/AnimationPlayer.play("shot")

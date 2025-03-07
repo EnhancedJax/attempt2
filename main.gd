@@ -13,6 +13,8 @@ const weapons = [0,1,2]
 
 var coins = 0
 
+signal signal_player_equipped_weapon(node: Node2D)
+
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("menu"):
 		_toggle_pause()
@@ -79,7 +81,7 @@ func update_health_ui() -> void:
 		hud.update_health(health_component.health, health_component.MAX_HEALTH)
 
 func update_equipped_weapon_ui(weapon: Lookup.WeaponType) -> void:
-	if player and weapon:
+	if player and weapon and hud:
 		hud.update_equipped_weapon(weapon)
 
 func show_title_ui(str: String):

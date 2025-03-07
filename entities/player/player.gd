@@ -1,12 +1,14 @@
 class_name Player extends EntityBase
 
-var weapons : Array[int] = []
+var weapons : Array[int] = [0]
 var equipped_weapon_index : int = 0
 var max_weapons_count : int = 2
 @onready var label : Label = $Label
 @onready var label_timeout : Timer = $LabelTimeout
 @onready var invincibility_timer: Timer = $InvincibilityTimer
 var weapon_nodes: Dictionary[int, WeaponBase] = {} # new: cache for weapon nodes
+
+signal signal_weapon_equipped()
 
 func _ready():
 	super._ready()
@@ -80,6 +82,7 @@ func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
 	label.visible = true
 	label.text = weapon.name
 	label_timeout.start()
+	Main.signal_player_equipped_weapon.emit(weapon_node)
 	Main.update_equipped_weapon_ui(weapon)
 	return weapon
 

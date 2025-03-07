@@ -24,12 +24,18 @@ Lookup="*res://tables/lookup.gd"
 
 window/size/viewport_width=2000
 window/size/viewport_height=1150
+window/size/window_width_override=2000
+window/size/window_height_override=1152
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 
 [editor_plugins]
 
 enabled=PackedStringArray()
+
+[global_group]
+
+pp="pixel_perfect"
 
 [gui]
 

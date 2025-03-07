@@ -6,6 +6,8 @@ extends RayCast2D
 var BULLET : PackedScene
 var ATTACK : BulletType
 
+signal signal_shot()
+
 func shoot(towards: float) -> bool:
 	var did_shoot = not is_colliding()
 	if did_shoot and BULLET:
@@ -22,4 +24,5 @@ func shoot(towards: float) -> bool:
 			var global_target_offset = target_position.rotated(final_angle) * abs(global_scale)
 			bullet.global_position = global_position + global_target_offset
 			bullet.rotation = final_angle
+		signal_shot.emit()
 	return did_shoot
