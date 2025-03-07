@@ -86,9 +86,11 @@ func set_door_opened(is_open: bool) -> void:
 					entrance.y + (i if dir in [1, 3] else 0)
 				)
 				if is_open:
-					wall_tilemap.set_cell(pos, 0, Vector2i(0,0))
+					floor_tilemap.set_cell(pos, 0, Vector2i(0,0))
+					wall_tilemap.set_cell(pos, 0, Vector2i(-1,-1))
 				else:
-					wall_tilemap.set_cell(pos, 1, Vector2i(0,0))
+					floor_tilemap.set_cell(pos, 1, Vector2i(0,0))
+					wall_tilemap.set_cell(pos, 1, Vector2i(-1,-1))
 
 func setup_entrance_detection() -> void:
 	for dir in range(4):
