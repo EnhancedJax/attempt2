@@ -1,6 +1,7 @@
 class_name PlayerRoll extends State
 
-@export var ROLL_SPEED : float = 2000
+@export var ROLL_SPEED : float
+@export var ROLL_FRICTION : float
 @export var ROLL_DURATION : float = 0.2
 @export var PLAYER_HURTBOX : HurtboxComponent
 
@@ -9,8 +10,10 @@ var p
 var roll_direction : Vector2
 var roll_timer : float = 0
 var rotation_direction : float
+var did_slow_friction : bool = false
 
 func enter() -> void:
+	did_slow_friction = false
 	p = sm.player
 	roll_timer = ROLL_DURATION
 	set_invincible(true)
@@ -28,6 +31,10 @@ func enter() -> void:
 func physics_update(delta: float) -> void:
 	roll_timer -= delta
 	sm.animatedSprite.rotation_degrees += rotation_direction * (360.0 * delta / ROLL_DURATION)
+
+	if roll_timer <= ROLL_DURATION / 2 and !did_slow_friction:
+		did_slow_friction = true
+		p.extra_velocity -= ROLL_FRICTION * roll_direction
 	
 	if roll_timer <= 0:
 		sm.animatedSprite.rotation_degrees = 0

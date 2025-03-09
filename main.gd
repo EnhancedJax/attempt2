@@ -97,6 +97,23 @@ func spawn_node(node : Node, position_global : Vector2, layer: int = 0) -> void:
 	node.global_position = position_global
 	control.get_child(layer).add_child(node)
 
+func find_closest_enemy(pos: Vector2) -> Node2D:
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	var closest_enemy: Node2D = null
+	var closest_distance := INF
+
+	if enemies.size() == 0:
+		return null
+	
+	for enemy in enemies:
+		if enemy is CharacterBody2D:
+			var dist = pos.distance_squared_to(enemy.global_position)
+			if dist < closest_distance:
+				closest_distance = dist
+				closest_enemy = enemy
+	
+	return closest_enemy
+
 # /* ------------ Internals ------------ */
 
 func _toggle_pause() -> void:

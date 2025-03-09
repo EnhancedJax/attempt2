@@ -147,7 +147,7 @@ _data = {
 &"take_attack": SubResource("Animation_f27go")
 }
 
-[node name="Skeleton" instance=ExtResource("1_hs5hs")]
+[node name="Skeleton" groups=["enemies"] instance=ExtResource("1_hs5hs")]
 scale = Vector2(4, 4)
 collision_layer = 4
 script = ExtResource("2_0cjm2")

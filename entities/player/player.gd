@@ -8,6 +8,8 @@ var max_weapons_count : int = 2
 @onready var invincibility_timer: Timer = $InvincibilityTimer
 var weapon_nodes: Dictionary[int, WeaponBase] = {} # new: cache for weapon nodes
 
+var last_aiming_at : Vector2 = Vector2.ZERO
+
 signal signal_weapon_equipped()
 
 func _ready():
@@ -33,7 +35,13 @@ func _process(delta: float) -> void:
 			equipped_weapon_index = next_weapon
 
 func get_aim_position() -> Vector2:
-	return get_global_mouse_position()
+	var closest_enemy = Main.find_closest_enemy(self.global_position)
+	if closest_enemy:
+		return closest_enemy.global_position
+	else:
+		if self.velocity != Vector2.ZERO:
+			last_aiming_at = self.velocity * 1000 + self.global_position
+		return last_aiming_at
 
 func rsignal_weapon_did_use(attack: AttackBase):
 	Main.camera.apply_shake(5)
