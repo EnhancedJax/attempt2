@@ -15,6 +15,8 @@ func apply_shake(strength: float = 5.0):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if Main.player:
+		self.global_position = Main.player.global_position
 	if shake_strength > 0:
 		shake_strength = lerpf(shake_strength, 0, shakeFade * delta)
 	

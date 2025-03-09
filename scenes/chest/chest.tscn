@@ -103,7 +103,6 @@ radius = 4.50174
 
 [node name="Chest" type="StaticBody2D"]
 y_sort_enabled = true
-scale = Vector2(8, 8)
 script = ExtResource("1_57ibk")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

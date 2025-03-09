@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://qgtqua65lnyp" path="res://entities/player/player.tscn" id="2_n6q6o"]
 [ext_resource type="PackedScene" uid="uid://728xqa5cdqim" path="res://scenes/misc/interaction_label.tscn" id="3_bfb72"]
 [ext_resource type="PackedScene" uid="uid://c3f8flnplphu5" path="res://scenes/chest/chest.tscn" id="3_rurhu"]
-[ext_resource type="PackedScene" uid="uid://ck262r3o6tqfj" path="res://scenes/coin/coin.tscn" id="4_kk2rg"]
 [ext_resource type="PackedScene" uid="uid://vo0xrja3uy5k" path="res://hud/game_hud.tscn" id="4_ujnmn"]
+[ext_resource type="Script" uid="uid://3urgwh1665ut" path="res://entities/player/camera.gd" id="6_kk2rg"]
 
 [node name="GameLevel" type="Control"]
 y_sort_enabled = true
@@ -19,36 +19,16 @@ offset_bottom = -1.0
 script = ExtResource("1_i7woi")
 
 [node name="TileLayer" parent="." instance=ExtResource("2_7g524")]
-scale = Vector2(8, 8)
+scale = Vector2(4, 4)
 
 [node name="Chest" parent="TileLayer" instance=ExtResource("3_rurhu")]
-position = Vector2(85.75, 50.375)
-scale = Vector2(1, 1)
+position = Vector2(137.25, 103.25)
 
 [node name="GroundLayer" type="Node2D" parent="."]
 
-[node name="Coin" parent="GroundLayer" instance=ExtResource("4_kk2rg")]
-position = Vector2(361, 835)
-scale = Vector2(8, 8)
-
-[node name="Coin2" parent="GroundLayer" instance=ExtResource("4_kk2rg")]
-position = Vector2(361, 835)
-scale = Vector2(8, 8)
-
-[node name="Coin3" parent="GroundLayer" instance=ExtResource("4_kk2rg")]
-position = Vector2(696, 896)
-scale = Vector2(8, 8)
-
-[node name="Coin4" parent="GroundLayer" instance=ExtResource("4_kk2rg")]
-position = Vector2(743, 830)
-scale = Vector2(8, 8)
-
-[node name="Coin5" parent="GroundLayer" instance=ExtResource("4_kk2rg")]
-position = Vector2(912, 803)
-scale = Vector2(8, 8)
-
 [node name="Player" parent="." instance=ExtResource("2_n6q6o")]
 position = Vector2(422, 408)
+scale = Vector2(4, 4)
 
 [node name="EnemyLayer" type="Node2D" parent="."]
 y_sort_enabled = true
@@ -58,6 +38,11 @@ z_index = 10
 
 [node name="InteractionLabel" parent="TextLayer" instance=ExtResource("3_bfb72")]
 visible = false
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 30.0
+script = ExtResource("6_kk2rg")
 
 [node name="Viewport" type="CanvasLayer" parent="."]
 

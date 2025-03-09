@@ -36,7 +36,7 @@ func get_aim_position() -> Vector2:
 	return get_global_mouse_position()
 
 func rsignal_weapon_did_use(attack: AttackBase):
-	$Camera2D.apply_shake(5)
+	Main.camera.apply_shake(5)
 	apply_force(-attack.towards_vector * attack.recoil)
 
 func rsignal_hitbox_hit(attack: AttackBase):
@@ -53,7 +53,7 @@ func rsignal_hitbox_hit(attack: AttackBase):
 
 func rsignal_health_deducted(health: int, max_health: int):
 	super.rsignal_health_deducted(health, max_health)
-	$Camera2D.apply_shake(10)
+	Main.camera.apply_shake(10)
 	Main.update_health_ui()
 
 func equip_weapon(weapon_id: int) -> Lookup.WeaponType:

@@ -13,11 +13,12 @@ SPEED = 1000.0
 
 [node name="Shape" type="CollisionShape2D" parent="." index="0"]
 position = Vector2(3, 0)
+scale = Vector2(0.51, 0.51)
 shape = SubResource("RectangleShape2D_rhs8y")
 
 [node name="Sprite2D" parent="." index="1"]
 position = Vector2(3, -2.98023e-08)
-scale = Vector2(3, 3)
+scale = Vector2(1.96, 1.96)
 texture = ExtResource("3_3mgwm")
 
 [node name="ShadowSprite" parent="." index="2"]

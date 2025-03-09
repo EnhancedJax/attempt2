@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://qgtqua65lnyp"]
+[gd_scene load_steps=26 format=3 uid="uid://qgtqua65lnyp"]
 
 [ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_mfkho"]
 [ext_resource type="Script" uid="uid://ba5txnl57okqe" path="res://entities/player/player.gd" id="2_2vuf7"]
@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://j3gso0vhpoj5" path="res://entities/player/Player.png" id="4_vo5if"]
 [ext_resource type="Script" uid="uid://b4081cqtyc53y" path="res://entities/player/states/walk.gd" id="5_80dvk"]
 [ext_resource type="Script" uid="uid://dff7xdwabhnu" path="res://entities/player/states/roll.gd" id="6_uefxj"]
-[ext_resource type="Script" uid="uid://3urgwh1665ut" path="res://entities/player/camera.gd" id="8_p7rki"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7rklg"]
 resource_local_to_scene = true
@@ -182,21 +181,16 @@ script = ExtResource("4_fuwg5")
 
 [node name="Walk" type="Node" parent="StateMachine" index="1"]
 script = ExtResource("5_80dvk")
-MAX_SPEED = 1500.0
+MAX_SPEED = 750.0
 
 [node name="Roll" type="Node" parent="StateMachine" index="2" node_paths=PackedStringArray("PLAYER_HURTBOX")]
 script = ExtResource("6_uefxj")
+ROLL_SPEED = 1000.0
 PLAYER_HURTBOX = NodePath("../../HurtboxComponent")
 
 [node name="RollCooldown" type="Timer" parent="StateMachine" index="3"]
 
-[node name="Camera2D" type="Camera2D" parent="." index="7"]
-position_smoothing_enabled = true
-position_smoothing_speed = 30.0
-script = ExtResource("8_p7rki")
-metadata/_edit_lock_ = true
-
-[node name="Label" type="Label" parent="." index="8"]
+[node name="Label" type="Label" parent="." index="7"]
 offset_left = -31.0
 offset_top = -22.0
 offset_right = 179.0
@@ -207,8 +201,8 @@ text = "Weapon"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="LabelTimeout" type="Timer" parent="." index="9"]
+[node name="LabelTimeout" type="Timer" parent="." index="8"]
 
-[node name="InvincibilityTimer" type="Timer" parent="." index="10"]
+[node name="InvincibilityTimer" type="Timer" parent="." index="9"]
 wait_time = 0.5
 one_shot = true

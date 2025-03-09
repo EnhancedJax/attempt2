@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://ct60dg4e24be8" path="res://components/interaction/_interaction.tscn" id="1_p8q7i"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hqwej"]
-radius = 85.0059
+radius = 36.2215
 
 [node name="FloorItem" type="Node2D"]
 script = ExtResource("1_3uol4")
@@ -19,7 +19,7 @@ shape = SubResource("CircleShape2D_hqwej")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = -0.785398
-scale = Vector2(4.65252, 4.65252)
+scale = Vector2(2.5, 2.5)
 
 [connection signal="signal_player_entered" from="InteractionComponent" to="." method="rsignal_player_entered"]
 [connection signal="signal_player_exited" from="InteractionComponent" to="." method="rsignal_player_exited"]

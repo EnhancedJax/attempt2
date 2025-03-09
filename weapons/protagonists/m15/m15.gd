@@ -9,7 +9,7 @@ const BULLET = preload("res://weapons/protagonists/m15/m15_bullet.tscn")
 var ATTACK = BulletType.new()
 
 func _ready() -> void:
-	mag_size = 2
+	mag_size = 30
 	mag_count = mag_size
 	Main.signal_player_equipped_weapon.connect(rsignal_weapon_equipped)
 	bullet_spawner.signal_shot.connect(rsignal_shot)
