@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://qgtqua65lnyp"]
+[gd_scene load_steps=24 format=3 uid="uid://qgtqua65lnyp"]
 
 [ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_mfkho"]
 [ext_resource type="Script" uid="uid://ba5txnl57okqe" path="res://entities/player/player.gd" id="2_2vuf7"]
@@ -8,6 +8,16 @@
 [ext_resource type="Script" uid="uid://bux4n7x1kdcds" path="res://entities/player/states/idle.gd" id="4_fuwg5"]
 [ext_resource type="Script" uid="uid://b4081cqtyc53y" path="res://entities/player/states/walk.gd" id="5_80dvk"]
 [ext_resource type="Script" uid="uid://dff7xdwabhnu" path="res://entities/player/states/roll.gd" id="6_uefxj"]
+
+[sub_resource type="Gradient" id="Gradient_26q78"]
+offsets = PackedFloat32Array(0.262712, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bectd"]
+gradient = SubResource("Gradient_26q78")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7rklg"]
 resource_local_to_scene = true
@@ -125,7 +135,12 @@ y_sort_enabled = true
 collision_layer = 2
 script = ExtResource("2_2vuf7")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
+[node name="PointLight2D" type="PointLight2D" parent="." index="0"]
+scale = Vector2(3.28125, 3.28125)
+color = Color(0.355314, 0.355314, 0.355314, 1)
+texture = SubResource("GradientTexture2D_bectd")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="1"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_7rklg")
 position = Vector2(0.375, -2.875)
@@ -138,14 +153,14 @@ libraries = {
 &"": SubResource("AnimationLibrary_aufv5")
 }
 
-[node name="HealthComponent" parent="." index="3"]
+[node name="HealthComponent" parent="." index="4"]
 MAX_HEALTH = 10
 INITIAL_HEALTH = 9
 
-[node name="HurtboxComponent" parent="." index="4"]
+[node name="HurtboxComponent" parent="." index="5"]
 collision_mask = 2
 
-[node name="StateMachine" type="Node" parent="." index="6" node_paths=PackedStringArray("animatedSprite", "animator", "initial_state")]
+[node name="StateMachine" type="Node" parent="." index="7" node_paths=PackedStringArray("animatedSprite", "animator", "initial_state")]
 script = ExtResource("3_l7dpn")
 animatedSprite = NodePath("../AnimatedSprite2D")
 animator = NodePath("../AnimatedSprite2D/AnimationPlayer")
@@ -166,7 +181,7 @@ PLAYER_HURTBOX = NodePath("../../HurtboxComponent")
 
 [node name="RollCooldown" type="Timer" parent="StateMachine" index="3"]
 
-[node name="Label" type="Label" parent="." index="7"]
+[node name="Label" type="Label" parent="." index="8"]
 offset_left = -31.0
 offset_top = -22.0
 offset_right = 179.0
@@ -177,8 +192,8 @@ text = "Weapon"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="LabelTimeout" type="Timer" parent="." index="8"]
+[node name="LabelTimeout" type="Timer" parent="." index="9"]
 
-[node name="InvincibilityTimer" type="Timer" parent="." index="9"]
+[node name="InvincibilityTimer" type="Timer" parent="." index="10"]
 wait_time = 0.5
 one_shot = true

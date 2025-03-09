@@ -49,3 +49,6 @@ script = ExtResource("6_kk2rg")
 [node name="HUD" parent="Viewport" instance=ExtResource("4_ujnmn")]
 process_mode = 3
 metadata/_edit_lock_ = true
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.479733, 0.448419, 0.505959, 1)
