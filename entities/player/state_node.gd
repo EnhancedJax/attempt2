@@ -14,3 +14,7 @@ func _ready():
 
 func _on_roll_cooldown_timeout() -> void:
 	can_roll = true
+
+
+func _on_player_signal_player_death() -> void:
+	on_child_transition(current_state, "Death")

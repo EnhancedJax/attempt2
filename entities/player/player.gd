@@ -9,8 +9,10 @@ var max_weapons_count : int = 2
 var weapon_nodes: Dictionary[int, WeaponBase] = {} # new: cache for weapon nodes
 
 var last_aiming_at : Vector2 = Vector2.ZERO
+var is_dead : bool = false
 
 signal signal_weapon_equipped()
+signal signal_player_death()
 
 func _ready():
 	super._ready()
@@ -100,7 +102,9 @@ func handle_label_timeout():
 	label_timeout.stop()
 
 func do_die():
-	self.process_mode = Node.PROCESS_MODE_DISABLED
+	if !is_dead:
+		is_dead = true
+		signal_player_death.emit()
 
 func pickup_weapon(weapon_id: int) -> int:
 	"""

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=4 uid="uid://bbkf8runrydg1"]
+[gd_scene load_steps=3 format=4 uid="uid://bbkf8runrydg1"]
 
 [ext_resource type="PackedScene" uid="uid://oue2kr2eaavc" path="res://scenes/rooms/room_base.tscn" id="1_4w6sn"]
+[ext_resource type="PackedScene" uid="uid://c3f8flnplphu5" path="res://scenes/chest/chest.tscn" id="2_tiqfi"]
 
 [node name="RoomBase" instance=ExtResource("1_4w6sn")]
 dimension = Vector2i(16, 9)
@@ -17,8 +18,5 @@ tile_map_data = PackedByteArray("AAAAAAEAAQAAAAAAAAAAAAIAAQABAAAAAAAAAAMAAQAAAAA
 [node name="EntranceDetector" parent="." index="2"]
 visible = false
 
-[node name="CollisionShape2D2" parent="EntranceDetector" index="1"]
-position = Vector2(208, 120)
-
-[node name="CollisionShape2D4" parent="EntranceDetector" index="3"]
-position = Vector2(232, 80)
+[node name="Chest" parent="." index="3" instance=ExtResource("2_tiqfi")]
+position = Vector2(128, 70)
