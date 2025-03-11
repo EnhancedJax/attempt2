@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 var player : Player
 var camera : PlayerCamera
@@ -101,6 +101,9 @@ func find_closest_enemy(pos: Vector2) -> Node2D:
 	var enemies = get_tree().get_nodes_in_group("enemies")
 	var closest_enemy: Node2D = null
 	var closest_distance := INF
+	var fallback_enemy: Node2D = null
+	var fallback_distance := INF
+	var space_state = get_world_2d().direct_space_state
 
 	if enemies.size() == 0:
 		return null
@@ -108,11 +111,22 @@ func find_closest_enemy(pos: Vector2) -> Node2D:
 	for enemy in enemies:
 		if enemy is CharacterBody2D:
 			var dist = pos.distance_squared_to(enemy.global_position)
-			if dist < closest_distance:
-				closest_distance = dist
-				closest_enemy = enemy
+			# Store as fallback in case no enemies are visible
+			if dist < fallback_distance:
+				fallback_distance = dist
+				fallback_enemy = enemy
+			# Check line of sight
+			var query = PhysicsRayQueryParameters2D.create(pos, enemy.global_position)
+			query.exclude = [enemy]
+			var result = space_state.intersect_ray(query)
+			# If no collision or collision is with the enemy, it's visible
+			if result.is_empty() or result.collider == enemy:
+				if dist < closest_distance:
+					closest_distance = dist
+					closest_enemy = enemy
 	
-	return closest_enemy
+	# Return closest visible enemy, or fallback to closest non-visible enemy if none are visible
+	return closest_enemy if closest_enemy else fallback_enemy
 
 # /* ------------ Internals ------------ */
 

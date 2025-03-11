@@ -9,6 +9,8 @@ const BULLET = preload("res://weapons/protagonists/shotgun/shotgun_bullet.tscn")
 var ATTACK = BulletType.new()
 
 func _ready() -> void:
+	mag_size = 6
+	mag_count = mag_size
 	Main.signal_player_equipped_weapon.connect(rsignal_weapon_equipped)
 	bullet_spawner.signal_shot.connect(rsignal_shot)
 	ATTACK.damage = damage
@@ -19,6 +21,7 @@ func _ready() -> void:
 	register_firing_handler($SemiAutoComponent)
 
 func handle_attack() -> void:
+	mag_count -= 1
 	var towards = rotation + deg_to_rad(randf_range(-spread, spread))
 	var towards_vector = Vector2(cos(towards), sin(towards))
 	var atk = ATTACK.duplicate()
@@ -27,6 +30,10 @@ func handle_attack() -> void:
 	if shot: 
 		randomized_audio.play()
 		emit_signal("signal_weapon_did_use", atk)
+
+func handle_finish_reload() -> void:
+	mag_count = min(mag_size, mag_count + 1)
+	can_reload = mag_size > mag_count
 
 func rsignal_weapon_equipped(node: Node2D):
 	if self == node:

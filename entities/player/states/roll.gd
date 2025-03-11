@@ -33,9 +33,9 @@ func physics_update(delta: float) -> void:
 	roll_timer -= delta
 	#sm.animatedSprite.rotation_degrees += rotation_direction * (360.0 * delta / ROLL_DURATION)
 
-	if roll_timer <= ROLL_DURATION / 2 and !did_slow_friction:
-		did_slow_friction = true
-		p.extra_velocity -= ROLL_FRICTION * roll_direction
+	# if roll_timer <= ROLL_DURATION / 2 and !did_slow_friction:
+	# 	did_slow_friction = true
+	# 	p.extra_velocity -= ROLL_FRICTION * roll_direction
 	
 	if roll_timer <= 0:
 		sm.animatedSprite.rotation_degrees = 0

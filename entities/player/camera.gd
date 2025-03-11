@@ -1,11 +1,13 @@
 class_name PlayerCamera extends Camera2D
 
 @export var shakeFade: float = 5.0
+@export var enemy_lerp_speed: float = 3.0  # Speed of enemy position interpolation
 const ENEMY_OFFSET_FACTOR = 0.1  # 3/10 of the distance
 
 var rng = RandomNumberGenerator.new()
 var shake_strength: float = 0.0
 var max_dist_from_player: Vector2 = get_viewport_rect().size / 2
+var current_enemy_offset := Vector2.ZERO
 
 func _ready() -> void:
 	Main.register_camera(self)
@@ -18,9 +20,13 @@ func _process(delta: float) -> void:
 		var base_pos = Main.player.global_position
 		var closest_enemy = Main.find_closest_enemy(self.global_position)
 		
+		var target_offset := Vector2.ZERO
 		if closest_enemy:
 			var to_enemy = closest_enemy.global_position - base_pos
-			base_pos += to_enemy * ENEMY_OFFSET_FACTOR
+			target_offset = to_enemy * ENEMY_OFFSET_FACTOR
+		
+		current_enemy_offset = current_enemy_offset.lerp(target_offset, enemy_lerp_speed * delta)
+		base_pos += current_enemy_offset
 		
 		self.global_position = base_pos
 		

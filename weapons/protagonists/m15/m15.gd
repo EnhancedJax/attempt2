@@ -31,9 +31,6 @@ func handle_attack() -> void:
 		randomized_audio.play()
 		emit_signal("signal_weapon_did_use", atk)
 
-func handle_reload() -> void:
-	pass
-
 func rsignal_weapon_equipped(node: Node2D):
 	if self == node:
 		$Sprite2D/AnimationPlayer.play("equip")

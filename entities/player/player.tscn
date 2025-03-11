@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://qgtqua65lnyp"]
+[gd_scene load_steps=62 format=3 uid="uid://qgtqua65lnyp"]
 
 [ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_mfkho"]
 [ext_resource type="Script" uid="uid://ba5txnl57okqe" path="res://entities/player/player.gd" id="2_2vuf7"]
@@ -368,6 +368,12 @@ _data = {
 &"take_attack": SubResource("Animation_f27go")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a1qjk"]
+bg_color = Color(1, 1, 1, 0.254902)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j3ovn"]
+bg_color = Color(1, 1, 1, 1)
+
 [node name="Player" instance=ExtResource("1_mfkho")]
 y_sort_enabled = true
 collision_layer = 2
@@ -415,13 +421,13 @@ MAX_SPEED = 750.0
 
 [node name="Roll" type="Node" parent="StateMachine" index="3" node_paths=PackedStringArray("PLAYER_HURTBOX")]
 script = ExtResource("6_uefxj")
-ROLL_SPEED = 1000.0
-ROLL_FRICTION = 1000.0
+ROLL_SPEED = 800.0
 PLAYER_HURTBOX = NodePath("../../HurtboxComponent")
 
 [node name="RollCooldown" type="Timer" parent="StateMachine" index="4"]
 
 [node name="Label" type="Label" parent="." index="8"]
+z_index = 1000
 offset_left = -31.0
 offset_top = -22.0
 offset_right = 179.0
@@ -432,9 +438,40 @@ text = "Weapon"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="LabelTimeout" type="Timer" parent="." index="9"]
+[node name="ReloadIndicator" type="Label" parent="." index="9"]
+clip_children = 1
+z_index = 1000
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -26.0
+offset_top = -25.5
+offset_right = 26.0
+offset_bottom = -15.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 8
+text = "RELOADING"
+horizontal_alignment = 1
+vertical_alignment = 2
 
-[node name="InvincibilityTimer" type="Timer" parent="." index="10"]
+[node name="ProgressBar" type="ProgressBar" parent="ReloadIndicator" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_a1qjk")
+theme_override_styles/fill = SubResource("StyleBoxFlat_j3ovn")
+show_percentage = false
+
+[node name="LabelTimeout" type="Timer" parent="." index="10"]
+
+[node name="InvincibilityTimer" type="Timer" parent="." index="11"]
 wait_time = 0.5
 one_shot = true
 

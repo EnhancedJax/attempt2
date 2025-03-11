@@ -3,9 +3,11 @@ extends Control
 func _ready() -> void:
 	Main.register_control(self)
 	var result_dict = $TileLayer.generate_new_dungeon()
-	Main.hud.draw_minimap(result_dict['nodes'])
-	for i in result_dict['room_scenes'].size():
-		var scene = result_dict['room_scenes'][i]
+	Main.hud.draw_minimap(result_dict.nodes)
+	var place_player_at = (Vector2(result_dict.room_scenes[0].dimension) / 2) * 16 * $TileLayer.global_scale
+	Main.player.global_position = place_player_at
+	for i in result_dict.room_scenes.size():
+		var scene = result_dict.room_scenes[i]
 	
 		scene.signal_player_entered.connect(rsignal_player_entered.bind(i))
 		scene.signal_room_cleared.connect(rsignal_room_cleared)

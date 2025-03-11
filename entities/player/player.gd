@@ -6,7 +6,11 @@ var max_weapons_count : int = 2
 @onready var label : Label = $Label
 @onready var label_timeout : Timer = $LabelTimeout
 @onready var invincibility_timer: Timer = $InvincibilityTimer
+@onready var reload_progress_bar: ProgressBar = $ReloadIndicator/ProgressBar
 var weapon_nodes: Dictionary[int, WeaponBase] = {} # new: cache for weapon nodes
+var is_reloading: bool = false
+var reload_duration: float = 0
+var reload_timer: float = 0
 
 var last_aiming_at : Vector2 = Vector2.ZERO
 var is_dead : bool = false
@@ -23,6 +27,7 @@ func _ready():
 	invincibility_timer.timeout.connect(func(): is_invincible = false)
 	label.visible = false
 	label_timeout.timeout.connect(handle_label_timeout)
+	reload_progress_bar.visible = false
 
 func _process(delta: float) -> void:
 	super._process(delta)
@@ -30,11 +35,25 @@ func _process(delta: float) -> void:
 		weapon_node.update_sprite_flip(get_aim_position())
 		weapon_node.visible = true
 		weapon_node.handle_use(delta, false)
+		
+		if is_reloading:
+			reload_timer += delta
+			var progress = (reload_timer / reload_duration) * 100
+			reload_progress_bar.value = progress
+			
+			if reload_timer >= reload_duration:
+				is_reloading = false
+				reload_progress_bar.value = 0
+				reload_progress_bar.visible = false
+				weapon_node.call_finish_reload()
 	if Input.is_action_just_pressed("switch_weapon"):
 		if weapons.size() > 1:
 			var next_weapon = (equipped_weapon_index + 1) % weapons.size()
 			equip_weapon(weapons[next_weapon])
 			equipped_weapon_index = next_weapon
+	if Input.is_action_just_pressed("reload"):
+		if weapon_node and weapon_node.can_reload:
+			weapon_node.call_reload()
 
 func get_aim_position() -> Vector2:
 	var closest_enemy = Main.find_closest_enemy(self.global_position)
@@ -48,6 +67,13 @@ func get_aim_position() -> Vector2:
 func rsignal_weapon_did_use(attack: AttackBase):
 	Main.camera.apply_shake(5)
 	apply_force(-attack.towards_vector * attack.recoil)
+
+func rsignal_weapon_reloading(duration: float):
+	is_reloading = true
+	reload_duration = duration
+	reload_timer = 0
+	reload_progress_bar.visible = true
+	reload_progress_bar.value = 0
 
 func rsignal_hitbox_hit(attack: AttackBase):
 	if is_invincible:
@@ -67,6 +93,12 @@ func rsignal_health_deducted(health: int, max_health: int):
 	Main.update_health_ui()
 
 func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
+	if is_reloading:
+		weapon_node.call_stop_reload()
+		is_reloading = false
+		reload_progress_bar.visible = false
+		reload_progress_bar.value = 0
+	
 	var weapon = Lookup.get_weapon(weapon_id, is_protagonist)
 	if weapon_node:
 		# disable current weapon instead of unloading
@@ -81,6 +113,7 @@ func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
 	else:
 		weapon_node = weapon.scene.instantiate()
 		weapon_node.connect("signal_weapon_did_use", rsignal_weapon_did_use)
+		weapon_node.connect("signal_weapon_reloading", rsignal_weapon_reloading)
 		weapon_node.position = weaponOrigin.position
 		weapon_node.visible = false
 		add_child(weapon_node)

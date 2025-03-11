@@ -130,10 +130,12 @@ _data = {
 
 [node name="Gun" instance=ExtResource("1_j4sq8")]
 script = ExtResource("2_p0o1h")
-damage = 9
+damage = 20
 knockback = 300.0
 recoil = 2000.0
 spread = 5.0
+mag_size = 5
+reload_time = 0.3
 
 [node name="RandomizedAudio" parent="." index="0"]
 stream = SubResource("AudioStreamRandomizer_uuhya")
