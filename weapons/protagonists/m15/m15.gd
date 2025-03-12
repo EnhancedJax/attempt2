@@ -31,10 +31,18 @@ func handle_attack() -> void:
 		randomized_audio.play()
 		emit_signal("signal_weapon_did_use", atk)
 
+func handle_reload() -> void:
+	super.handle_reload()
+	$AnimatedSprite2D.play('reload')
+
+func handle_finish_reload() -> void:
+	super.handle_finish_reload()
+	$AnimatedSprite2D.play('default')
+
 func rsignal_weapon_equipped(node: Node2D):
 	if self == node:
-		$Sprite2D/AnimationPlayer.play("equip")
+		$AnimatedSprite2D/AnimationPlayer.play("equip")
 
 func rsignal_shot():
-	$Sprite2D/AnimationPlayer.play("RESET")
-	$Sprite2D/AnimationPlayer.play("shot")
+	$AnimatedSprite2D/AnimationPlayer.play("RESET")
+	$AnimatedSprite2D/AnimationPlayer.play("shot")

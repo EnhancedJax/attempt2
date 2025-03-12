@@ -14,4 +14,4 @@ script = ExtResource("1_fqo6c")
 [node name="RandomizedAudio" parent="." instance=ExtResource("2_mnvwy")]
 stream = SubResource("AudioStreamRandomizer_8bifm")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

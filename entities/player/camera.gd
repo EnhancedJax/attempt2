@@ -2,7 +2,7 @@ class_name PlayerCamera extends Camera2D
 
 @export var shakeFade: float = 5.0
 @export var enemy_lerp_speed: float = 3.0  # Speed of enemy position interpolation
-const ENEMY_OFFSET_FACTOR = 0.1  # 3/10 of the distance
+@export var enemy_offset_factor = 0.1  # 3/10 of the distance
 
 var rng = RandomNumberGenerator.new()
 var shake_strength: float = 0.0
@@ -16,23 +16,19 @@ func apply_shake(strength: float = 5.0):
 	shake_strength = strength
 
 func _process(delta: float) -> void:
-	if Main.player:
-		var base_pos = Main.player.global_position
-		var closest_enemy = Main.find_closest_enemy(self.global_position)
-		
-		var target_offset := Vector2.ZERO
-		if closest_enemy:
-			var to_enemy = closest_enemy.global_position - base_pos
-			target_offset = to_enemy * ENEMY_OFFSET_FACTOR
-		
-		current_enemy_offset = current_enemy_offset.lerp(target_offset, enemy_lerp_speed * delta)
-		base_pos += current_enemy_offset
-		
-		self.global_position = base_pos
-		
+	var closest_enemy = Main.find_closest_enemy(self.global_position)
+	
+	var target_offset := Vector2.ZERO
+	if closest_enemy:
+		var to_enemy = closest_enemy.global_position - global_position
+		target_offset = to_enemy * enemy_offset_factor
+	
+	current_enemy_offset = current_enemy_offset.lerp(target_offset, enemy_lerp_speed * delta)
+	offset = current_enemy_offset
+	
 	if shake_strength > 0:
 		shake_strength = lerpf(shake_strength, 0, shakeFade * delta)
-		offset = randomOffset()
+		offset += randomOffset()
 
 func randomOffset() -> Vector2:
 	return Vector2(rng.randf_range(-shake_strength, shake_strength), rng.randf_range(-shake_strength, shake_strength))

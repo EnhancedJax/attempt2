@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3 uid="uid://qgtqua65lnyp"]
+[gd_scene load_steps=63 format=3 uid="uid://qgtqua65lnyp"]
 
 [ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_mfkho"]
 [ext_resource type="Script" uid="uid://ba5txnl57okqe" path="res://entities/player/player.gd" id="2_2vuf7"]
@@ -11,17 +11,8 @@
 [ext_resource type="Script" uid="uid://b4081cqtyc53y" path="res://entities/player/states/walk.gd" id="5_80dvk"]
 [ext_resource type="Texture2D" uid="uid://jd080mnycc31" path="res://entities/player/base_run_strip8.png" id="6_a1qjk"]
 [ext_resource type="Script" uid="uid://dff7xdwabhnu" path="res://entities/player/states/roll.gd" id="6_uefxj"]
-[ext_resource type="Script" uid="uid://bd13d72y7rkdl" path="res://entities/player/states/death.gd" id="9_a1qjk"]
-
-[sub_resource type="Gradient" id="Gradient_26q78"]
-offsets = PackedFloat32Array(0.262712, 1)
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_bectd"]
-gradient = SubResource("Gradient_26q78")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(1, 0.5)
+[ext_resource type="Script" uid="uid://3urgwh1665ut" path="res://entities/player/camera.gd" id="8_p7rki"]
+[ext_resource type="Script" path="res://entities/player/states/death.gd" id="9_a1qjk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7rklg"]
 resource_local_to_scene = true
@@ -374,36 +365,44 @@ bg_color = Color(1, 1, 1, 0.254902)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j3ovn"]
 bg_color = Color(1, 1, 1, 1)
 
+[sub_resource type="Gradient" id="Gradient_26q78"]
+offsets = PackedFloat32Array(0.262712, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_j3ovn"]
+gradient = SubResource("Gradient_26q78")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
 [node name="Player" instance=ExtResource("1_mfkho")]
 y_sort_enabled = true
 collision_layer = 2
 script = ExtResource("2_2vuf7")
 
-[node name="PointLight2D" type="PointLight2D" parent="." index="0"]
-scale = Vector2(3.28125, 3.28125)
-color = Color(0.355314, 0.355314, 0.355314, 1)
-texture = SubResource("GradientTexture2D_bectd")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="1"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_7rklg")
 position = Vector2(0.375, -2.875)
 sprite_frames = SubResource("SpriteFrames_7ppp2")
-animation = &"death"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D" index="0"]
 libraries = {
 &"": SubResource("AnimationLibrary_aufv5")
 }
 
-[node name="HealthComponent" parent="." index="4"]
+[node name="HealthComponent" parent="." index="3"]
 MAX_HEALTH = 3
 INITIAL_HEALTH = 2
 
-[node name="HurtboxComponent" parent="." index="5"]
+[node name="HurtboxComponent" parent="." index="4"]
 collision_mask = 2
 
-[node name="StateMachine" type="Node" parent="." index="7" node_paths=PackedStringArray("animatedSprite", "animator", "initial_state")]
+[node name="WeaponOrigin" parent="." index="5"]
+y_sort_enabled = true
+position = Vector2(0, 0)
+
+[node name="StateMachine" type="Node" parent="." index="6" node_paths=PackedStringArray("animatedSprite", "animator", "initial_state")]
 script = ExtResource("3_l7dpn")
 animatedSprite = NodePath("../AnimatedSprite2D")
 animator = NodePath("../AnimatedSprite2D/AnimationPlayer")
@@ -426,7 +425,7 @@ PLAYER_HURTBOX = NodePath("../../HurtboxComponent")
 
 [node name="RollCooldown" type="Timer" parent="StateMachine" index="4"]
 
-[node name="Label" type="Label" parent="." index="8"]
+[node name="Label" type="Label" parent="." index="7"]
 z_index = 1000
 offset_left = -31.0
 offset_top = -22.0
@@ -438,7 +437,7 @@ text = "Weapon"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="ReloadIndicator" type="Label" parent="." index="9"]
+[node name="ReloadIndicator" type="Label" parent="." index="8"]
 clip_children = 1
 z_index = 1000
 anchors_preset = 7
@@ -469,11 +468,23 @@ theme_override_styles/background = SubResource("StyleBoxFlat_a1qjk")
 theme_override_styles/fill = SubResource("StyleBoxFlat_j3ovn")
 show_percentage = false
 
-[node name="LabelTimeout" type="Timer" parent="." index="10"]
+[node name="LabelTimeout" type="Timer" parent="." index="9"]
 
-[node name="InvincibilityTimer" type="Timer" parent="." index="11"]
+[node name="InvincibilityTimer" type="Timer" parent="." index="10"]
 wait_time = 0.5
 one_shot = true
+
+[node name="Camera2D" type="Camera2D" parent="." index="11"]
+process_callback = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 30.0
+script = ExtResource("8_p7rki")
+enemy_offset_factor = 0.3
+
+[node name="PointLight2D" type="PointLight2D" parent="." index="12"]
+scale = Vector2(3.28125, 3.28125)
+color = Color(0.355314, 0.355314, 0.355314, 1)
+texture = SubResource("GradientTexture2D_j3ovn")
 
 [connection signal="signal_player_death" from="." to="StateMachine" method="_on_player_signal_player_death"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="StateMachine/Death" method="_on_animated_sprite_2d_animation_finished"]
