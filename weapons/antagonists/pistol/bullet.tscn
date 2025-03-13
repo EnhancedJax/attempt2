@@ -16,5 +16,6 @@ SPEED = 500.0
 shape = SubResource("RectangleShape2D_rhs8y")
 
 [node name="Sprite2D" parent="." index="1"]
+modulate = Color(4, 2, 2, 1)
 scale = Vector2(3.875, 3.875)
 texture = ExtResource("3_oi2xl")

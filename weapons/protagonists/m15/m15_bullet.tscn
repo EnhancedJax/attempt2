@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dps8a8h16admb"]
+[gd_scene load_steps=5 format=3 uid="uid://dps8a8h16admb"]
 
 [ext_resource type="PackedScene" uid="uid://g2v0fkvn0a7o" path="res://weapons/bullet_base.tscn" id="1_0dk0s"]
 [ext_resource type="Texture2D" uid="uid://b01e1qjah6km7" path="res://weapons/protagonists/m15/RifleAmmoBig.png" id="2_0opni"]
@@ -6,15 +6,6 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rhs8y"]
 size = Vector2(30, 13)
-
-[sub_resource type="Gradient" id="Gradient_26q78"]
-colors = PackedColorArray(1, 1, 0, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_gdwrr"]
-gradient = SubResource("Gradient_26q78")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(1, 0.5)
 
 [node name="M15Bullet" instance=ExtResource("1_0dk0s")]
 script = ExtResource("2_7lkd7")
@@ -25,16 +16,11 @@ position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_rhs8y")
 
 [node name="Sprite2D" parent="." index="1"]
-scale = Vector2(1.5, 1.5)
+self_modulate = Color(5, 5, 4, 1)
+scale = Vector2(2, 2)
 texture = ExtResource("2_0opni")
 
 [node name="ShadowSprite" parent="." index="2"]
 position = Vector2(0, 32)
-scale = Vector2(3.125, 3.125)
+scale = Vector2(2, 2)
 texture = ExtResource("2_0opni")
-
-[node name="PointLight2D" type="PointLight2D" parent="." index="3"]
-scale = Vector2(0.625, 0.28125)
-color = Color(0.355314, 0.355314, 0.355314, 1)
-energy = 3.74
-texture = SubResource("GradientTexture2D_gdwrr")

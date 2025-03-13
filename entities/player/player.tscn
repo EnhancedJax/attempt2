@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://jd080mnycc31" path="res://entities/player/base_run_strip8.png" id="6_a1qjk"]
 [ext_resource type="Script" uid="uid://dff7xdwabhnu" path="res://entities/player/states/roll.gd" id="6_uefxj"]
 [ext_resource type="Script" uid="uid://3urgwh1665ut" path="res://entities/player/camera.gd" id="8_p7rki"]
-[ext_resource type="Script" path="res://entities/player/states/death.gd" id="9_a1qjk"]
+[ext_resource type="Script" uid="uid://bd13d72y7rkdl" path="res://entities/player/states/death.gd" id="9_a1qjk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7rklg"]
 resource_local_to_scene = true
