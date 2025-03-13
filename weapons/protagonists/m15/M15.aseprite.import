@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://c5dtxekhcgula"
+path="res://.godot/imported/M15.aseprite-ef59309705d3f2d14420c8a0ade64eeb.res"
+
+[deps]
+
+source_file="res://weapons/protagonists/m15/M15.aseprite"
+dest_files=["res://.godot/imported/M15.aseprite-ef59309705d3f2d14420c8a0ade64eeb.res"]
+
+[params]
+

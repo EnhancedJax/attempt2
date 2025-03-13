@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://c6vh0tfhstrxh"
+path="res://.godot/imported/sunnyside_world_chatacter_anim_human_v1.0.aseprite-14875fea4a7ae0d9ab49b82b34218983.res"
+
+[deps]
+
+source_file="res://entities/player/sunnyside_world_chatacter_anim_human_v1.0.aseprite"
+dest_files=["res://.godot/imported/sunnyside_world_chatacter_anim_human_v1.0.aseprite-14875fea4a7ae0d9ab49b82b34218983.res"]
+
+[params]
+
