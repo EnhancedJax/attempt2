@@ -44,5 +44,7 @@ func rsignal_weapon_equipped(node: Node2D):
 		$AnimatedSprite2D/AnimationPlayer.play("equip")
 
 func rsignal_shot():
-	$AnimatedSprite2D/AnimationPlayer.play("RESET")
-	$AnimatedSprite2D/AnimationPlayer.play("shot")
+	$AnimatedSprite2D.play('default')
+	$AnimatedSprite2D.play('shot')
+	#$AnimatedSprite2D/AnimationPlayer.play("RESET")
+	#$AnimatedSprite2D/AnimationPlayer.play("shot")

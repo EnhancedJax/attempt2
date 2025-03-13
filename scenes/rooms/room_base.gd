@@ -34,11 +34,17 @@ const ENTRANCES = {
 
 const ENTRANCE_WIDTH = 2  # tiles wide
 
+# var FOG_COLOR :  Color = ProjectSettings.get_setting("rendering/environment/defaults/default_clear_color")
+var FOG_COLOR :  Color = Color("#191919")
+const FOG_PADDING : int = 10
+var fog_sprite : Sprite2D
+
 func _ready() -> void:
 	if not door_config:
 		door_config = [true, true, true, true]
 	set_door_opened(true)
 	setup_entrance_detection()
+	#setup_fog_of_war()
 
 func rsignal_player_entered() -> void:
 	signal_player_entered.emit()
@@ -59,6 +65,9 @@ func clear_room() -> void:
 func start_wave(spawn_delay: float = 0.1) -> void: # externally managed waves`
 	var used_cells = floor_tilemap.get_used_cells()
 	used_cells.shuffle()
+	if enemy_count == 0:
+		clear_room()
+		return
 	for i in range(enemy_count):
 		var random_index = randi() % enemy_scenes.size()
 		var enemy: EntityBase = enemy_scenes[random_index].instantiate()
@@ -127,3 +136,39 @@ func setup_entrance_detection() -> void:
 			
 		collision.position = pos
 		entrance_detector.add_child(collision)
+
+# func setup_fog_of_war() -> void:
+# 	# if is_peaceful_room:
+# 	# 	return
+		
+# 	fog_sprite = Sprite2D.new()
+# 	var texture = GradientTexture2D.new()
+# 	var gradient = Gradient.new()
+# 	fog_sprite.z_index = 1000
+# 	fog_sprite.centered = false
+# 	fog_sprite.texture = texture
+# 	fog_sprite.global_position = global_position - Vector2(FOG_PADDING, FOG_PADDING)
+
+# 	texture.gradient = gradient
+# 	texture.width = tilemap_px * dimension.x + FOG_PADDING * 2
+# 	texture.height = tilemap_px * dimension.y + FOG_PADDING * 2
+# 	texture.fill = GradientTexture2D.FILL_SQUARE
+# 	texture.fill_from = Vector2(0.5, 0.5)
+# 	texture.fill_to = Vector2(1,1)
+	
+# 	var transparent_color = Color(0.1,0.1,0.1, 0)
+# 	gradient.set_color(0, FOG_COLOR)
+# 	gradient.set_color(1, transparent_color)
+# 	gradient.set_offset(0, 0.95)
+	
+# 	add_child(fog_sprite)
+	# connect("signal_player_entered", animate_fog_of_war)
+
+# func animate_fog_of_war() -> void:
+# 	if not fog_sprite:
+# 		return
+		
+# 	var tween = create_tween()
+# 	tween.tween_property(fog_sprite.texture, "fill_to", Vector2(0, 0), 1.0)
+# 	await tween.finished
+# 	fog_sprite.queue_free()

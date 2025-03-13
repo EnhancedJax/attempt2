@@ -108,8 +108,8 @@ script = ExtResource("1_57ibk")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
 position = Vector2(0, -6)
+scale = Vector2(0.994942, 1)
 sprite_frames = SubResource("SpriteFrames_g2lem")
-animation = &"open"
 autoplay = "default"
 
 [node name="InteractionComponent" parent="." instance=ExtResource("2_3dx1m")]

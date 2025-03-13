@@ -6,7 +6,6 @@
 
 [node name="RoomBase" type="Node2D"]
 y_sort_enabled = true
-position = Vector2(1, 0)
 script = ExtResource("1_ptmbc")
 id = "base"
 dimension = Vector2i(9, 9)

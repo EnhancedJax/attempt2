@@ -398,7 +398,7 @@ func print_dungeon_layout() -> void:
 # CONSTANTS AND ROOM SCENES
 #===============================================================================
 const TILE_SIZE := 16
-const GAP      := 6  * TILE_SIZE  # minimum pixel gap between rooms
+const GAP      := 10  * TILE_SIZE  # minimum pixel gap between rooms
 
 const ROOM_SCENES = {
 	RoomType.B: [

@@ -7,13 +7,15 @@ var max_weapons_count : int = 2
 @onready var label_timeout : Timer = $LabelTimeout
 @onready var invincibility_timer: Timer = $InvincibilityTimer
 @onready var reload_progress_bar: ProgressBar = $ReloadIndicator/ProgressBar
+@onready var shield_timer : Timer = $ShieldTimer
 var weapon_nodes: Dictionary[int, WeaponBase] = {} # new: cache for weapon nodes
-var is_reloading: bool = false
 var reload_duration: float = 0
 var reload_timer: float = 0
+var is_reloading: bool = false
 
 var last_aiming_at : Vector2 = Vector2.ZERO
 var is_dead : bool = false
+var is_shield_active : bool = true
 
 signal signal_weapon_equipped()
 signal signal_player_death()
@@ -27,6 +29,7 @@ func _ready():
 	invincibility_timer.timeout.connect(func(): is_invincible = false)
 	label.visible = false
 	label_timeout.timeout.connect(handle_label_timeout)
+	shield_timer.timeout.connect(handle_shield_timeout)
 	reload_progress_bar.visible = false
 
 func _process(delta: float) -> void:
@@ -87,11 +90,19 @@ func rsignal_hitbox_hit(attack: AttackBase):
 	
 	# Apply knockback force
 	apply_force(attack.towards_vector * attack.knockback)
-	_health.take_damage(attack.damage)
+
+	# Handle shield mechanic
+	if is_shield_active:
+		is_shield_active = false
+		shield_timer.start()
+		Main.update_shield_ui(false)
+		animationPlayer.play("take_attack")
+	else:
+		_health.take_damage(attack.damage)
+		# Start brief invincibility
+		is_invincible = true
+		invincibility_timer.start()
 	
-	# Start brief invincibility
-	is_invincible = true
-	invincibility_timer.start()
 
 func rsignal_health_deducted(health: int, max_health: int):
 	super.rsignal_health_deducted(health, max_health)
@@ -139,6 +150,11 @@ func handle_label_timeout():
 	label.visible = false
 	label.text = ""
 	label_timeout.stop()
+
+func handle_shield_timeout():
+	is_shield_active = true
+	shield_timer.stop()
+	Main.update_shield_ui(true)
 
 func do_die():
 	if !is_dead:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bj81oeyskct0"]
+[gd_scene load_steps=25 format=3 uid="uid://bj81oeyskct0"]
 
 [ext_resource type="PackedScene" uid="uid://dnxw7kqi21unw" path="res://weapons/weapon_base.tscn" id="1_j4sq8"]
 [ext_resource type="Script" uid="uid://bam8hvn4ax01a" path="res://weapons/protagonists/m15/m15.gd" id="2_xu0o0"]
@@ -24,47 +24,59 @@ shader_parameter/hand_color_2 = Color(0.73, 0.43, 0.34, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x8wmp"]
 atlas = ExtResource("4_uqj3h")
-region = Rect2(0, 0, 32, 32)
+region = Rect2(0, 0, 34, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kqkdb"]
 atlas = ExtResource("4_uqj3h")
-region = Rect2(32, 0, 32, 32)
+region = Rect2(40, 0, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l470c"]
 atlas = ExtResource("4_uqj3h")
-region = Rect2(64, 0, 32, 32)
+region = Rect2(80, 0, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_liyrk"]
 atlas = ExtResource("4_uqj3h")
-region = Rect2(96, 0, 32, 32)
+region = Rect2(120, 0, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kbiqr"]
 atlas = ExtResource("4_uqj3h")
-region = Rect2(128, 0, 32, 32)
+region = Rect2(160, 0, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lfk1f"]
 atlas = ExtResource("4_uqj3h")
-region = Rect2(160, 0, 32, 32)
+region = Rect2(200, 0, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tdjjl"]
 atlas = ExtResource("4_uqj3h")
-region = Rect2(192, 0, 32, 32)
+region = Rect2(240, 0, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vfavb"]
 atlas = ExtResource("4_uqj3h")
-region = Rect2(224, 0, 32, 32)
+region = Rect2(280, 0, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uyhu4"]
 atlas = ExtResource("4_uqj3h")
-region = Rect2(256, 0, 32, 32)
+region = Rect2(320, 0, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8p3fj"]
 atlas = ExtResource("4_uqj3h")
-region = Rect2(288, 0, 32, 32)
+region = Rect2(360, 0, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d14mu"]
 atlas = ExtResource("4_uqj3h")
-region = Rect2(320, 0, 32, 32)
+region = Rect2(400, 0, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y4oep"]
+atlas = ExtResource("4_uqj3h")
+region = Rect2(440, 0, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ovm30"]
+atlas = ExtResource("4_uqj3h")
+region = Rect2(480, 0, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_knnuo"]
+atlas = ExtResource("4_uqj3h")
+region = Rect2(0, 0, 34, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_y4oep"]
 animations = [{
@@ -110,12 +122,26 @@ animations = [{
 "loop": true,
 "name": &"reload",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y4oep")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovm30")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_knnuo")
+}],
+"loop": false,
+"name": &"shot",
+"speed": 20.0
 }]
 
 [node name="M15" instance=ExtResource("1_j4sq8")]
 y_sort_enabled = true
 script = ExtResource("2_xu0o0")
-damage = 2
+damage = 1
 knockback = 2000.0
 recoil = 1000.0
 spread = 5.0
@@ -138,4 +164,4 @@ position = Vector2(-2, 1)
 target_position = Vector2(18, 0)
 
 [node name="FullAutoComponent" parent="." index="3" instance=ExtResource("6_n1vsn")]
-fire_rate = 5
+fire_rate = 10

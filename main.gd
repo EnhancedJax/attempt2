@@ -91,6 +91,9 @@ func update_coins(amount: int) -> void:
 	coins += amount
 	hud.update_coins(coins)
 
+func update_shield_ui(is_active: bool) -> void:
+	hud.update_shield(is_active)
+
 # /* ------------- Helpers ------------ */
 
 func spawn_node(node : Node, position_global : Vector2, layer: int = 0) -> void:

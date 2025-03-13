@@ -56,7 +56,7 @@ func rsignal_hitbox_hit(attack: AttackBase):
 	
 	# Apply knockback force
 	apply_force(attack.towards_vector * attack.knockback)
-	show_damage_number(attack.damage)
+	# show_damage_number(attack.damage)
 	_health.take_damage(attack.damage)
 
 func rsignal_health_deducted(health: int, max_health: int):
