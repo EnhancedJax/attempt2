@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3 uid="uid://bjxxktcqu5a4e"]
+
+[ext_resource type="Script" uid="uid://b0mtmwxevwkuy" path="res://scenes/rooms/misc/box.gd" id="1_cw4wt"]
+[ext_resource type="Texture2D" uid="uid://ccwxp5mv5pgmk" path="res://pending_assets/Tilesets/Decor.png" id="2_cw4wt"]
+[ext_resource type="PackedScene" uid="uid://piih37x1adkq" path="res://components/hurtbox/_hurtbox.tscn" id="4_6voqy"]
+[ext_resource type="PackedScene" uid="uid://dwic5pl3lo448" path="res://components/health/_health.tscn" id="4_f6rp5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6voqy"]
+size = Vector2(16, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f6rp5"]
+atlas = ExtResource("2_cw4wt")
+region = Rect2(48, 24, 16, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6voqy"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f6rp5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f6rp5"]
+size = Vector2(16, 21)
+
+[node name="Box" type="StaticBody2D"]
+y_sort_enabled = true
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_cw4wt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2.5)
+shape = SubResource("RectangleShape2D_6voqy")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_6voqy")
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_f6rp5")]
+MAX_HEALTH = 1
+INITIAL_HEALTH = 1
+
+[node name="HurtboxComponent" parent="." instance=ExtResource("4_6voqy")]
+collision_mask = 6
+
+[node name="Shape" type="CollisionShape2D" parent="HurtboxComponent"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_f6rp5")
+
+[connection signal="signal_health_deducted" from="HealthComponent" to="." method="rsignal_health_deducted"]
+[connection signal="signal_health_depleted" from="HealthComponent" to="." method="rsignal_health_depleted"]

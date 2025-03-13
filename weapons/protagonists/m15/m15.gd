@@ -37,14 +37,14 @@ func handle_reload() -> void:
 
 func handle_finish_reload() -> void:
 	super.handle_finish_reload()
-	$AnimatedSprite2D.play('default')
+	$AnimatedSprite2D.play('idle')
 
 func rsignal_weapon_equipped(node: Node2D):
 	if self == node:
 		$AnimatedSprite2D/AnimationPlayer.play("equip")
 
 func rsignal_shot():
-	$AnimatedSprite2D.play('default')
+	$AnimatedSprite2D.play('idle')
 	$AnimatedSprite2D.play('shot')
 	#$AnimatedSprite2D/AnimationPlayer.play("RESET")
 	#$AnimatedSprite2D/AnimationPlayer.play("shot")

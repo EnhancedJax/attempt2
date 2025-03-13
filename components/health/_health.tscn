@@ -1,7 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dwic5pl3lo448"]
 
-[sub_resource type="Resource" id="Resource_5gutj"]
-metadata/__load_path__ = "res://utils/_health.gd"
+[ext_resource type="Script" uid="uid://d1hvaioyu3shf" path="res://components/health/_health.gd" id="1_ot743"]
 
-[node name="_Health" type="Node"]
-script = SubResource("Resource_5gutj")
+[node name="HealthComponent" type="Node"]
+script = ExtResource("1_ot743")

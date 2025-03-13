@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://nl6av3r2mo54"]
 
 [ext_resource type="Script" uid="uid://ba77mn8y1am0t" path="res://entities/entity_base.gd" id="1_cwi3m"]
+[ext_resource type="PackedScene" uid="uid://dwic5pl3lo448" path="res://components/health/_health.tscn" id="2_o6o4l"]
 [ext_resource type="PackedScene" uid="uid://piih37x1adkq" path="res://components/hurtbox/_hurtbox.tscn" id="9_i1meg"]
-[ext_resource type="Script" uid="uid://d1hvaioyu3shf" path="res://components/health/_health.gd" id="9_vj8qu"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_16ehe"]
 radius = 5.0
@@ -28,8 +28,7 @@ shape = SubResource("CapsuleShape2D_16ehe")
 position = Vector2(0, -18)
 script = SubResource("GDScript_jp7cd")
 
-[node name="HealthComponent" type="Node" parent="."]
-script = ExtResource("9_vj8qu")
+[node name="HealthComponent" parent="." instance=ExtResource("2_o6o4l")]
 
 [node name="HurtboxComponent" parent="." instance=ExtResource("9_i1meg")]
 collision_mask = 5

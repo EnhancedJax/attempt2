@@ -1,10 +1,9 @@
-[gd_scene load_steps=25 format=3 uid="uid://bj81oeyskct0"]
+[gd_scene load_steps=22 format=4 uid="uid://bj81oeyskct0"]
 
 [ext_resource type="PackedScene" uid="uid://dnxw7kqi21unw" path="res://weapons/weapon_base.tscn" id="1_j4sq8"]
 [ext_resource type="Script" uid="uid://bam8hvn4ax01a" path="res://weapons/protagonists/m15/m15.gd" id="2_xu0o0"]
 [ext_resource type="PackedScene" uid="uid://cyyhdytcpd73i" path="res://components/bullet_spawner/basic_linear/node.tscn" id="3_1ifyx"]
 [ext_resource type="AudioStream" uid="uid://d0d2lkh2xvthi" path="res://pending_assets/sounds/rifle_single.wav" id="3_ceglm"]
-[ext_resource type="Texture2D" uid="uid://6dbyf4s74m7" path="res://weapons/protagonists/m15/M15-Sheet.png" id="4_uqj3h"]
 [ext_resource type="Shader" uid="uid://ctc7jwnjkk8is" path="res://weapons/protagonists/color_hand.gdshader" id="4_x8wmp"]
 [ext_resource type="PackedScene" uid="uid://cuiahy254v43" path="res://components/fire/full_auto/_full_auto.tscn" id="6_n1vsn"]
 
@@ -22,61 +21,53 @@ shader_parameter/hand_color_1 = Color(0.914, 0.678, 0.49, 1)
 shader_parameter/og_color_2 = Color(0.87, 0, 1, 1)
 shader_parameter/hand_color_2 = Color(0.73, 0.43, 0.34, 1)
 
+[sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_uqj3h"]
+_data = PackedByteArray("AAADAAUAAAABAAAAoAAAAGAAAAAsBAAAUklGRiQEAABXRUJQVlA4TBgEAAAvn8AXEI+gKrKthBJ8ufUf8kAFdw2iJpKt5kcU8AUQKgYvaMcACmhzpSaSreZb+GTK7AB5yKLCQPSAgd9SM/8BAIDxj3AhXxDLSETQJBEcnaNfGj9JdMf+T+hWWcTUzrbBSQUKsm3FratLzj5CafUy/9maCwbJVprfVET/HbhtG0lJj8GespPuzhvin9iEGwtBsHNvj6q+6SJOaRgEkl5CptFA8JJeD/gURF3oGKQQ2ne01nP2QMgyXpOSfFagWb0DvrQCErNht0GVvVb4gYc9yKzFnWiEVPcFvRrwqTY+SZq+Snib7DLDT5cSA4S8BsGM4A5vR5uqbTq5a3y2vVaOJNaGchwzXN62rfmfCGoWnAryvGGyfRnPJLWFhT5mxEeZ54tsft2Tv8cxB+aUNQ27E+wEKhg+kuzr8JSoypySXC7EgO945Nop2mwJMWle5wYKDXLKaPX+9XyI2avWBslm9YBeuVbyL+FZs4Bgo2y4ohM8IzkHdHwhT8pQz6cRnzx9ReoDKfHJsyFQFl6KFEt4Nur4VgZpNCWrfAFb3Wv2L/PZmgXs5nGUyDomXe78G/N53r/GOeKTJ/uv6wOXUjpkrf2n5VjbhnwZcKkP8CKfcFdfGADGajb71rb+fSObV/0b8M2pSEFnYDn7FkK8xY2K6AqsKOW+bjJvLh/x/xYJN8YnCPY744tAlRvjQyApbogPKYT2nSbifvjsBkiVHXFDfA0K2GTDDfGJREen4kS+8mo6FoJGV3cjKU7ko5TySjoW7cPebAlBKSfxhcpxlDP4ztK76F6yw5KEk9oz+Joqy2KN71S9S3TsgCQUUWT5KCfwRUK0tc53kt5Fuq3uFUVijEhiOYGvpUJole9MvaVYk3Sb85l1f8iETuDrUmfxnaN39lXCLdVI+35XnMUXL8WXQJhqlxQkgDKS8Y58MprjlAC1UJRBvCFfWmZ91FQ535JPOqZ9nIr35IP4n4mEGwtBsHNvj6q+5PLxOo+ApBecP68PpBDad17oET2Jix+026DKXj0TfmRy7hQ81GFEfP/68fFx7VUAm2xY0zuocQ+yjJfXgM9fP3268peiXRXmr+hSokMYCQ4eFRlDjvG0qarugL58/XrhQrs6jjJ/HoW3bWv6EkHdnwgeVSR58QTPKfnx49u3K18osEuxhGDSOKesoPTwE8FfB0uy7wmeRClZyoVBssOShCVPXWhwzJSzEzxh31M8xPHIDuuigB1IGiIkT0aAjXLrKAaCZ+wb4o1UXBmw1b2iJKQN25rcUK5MKVLM2xfYA7xuXPtPwLalRohwKaVzQLOInd7jaHzzggV6iselfyu5URXd21KsHpGx4BX/Biou31IQ2elyEmopcZLgkgNduoREbmgUpZxdcvE+N5k3l4/493IG")
+size_override = Vector2(160, 96)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_x8wmp"]
-atlas = ExtResource("4_uqj3h")
-region = Rect2(0, 0, 34, 32)
+atlas = SubResource("PortableCompressedTexture2D_uqj3h")
+region = Rect2(0, 0, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kqkdb"]
-atlas = ExtResource("4_uqj3h")
+atlas = SubResource("PortableCompressedTexture2D_uqj3h")
 region = Rect2(40, 0, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l470c"]
-atlas = ExtResource("4_uqj3h")
+atlas = SubResource("PortableCompressedTexture2D_uqj3h")
 region = Rect2(80, 0, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_liyrk"]
-atlas = ExtResource("4_uqj3h")
+atlas = SubResource("PortableCompressedTexture2D_uqj3h")
 region = Rect2(120, 0, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kbiqr"]
-atlas = ExtResource("4_uqj3h")
-region = Rect2(160, 0, 40, 32)
+atlas = SubResource("PortableCompressedTexture2D_uqj3h")
+region = Rect2(0, 32, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lfk1f"]
-atlas = ExtResource("4_uqj3h")
-region = Rect2(200, 0, 40, 32)
+atlas = SubResource("PortableCompressedTexture2D_uqj3h")
+region = Rect2(40, 32, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tdjjl"]
-atlas = ExtResource("4_uqj3h")
-region = Rect2(240, 0, 40, 32)
+atlas = SubResource("PortableCompressedTexture2D_uqj3h")
+region = Rect2(80, 32, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vfavb"]
-atlas = ExtResource("4_uqj3h")
-region = Rect2(280, 0, 40, 32)
+atlas = SubResource("PortableCompressedTexture2D_uqj3h")
+region = Rect2(120, 32, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uyhu4"]
-atlas = ExtResource("4_uqj3h")
-region = Rect2(320, 0, 40, 32)
+atlas = SubResource("PortableCompressedTexture2D_uqj3h")
+region = Rect2(0, 64, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8p3fj"]
-atlas = ExtResource("4_uqj3h")
-region = Rect2(360, 0, 40, 32)
+atlas = SubResource("PortableCompressedTexture2D_uqj3h")
+region = Rect2(40, 64, 40, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d14mu"]
-atlas = ExtResource("4_uqj3h")
-region = Rect2(400, 0, 40, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_y4oep"]
-atlas = ExtResource("4_uqj3h")
-region = Rect2(440, 0, 40, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ovm30"]
-atlas = ExtResource("4_uqj3h")
-region = Rect2(480, 0, 40, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_knnuo"]
-atlas = ExtResource("4_uqj3h")
-region = Rect2(0, 0, 34, 32)
+atlas = SubResource("PortableCompressedTexture2D_uqj3h")
+region = Rect2(80, 64, 40, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_y4oep"]
 animations = [{
@@ -85,8 +76,8 @@ animations = [{
 "texture": SubResource("AtlasTexture_x8wmp")
 }],
 "loop": false,
-"name": &"default",
-"speed": 5.0
+"name": &"idle",
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -111,31 +102,31 @@ animations = [{
 "texture": SubResource("AtlasTexture_vfavb")
 }, {
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_kbiqr")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_uyhu4")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_8p3fj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_d14mu")
+"texture": SubResource("AtlasTexture_kqkdb")
 }],
-"loop": true,
+"loop": false,
 "name": &"reload",
 "speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_y4oep")
+"texture": SubResource("AtlasTexture_8p3fj")
 }, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ovm30")
+"duration": 10.0,
+"texture": SubResource("AtlasTexture_d14mu")
 }, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_knnuo")
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_x8wmp")
 }],
 "loop": false,
 "name": &"shot",
-"speed": 20.0
+"speed": 50.0
 }]
 
 [node name="M15" instance=ExtResource("1_j4sq8")]
@@ -152,10 +143,28 @@ reload_time = 1.0
 stream = SubResource("AudioStreamRandomizer_uuhya")
 
 [node name="AnimatedSprite2D" parent="." index="1"]
+texture_filter = 1
 material = SubResource("ShaderMaterial_kqkdb")
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_y4oep")
-offset = Vector2(4, 4)
+animation = &"idle"
+offset = Vector2(8, 4)
+metadata/_aseprite_wizard_interface_config_ = {
+"layer_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"should_round_fps": true,
+"slice": "",
+"source": "res://weapons/protagonists/m15/M15.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "5a78c4ce03335ee147efee7cf8cf78b9"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D" index="0"]
 

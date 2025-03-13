@@ -5,7 +5,7 @@ class_name PlayerIdle
 var p
 
 func enter():
-	sm.animatedSprite.play("default")
+	sm.animatedSprite.play("idle")
 	p = sm.player
 	
 func physics_update(delta : float):

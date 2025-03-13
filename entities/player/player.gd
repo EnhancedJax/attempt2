@@ -40,8 +40,8 @@ func _process(delta: float) -> void:
 		weapon_node.visible = true
 		
 		# Calculate weapon position based on aim direction
-		var direction = (aim_pos - global_position).normalized()
-		weapon_node.position = weaponOrigin.position + direction * 5
+		#var direction = (aim_pos - global_position).normalized()
+		#weapon_node.position = weaponOrigin.position + direction * 5
 		
 		weapon_node.handle_use(delta, false)
 		
