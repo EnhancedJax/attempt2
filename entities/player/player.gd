@@ -69,8 +69,9 @@ func get_aim_position() -> Vector2:
 	if closest_enemy:
 		return closest_enemy.global_position
 	else:
-		if self.velocity != Vector2.ZERO:
-			last_aiming_at = self.velocity * 1000 + self.global_position
+		var input_vector = Input.get_vector("left", "right", "up", "down")
+		if input_vector != Vector2.ZERO:
+			last_aiming_at = input_vector.normalized() * 1000 + self.global_position
 		return last_aiming_at
 
 func rsignal_weapon_did_use(attack: AttackBase):

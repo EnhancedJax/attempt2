@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://hbscyswbcwmc" path="res://hud/title/title.tscn" id="5_iwsok"]
 
 [sub_resource type="Gradient" id="Gradient_flvoc"]
-offsets = PackedFloat32Array(0.687356, 0.751724)
+offsets = PackedFloat32Array(0.438776, 0.705782)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_wgepp"]
