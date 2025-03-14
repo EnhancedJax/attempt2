@@ -13,7 +13,7 @@ func _ready() -> void:
 	Main.register_camera(self)
 
 func apply_shake(strength: float = 5.0):
-	shake_strength = strength
+	shake_strength = strength / 4
 
 func _process(delta: float) -> void:
 	var closest_enemy = Main.find_closest_enemy(self.global_position)

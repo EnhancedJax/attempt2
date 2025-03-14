@@ -22,8 +22,8 @@ Lookup="*res://tables/lookup.gd"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=320
+window/size/viewport_height=180
 window/size/window_width_override=2500
 window/size/window_height_override=1500
 window/stretch/mode="viewport"
@@ -122,7 +122,7 @@ textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"
 viewport/hdr_2d=true
 environment/defaults/default_clear_color=Color(0.0635131, 0.0635131, 0.063513, 1)
-textures/snap_controls_to_pixels=false
+2d/snap/snap_2d_transforms_to_pixel=true
 textures/vsync/vsync_mode=3
 textures/size/window_height_override=0
 textures/size/window_width_override=0

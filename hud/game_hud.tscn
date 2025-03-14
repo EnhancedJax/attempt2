@@ -13,8 +13,8 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_wgepp"]
 gradient = SubResource("Gradient_flvoc")
-width = 200
-height = 200
+width = 50
+height = 50
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.046398, 0)
@@ -37,10 +37,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -248.0
-offset_top = 50.0
-offset_right = -48.0
-offset_bottom = 250.0
+offset_left = -55.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = 55.0
 grow_horizontal = 0
 
 [node name="Clipper" type="Sprite2D" parent="Minimap"]
@@ -53,27 +53,27 @@ layout_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -200.0
-offset_bottom = 200.0
+offset_left = -50.0
+offset_bottom = 50.0
 grow_horizontal = 0
 script = ExtResource("2_5l0xr")
 
 [node name="Positioner" type="Node2D" parent="Minimap/Clipper/MinimapGenerator"]
 clip_children = 1
-position = Vector2(200, 0)
 
 [node name="HeartConainer" type="HBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 41.0
-offset_top = 36.0
-offset_right = 131.0
-offset_bottom = 126.0
-scale = Vector2(0.5, 0.5)
+offset_left = 10.0
+offset_top = 8.0
+offset_right = 100.0
+offset_bottom = 98.0
+scale = Vector2(0.1, 0.1)
 theme_override_constants/separation = 16
 
 [node name="Heart" type="Control" parent="HeartConainer"]
 custom_minimum_size = Vector2(90, 90)
 layout_mode = 2
+metadata/_edit_lock_ = true
 
 [node name="HeartBG" type="TextureRect" parent="HeartConainer/Heart"]
 custom_minimum_size = Vector2(90, 90)
@@ -82,6 +82,7 @@ offset_right = 80.0
 offset_bottom = 80.0
 scale = Vector2(1, 1.0039)
 texture = ExtResource("2_ti8pg")
+metadata/_edit_lock_ = true
 
 [node name="HeartColor" type="TextureRect" parent="HeartConainer/Heart"]
 layout_mode = 1
@@ -97,6 +98,7 @@ offset_bottom = 35.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_4w0yt")
+metadata/_edit_lock_ = true
 
 [node name="WeaponContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -105,10 +107,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -181.0
-offset_top = -392.0
-offset_right = -157.0
-offset_bottom = -368.0
+offset_left = -24.0
+offset_top = -61.0
+offset_right = -22.0
+offset_bottom = -59.0
 grow_horizontal = 0
 grow_vertical = 0
 scale = Vector2(5, 5)
@@ -116,20 +118,18 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_xm3kd")
 
 [node name="MarginContainer" type="MarginContainer" parent="WeaponContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
 metadata/_edit_lock_ = true
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="WeaponContainer/MarginContainer"]
 clip_contents = true
-custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 metadata/_edit_lock_ = true
 
 [node name="TextureRect" type="TextureRect" parent="WeaponContainer/MarginContainer/AspectRatioContainer"]
-custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -138,22 +138,23 @@ stretch_mode = 5
 
 [node name="Title" parent="." instance=ExtResource("5_iwsok")]
 layout_mode = 1
+metadata/_edit_lock_ = true
 
 [node name="CoinLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 45.0
-offset_top = 94.0
-offset_right = 237.0
-offset_bottom = 134.0
-theme_override_font_sizes/font_size = 24
+offset_left = 9.0
+offset_top = 21.0
+offset_right = 57.0
+offset_bottom = 31.0
+theme_override_font_sizes/font_size = 8
 text = "Coins: 123"
 
 [node name="ShieldLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 45.0
-offset_top = 150.0
-offset_right = 237.0
-offset_bottom = 190.0
+offset_left = 63.0
+offset_top = 21.0
+offset_right = 108.0
+offset_bottom = 31.0
 scale = Vector2(1, 1.01596)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 8
 text = "Shield: On"

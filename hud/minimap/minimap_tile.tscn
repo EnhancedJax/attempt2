@@ -1,17 +1,17 @@
 [gd_scene load_steps=3 format=3 uid="uid://ga3jop4y2drr"]
 
 [ext_resource type="Script" uid="uid://ck6w2tayss4yv" path="res://minimap_tile.gd" id="1_8i6iv"]
-[ext_resource type="StyleBox" uid="uid://dcluax4u0tfc8" path="res://hud/minimap/current.tres" id="1_naqit"]
+[ext_resource type="StyleBox" uid="uid://w3ks0dtiestu" path="res://hud/minimap/visited.tres" id="1_lggtc"]
 
 [node name="MinimapTile" type="PanelContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -1936.0
-offset_bottom = -1086.0
+offset_right = -310.0
+offset_bottom = -166.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = ExtResource("1_naqit")
+theme_override_styles/panel = ExtResource("1_lggtc")
 script = ExtResource("1_8i6iv")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
@@ -19,4 +19,5 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="CenterContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 8
 text = "S"

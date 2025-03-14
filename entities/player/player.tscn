@@ -580,9 +580,8 @@ script = ExtResource("2_2vuf7")
 y_sort_enabled = true
 texture_filter = 1
 material = SubResource("ShaderMaterial_7rklg")
-position = Vector2(0.375, -2.875)
 sprite_frames = SubResource("SpriteFrames_pth52")
-animation = &"death"
+animation = &"idle"
 metadata/_aseprite_wizard_interface_config_ = {
 "animation_section": true,
 "layer_section": true,
@@ -633,23 +632,29 @@ script = ExtResource("4_fuwg5")
 
 [node name="Walk" type="Node" parent="StateMachine" index="2"]
 script = ExtResource("5_80dvk")
-MAX_SPEED = 750.0
+MAX_SPEED = 180.0
 
 [node name="Roll" type="Node" parent="StateMachine" index="3" node_paths=PackedStringArray("PLAYER_HURTBOX")]
 script = ExtResource("6_uefxj")
-ROLL_SPEED = 800.0
+ROLL_SPEED = 200.0
 PLAYER_HURTBOX = NodePath("../../HurtboxComponent")
 
 [node name="RollCooldown" type="Timer" parent="StateMachine" index="4"]
 
 [node name="Label" type="Label" parent="." index="7"]
 z_index = 1000
-offset_left = -31.0
-offset_top = -22.0
-offset_right = 179.0
-offset_bottom = -2.0
-scale = Vector2(0.3, 0.3)
-theme_override_font_sizes/font_size = 16
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -18.0
+offset_top = -26.0
+offset_right = 18.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 8
 text = "Weapon"
 horizontal_alignment = 1
 vertical_alignment = 2
@@ -701,9 +706,11 @@ script = ExtResource("8_p7rki")
 enemy_offset_factor = 0.3
 
 [node name="PointLight2D" type="PointLight2D" parent="." index="13"]
+position = Vector2(0, 1)
 scale = Vector2(3.28125, 3.28125)
 color = Color(0.355314, 0.355314, 0.355314, 1)
 texture = SubResource("GradientTexture2D_j3ovn")
+metadata/_edit_lock_ = true
 
 [connection signal="signal_player_death" from="." to="StateMachine" method="_on_player_signal_player_death"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="StateMachine/Death" method="_on_animated_sprite_2d_animation_finished"]

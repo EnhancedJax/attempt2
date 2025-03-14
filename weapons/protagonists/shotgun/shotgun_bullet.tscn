@@ -5,23 +5,20 @@
 [ext_resource type="Texture2D" uid="uid://b5yo2tkw3mjsi" path="res://pending_assets/Bullets/ShotgunShellBig.png" id="3_3mgwm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rhs8y"]
-size = Vector2(50, 26)
+size = Vector2(14, 6)
 
 [node name="Bullet" instance=ExtResource("1_0dk0s")]
 script = ExtResource("2_rctb1")
-SPEED = 1000.0
+SPEED = 200.0
 
 [node name="Shape" type="CollisionShape2D" parent="." index="0"]
 position = Vector2(3, 0)
-scale = Vector2(0.51, 0.51)
 shape = SubResource("RectangleShape2D_rhs8y")
 
 [node name="Sprite2D" parent="." index="1"]
 position = Vector2(3, -2.98023e-08)
-scale = Vector2(1.96, 1.96)
 texture = ExtResource("3_3mgwm")
 
 [node name="ShadowSprite" parent="." index="2"]
 position = Vector2(5, 49)
-scale = Vector2(3, 3)
 texture = ExtResource("3_3mgwm")

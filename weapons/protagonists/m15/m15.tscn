@@ -131,12 +131,12 @@ animations = [{
 
 [node name="M15" instance=ExtResource("1_j4sq8")]
 script = ExtResource("2_xu0o0")
-damage = 1
-knockback = 2000.0
-recoil = 1000.0
+damage = 2
+knockback = 500.0
+recoil = 250.0
 spread = 5.0
 mag_size = 2
-reload_time = 1.0
+reload_time = 1.5
 
 [node name="RandomizedAudio" parent="." index="0"]
 stream = SubResource("AudioStreamRandomizer_uuhya")
@@ -144,7 +144,6 @@ stream = SubResource("AudioStreamRandomizer_uuhya")
 [node name="AnimatedSprite2D" parent="." index="1"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_kqkdb")
-scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_y4oep")
 animation = &"idle"
 offset = Vector2(8, 4)
@@ -168,8 +167,8 @@ metadata/_aseprite_wizard_source_file_hash_ = "5a78c4ce03335ee147efee7cf8cf78b9"
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D" index="0"]
 
 [node name="BulletSpawnerComponent" parent="." index="2" instance=ExtResource("3_1ifyx")]
-position = Vector2(-2, 1)
+position = Vector2(0, 1)
 target_position = Vector2(18, 0)
 
 [node name="FullAutoComponent" parent="." index="3" instance=ExtResource("6_n1vsn")]
-fire_rate = 10
+fire_rate = 5

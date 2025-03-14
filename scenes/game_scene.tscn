@@ -22,13 +22,11 @@ offset_bottom = -1.0
 script = ExtResource("1_i7woi")
 
 [node name="TileLayer" parent="." instance=ExtResource("2_7g524")]
-scale = Vector2(4, 4)
 
 [node name="GroundLayer" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("2_n6q6o")]
 position = Vector2(259, -219)
-scale = Vector2(4, 4)
 metadata/_edit_lock_ = true
 
 [node name="EnemyLayer" type="Node2D" parent="."]

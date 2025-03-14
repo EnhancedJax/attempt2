@@ -4,7 +4,7 @@ class_name BulletBase extends RigidBody2D
 var ATTACK: AttackBase
 
 func _process(delta: float) -> void:
-	$ShadowSprite.global_position = global_position + Vector2(0, 80)
+	$ShadowSprite.global_position = global_position + Vector2(0, 15)
 	$ShadowSprite.global_rotation = global_rotation
 
 func physics_update(collision: KinematicCollision2D) -> void:

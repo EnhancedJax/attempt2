@@ -5,11 +5,11 @@
 [ext_resource type="Script" uid="uid://ba8bps7deu80p" path="res://weapons/protagonists/m15/m15_bullet.gd" id="2_7lkd7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rhs8y"]
-size = Vector2(30, 13)
+size = Vector2(18, 9)
 
 [node name="M15Bullet" instance=ExtResource("1_0dk0s")]
 script = ExtResource("2_7lkd7")
-SPEED = 4000.0
+SPEED = 800.0
 
 [node name="Shape" type="CollisionShape2D" parent="." index="0"]
 position = Vector2(0, 0.5)
@@ -17,10 +17,8 @@ shape = SubResource("RectangleShape2D_rhs8y")
 
 [node name="Sprite2D" parent="." index="1"]
 self_modulate = Color(5, 5, 4, 1)
-scale = Vector2(2, 2)
 texture = ExtResource("2_0opni")
 
 [node name="ShadowSprite" parent="." index="2"]
 position = Vector2(0, 32)
-scale = Vector2(2, 2)
 texture = ExtResource("2_0opni")
