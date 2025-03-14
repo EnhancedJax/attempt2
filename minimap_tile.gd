@@ -5,7 +5,10 @@ const panel_visited = preload("res://hud/minimap/visited.tres")
 const panel_current = preload("res://hud/minimap/current.tres")
 
 func update_text(str: String):
-	$CenterContainer/Label.text = str
+	if str != "E":
+		$CenterContainer/Label.text = str
+	else:
+		$CenterContainer/Label.text = ""
 
 func update_style(sty: String):
 	if sty == "current":

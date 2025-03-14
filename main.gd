@@ -9,7 +9,7 @@ var control : Control
 var interactions: Array[Interaction]
 var is_paused: bool = false
 const floor_item = preload("res://scenes/floor_item/floor_item.tscn")
-const weapons = [0,1,2]
+const weapons = [0,1]
 
 var coins = 0
 

@@ -1,9 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://8m3clp0wpfeg"]
+[gd_scene load_steps=22 format=4 uid="uid://8m3clp0wpfeg"]
 
 [ext_resource type="PackedScene" uid="uid://dnxw7kqi21unw" path="res://weapons/weapon_base.tscn" id="1_j4sq8"]
 [ext_resource type="Script" uid="uid://7djfqjywhjqq" path="res://weapons/protagonists/shotgun/shotgun.gd" id="2_p0o1h"]
 [ext_resource type="AudioStream" uid="uid://d0d2lkh2xvthi" path="res://pending_assets/sounds/rifle_single.wav" id="3_ceglm"]
-[ext_resource type="Texture2D" uid="uid://bix83sprcwica" path="res://weapons/protagonists/shotgun/SawedOffShotgun.png" id="4_qvuy7"]
 [ext_resource type="PackedScene" uid="uid://cqpaelsgoqk53" path="res://components/bullet_spawner/basic_shotgun/node.tscn" id="5_v5jvg"]
 [ext_resource type="PackedScene" uid="uid://4fr4ngaevi8a" path="res://components/fire/semi_auto/_semi_auto.tscn" id="6_ircoe"]
 
@@ -13,6 +12,97 @@ random_pitch = 1.5
 random_volume_offset_db = 0.5
 streams_count = 1
 stream_0/stream = ExtResource("3_ceglm")
+
+[sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_8fy2o"]
+_data = PackedByteArray("AAADAAUAAAABAAAAeAAAAGAAAAAcAwAAUklGRhQDAABXRUJQVlA4TAcDAAAvd8AXEK/AKJIkRb30Ysa7H/kXdQLQC9vYthJhGWRSgXsz1M4QUofuqgkAkOFe1wywudUVRwMVyLDNfwAA+EHMDx3Cqv6mTJGt0hJmak/JkrtVl//BUYbyQ3+UZMg9kk1rNjRn5S5SgKK2vXXbhmbkDyDQk9jk/u/VomwCpnvenoj+O3DbNpJsz7mXnC52/1D+ZPr9pfN+fUl9fBw3r6+o94/y/npvI58/f75eX2qT0d+/ff18fameYjfv9v3Tp0/lY/4ojzxJVmTKU3Tduh1Wd9cvnz6Nb3KdbGEn79a7tTnRaEeTKCGN1nbbm6i6A9z79ZhrcfANc9GBcU4gR5MoISCttWE788dayNAB5hlB3fWoco8wQAecG8RbjIRBvloViHVBfcArlME5NaJ4B9+21XCRMx6lLFEDVVHVhCJwxiuJNcJShVIzepzw8mqEfV7+jB4DXlKNpQyU/xlzra+6bVtSRNbT29slRUj8BmQJTheXS0potC6hG6iemgxjyeELigKgDtKtm4gEJAoH5ilP5kNRVb9ZZbfdzKZvMPKhtHuncb7wWNxrrUq7WXT+Btx0mCZ38zQ+9HDdtq0CiA5Tsn3qBgWt1V2kP8qT+Dhch22EGGak2rvN0B58Km23hwnx5f2qDV/F0bMqNDN7pBjfE8zkXCjQ9nY/Yb6FDNLEJItvtahaUlRttXhafLm4e1Lc/WeRArqLpPEtl56WvlxIC6ulgIlk8a0XSeT7j4Az/vZgVL05ypf8BynhG6jCoG1L4itSaooarYtITKLATW+1lAw+outBAVAH6dYtcANU1R2t9e0yXIf5CC4IOvK5q+y2m9n8DbjpMJfLOVG+Lb5s7rVWpd0sGrhBOe66i1wu976CMb4eCXq4bttWAUSHqds+e6NuW1Vpu8n9PImPw3XYRohx6Nq7icyp0MzskZ7HV2q91/88c0Sm+CjQ9vYoQb58E1kaaXK3SJxvIYOqJUXVVounxZeLuyfF3X8WKaC7SBrfculp6cuFtLBaCphIFt96kUS+H6oLAA==")
+size_override = Vector2(120, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kv2jo"]
+atlas = SubResource("PortableCompressedTexture2D_8fy2o")
+region = Rect2(0, 0, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pgxrn"]
+atlas = SubResource("PortableCompressedTexture2D_8fy2o")
+region = Rect2(0, 32, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wx0gl"]
+atlas = SubResource("PortableCompressedTexture2D_8fy2o")
+region = Rect2(40, 32, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oxegg"]
+atlas = SubResource("PortableCompressedTexture2D_8fy2o")
+region = Rect2(80, 32, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_or3xc"]
+atlas = SubResource("PortableCompressedTexture2D_8fy2o")
+region = Rect2(0, 64, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a5ug3"]
+atlas = SubResource("PortableCompressedTexture2D_8fy2o")
+region = Rect2(40, 64, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ila7h"]
+atlas = SubResource("PortableCompressedTexture2D_8fy2o")
+region = Rect2(80, 64, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ce8th"]
+atlas = SubResource("PortableCompressedTexture2D_8fy2o")
+region = Rect2(40, 0, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dimow"]
+atlas = SubResource("PortableCompressedTexture2D_8fy2o")
+region = Rect2(80, 0, 40, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2p6qt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kv2jo")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kv2jo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pgxrn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wx0gl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oxegg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_or3xc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a5ug3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ila7h")
+}],
+"loop": false,
+"name": &"reload",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ce8th")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dimow")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kv2jo")
+}],
+"loop": false,
+"name": &"shot",
+"speed": 10.0
+}]
 
 [sub_resource type="Animation" id="Animation_pgxrn"]
 length = 0.001
@@ -129,32 +219,49 @@ _data = {
 }
 
 [node name="Gun" instance=ExtResource("1_j4sq8")]
+scale = Vector2(0.8125, 0.8125)
 script = ExtResource("2_p0o1h")
 damage = 20
 knockback = 300.0
 recoil = 2000.0
 spread = 5.0
 mag_size = 5
-reload_time = 0.3
+reload_time = 0.7
 
 [node name="RandomizedAudio" parent="." index="0"]
 stream = SubResource("AudioStreamRandomizer_uuhya")
 
-[node name="Sprite2D" parent="." index="1"]
-scale = Vector2(0.8125, 0.8125)
-texture = ExtResource("4_qvuy7")
-centered = false
-offset = Vector2(-9, -8)
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D" index="0"]
-libraries = {
-&"": SubResource("AnimationLibrary_pgxrn")
-}
-
-[node name="BasicShotgun" parent="." index="2" instance=ExtResource("5_v5jvg")]
-position = Vector2(0, -2)
+[node name="BasicShotgun" parent="." index="1" instance=ExtResource("5_v5jvg")]
+position = Vector2(13.5385, 0)
 target_position = Vector2(17, 0)
 SPREAD_ANGLE = 10.0
 
-[node name="SemiAutoComponent" parent="." index="3" instance=ExtResource("6_ircoe")]
+[node name="SemiAutoComponent" parent="." index="2" instance=ExtResource("6_ircoe")]
 fire_rate = 1
+
+[node name="AnimatedSprite2D" parent="." index="3"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_2p6qt")
+animation = &"idle"
+offset = Vector2(20, 3)
+metadata/_aseprite_wizard_interface_config_ = {
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"should_round_fps": true,
+"slice": "",
+"source": "res://weapons/protagonists/shotgun/Shotgun.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "646e68607317b270105c3131fa4f70d0"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D" index="0"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_pgxrn")
+}

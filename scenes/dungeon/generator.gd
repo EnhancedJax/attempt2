@@ -35,7 +35,7 @@ var grid = {}          # Dictionary mapping "x,y" -> room id
 var n = 5  # number of enemy rooms (E)
 var m = 1  # number of loot rooms (L)
 
-# Constant for corridor floor width.
+# Constant for tdor floor width.
 const corridor_width = 2
 
 # We'll also store the room scenes in a dictionary for corridor drawing.

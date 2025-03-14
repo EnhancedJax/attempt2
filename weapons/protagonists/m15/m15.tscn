@@ -130,7 +130,6 @@ animations = [{
 }]
 
 [node name="M15" instance=ExtResource("1_j4sq8")]
-y_sort_enabled = true
 script = ExtResource("2_xu0o0")
 damage = 1
 knockback = 2000.0

@@ -577,6 +577,7 @@ collision_mask = 9
 script = ExtResource("2_2vuf7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
+y_sort_enabled = true
 texture_filter = 1
 material = SubResource("ShaderMaterial_7rklg")
 position = Vector2(0.375, -2.875)

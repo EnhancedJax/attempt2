@@ -57,12 +57,12 @@ func get_weapon(id: int, is_protagonist: bool = true) -> WeaponType:
 	return null
 
 func get_weapon_texture(id: int, _weapon: WeaponType = null, is_protagonist: bool = true) -> Texture:
-	var weapon = _weapon
-	if not weapon:
-		weapon = get_weapon(id, is_protagonist)
-	if weapon:
-		var scene = weapon.scene.instantiate()
-		var texture = scene.get_node("Sprite2D").texture
-		scene.queue_free()
-		return texture
+	#var weapon = _weapon
+	#if not weapon:
+		#weapon = get_weapon(id, is_protagonist)
+	#if weapon:
+		#var scene = weapon.scene.instantiate()
+		#var texture = scene.get_node("AnimatedSprite2D").texture
+		#scene.queue_free()
+		#return texture
 	return null

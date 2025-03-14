@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://vo0xrja3uy5k"]
+[gd_scene load_steps=10 format=3 uid="uid://vo0xrja3uy5k"]
 
 [ext_resource type="Script" uid="uid://c78ubkjtmx3ea" path="res://hud/game_hud.gd" id="1_msi3a"]
 [ext_resource type="Script" uid="uid://wm2ubopvbppu" path="res://hud/minimap.gd" id="2_5l0xr"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://g2j8odyvauwq" path="res://hud/heart_half_color.tres" id="3_4w0yt"]
 [ext_resource type="Texture2D" uid="uid://c36y3l0uhyhak" path="res://hud/assets/circle.png" id="3_n6fa7"]
 [ext_resource type="PackedScene" uid="uid://hbscyswbcwmc" path="res://hud/title/title.tscn" id="5_iwsok"]
-[ext_resource type="Texture2D" uid="uid://d1q7jn6ca14si" path="res://weapons/protagonists/m15/M15.png" id="6_rfnla"]
 
 [sub_resource type="Gradient" id="Gradient_flvoc"]
 offsets = PackedFloat32Array(0.687356, 0.751724)
@@ -134,7 +133,6 @@ custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource("6_rfnla")
 expand_mode = 1
 stretch_mode = 5
 

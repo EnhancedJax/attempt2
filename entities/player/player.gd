@@ -1,6 +1,6 @@
 class_name Player extends EntityBase
 
-var weapons : Array[int] = [0]
+var weapons : Array[int] = [0, 1]
 var equipped_weapon_index : int = 0
 var max_weapons_count : int = 2
 @onready var label : Label = $Label
