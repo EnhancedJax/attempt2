@@ -8,10 +8,6 @@ signal signal_shot()
 
 func shoot(towards: float) -> bool:
 	var is_colliding = self.is_colliding()
-	if is_colliding:
-		var collider = self.get_collider()
-		if collider is TileMapLayer:
-			return false
 	if BULLET:
 		var atk = ATTACK.duplicate()
 		atk.towards_vector = Vector2(cos(towards), sin(towards))

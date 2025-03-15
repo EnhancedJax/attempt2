@@ -10,10 +10,6 @@ signal signal_shot()
 
 func shoot(towards: float) -> bool:
 	var is_colliding = self.is_colliding()
-	if is_colliding:
-		var collider = self.get_collider()
-		if collider is TileMapLayer:
-			return false
 	if BULLET:
 		for i in range(PELLET_COUNT):
 			var spread = deg_to_rad(SPREAD_ANGLE) * (float(i) / (PELLET_COUNT - 1) - 0.5)

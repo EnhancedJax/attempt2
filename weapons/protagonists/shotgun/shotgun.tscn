@@ -1,17 +1,25 @@
-[gd_scene load_steps=21 format=4 uid="uid://8m3clp0wpfeg"]
+[gd_scene load_steps=25 format=4 uid="uid://8m3clp0wpfeg"]
 
-[ext_resource type="PackedScene" uid="uid://dnxw7kqi21unw" path="res://weapons/weapon_base.tscn" id="1_j4sq8"]
 [ext_resource type="Script" uid="uid://7djfqjywhjqq" path="res://weapons/protagonists/shotgun/shotgun.gd" id="2_p0o1h"]
 [ext_resource type="AudioStream" uid="uid://chnd0te4uref5" path="res://weapons/protagonists/shotgun/shot.wav" id="3_8fy2o"]
 [ext_resource type="AudioStream" uid="uid://gdctd1aynrkg" path="res://weapons/protagonists/shotgun/reload.wav" id="4_pgxrn"]
+[ext_resource type="PackedScene" uid="uid://culkeogipbs3r" path="res://scenes/misc/randomized_audio.tscn" id="5_oxegg"]
 [ext_resource type="PackedScene" uid="uid://cqpaelsgoqk53" path="res://components/bullet_spawner/basic_shotgun/node.tscn" id="5_v5jvg"]
 [ext_resource type="AudioStream" uid="uid://csu072mipm5dq" path="res://weapons/protagonists/shotgun/cycle.wav" id="5_wx0gl"]
 [ext_resource type="PackedScene" uid="uid://4fr4ngaevi8a" path="res://components/fire/semi_auto/_semi_auto.tscn" id="6_ircoe"]
+[ext_resource type="Shader" uid="uid://ctc7jwnjkk8is" path="res://weapons/protagonists/color_hand.gdshader" id="6_or3xc"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_uuhya"]
 resource_local_to_scene = true
 random_pitch = 1.5
 random_volume_offset_db = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cs4gi"]
+shader = ExtResource("6_or3xc")
+shader_parameter/og_color_1 = Color(0.675, 0, 0.776, 1)
+shader_parameter/hand_color_1 = Color(0.914, 0.678, 0.49, 1)
+shader_parameter/og_color_2 = Color(0.87, 0, 1, 1)
+shader_parameter/hand_color_2 = Color(0.73, 0.43, 0.34, 1)
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_8fy2o"]
 _data = PackedByteArray("AAADAAUAAAABAAAAeAAAAGAAAAAcAwAAUklGRhQDAABXRUJQVlA4TAcDAAAvd8AXEK/AKJIkRb30Ysa7H/kXdQLQC9vYthJhGWRSgXsz1M4QUofuqgkAkOFe1wywudUVRwMVyLDNfwAA+EHMDx3Cqv6mTJGt0hJmak/JkrtVl//BUYbyQ3+UZMg9kk1rNjRn5S5SgKK2vXXbhmbkDyDQk9jk/u/VomwCpnvenoj+O3DbNpJsz7mXnC52/1D+ZPr9pfN+fUl9fBw3r6+o94/y/npvI58/f75eX2qT0d+/ff18fameYjfv9v3Tp0/lY/4ojzxJVmTKU3Tduh1Wd9cvnz6Nb3KdbGEn79a7tTnRaEeTKCGN1nbbm6i6A9z79ZhrcfANc9GBcU4gR5MoISCttWE788dayNAB5hlB3fWoco8wQAecG8RbjIRBvloViHVBfcArlME5NaJ4B9+21XCRMx6lLFEDVVHVhCJwxiuJNcJShVIzepzw8mqEfV7+jB4DXlKNpQyU/xlzra+6bVtSRNbT29slRUj8BmQJTheXS0potC6hG6iemgxjyeELigKgDtKtm4gEJAoH5ilP5kNRVb9ZZbfdzKZvMPKhtHuncb7wWNxrrUq7WXT+Btx0mCZ38zQ+9HDdtq0CiA5Tsn3qBgWt1V2kP8qT+Dhch22EGGak2rvN0B58Km23hwnx5f2qDV/F0bMqNDN7pBjfE8zkXCjQ9nY/Yb6FDNLEJItvtahaUlRttXhafLm4e1Lc/WeRArqLpPEtl56WvlxIC6ulgIlk8a0XSeT7j4Az/vZgVL05ypf8BynhG6jCoG1L4itSaooarYtITKLATW+1lAw+outBAVAH6dYtcANU1R2t9e0yXIf5CC4IOvK5q+y2m9n8DbjpMJfLOVG+Lb5s7rVWpd0sGrhBOe66i1wu976CMb4eCXq4bttWAUSHqds+e6NuW1Vpu8n9PImPw3XYRohx6Nq7icyp0MzskZ7HV2q91/88c0Sm+CjQ9vYoQb58E1kaaXK3SJxvIYOqJUXVVounxZeLuyfF3X8WKaC7SBrfculp6cuFtLBaCphIFt96kUS+H6oLAA==")
@@ -104,26 +112,64 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_pgxrn"]
+[sub_resource type="Animation" id="Animation_wx0gl"]
+resource_name = "equip"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.443314, 6.28319]
+}
 
-[node name="Gun" instance=ExtResource("1_j4sq8")]
+[sub_resource type="Animation" id="Animation_oxegg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pgxrn"]
+_data = {
+&"RESET": SubResource("Animation_oxegg"),
+&"equip": SubResource("Animation_wx0gl")
+}
+
+[node name="Gun" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("2_p0o1h")
 damage = 1
 knockback = 80.0
 recoil = 500.0
-spread = 5.0
 mag_size = 5
 reload_time = 1.0
 audio_streams = Array[AudioStream]([ExtResource("3_8fy2o"), ExtResource("4_pgxrn"), ExtResource("5_wx0gl")])
 
-[node name="RandomizedAudio" parent="." index="0"]
+[node name="RandomizedAudio" parent="." instance=ExtResource("5_oxegg")]
 stream = SubResource("AudioStreamRandomizer_uuhya")
 
-[node name="AnimatedSprite2D" parent="." index="1"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
 texture_filter = 1
+material = SubResource("ShaderMaterial_cs4gi")
+position = Vector2(10, 5)
 sprite_frames = SubResource("SpriteFrames_2p6qt")
 animation = &"idle"
-offset = Vector2(20, 3)
+offset = Vector2(10, -2)
 metadata/_aseprite_wizard_interface_config_ = {
 "pending_changes": {}
 }
@@ -140,15 +186,16 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "646e68607317b270105c3131fa4f70d0"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D" index="0"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D"]
 root_node = NodePath("../..")
 libraries = {
 &"": SubResource("AnimationLibrary_pgxrn")
 }
+autoplay = "equip"
 
-[node name="SemiAutoComponent" parent="." index="2" instance=ExtResource("6_ircoe")]
+[node name="SemiAutoComponent" parent="." instance=ExtResource("6_ircoe")]
 fire_rate = 1
 
-[node name="BasicShotgun" parent="." index="3" instance=ExtResource("5_v5jvg")]
+[node name="BasicShotgun" parent="." instance=ExtResource("5_v5jvg")]
 target_position = Vector2(31, 0)
 SPREAD_ANGLE = 40.0

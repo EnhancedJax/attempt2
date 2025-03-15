@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://bj81oeyskct0"]
+[gd_scene load_steps=25 format=4 uid="uid://bj81oeyskct0"]
 
 [ext_resource type="PackedScene" uid="uid://dnxw7kqi21unw" path="res://weapons/weapon_base.tscn" id="1_j4sq8"]
 [ext_resource type="Script" uid="uid://bam8hvn4ax01a" path="res://weapons/protagonists/m15/m15.gd" id="2_xu0o0"]
@@ -129,6 +129,67 @@ animations = [{
 "speed": 50.0
 }]
 
+[sub_resource type="Animation" id="Animation_uqj3h"]
+resource_name = "equip"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.619592, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.8, 0.8), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_x8wmp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.8, 0.8)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kqkdb"]
+_data = {
+&"RESET": SubResource("Animation_x8wmp"),
+&"equip": SubResource("Animation_uqj3h")
+}
+
 [node name="M15" instance=ExtResource("1_j4sq8")]
 script = ExtResource("2_xu0o0")
 damage = 3
@@ -144,9 +205,11 @@ stream = SubResource("AudioStreamRandomizer_uuhya")
 [node name="AnimatedSprite2D" parent="." index="1"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_kqkdb")
+position = Vector2(1, 6)
+scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_y4oep")
 animation = &"idle"
-offset = Vector2(8, 4)
+offset = Vector2(7, -3)
 metadata/_aseprite_wizard_interface_config_ = {
 "layer_section": true,
 "pending_changes": {}
@@ -165,6 +228,9 @@ metadata/_aseprite_wizard_config_ = {
 metadata/_aseprite_wizard_source_file_hash_ = "5a78c4ce03335ee147efee7cf8cf78b9"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D" index="0"]
+libraries = {
+&"": SubResource("AnimationLibrary_kqkdb")
+}
 
 [node name="BulletSpawnerComponent" parent="." index="2" instance=ExtResource("3_1ifyx")]
 position = Vector2(0, 1)
