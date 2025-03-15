@@ -13,7 +13,7 @@ func shoot(towards: float) -> bool:
 		atk.towards_vector = Vector2(cos(towards), sin(towards))
 		var bullet = BULLET.instantiate()
 		bullet.register_attack(atk)
-		get_tree().root.add_child(bullet)
+		Main.control.get_child(0).add_child(bullet)
 			
 		var global_target_offset : Vector2
 		if not is_colliding:

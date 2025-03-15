@@ -5,10 +5,10 @@ extends Control
 # ─────────────────────────────────────────────────────────────────────────────
 
 # How much pixels one grid cell in the dungeon corresponds to. Visually shows gap between rooms (scale - size) px
-const MINIMAP_SCALE : int =  16
+const MINIMAP_SCALE : int =  20
 
 # Each room is drawn as a square.
-const ROOM_SIZE_MINIMAP : int =  12
+const ROOM_SIZE_MINIMAP : int =  16
 const MINIMAP_CORRIDOR_WIDTH : int =  2
 
 # (Optional) A margin offset if you want to nudge everything.

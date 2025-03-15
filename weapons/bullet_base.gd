@@ -9,9 +9,8 @@ func _process(delta: float) -> void:
 
 func physics_update(collision: KinematicCollision2D) -> void:
 	if collision:
-		var collider = collision.get_collider()
-		#if collider is TileMapLayer:
-		queue_free()
+		#var collider = collision.get_collider()
+		handle_hit()
 
 # /* ------------- Methods ------------ */
 

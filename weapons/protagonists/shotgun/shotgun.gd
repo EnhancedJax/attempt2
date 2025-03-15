@@ -5,6 +5,8 @@ extends WeaponBase
 @export var recoil : float = 100.0
 @export var spread : float = 5
 @onready var bullet_spawner = $BasicShotgun
+@onready var audio_bus_1 = $AudioBus1
+@onready var audio_bus_2 = $AudioBus2
 const BULLET = preload("res://weapons/protagonists/shotgun/shotgun_bullet.tscn")
 var ATTACK = BulletType.new()
 
@@ -28,22 +30,25 @@ func handle_attack() -> void:
 	atk.towards_vector = towards_vector
 	var shot = bullet_spawner.shoot(towards)
 	if shot: 
-		randomized_audio.stream = audio_streams[0]
-		randomized_audio.play()
+		audio_bus_1.stream = audio_streams[0]
+		audio_bus_1.play()
 		emit_signal("signal_weapon_did_use", atk)
 
 func handle_reload() -> void:
 	super.handle_reload()
-	randomized_audio.stream = audio_streams[1]
-	randomized_audio.play()
+	audio_bus_2.stream = audio_streams[1]
+	audio_bus_2.play()
 	$AnimatedSprite2D.play('reload')
 
 func handle_finish_reload() -> void:
 	mag_count = min(mag_size, mag_count + 1)
 	can_reload = mag_size > mag_count
-	randomized_audio.stream = audio_streams[2]
-	randomized_audio.play()
-	$AnimatedSprite2D.play('idle')
+	if can_reload:
+		handle_reload()
+	else:
+		audio_bus_2.stream = audio_streams[2]
+		audio_bus_2.play()
+		$AnimatedSprite2D.play('idle')
 
 func rsignal_weapon_equipped(node: Node2D):
 	if self == node:

@@ -112,6 +112,21 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="Animation" id="Animation_oxegg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
 [sub_resource type="Animation" id="Animation_wx0gl"]
 resource_name = "equip"
 length = 0.2
@@ -126,21 +141,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0.443314, 6.28319]
-}
-
-[sub_resource type="Animation" id="Animation_oxegg"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pgxrn"]
@@ -159,7 +159,10 @@ mag_size = 5
 reload_time = 1.0
 audio_streams = Array[AudioStream]([ExtResource("3_8fy2o"), ExtResource("4_pgxrn"), ExtResource("5_wx0gl")])
 
-[node name="RandomizedAudio" parent="." instance=ExtResource("5_oxegg")]
+[node name="AudioBus1" parent="." instance=ExtResource("5_oxegg")]
+stream = SubResource("AudioStreamRandomizer_uuhya")
+
+[node name="AudioBus2" parent="." instance=ExtResource("5_oxegg")]
 stream = SubResource("AudioStreamRandomizer_uuhya")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
