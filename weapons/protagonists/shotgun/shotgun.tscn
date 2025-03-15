@@ -1,17 +1,17 @@
-[gd_scene load_steps=19 format=4 uid="uid://8m3clp0wpfeg"]
+[gd_scene load_steps=21 format=4 uid="uid://8m3clp0wpfeg"]
 
 [ext_resource type="PackedScene" uid="uid://dnxw7kqi21unw" path="res://weapons/weapon_base.tscn" id="1_j4sq8"]
 [ext_resource type="Script" uid="uid://7djfqjywhjqq" path="res://weapons/protagonists/shotgun/shotgun.gd" id="2_p0o1h"]
-[ext_resource type="AudioStream" uid="uid://d0d2lkh2xvthi" path="res://pending_assets/sounds/rifle_single.wav" id="3_ceglm"]
+[ext_resource type="AudioStream" uid="uid://chnd0te4uref5" path="res://weapons/protagonists/shotgun/shot.wav" id="3_8fy2o"]
+[ext_resource type="AudioStream" uid="uid://gdctd1aynrkg" path="res://weapons/protagonists/shotgun/reload.wav" id="4_pgxrn"]
 [ext_resource type="PackedScene" uid="uid://cqpaelsgoqk53" path="res://components/bullet_spawner/basic_shotgun/node.tscn" id="5_v5jvg"]
+[ext_resource type="AudioStream" uid="uid://csu072mipm5dq" path="res://weapons/protagonists/shotgun/cycle.wav" id="5_wx0gl"]
 [ext_resource type="PackedScene" uid="uid://4fr4ngaevi8a" path="res://components/fire/semi_auto/_semi_auto.tscn" id="6_ircoe"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_uuhya"]
 resource_local_to_scene = true
 random_pitch = 1.5
 random_volume_offset_db = 0.5
-streams_count = 1
-stream_0/stream = ExtResource("3_ceglm")
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_8fy2o"]
 _data = PackedByteArray("AAADAAUAAAABAAAAeAAAAGAAAAAcAwAAUklGRhQDAABXRUJQVlA4TAcDAAAvd8AXEK/AKJIkRb30Ysa7H/kXdQLQC9vYthJhGWRSgXsz1M4QUofuqgkAkOFe1wywudUVRwMVyLDNfwAA+EHMDx3Cqv6mTJGt0hJmak/JkrtVl//BUYbyQ3+UZMg9kk1rNjRn5S5SgKK2vXXbhmbkDyDQk9jk/u/VomwCpnvenoj+O3DbNpJsz7mXnC52/1D+ZPr9pfN+fUl9fBw3r6+o94/y/npvI58/f75eX2qT0d+/ff18fameYjfv9v3Tp0/lY/4ojzxJVmTKU3Tduh1Wd9cvnz6Nb3KdbGEn79a7tTnRaEeTKCGN1nbbm6i6A9z79ZhrcfANc9GBcU4gR5MoISCttWE788dayNAB5hlB3fWoco8wQAecG8RbjIRBvloViHVBfcArlME5NaJ4B9+21XCRMx6lLFEDVVHVhCJwxiuJNcJShVIzepzw8mqEfV7+jB4DXlKNpQyU/xlzra+6bVtSRNbT29slRUj8BmQJTheXS0potC6hG6iemgxjyeELigKgDtKtm4gEJAoH5ilP5kNRVb9ZZbfdzKZvMPKhtHuncb7wWNxrrUq7WXT+Btx0mCZ38zQ+9HDdtq0CiA5Tsn3qBgWt1V2kP8qT+Dhch22EGGak2rvN0B58Km23hwnx5f2qDV/F0bMqNDN7pBjfE8zkXCjQ9nY/Yb6FDNLEJItvtahaUlRttXhafLm4e1Lc/WeRArqLpPEtl56WvlxIC6ulgIlk8a0XSeT7j4Az/vZgVL05ypf8BynhG6jCoG1L4itSaooarYtITKLATW+1lAw+outBAVAH6dYtcANU1R2t9e0yXIf5CC4IOvK5q+y2m9n8DbjpMJfLOVG+Lb5s7rVWpd0sGrhBOe66i1wu976CMb4eCXq4bttWAUSHqds+e6NuW1Vpu8n9PImPw3XYRohx6Nq7icyp0MzskZ7HV2q91/88c0Sm+CjQ9vYoQb58E1kaaXK3SJxvIYOqJUXVVounxZeLuyfF3X8WKaC7SBrfculp6cuFtLBaCphIFt96kUS+H6oLAA==")
@@ -114,6 +114,7 @@ recoil = 500.0
 spread = 5.0
 mag_size = 5
 reload_time = 1.0
+audio_streams = Array[AudioStream]([ExtResource("3_8fy2o"), ExtResource("4_pgxrn"), ExtResource("5_wx0gl")])
 
 [node name="RandomizedAudio" parent="." index="0"]
 stream = SubResource("AudioStreamRandomizer_uuhya")
@@ -150,5 +151,4 @@ fire_rate = 1
 
 [node name="BasicShotgun" parent="." index="3" instance=ExtResource("5_v5jvg")]
 target_position = Vector2(31, 0)
-collision_mask = 5
 SPREAD_ANGLE = 40.0

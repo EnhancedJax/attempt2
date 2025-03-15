@@ -28,16 +28,21 @@ func handle_attack() -> void:
 	atk.towards_vector = towards_vector
 	var shot = bullet_spawner.shoot(towards)
 	if shot: 
+		randomized_audio.stream = audio_streams[0]
 		randomized_audio.play()
 		emit_signal("signal_weapon_did_use", atk)
 
 func handle_reload() -> void:
 	super.handle_reload()
+	randomized_audio.stream = audio_streams[1]
+	randomized_audio.play()
 	$AnimatedSprite2D.play('reload')
 
 func handle_finish_reload() -> void:
 	mag_count = min(mag_size, mag_count + 1)
 	can_reload = mag_size > mag_count
+	randomized_audio.stream = audio_streams[2]
+	randomized_audio.play()
 	$AnimatedSprite2D.play('idle')
 
 func rsignal_weapon_equipped(node: Node2D):

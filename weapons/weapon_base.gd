@@ -6,6 +6,7 @@ signal signal_weapon_reloading(duration: float) # to be called by weapon impleme
 
 @export var mag_size : int = -1
 @export var reload_time : float = 0.5
+@export var audio_streams : Array[AudioStream]
 
 var firing_handler : FiringHandlerBase
 var mag_count : int = mag_size
