@@ -1,5 +1,6 @@
 extends RayCast2D
 
+@export var rotate : bool = true
 var BULLET : PackedScene
 var ATTACK : BulletType
 
@@ -16,6 +17,5 @@ func shoot(towards: float) -> bool:
 
 		var global_target_offset = target_position.rotated(towards) * abs(global_scale)
 		bullet.global_position = global_position + global_target_offset
-		bullet.rotation = towards
 		signal_shot.emit()
 	return did_shoot

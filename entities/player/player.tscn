@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=4 uid="uid://qgtqua65lnyp"]
+[gd_scene load_steps=77 format=4 uid="uid://qgtqua65lnyp"]
 
 [ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_mfkho"]
 [ext_resource type="Script" uid="uid://ba5txnl57okqe" path="res://entities/player/player.gd" id="2_2vuf7"]
@@ -554,6 +554,10 @@ _data = {
 &"take_attack": SubResource("Animation_f27go")
 }
 
+[sub_resource type="Curve" id="Curve_bectd"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.691063, 0.404715), 0.0, 0.0, 0, 0, Vector2(0.83282, 0.176817), -1.22716, -1.22716, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a1qjk"]
 bg_color = Color(1, 1, 1, 0.254902)
 
@@ -636,8 +640,9 @@ MAX_SPEED = 180.0
 
 [node name="Roll" type="Node" parent="StateMachine" index="3" node_paths=PackedStringArray("PLAYER_HURTBOX")]
 script = ExtResource("6_uefxj")
-ROLL_SPEED = 200.0
+ROLL_SPEED = 400.0
 PLAYER_HURTBOX = NodePath("../../HurtboxComponent")
+curve = SubResource("Curve_bectd")
 
 [node name="RollCooldown" type="Timer" parent="StateMachine" index="4"]
 

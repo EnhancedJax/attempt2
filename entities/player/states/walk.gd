@@ -8,6 +8,10 @@ func enter():
 	sm.animatedSprite.play("walk")
 	p = sm.player
 
+func update(delta: float):
+	if p.weapon_node:
+		p.weapon_node.handle_use(delta, false)
+		
 func physics_update(delta):
 	var input_direction = Input.get_vector("left", "right", "up", "down")
 

@@ -37,13 +37,6 @@ func _process(delta: float) -> void:
 	if weapon_node:
 		var aim_pos = get_aim_position()
 		weapon_node.update_sprite_flip(aim_pos)
-		weapon_node.visible = true
-		
-		# Calculate weapon position based on aim direction
-		#var direction = (aim_pos - global_position).normalized()
-		#weapon_node.position = weaponOrigin.position + direction * 5
-		
-		weapon_node.handle_use(delta, false)
 		
 		if is_reloading:
 			reload_timer += delta
@@ -67,12 +60,18 @@ func _process(delta: float) -> void:
 func get_aim_position() -> Vector2:
 	var closest_enemy = Main.find_closest_enemy(self.global_position)
 	if closest_enemy:
-		return closest_enemy.global_position
+		last_aiming_at = closest_enemy.global_position
 	else:
 		var input_vector = Input.get_vector("left", "right", "up", "down")
 		if input_vector != Vector2.ZERO:
 			last_aiming_at = input_vector.normalized() * 1000 + self.global_position
-		return last_aiming_at
+	
+	if is_reloading:
+		# During reload, project last aiming at to horizontal line
+		var direction = (last_aiming_at - self.global_position)
+		return self.global_position + Vector2(direction.x, 0).normalized() * 1000
+	
+	return last_aiming_at
 
 func rsignal_weapon_did_use(attack: AttackBase):
 	Main.camera.apply_shake(5)
