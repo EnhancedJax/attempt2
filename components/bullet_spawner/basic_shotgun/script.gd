@@ -9,8 +9,12 @@ var ATTACK : BulletType
 signal signal_shot()
 
 func shoot(towards: float) -> bool:
-	var did_shoot = not is_colliding()
-	if did_shoot and BULLET:
+	var is_colliding = self.is_colliding()
+	if is_colliding:
+		var collider = self.get_collider()
+		if collider is TileMapLayer:
+			return false
+	if BULLET:
 		for i in range(PELLET_COUNT):
 			var spread = deg_to_rad(SPREAD_ANGLE) * (float(i) / (PELLET_COUNT - 1) - 0.5)
 			var final_angle = towards + spread
@@ -20,9 +24,11 @@ func shoot(towards: float) -> bool:
 			var bullet = BULLET.instantiate()
 			bullet.register_attack(atk)
 			get_tree().root.add_child(bullet)
-
-			var global_target_offset = target_position.rotated(final_angle) * abs(global_scale)
+				
+			var global_target_offset : Vector2
+			if not is_colliding:
+				global_target_offset = target_position.rotated(final_angle) * abs(global_scale)
 			bullet.global_position = global_position + global_target_offset
 			bullet.rotation = final_angle
 		signal_shot.emit()
-	return did_shoot
+	return true

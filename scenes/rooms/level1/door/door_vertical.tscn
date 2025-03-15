@@ -1,0 +1,139 @@
+[gd_scene load_steps=11 format=4 uid="uid://l1w7huts8bj7"]
+
+[ext_resource type="Script" uid="uid://ct21j3ptl6hl0" path="res://scenes/rooms/level1/door/door.gd" id="1_hpvv5"]
+
+[sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_lce88"]
+_data = PackedByteArray("AAADAAUAAAABAAAAMAAAAFAAAACSAQAAUklGRooBAABXRUJQVlA4TH4BAAAvL8ATED9AJmAZ3aWGjxBaUBIAAZojMYJu31DTthHUsQS+W4/CUTv+mv8AAFCk/VwvW+2wBXKkbY/bBuO13t1y3l9Aav1flt7LBTjBAYQCF/D9KxLEP6lSRvR/AtI0pOD307+2xiwELZSrNc8t0DtzC9Tey4GHIbXWDNYGl957r/X5828GyVo5Uuvn8wmkQw9DtGuwd9bukw/cgggycgxrxe1+yqgZGz0MnbXiOnDpu6/UjPT9Y/QwXHFJf2x01u4T2sUtTfjGyDPfbxvWyoyeXEbNWABrxXXgYUjNSEcuffd1xXXsYYi2xuis3SeXZJAiDFKKgLQdPQy5Sruw9x96iVq4CqLvwVQrO63MeCtXQXQ265y1HKS1Xm3ynFVCkK05pLnIVym9T1FkX6T0fppxpPfTVYS5+CTBXJFBcptBzYUFNLcij6CoeYgjcyfCXFACsKLWCFi8ecECklvpHoKaxyxu7kQkBCVkkTdiXFhIQh60eFSKwwlauApKpAQz")
+size_override = Vector2(48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_06yyy"]
+atlas = SubResource("PortableCompressedTexture2D_lce88")
+region = Rect2(0, 0, 16, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_txo6o"]
+atlas = SubResource("PortableCompressedTexture2D_lce88")
+region = Rect2(16, 0, 16, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6s4l4"]
+atlas = SubResource("PortableCompressedTexture2D_lce88")
+region = Rect2(32, 0, 16, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_im8f2"]
+atlas = SubResource("PortableCompressedTexture2D_lce88")
+region = Rect2(0, 40, 16, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gf5ct"]
+atlas = SubResource("PortableCompressedTexture2D_lce88")
+region = Rect2(16, 40, 16, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hl7qv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_06yyy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_txo6o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6s4l4")
+}],
+"loop": false,
+"name": &"bottom",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_06yyy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_im8f2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gf5ct")
+}],
+"loop": false,
+"name": &"top",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5f452"]
+size = Vector2(32, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hpvv5"]
+size = Vector2(32, 5)
+
+[node name="DoorVertical" type="StaticBody2D" node_paths=PackedStringArray("door1", "door2")]
+y_sort_enabled = true
+script = ExtResource("1_hpvv5")
+door1 = NodePath("ASLeft")
+door2 = NodePath("ASRight")
+
+[node name="ASLeft" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_hl7qv")
+animation = &"bottom"
+centered = false
+offset = Vector2(0, -16)
+metadata/_aseprite_wizard_interface_config_ = {
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"should_round_fps": true,
+"slice": "",
+"source": "res://scenes/rooms/level1/door/door.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "d969deab9b70f9105272458f3c8d4a4a"
+
+[node name="ASRight" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(32, 0)
+scale = Vector2(-1, 1)
+sprite_frames = SubResource("SpriteFrames_hl7qv")
+animation = &"bottom"
+centered = false
+offset = Vector2(0, -16)
+metadata/_aseprite_wizard_interface_config_ = {
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"should_round_fps": true,
+"slice": "",
+"source": "res://scenes/rooms/level1/door/door.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "d969deab9b70f9105272458f3c8d4a4a"
+
+[node name="Left" type="CollisionShape2D" parent="."]
+position = Vector2(16, 8)
+shape = SubResource("RectangleShape2D_5f452")
+
+[node name="EntranceTop" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EntranceTop"]
+position = Vector2(16, -2)
+shape = SubResource("RectangleShape2D_hpvv5")
+
+[node name="EntranceBottom" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EntranceBottom"]
+position = Vector2(16, 18)
+shape = SubResource("RectangleShape2D_hpvv5")
+
+[connection signal="body_entered" from="EntranceTop" to="." method="rsignal_player_entered_top"]
+[connection signal="body_entered" from="EntranceBottom" to="." method="rsignal_player_entered_bottom"]

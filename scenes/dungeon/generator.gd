@@ -540,7 +540,7 @@ func place_rooms(matrix: Array) -> void:
 		# var room_type = nodes[i].type
 		
 		# Configure door settings based on connections from the matrix.
-		var door_config = [false, false, false, false]  # [top, left, bottom, right]
+		var door_config: Array[bool] = [false, false, false, false]  # [top, left, bottom, right]
 		for j in range(total_rooms):
 			var code = matrix[i][j]
 			match code:

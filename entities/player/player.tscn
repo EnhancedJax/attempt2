@@ -565,11 +565,13 @@ bg_color = Color(1, 1, 1, 0.254902)
 bg_color = Color(1, 1, 1, 1)
 
 [sub_resource type="Gradient" id="Gradient_bectd"]
-offsets = PackedFloat32Array(0.262712, 1)
+offsets = PackedFloat32Array(0.52381, 1)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_j3ovn"]
 gradient = SubResource("Gradient_bectd")
+width = 48
+height = 48
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)
@@ -702,6 +704,7 @@ wait_time = 0.5
 one_shot = true
 
 [node name="ShieldTimer" type="Timer" parent="." index="11"]
+wait_time = 5.0
 
 [node name="Camera2D" type="Camera2D" parent="." index="12"]
 process_callback = 0
@@ -714,6 +717,7 @@ enemy_offset_factor = 0.3
 position = Vector2(0, 1)
 scale = Vector2(3.28125, 3.28125)
 color = Color(0.355314, 0.355314, 0.355314, 1)
+energy = 0.3
 texture = SubResource("GradientTexture2D_j3ovn")
 metadata/_edit_lock_ = true
 

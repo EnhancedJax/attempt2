@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=4 uid="uid://oue2kr2eaavc"]
+[gd_scene load_steps=6 format=4 uid="uid://oue2kr2eaavc"]
 
 [ext_resource type="Script" uid="uid://drxtp5a6b6sav" path="res://scenes/rooms/room_base.gd" id="1_ptmbc"]
+[ext_resource type="PackedScene" uid="uid://l1w7huts8bj7" path="res://scenes/rooms/level1/door/door_vertical.tscn" id="2_8w0xn"]
+[ext_resource type="PackedScene" uid="uid://c6wj0t80kybli" path="res://scenes/rooms/level1/door/door_horizontal.tscn" id="3_a820y"]
 [ext_resource type="TileSet" uid="uid://b3hq822pff26v" path="res://scenes/rooms/level1/tileset_level1.tres" id="3_y663u"]
 [ext_resource type="Script" uid="uid://c3v8sc1ja8df1" path="res://scenes/rooms/room_entrance_detector.tres.gd" id="3_yvixq"]
 
@@ -13,6 +15,8 @@ entrances_top = Vector2i(2, 0)
 entrances_left = Vector2i(0, 4)
 entrances_bottom = Vector2i(5, 8)
 entrances_right = Vector2i(8, 3)
+door_vertical = ExtResource("2_8w0xn")
+door_horizontal = ExtResource("3_a820y")
 
 [node name="FloorTileLayer" type="TileMapLayer" parent="."]
 z_as_relative = false

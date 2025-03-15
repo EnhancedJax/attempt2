@@ -12,6 +12,8 @@ signal signal_player_entered()
 @export var enemy_scenes: Array[PackedScene] = []
 @export var is_peaceful_room : bool = false
 @export var enemy_count : int
+@export var door_vertical : PackedScene
+@export var door_horizontal : PackedScene
 
 @onready var wall_tilemap : TileMapLayer = $WallTileLayer
 @onready var floor_tilemap : TileMapLayer = $FloorTileLayer
@@ -19,31 +21,30 @@ signal signal_player_entered()
 
 @onready var entrance_detector: Area2D = $EntranceDetector
 
+
 var enemy_counter : int = 0
 
 # values to be set by generator
 var room_state : int = 0 # 0: unvisited, 1: visited, 2: cleared
-var door_config =  [true, true, true, true]
+var door_config : Array[bool] =  [true, true, true, true]
 
-const ENTRANCES = {
+const ENTRANCES : Dictionary[int, String] = {
 	0: "top",
 	1: "left",
 	2: "bottom",
 	3: "right"
 }
 
-const ENTRANCE_WIDTH = 2  # tiles wide
+const ENTRANCE_WIDTH: int = 2  # tiles wide
+const DOOR_PADDING_FROM_ENTRANCE: int = 1
 
-# var FOG_COLOR :  Color = ProjectSettings.get_setting("rendering/environment/defaults/default_clear_color")
-var FOG_COLOR :  Color = Color("#191919")
-const FOG_PADDING : int = 10
-var fog_sprite : Sprite2D
+var current_doors: Array[Door] = []
 
 func _ready() -> void:
 	if not door_config:
 		door_config = [true, true, true, true]
-	set_door_opened(true)
-	setup_entrance_detection()
+	_setup_doors_and_entrances()
+	_setup_entrance_detection()
 	#setup_fog_of_war()
 
 func rsignal_player_entered() -> void:
@@ -52,14 +53,12 @@ func rsignal_player_entered() -> void:
 		room_state = 2
 	elif room_state == 0:
 		room_state = 1
-		set_door_opened(false)
-		# await get_tree().create_timer(1).timeout
+		_close_doors()
 		start_wave()
-		# clear_room()
 
 func clear_room() -> void:
 	room_state = 2
-	set_door_opened(true)
+	_open_doors()
 	signal_room_cleared.emit()
 
 func start_wave(spawn_delay: float = 0.1) -> void: # externally managed waves`
@@ -84,24 +83,54 @@ func rsignal_spawned_enemy_died() -> void:
 
 # /* ------------ Internals ----------- */
 
-func set_door_opened(is_open: bool) -> void:
+func _setup_doors_and_entrances() -> void:
 	for dir in range(4):
 		var door_used = door_config[dir]
 		if door_used:
 			var entrance: Vector2i = get("entrances_" + ENTRANCES[dir])
+
+			# remove wall tile
 			for i in range(2):
 				var pos = Vector2i(
 					entrance.x + (i if dir in [0, 2] else 0),
 					entrance.y + (i if dir in [1, 3] else 0)
 				)
-				if is_open:
-					floor_tilemap.set_cell(pos, 0, Vector2i(0,0))
-					wall_tilemap.set_cell(pos, 0, Vector2i(-1,-1))
-				else:
-					wall_tilemap.set_cell(pos, 1, Vector2i(0,0))
-					floor_tilemap.set_cell(pos, 1, Vector2i(-1,-1))
+				floor_tilemap.set_cell(pos, 0, Vector2i(0,0))
+				wall_tilemap.set_cell(pos, 0, Vector2i(-1,-1))
+			
+			# spawn doors if not peaceful
+			if is_peaceful_room:
+				continue
+			# Choose door type based on direction
+			var door_scene = door_horizontal if dir in [1, 3] else door_vertical
+			var door_instance = door_scene.instantiate()
+			add_child(door_instance)
+			
+			# Calculate door position (2 tiles back from entrance)
+			var door_pos = Vector2(entrance) * tilemap_px
+			match dir:
+				0: # top
+					door_pos.y -= tilemap_px * DOOR_PADDING_FROM_ENTRANCE
+				1: # left
+					door_pos.x -= tilemap_px * DOOR_PADDING_FROM_ENTRANCE
+				2: # bottom
+					door_pos.y += tilemap_px * DOOR_PADDING_FROM_ENTRANCE
+				3: # right
+					door_pos.x += tilemap_px * DOOR_PADDING_FROM_ENTRANCE
+			
+			door_instance.position = door_pos
+			current_doors.append(door_instance)
 
-func setup_entrance_detection() -> void:
+func _open_doors() -> void:
+	for d in current_doors:
+		d.call_open_door()
+
+func _close_doors() -> void:
+	for d in current_doors:
+		d.call_lock_door()
+		d.call_close_door()
+
+func _setup_entrance_detection() -> void:
 	for dir in range(4):
 		if not door_config[dir]:
 			continue
@@ -136,39 +165,3 @@ func setup_entrance_detection() -> void:
 			
 		collision.position = pos
 		entrance_detector.add_child(collision)
-
-# func setup_fog_of_war() -> void:
-# 	# if is_peaceful_room:
-# 	# 	return
-		
-# 	fog_sprite = Sprite2D.new()
-# 	var texture = GradientTexture2D.new()
-# 	var gradient = Gradient.new()
-# 	fog_sprite.z_index = 1000
-# 	fog_sprite.centered = false
-# 	fog_sprite.texture = texture
-# 	fog_sprite.global_position = global_position - Vector2(FOG_PADDING, FOG_PADDING)
-
-# 	texture.gradient = gradient
-# 	texture.width = tilemap_px * dimension.x + FOG_PADDING * 2
-# 	texture.height = tilemap_px * dimension.y + FOG_PADDING * 2
-# 	texture.fill = GradientTexture2D.FILL_SQUARE
-# 	texture.fill_from = Vector2(0.5, 0.5)
-# 	texture.fill_to = Vector2(1,1)
-	
-# 	var transparent_color = Color(0.1,0.1,0.1, 0)
-# 	gradient.set_color(0, FOG_COLOR)
-# 	gradient.set_color(1, transparent_color)
-# 	gradient.set_offset(0, 0.95)
-	
-# 	add_child(fog_sprite)
-	# connect("signal_player_entered", animate_fog_of_war)
-
-# func animate_fog_of_war() -> void:
-# 	if not fog_sprite:
-# 		return
-		
-# 	var tween = create_tween()
-# 	tween.tween_property(fog_sprite.texture, "fill_to", Vector2(0, 0), 1.0)
-# 	await tween.finished
-# 	fog_sprite.queue_free()

@@ -10,7 +10,7 @@ size = Vector2(16, 16)
 [node name="Bullet" instance=ExtResource("1_5p8ca")]
 collision_layer = 2
 script = ExtResource("2_smmcv")
-SPEED = 100.0
+SPEED = 200.0
 
 [node name="Area2D" type="CollisionShape2D" parent="." index="0"]
 shape = SubResource("RectangleShape2D_rhs8y")

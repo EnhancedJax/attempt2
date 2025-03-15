@@ -131,7 +131,7 @@ animations = [{
 
 [node name="M15" instance=ExtResource("1_j4sq8")]
 script = ExtResource("2_xu0o0")
-damage = 2
+damage = 3
 knockback = 500.0
 recoil = 250.0
 spread = 5.0
@@ -168,7 +168,7 @@ metadata/_aseprite_wizard_source_file_hash_ = "5a78c4ce03335ee147efee7cf8cf78b9"
 
 [node name="BulletSpawnerComponent" parent="." index="2" instance=ExtResource("3_1ifyx")]
 position = Vector2(0, 1)
-target_position = Vector2(18, 0)
+target_position = Vector2(20, 0)
 
 [node name="FullAutoComponent" parent="." index="3" instance=ExtResource("6_n1vsn")]
 fire_rate = 5

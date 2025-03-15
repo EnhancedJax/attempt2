@@ -118,15 +118,7 @@ reload_time = 1.0
 [node name="RandomizedAudio" parent="." index="0"]
 stream = SubResource("AudioStreamRandomizer_uuhya")
 
-[node name="BasicShotgun" parent="." index="1" instance=ExtResource("5_v5jvg")]
-position = Vector2(13.5385, 0)
-target_position = Vector2(17, 0)
-SPREAD_ANGLE = 10.0
-
-[node name="SemiAutoComponent" parent="." index="2" instance=ExtResource("6_ircoe")]
-fire_rate = 1
-
-[node name="AnimatedSprite2D" parent="." index="3"]
+[node name="AnimatedSprite2D" parent="." index="1"]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_2p6qt")
 animation = &"idle"
@@ -152,3 +144,11 @@ root_node = NodePath("../..")
 libraries = {
 &"": SubResource("AnimationLibrary_pgxrn")
 }
+
+[node name="SemiAutoComponent" parent="." index="2" instance=ExtResource("6_ircoe")]
+fire_rate = 1
+
+[node name="BasicShotgun" parent="." index="3" instance=ExtResource("5_v5jvg")]
+target_position = Vector2(31, 0)
+collision_mask = 5
+SPREAD_ANGLE = 40.0
