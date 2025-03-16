@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dnm1ivburgots"]
+
+[ext_resource type="Script" uid="uid://c3v8sc1ja8df1" path="res://scenes/rooms/room_entrance_detector.tres.gd" id="1_hlnxn"]
+
+[node name="EntranceDetector" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_hlnxn")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

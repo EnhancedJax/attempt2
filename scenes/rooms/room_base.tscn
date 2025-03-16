@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=4 uid="uid://oue2kr2eaavc"]
+[gd_scene load_steps=5 format=4 uid="uid://oue2kr2eaavc"]
 
 [ext_resource type="Script" uid="uid://drxtp5a6b6sav" path="res://scenes/rooms/room_base.gd" id="1_ptmbc"]
 [ext_resource type="PackedScene" uid="uid://l1w7huts8bj7" path="res://scenes/rooms/level1/door/door_vertical.tscn" id="2_8w0xn"]
 [ext_resource type="PackedScene" uid="uid://c6wj0t80kybli" path="res://scenes/rooms/level1/door/door_horizontal.tscn" id="3_a820y"]
 [ext_resource type="TileSet" uid="uid://b3hq822pff26v" path="res://scenes/rooms/level1/tileset_level1.tres" id="3_y663u"]
-[ext_resource type="Script" uid="uid://c3v8sc1ja8df1" path="res://scenes/rooms/room_entrance_detector.tres.gd" id="3_yvixq"]
 
 [node name="RoomBase" type="Node2D"]
 y_sort_enabled = true
@@ -28,10 +27,10 @@ y_sort_enabled = true
 tile_map_data = PackedByteArray("AAAAAAEAAQAAAAAAAAAAAAIAAQABAAAAAAAAAAMAAQAAAAAAAAAAAAYAAQABAAAAAAAAAAcAAQABAAAAAAAIAAIAAQAAAAAAAAAIAAUAAQABAAAAAAAIAAYAAQABAAAAAAAIAAcAAQAAAAAAAAAIAAgAAQAAAAAAAAAAAAgAAQAAAAAAAAABAAgAAQAAAAAAAAACAAgAAQAAAAAAAAADAAgAAQABAAAAAAAHAAgAAQAAAAAAAAAFAAAAAQAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAGAAAAAQAAAAAAAAAHAAAAAQAAAAAAAAAIAAAAAQAAAAAAAAAIAAEAAQABAAAAAAAEAAAAAQABAAAAAAAEAAgAAQABAAAAAAAAAAQAAQAAAAAAAAAAAAUAAQAAAAAAAAACAAAAAQAAAAAAAAADAAAAAQAAAAAAAAAIAAMAAQAAAAAAAAAIAAQAAQAAAAAAAAAFAAgAAQAAAAAAAAAGAAgAAQAAAAAAAAA=")
 tile_set = ExtResource("3_y663u")
 
-[node name="EntranceDetector" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 2
-script = ExtResource("3_yvixq")
+[node name="FogOfWar" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
 
-[connection signal="body_entered" from="EntranceDetector" to="EntranceDetector" method="_on_body_entered"]
-[connection signal="signal_player_entered" from="EntranceDetector" to="." method="rsignal_player_entered"]
+[node name="ColorRect" type="ColorRect" parent="FogOfWar"]
+z_index = 1000
+color = Color(0.0980392, 0.0980392, 0.0980392, 1)
+metadata/_edit_use_anchors_ = true

@@ -19,9 +19,10 @@ signal signal_player_entered()
 @onready var floor_tilemap : TileMapLayer = $FloorTileLayer
 @onready var tilemap_px : int = wall_tilemap.tile_set.tile_size.x
 
-@onready var entrance_detector: Area2D = $EntranceDetector
+@onready var fow_canvas : CanvasLayer = $FogOfWar
+@onready var fow : ColorRect = $FogOfWar/ColorRect
 
-
+var entrance_detector_scene = preload("res://scenes/rooms/entrance_detector.tscn")
 var enemy_counter : int = 0
 
 # values to be set by generator
@@ -38,6 +39,8 @@ const ENTRANCES : Dictionary[int, String] = {
 const ENTRANCE_WIDTH: int = 2  # tiles wide
 const DOOR_PADDING_FROM_ENTRANCE: int = 1
 
+const FOW_PADDING: int = 2 # tiles wide
+
 var current_doors: Array[Door] = []
 
 func _ready() -> void:
@@ -45,9 +48,10 @@ func _ready() -> void:
 		door_config = [true, true, true, true]
 	_setup_doors_and_entrances()
 	_setup_entrance_detection()
-	#setup_fog_of_war()
+	# _setup_fog_of_war()
 
-func rsignal_player_entered() -> void:
+func rsignal_player_entered(entrance_index: int) -> void:
+	print("Player entered through entrance: ", entrance_index)
 	signal_player_entered.emit()
 	if is_peaceful_room:
 		room_state = 2
@@ -135,6 +139,8 @@ func _setup_entrance_detection() -> void:
 		if not door_config[dir]:
 			continue
 			
+		var detector = entrance_detector_scene.instantiate()
+		detector.connect('signal_player_entered', rsignal_player_entered.bind(dir))
 		var shape = RectangleShape2D.new()
 		var collision = CollisionShape2D.new()
 		collision.shape = shape
@@ -164,4 +170,15 @@ func _setup_entrance_detection() -> void:
 				pos.x -= tilemap_px
 			
 		collision.position = pos
-		entrance_detector.add_child(collision)
+		detector.add_child(collision)
+		self.add_child(detector)
+
+func _setup_fog_of_war() -> void:
+	# note: all fow positions relative to the origin of world, as canvas layers are positioned at origin.
+	var padded_size = Vector2(
+		(dimension.x + FOW_PADDING * 2) * tilemap_px,
+		(dimension.y + FOW_PADDING * 2) * tilemap_px
+	)
+	fow.size = padded_size
+	fow.position = self.global_position - Vector2(FOW_PADDING * tilemap_px, FOW_PADDING * tilemap_px)
+	fow.color = Color.html("#191919")

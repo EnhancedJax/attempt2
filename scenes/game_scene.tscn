@@ -9,7 +9,10 @@
 [sub_resource type="Environment" id="Environment_y3j0m"]
 background_mode = 3
 glow_enabled = true
+glow_bloom = 0.05
 glow_blend_mode = 1
+fog_light_energy = 1.74
+fog_density = 0.967
 
 [node name="GameLevel" type="Control"]
 y_sort_enabled = true
@@ -45,7 +48,7 @@ process_mode = 3
 metadata/_edit_lock_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.345108, 0.319063, 0.435987, 1)
+color = Color(0.377624, 0.350105, 0.47413, 1)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_y3j0m")
