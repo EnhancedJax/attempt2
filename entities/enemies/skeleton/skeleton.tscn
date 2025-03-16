@@ -150,7 +150,7 @@ _data = {
 [node name="Skeleton" groups=["enemies"] instance=ExtResource("1_hs5hs")]
 collision_layer = 4
 script = ExtResource("2_0cjm2")
-is_protagonist = false
+is_ally = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
 texture_filter = 1

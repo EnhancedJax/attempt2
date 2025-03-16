@@ -8,7 +8,7 @@ const floor_item = preload("res://scenes/floor_item/floor_item.tscn")
 var interaction : Interaction
 
 func _ready() -> void:
-	items = [0,1,2]
+	items = [0,1]
 	items_count = 1
 	interaction = Interaction.new()
 	interaction.callable = interaction_action

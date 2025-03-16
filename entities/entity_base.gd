@@ -2,7 +2,7 @@ class_name EntityBase extends CharacterBody2D
 
 const FLOATING_NUMBER = preload("res://scenes/misc/floating_number.tscn")
 
-@export var is_protagonist: bool = true # changes weapon class
+@export var is_ally: bool = true # changes weapon class
 
 signal signal_death()
 
@@ -77,7 +77,7 @@ func do_die():
 
 # overriden by the player class for custom implementation. Still valid for enemies and allies.
 func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
-	var weapon = Lookup.get_weapon(weapon_id, is_protagonist)
+	var weapon = Lookup.get_weapon(weapon_id, is_ally)
 	if weapon_node:
 		weapon_node.queue_free()
 	

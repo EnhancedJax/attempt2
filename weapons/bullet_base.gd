@@ -19,3 +19,8 @@ func register_attack(attack: AttackBase) -> void:
 
 func handle_hit():
 	queue_free()
+
+func _disable() -> void:
+	self.process_mode = Node.PROCESS_MODE_DISABLED
+	$Sprite2D.visible = false
+	$ShadowSprite.visible = false

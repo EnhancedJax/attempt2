@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://do7ol24fym4iv"
+path="res://.godot/imported/Shotgun.aseprite-ca4bd6d6d9c686748cf267f3cf8d47c7.res"
+
+[deps]
+
+source_file="res://weapons/ally/shotgun/Shotgun.aseprite"
+dest_files=["res://.godot/imported/Shotgun.aseprite-ca4bd6d6d9c686748cf267f3cf8d47c7.res"]
+
+[params]
+

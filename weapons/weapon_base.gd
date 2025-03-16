@@ -12,9 +12,6 @@ var firing_handler : FiringHandlerBase
 var mag_count : int = mag_size
 var can_reload : bool = false
 var is_reloading : bool = false
-
-@onready var sprite2D : Sprite2D = $Sprite2D 
-@onready var randomized_audio : AudioStreamPlayer2D = $RandomizedAudio
 	
 # /* ------------- Methods ------------ */
 

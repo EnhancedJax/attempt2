@@ -116,7 +116,7 @@ func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
 		reload_progress_bar.visible = false
 		reload_progress_bar.value = 0
 	
-	var weapon = Lookup.get_weapon(weapon_id, is_protagonist)
+	var weapon = Lookup.get_weapon(weapon_id, is_ally)
 	if weapon_node:
 		# disable current weapon instead of unloading
 		weapon_node.visible = false

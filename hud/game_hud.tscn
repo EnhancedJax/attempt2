@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://vo0xrja3uy5k"]
+[gd_scene load_steps=11 format=3 uid="uid://vo0xrja3uy5k"]
 
 [ext_resource type="Script" uid="uid://c78ubkjtmx3ea" path="res://hud/game_hud.gd" id="1_msi3a"]
 [ext_resource type="Script" uid="uid://wm2ubopvbppu" path="res://hud/minimap.gd" id="2_5l0xr"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://g2j8odyvauwq" path="res://hud/heart_half_color.tres" id="3_4w0yt"]
 [ext_resource type="Texture2D" uid="uid://c36y3l0uhyhak" path="res://hud/assets/circle.png" id="3_n6fa7"]
 [ext_resource type="PackedScene" uid="uid://hbscyswbcwmc" path="res://hud/title/title.tscn" id="5_iwsok"]
+[ext_resource type="Texture2D" uid="uid://chgrqc0ex7y3p" path="res://weapons/ally/m15/static.png" id="6_rfnla"]
 
 [sub_resource type="Gradient" id="Gradient_flvoc"]
 offsets = PackedFloat32Array(0.438776, 0.705782)
@@ -113,15 +114,14 @@ offset_right = -22.0
 offset_bottom = -59.0
 grow_horizontal = 0
 grow_vertical = 0
-scale = Vector2(5, 5)
 theme_override_styles/panel = SubResource("StyleBoxTexture_xm3kd")
 
 [node name="MarginContainer" type="MarginContainer" parent="WeaponContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 1
-theme_override_constants/margin_top = 1
-theme_override_constants/margin_right = 1
-theme_override_constants/margin_bottom = 1
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
 metadata/_edit_lock_ = true
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="WeaponContainer/MarginContainer"]
@@ -133,7 +133,7 @@ metadata/_edit_lock_ = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-expand_mode = 1
+texture = ExtResource("6_rfnla")
 stretch_mode = 5
 
 [node name="Title" parent="." instance=ExtResource("5_iwsok")]

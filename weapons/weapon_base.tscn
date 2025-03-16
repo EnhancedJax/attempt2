@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://nhljx7rj7myl" path="res://weapons/weapon_base.gd" id="1_fqo6c"]
 [ext_resource type="PackedScene" uid="uid://culkeogipbs3r" path="res://scenes/misc/randomized_audio.tscn" id="2_mnvwy"]
-[ext_resource type="Shader" uid="uid://ctc7jwnjkk8is" path="res://weapons/protagonists/color_hand.gdshader" id="3_b5wl3"]
+[ext_resource type="Shader" uid="uid://ctc7jwnjkk8is" path="res://weapons/ally/color_hand.gdshader" id="3_b5wl3"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8bifm"]
 resource_local_to_scene = true
