@@ -3,6 +3,7 @@ class_name WeaponBase extends Node2D
 
 signal signal_weapon_did_use(attack: AttackBase) # to be called by weapon implementation
 signal signal_weapon_reloading(duration: float) # to be called by weapon implementation
+signal signal_weapon_did_reload() # to be called by weapon implementation
 
 @export var mag_size : int = -1
 @export var reload_time : float = 0.5
@@ -36,6 +37,7 @@ func handle_reload() -> void:
 # @ override
 func handle_finish_reload() -> void:
 	mag_count = mag_size
+	signal_weapon_did_reload.emit()
 
 func call_reload() -> void:
 	handle_reload()

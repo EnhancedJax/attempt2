@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://vo0xrja3uy5k"]
+[gd_scene load_steps=12 format=3 uid="uid://vo0xrja3uy5k"]
 
 [ext_resource type="Script" uid="uid://c78ubkjtmx3ea" path="res://hud/game_hud.gd" id="1_msi3a"]
 [ext_resource type="Script" uid="uid://wm2ubopvbppu" path="res://hud/minimap.gd" id="2_5l0xr"]
@@ -20,9 +20,11 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.046398, 0)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xm3kd"]
-texture = ExtResource("3_n6fa7")
-modulate_color = Color(1, 1, 1, 0.47451)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rfnla"]
+bg_color = Color(1, 1, 1, 0.254902)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ohwp"]
+bg_color = Color(1, 1, 1, 1)
 
 [node name="HUD" type="Control"]
 layout_mode = 3
@@ -68,7 +70,7 @@ offset_left = 10.0
 offset_top = 8.0
 offset_right = 100.0
 offset_bottom = 98.0
-scale = Vector2(0.1, 0.1)
+scale = Vector2(0.25, 0.25)
 theme_override_constants/separation = 16
 
 [node name="Heart" type="Control" parent="HeartConainer"]
@@ -101,40 +103,18 @@ grow_vertical = 2
 texture = ExtResource("3_4w0yt")
 metadata/_edit_lock_ = true
 
-[node name="WeaponContainer" type="PanelContainer" parent="."]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -24.0
-offset_top = -61.0
-offset_right = -22.0
-offset_bottom = -59.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_styles/panel = SubResource("StyleBoxTexture_xm3kd")
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="MarginContainer" type="MarginContainer" parent="WeaponContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
-metadata/_edit_lock_ = true
+[node name="TouchScreenButton" type="TouchScreenButton" parent="CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0.196078)
+position = Vector2(410, 165)
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("3_n6fa7")
+action = "switch_weapon"
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="WeaponContainer/MarginContainer"]
-clip_contents = true
-layout_mode = 2
-metadata/_edit_lock_ = true
-
-[node name="TextureRect" type="TextureRect" parent="WeaponContainer/MarginContainer/AspectRatioContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+[node name="WeaponStaticSprite2D" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(430, 185)
 texture = ExtResource("6_rfnla")
-stretch_mode = 5
 
 [node name="Title" parent="." instance=ExtResource("5_iwsok")]
 layout_mode = 1
@@ -143,18 +123,53 @@ metadata/_edit_lock_ = true
 [node name="CoinLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 9.0
-offset_top = 21.0
+offset_top = 32.0
 offset_right = 57.0
-offset_bottom = 31.0
+offset_bottom = 42.0
 theme_override_font_sizes/font_size = 8
 text = "Coins: 123"
 
 [node name="ShieldLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 63.0
-offset_top = 21.0
+offset_top = 33.0
 offset_right = 108.0
-offset_bottom = 31.0
+offset_bottom = 43.0
 scale = Vector2(1, 1.01596)
 theme_override_font_sizes/font_size = 8
 text = "Shield: On"
+
+[node name="AmmoIndicator" type="Label" parent="."]
+clip_children = 1
+z_index = 1000
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -227.0
+offset_top = -20.0
+offset_right = 227.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 8
+text = "/////////////"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="AmmoIndicator"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -122.0
+offset_right = 122.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_rfnla")
+theme_override_styles/fill = SubResource("StyleBoxFlat_8ohwp")
+show_percentage = false

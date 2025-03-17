@@ -4,13 +4,14 @@ class_name HUD extends Control
 @onready var minimap_generator = $Minimap/Clipper/MinimapGenerator
 @onready var heart_container: HBoxContainer = $HeartConainer
 @onready var heart : Control = $HeartConainer/Heart
-@onready var weapon_texture: TextureRect = $WeaponContainer/MarginContainer/AspectRatioContainer/TextureRect
+@onready var weapon_texture: Sprite2D = $CanvasLayer/WeaponStaticSprite2D
 @onready var coin_label: Label = $CoinLabel
 @onready var shield_label: Label = $ShieldLabel
+@onready var ammo_indicator = $AmmoIndicator
+@onready var ammo_indicator_bar = $AmmoIndicator/ProgressBar
 const heart_full_texture = preload('res://hud/heart_full_color.tres')
 const heart_half_texture = preload('res://hud/heart_half_color.tres')
 const title = preload("res://hud/title/title.tscn")
-
 
 var current_max: int = 0  # store previous max health
 
@@ -62,8 +63,19 @@ func update_coins(amount: int):
 func update_shield(is_active: bool):
 	shield_label.text = 'Shield: ON' if is_active else 'Shield: OFF'
 
+func update_ammo(count: int, max: int):
+	ammo_indicator_bar.max_value = max
+	ammo_indicator_bar.value = count
+	ammo_indicator.text = "/".repeat(max)
+	ammo_indicator_bar.size = ammo_indicator.get_minimum_size()
+	ammo_indicator_bar.position.x = (ammo_indicator.size.x - ammo_indicator_bar.size.x) / 2
+
 func draw_minimap(n):
 	minimap_generator.draw_minimap(n)
 
 func update_minimap(id):
 	minimap_generator.update_minimap(id)
+
+
+func _on_button_pressed() -> void:
+	pass # Replace with function body.

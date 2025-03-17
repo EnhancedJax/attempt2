@@ -42,6 +42,7 @@ func handle_reload() -> void:
 func handle_finish_reload() -> void:
 	mag_count = min(mag_size, mag_count + 1)
 	can_reload = mag_size > mag_count
+	signal_weapon_did_reload.emit()
 	if can_reload:
 		handle_reload()
 	else:

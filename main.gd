@@ -94,6 +94,10 @@ func update_coins(amount: int) -> void:
 func update_shield_ui(is_active: bool) -> void:
 	hud.update_shield(is_active)
 
+func update_ammo_ui(count: int, max: int) -> void:
+	if hud:
+		hud.update_ammo(count, max)
+
 # /* ------------- Helpers ------------ */
 
 func spawn_node(node : Node, position_global : Vector2, layer: int = 0) -> void:

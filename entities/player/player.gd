@@ -74,6 +74,7 @@ func get_aim_position() -> Vector2:
 	return last_aiming_at
 
 func rsignal_weapon_did_use(attack: AttackBase):
+	_update_ui_ammo()
 	Main.camera.apply_shake(5)
 	apply_force(-attack.towards_vector * attack.recoil)
 
@@ -83,6 +84,13 @@ func rsignal_weapon_reloading(duration: float):
 	reload_timer = 0
 	reload_progress_bar.visible = true
 	reload_progress_bar.value = 0
+	label.visible = false
+	label_timeout.stop()
+
+func rsignal_weapon_did_reload():
+	_update_ui_ammo()
+	label.visible = true
+	label_timeout.start()
 
 func rsignal_hitbox_hit(attack: AttackBase):
 	if is_invincible:
@@ -93,6 +101,7 @@ func rsignal_hitbox_hit(attack: AttackBase):
 
 	# Handle shield mechanic
 	if is_shield_active:
+		$CPUParticles2D.emitting = true
 		is_shield_active = false
 		shield_timer.start()
 		Main.update_shield_ui(false)
@@ -109,6 +118,7 @@ func rsignal_health_deducted(health: int, max_health: int):
 	Main.camera.apply_shake(10)
 	Main.update_health_ui()
 
+# overrides base class implementation
 func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
 	if is_reloading:
 		weapon_node.call_stop_reload()
@@ -131,6 +141,7 @@ func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
 		weapon_node = weapon.scene.instantiate()
 		weapon_node.connect("signal_weapon_did_use", rsignal_weapon_did_use)
 		weapon_node.connect("signal_weapon_reloading", rsignal_weapon_reloading)
+		weapon_node.connect("signal_weapon_did_reload", rsignal_weapon_did_reload)
 		weapon_node.position = weaponOrigin.position
 		weapon_node.visible = false
 		add_child(weapon_node)
@@ -144,6 +155,7 @@ func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
 	label_timeout.start()
 	Main.signal_player_equipped_weapon.emit(weapon_node)
 	Main.update_equipped_weapon_ui(weapon)
+	_update_ui_ammo()
 	return weapon
 
 func handle_label_timeout():
@@ -180,3 +192,6 @@ func pickup_weapon(weapon_id: int) -> int:
 		equipped_weapon_index = weapons.size() - 1
 		equip_weapon(weapon_id)
 		return -1
+
+func _update_ui_ammo():
+	Main.update_ammo_ui(weapon_node.mag_count, weapon_node.mag_size)

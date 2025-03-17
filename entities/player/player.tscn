@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=4 uid="uid://qgtqua65lnyp"]
+[gd_scene load_steps=81 format=4 uid="uid://qgtqua65lnyp"]
 
 [ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_mfkho"]
 [ext_resource type="Script" uid="uid://ba5txnl57okqe" path="res://entities/player/player.gd" id="2_2vuf7"]
@@ -588,10 +588,13 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)
 
+[sub_resource type="Gradient" id="Gradient_wvtmh"]
+offsets = PackedFloat32Array(0, 0.996558, 1)
+colors = PackedColorArray(0.454902, 0.980392, 0.980392, 1, 0.32549, 0.32549, 0.32549, 0, 1, 1, 1, 1)
+
 [node name="Player" instance=ExtResource("1_mfkho")]
 y_sort_enabled = true
 collision_layer = 2
-collision_mask = 9
 script = ExtResource("2_2vuf7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
@@ -625,11 +628,15 @@ libraries = {
 &"": SubResource("AnimationLibrary_aufv5")
 }
 
+[node name="CollisionShape2D" parent="." index="1"]
+visible = false
+
 [node name="HealthComponent" parent="." index="3"]
 MAX_HEALTH = 3
 INITIAL_HEALTH = 2
 
 [node name="HurtboxComponent" parent="." index="4"]
+visible = false
 collision_mask = 2
 
 [node name="WeaponOrigin" parent="." index="5"]
@@ -661,6 +668,7 @@ curve = SubResource("Curve_bectd")
 [node name="RollCooldown" type="Timer" parent="StateMachine" index="4"]
 
 [node name="Label" type="Label" parent="." index="7"]
+visible = false
 z_index = 1000
 anchors_preset = 7
 anchor_left = 0.5
@@ -732,6 +740,25 @@ color = Color(0.355314, 0.355314, 0.355314, 1)
 energy = 0.3
 texture = SubResource("GradientTexture2D_j3ovn")
 metadata/_edit_lock_ = true
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="." index="14"]
+self_modulate = Color(4, 4, 4, 1)
+rotation = 1.5708
+emitting = false
+amount = 30
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.73
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 30)
+initial_velocity_min = 100.0
+initial_velocity_max = 145.18
+tangential_accel_min = 100.0
+tangential_accel_max = 100.0
+scale_amount_min = 0.5
+scale_amount_max = 3.0
+color_ramp = SubResource("Gradient_wvtmh")
 
 [connection signal="signal_player_death" from="." to="StateMachine" method="_on_player_signal_player_death"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="StateMachine/Death" method="_on_animated_sprite_2d_animation_finished"]
