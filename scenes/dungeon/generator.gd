@@ -407,6 +407,7 @@ const ROOM_SCENES = {
 	RoomType.E: [
 		preload("res://scenes/rooms/level1/enemy1.tscn"),
 		preload("res://scenes/rooms/level1/enemy2.tscn"),
+		preload("res://scenes/rooms/level1/enemy3.tscn"),
 	],
 	RoomType.L: [
 		preload("res://scenes/rooms/level1/loot.tscn"),

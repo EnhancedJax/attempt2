@@ -107,6 +107,7 @@ func rsignal_hitbox_hit(attack: AttackBase):
 		Main.update_shield_ui(false)
 		animationPlayer.play("take_attack")
 	else:
+		shield_timer.start()
 		_health.take_damage(attack.damage)
 		# Start brief invincibility
 		is_invincible = true

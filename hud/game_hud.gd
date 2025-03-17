@@ -9,6 +9,7 @@ class_name HUD extends Control
 @onready var shield_label: Label = $ShieldLabel
 @onready var ammo_indicator = $AmmoIndicator
 @onready var ammo_indicator_bar = $AmmoIndicator/ProgressBar
+@onready var fps_label : Label = $FPSLabel
 const heart_full_texture = preload('res://hud/heart_full_color.tres')
 const heart_half_texture = preload('res://hud/heart_half_color.tres')
 const title = preload("res://hud/title/title.tscn")
@@ -18,6 +19,9 @@ var current_max: int = 0  # store previous max health
 func _ready() -> void:
 	Main.register_hud(self)
 	show_title('Test!')
+
+func _process(_delta: float) -> void:
+	fps_label.text = "FPS: %d" % Engine.get_frames_per_second()
 
 func update_health(value: int = 1, max: int = 1):
 	# Update hearts if max changed

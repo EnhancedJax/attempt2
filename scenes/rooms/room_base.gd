@@ -57,8 +57,8 @@ func _ready() -> void:
 		door_config = [true, true, true, true]
 	_setup_doors_and_entrances()
 	_setup_entrance_detection()
-	if should_fow:
-		_setup_fog_of_war()
+	# if should_fow:
+	# 	_setup_fog_of_war()
 
 func _process(delta: float) -> void:
 	if fow_is_animating:
@@ -72,8 +72,8 @@ func _process(delta: float) -> void:
 func rsignal_player_entered(entrance_index: int) -> void:
 	print("Player entered through entrance: ", entrance_index)
 	signal_player_entered.emit()
-	if should_fow and room_state == 0:
-		_start_fow_animation(entrance_index)
+	# if should_fow and room_state == 0:
+	# 	_start_fow_animation(entrance_index)
 	if is_peaceful_room:
 		room_state = 2
 	elif room_state == 0:

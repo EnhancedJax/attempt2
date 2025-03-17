@@ -200,7 +200,7 @@ _data = {
 [node name="M15" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("2_xu0o0")
-damage = 3
+damage = 1
 knockback = 500.0
 recoil = 250.0
 mag_size = 2
@@ -249,7 +249,7 @@ position = Vector2(0, 1)
 target_position = Vector2(20, 0)
 
 [node name="FullAutoComponent" parent="." instance=ExtResource("6_n1vsn")]
-fire_rate = 5
+fire_rate = 8
 
 [node name="ReloadSound2Timer" type="Timer" parent="."]
 one_shot = true
