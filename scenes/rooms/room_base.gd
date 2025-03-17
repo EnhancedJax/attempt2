@@ -14,13 +14,14 @@ signal signal_player_entered()
 @export var enemy_count : int
 @export var door_vertical : PackedScene
 @export var door_horizontal : PackedScene
+@export var should_fow: bool = true
 
 @onready var wall_tilemap : TileMapLayer = $WallTileLayer
 @onready var floor_tilemap : TileMapLayer = $FloorTileLayer
 @onready var tilemap_px : int = wall_tilemap.tile_set.tile_size.x
 
 @onready var fow_canvas : CanvasLayer = $FogOfWar
-@onready var fow : ColorRect = $FogOfWar/ColorRect
+@onready var fow : Sprite2D = $FogOfWar/ColorRect
 
 var entrance_detector_scene = preload("res://scenes/rooms/entrance_detector.tscn")
 var enemy_counter : int = 0
@@ -39,20 +40,40 @@ const ENTRANCES : Dictionary[int, String] = {
 const ENTRANCE_WIDTH: int = 2  # tiles wide
 const DOOR_PADDING_FROM_ENTRANCE: int = 1
 
-const FOW_PADDING: int = 2 # tiles wide
+const FOW_PADDING: int = 0 # tiles wide
 
 var current_doors: Array[Door] = []
+
+# FOW Animation
+var fow_is_animating := false
+var fow_animation_time := 0.0
+var fow_animation_duration := 1.0
+var fow_entrance_point := Vector2.ZERO
+var fow_image: Image
+var fow_texture: ImageTexture
 
 func _ready() -> void:
 	if not door_config:
 		door_config = [true, true, true, true]
 	_setup_doors_and_entrances()
 	_setup_entrance_detection()
-	# _setup_fog_of_war()
+	if should_fow:
+		_setup_fog_of_war()
+
+func _process(delta: float) -> void:
+	if fow_is_animating:
+		fow_animation_time += delta
+		var progress = fow_animation_time / fow_animation_duration
+		if progress >= 1.0:
+			fow_is_animating = false
+			progress = 1.0
+		_update_fow_animation(progress)
 
 func rsignal_player_entered(entrance_index: int) -> void:
 	print("Player entered through entrance: ", entrance_index)
 	signal_player_entered.emit()
+	if should_fow and room_state == 0:
+		_start_fow_animation(entrance_index)
 	if is_peaceful_room:
 		room_state = 2
 	elif room_state == 0:
@@ -179,6 +200,40 @@ func _setup_fog_of_war() -> void:
 		(dimension.x + FOW_PADDING * 2) * tilemap_px,
 		(dimension.y + FOW_PADDING * 2) * tilemap_px
 	)
-	fow.size = padded_size
 	fow.position = self.global_position - Vector2(FOW_PADDING * tilemap_px, FOW_PADDING * tilemap_px)
-	fow.color = Color.html("#191919")
+	
+	# Create the fog image
+	fow_image = Image.create(padded_size.x, padded_size.y, false, Image.FORMAT_RGBA8)
+	fow_image.fill(Color.html("#191919"))
+	fow_texture = ImageTexture.create_from_image(fow_image)
+	fow.texture = fow_texture
+
+func _start_fow_animation(entrance_index: int) -> void:
+	fow_is_animating = true
+	fow_animation_time = 0.0
+	
+	# Calculate entrance point based on entrance_index
+	var entrance: Vector2i = get("entrances_" + ENTRANCES[entrance_index])
+	fow_entrance_point = Vector2(entrance) * tilemap_px + self.global_position
+
+func _update_fow_animation(progress: float) -> void:
+	if not fow_image or not fow_texture:
+		return
+		
+	var center = fow_entrance_point - fow.position
+	var max_dimension = max(fow_image.get_width(), fow_image.get_height())
+	var radius = max_dimension * progress
+	var gradient_size = 100.0  # Size of the gradient border in pixels
+	
+	# Create circular reveal effect with gradient
+	for y in range(fow_image.get_height()):
+		for x in range(fow_image.get_width()):
+			var dist = Vector2(x, y).distance_to(center)
+			var alpha = 1.0
+			if dist < radius - gradient_size:
+				alpha = 0.0
+			elif dist < radius:
+				alpha = (dist - (radius - gradient_size)) / gradient_size
+			fow_image.set_pixel(x, y, Color(0, 0, 0, alpha))
+	
+	fow_texture.update(fow_image)

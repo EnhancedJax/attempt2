@@ -8,6 +8,7 @@ entrances_top = Vector2i(4, 0)
 entrances_bottom = Vector2i(4, 8)
 entrances_right = Vector2i(8, 4)
 is_peaceful_room = true
+should_fow = false
 
 [node name="Box" parent="." index="3" instance=ExtResource("2_x2sl8")]
 position = Vector2(87, 47)
