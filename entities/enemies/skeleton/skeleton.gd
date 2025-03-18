@@ -15,7 +15,7 @@ func _process(delta: float) -> void:
 func rsignal_hitbox_hit(attack: AttackBase):
 	super.rsignal_hitbox_hit(attack)
 	Main.signal_player_landed_hit.emit()
-	SoundManager.play_sound(hit_sound)
+	SoundManager.play_at_position_varied("skeleton", "hit", global_position, randf_range(0.8,1.2), 2)
 
 func get_aim_position() -> Vector2:
 	return Main.player.global_position

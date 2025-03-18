@@ -30,6 +30,22 @@ tracks/1/keys = {
 "values": [Color(4, 4, 4, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_n4lyx"]
+resource_name = "active"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Frag1:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
 [sub_resource type="Animation" id="Animation_58kx8"]
 resource_name = "exit"
 length = 0.2
@@ -72,22 +88,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(3, 3), Vector2(1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_n4lyx"]
-resource_name = "active"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Frag1:rotation")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, 6.28319]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_58kx8"]

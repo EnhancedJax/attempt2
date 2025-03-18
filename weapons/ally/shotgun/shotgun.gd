@@ -35,8 +35,7 @@ func handle_attack() -> void:
 
 func handle_reload() -> void:
 	super.handle_reload()
-	audio_bus_2.stream = audio_streams[0]
-	audio_bus_2.play()
+	#SoundManager.play_sound(audio_streams[0])
 	$AnimatedSprite2D.play('reload')
 
 func handle_finish_reload() -> void:
@@ -46,8 +45,7 @@ func handle_finish_reload() -> void:
 	if can_reload:
 		handle_reload()
 	else:
-		audio_bus_2.stream = audio_streams[1]
-		audio_bus_2.play()
+		#SoundManager.play_sound(audio_streams[1])
 		$AnimatedSprite2D.play('idle')
 
 func rsignal_weapon_equipped(node: Node2D):

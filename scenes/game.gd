@@ -3,7 +3,7 @@ extends Control
 const bgm = preload("res://music/bg.mp3")
 
 func _ready() -> void:
-	#SoundManager.play_music(bgm)
+	MusicManager.loaded.connect(on_music_manager_loaded)
 	Main.register_control(self)
 	var result_dict = $TileLayer.generate_new_dungeon()
 	Main.hud.draw_minimap(result_dict.nodes)
@@ -12,15 +12,19 @@ func _ready() -> void:
 	for i in result_dict.room_scenes.size():
 		var scene = result_dict.room_scenes[i]
 	
-		scene.signal_player_entered.connect(rsignal_player_entered.bind(i))
+		scene.signal_player_entered.connect(rsignal_player_entered.bind(i, scene))
 		scene.signal_room_cleared.connect(rsignal_room_cleared)
+
+func on_music_manager_loaded() -> void:
+	MusicManager.play("bgm", "bgm")
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("dev_reload") and OS.is_debug_build():
 		get_tree().reload_current_scene()
 
-func rsignal_player_entered(room_id: int) -> void:
-	Main.hud.update_minimap(room_id)
+func rsignal_player_entered(room_index: int, scene: RoomBase) -> void:
+	Main.hud.update_minimap(room_index)
+	Main.handle_room_entered(scene)
 
 func rsignal_room_cleared() -> void:
-	Main.show_title_ui("Clear!")
+	Main.handle_room_cleared()

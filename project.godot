@@ -28,7 +28,7 @@ manager/music/bus="Music"
 
 Main="*res://main.gd"
 Lookup="*res://tables/lookup.gd"
-SoundManager="*res://addons/sound_manager/sound_manager.gd"
+SoundManager="*res://addons/resonate/sound_manager/sound_manager.gd"
 MusicManager="*res://addons/resonate/music_manager/music_manager.gd"
 
 [debug]

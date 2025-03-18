@@ -12,10 +12,11 @@ func _ready() -> void:
 	health = INITIAL_HEALTH
 
 func take_damage(amount: int):
+	if is_dead:
+		return
 	health -= amount
-	if health <= 0 and not is_dead:
+	emit_signal("signal_health_deducted", health, MAX_HEALTH)
+	if health <= 0:
 		health = 0
 		is_dead = true
 		emit_signal("signal_health_depleted")
-	else:
-		emit_signal("signal_health_deducted", health, MAX_HEALTH)

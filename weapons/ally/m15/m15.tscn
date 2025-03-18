@@ -1,25 +1,14 @@
-[gd_scene load_steps=28 format=4 uid="uid://bj81oeyskct0"]
+[gd_scene load_steps=30 format=4 uid="uid://bj81oeyskct0"]
 
 [ext_resource type="AudioStream" uid="uid://bcg5bvbknuelv" path="res://weapons/ally/m15/reload_1.wav" id="2_qd8bx"]
 [ext_resource type="Script" uid="uid://bam8hvn4ax01a" path="res://weapons/ally/m15/m15.gd" id="2_xu0o0"]
 [ext_resource type="PackedScene" uid="uid://cyyhdytcpd73i" path="res://components/bullet_spawner/basic_linear/node.tscn" id="3_1ifyx"]
 [ext_resource type="AudioStream" uid="uid://d0d2lkh2xvthi" path="res://pending_assets/sounds/rifle_single.wav" id="3_ceglm"]
 [ext_resource type="AudioStream" uid="uid://do8xf6v2ow800" path="res://weapons/ally/m15/reload_2.wav" id="3_dvofk"]
-[ext_resource type="PackedScene" uid="uid://culkeogipbs3r" path="res://scenes/misc/randomized_audio.tscn" id="4_crth4"]
 [ext_resource type="Shader" uid="uid://ctc7jwnjkk8is" path="res://weapons/ally/color_hand.gdshader" id="4_x8wmp"]
 [ext_resource type="PackedScene" uid="uid://cuiahy254v43" path="res://components/fire/full_auto/_full_auto.tscn" id="6_n1vsn"]
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_uuhya"]
-resource_local_to_scene = true
-random_pitch = 1.5
-random_volume_offset_db = 0.5
-streams_count = 1
-stream_0/stream = ExtResource("3_ceglm")
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_qd8bx"]
-resource_local_to_scene = true
-random_pitch = 1.5
-random_volume_offset_db = 0.5
+[ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="9_crth4"]
+[ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="10_0qh87"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kqkdb"]
 shader = ExtResource("4_x8wmp")
@@ -197,6 +186,33 @@ _data = {
 &"equip": SubResource("Animation_uqj3h")
 }
 
+[sub_resource type="Resource" id="Resource_d0i0v"]
+script = ExtResource("10_0qh87")
+name = "shot"
+bus = ""
+volume = -5.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("3_ceglm")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
+
+[sub_resource type="Resource" id="Resource_dvofk"]
+script = ExtResource("10_0qh87")
+name = "reload_1"
+bus = ""
+volume = 0.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("2_qd8bx")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
+
+[sub_resource type="Resource" id="Resource_crth4"]
+script = ExtResource("10_0qh87")
+name = "reload_2"
+bus = ""
+volume = 0.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("3_dvofk")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
+
 [node name="M15" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("2_xu0o0")
@@ -205,13 +221,6 @@ knockback = 500.0
 recoil = 250.0
 mag_size = 2
 reload_time = 1.5
-audio_streams = Array[AudioStream]([ExtResource("2_qd8bx"), ExtResource("3_dvofk")])
-
-[node name="AudioBus1" parent="." instance=ExtResource("4_crth4")]
-stream = SubResource("AudioStreamRandomizer_uuhya")
-
-[node name="AudioBus2" parent="." instance=ExtResource("4_crth4")]
-stream = SubResource("AudioStreamRandomizer_qd8bx")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
@@ -253,3 +262,9 @@ fire_rate = 8
 
 [node name="ReloadSound2Timer" type="Timer" parent="."]
 one_shot = true
+
+[node name="SoundBank" type="Node" parent="."]
+script = ExtResource("9_crth4")
+label = "m15"
+events = Array[ExtResource("10_0qh87")]([SubResource("Resource_d0i0v"), SubResource("Resource_dvofk"), SubResource("Resource_crth4")])
+metadata/_custom_type_script = "uid://b7r334bhuu4yk"

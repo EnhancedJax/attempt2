@@ -10,7 +10,7 @@ const BULLET = preload("res://weapons/ally/m15/m15_bullet.tscn")
 var ATTACK = BulletType.new()
 
 func _ready() -> void:
-	mag_size = 30
+	mag_size = 20
 	mag_count = mag_size
 	Main.signal_player_equipped_weapon.connect(rsignal_weapon_equipped)
 	bullet_spawner.signal_shot.connect(rsignal_shot)
@@ -30,19 +30,17 @@ func handle_attack() -> void:
 	atk.towards_vector = towards_vector
 	var shot = bullet_spawner.shoot(towards)
 	if shot: 
-		$AudioBus1.play()
+		SoundManager.play_at_position_varied("m15", "shot", global_position, randf_range(0.8,1.2), 1)
 		emit_signal("signal_weapon_did_use", atk)
 
 func handle_reload() -> void:
 	super.handle_reload()
 	$AnimatedSprite2D.play('reload')
-	$AudioBus2.stream = audio_streams[0]
-	$AudioBus2.play()
+	SoundManager.play_at_position("m15", "reload_1", global_position)
 	reload_timer.start(reload_time / 2)
 
 func play_halfway_reload_sound() -> void:
-	$AudioBus2.stream = audio_streams[1]
-	$AudioBus2.play()
+	SoundManager.play_at_position("m15", "reload_2", global_position)
 
 func handle_finish_reload() -> void:
 	super.handle_finish_reload()

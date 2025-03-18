@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dvecs081bwo7i"]
+[gd_scene load_steps=29 format=3 uid="uid://dvecs081bwo7i"]
 
 [ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_hs5hs"]
 [ext_resource type="Script" uid="uid://bknvveymhi5f2" path="res://entities/enemies/skeleton/skeleton.gd" id="2_0cjm2"]
@@ -7,6 +7,9 @@
 [ext_resource type="Script" uid="uid://4508clq887vd" path="res://entities/enemies/skeleton/state_node.gd" id="5_p3ot6"]
 [ext_resource type="Script" uid="uid://dwgubkt6224iq" path="res://entities/enemies/skeleton/states/idle.gd" id="6_3510d"]
 [ext_resource type="Script" uid="uid://0gq6mfuh3tex" path="res://entities/enemies/skeleton/states/hostile.gd" id="7_rs3xq"]
+[ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="8_pw5te"]
+[ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="9_a01p3"]
+[ext_resource type="AudioStream" uid="uid://brvd86yj67fyk" path="res://entities/enemies/skeleton/hit.wav" id="10_mlpll"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rwji0"]
 resource_local_to_scene = true
@@ -147,6 +150,15 @@ _data = {
 &"take_attack": SubResource("Animation_f27go")
 }
 
+[sub_resource type="Resource" id="Resource_1cywq"]
+script = ExtResource("9_a01p3")
+name = "hit"
+bus = ""
+volume = -5.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("10_mlpll")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
+
 [node name="Skeleton" groups=["enemies"] instance=ExtResource("1_hs5hs")]
 collision_layer = 4
 script = ExtResource("2_0cjm2")
@@ -180,3 +192,9 @@ script = ExtResource("7_rs3xq")
 IDEAL_DISTANCE = 50.0
 DISTANCE_TOLERANCE = 20.0
 STRAFE_SPEED = 25.0
+
+[node name="SoundBank" type="Node" parent="." index="7"]
+script = ExtResource("8_pw5te")
+label = "skeleton"
+events = Array[ExtResource("9_a01p3")]([SubResource("Resource_1cywq")])
+metadata/_custom_type_script = "uid://b7r334bhuu4yk"

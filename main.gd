@@ -13,6 +13,7 @@ var is_paused: bool = false
 const floor_item = preload("res://scenes/floor_item/floor_item.tscn")
 const weapons = [0,1]
 const ENEMY_SWITCH_MINIMUM_DISTANCE = 64
+var player_room_at: RoomBase = null
 
 var coins = 0
 
@@ -103,6 +104,12 @@ func update_ammo_ui(count: int, max: int) -> void:
 	if hud:
 		hud.update_ammo(count, max)
 
+func handle_room_entered(room: RoomBase) -> void:
+	player_room_at = room
+
+func handle_room_cleared() -> void:
+	pass
+
 # /* ------------- Helpers ------------ */
 
 func spawn_node(node : Node, position_global : Vector2, layer: int = 0) -> void:
@@ -112,10 +119,10 @@ func spawn_node(node : Node, position_global : Vector2, layer: int = 0) -> void:
 
 func _toggle_pause() -> void:
 	is_paused = !is_paused
-	if is_paused:
-		SoundManager.pause_music()
-	else:
-		SoundManager.resume_music()
+	#if is_paused:
+		#SoundManager.sound_process_mode = Node.PROCESS_MODE_DISABLED
+	#else:
+		#SoundManager.sound_process_mode = Node.PROCESS_MODE_INHERIT
 	control.process_mode = Node.PROCESS_MODE_DISABLED if is_paused else PROCESS_MODE_INHERIT
 
 func _update_player_autoaim_target() -> void:

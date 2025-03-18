@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=4 uid="uid://8m3clp0wpfeg"]
+[gd_scene load_steps=27 format=4 uid="uid://8m3clp0wpfeg"]
 
 [ext_resource type="Script" uid="uid://7djfqjywhjqq" path="res://weapons/ally/shotgun/shotgun.gd" id="2_p0o1h"]
 [ext_resource type="AudioStream" uid="uid://chnd0te4uref5" path="res://weapons/ally/shotgun/shot.wav" id="3_8fy2o"]
@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://csu072mipm5dq" path="res://weapons/ally/shotgun/cycle.wav" id="5_wx0gl"]
 [ext_resource type="PackedScene" uid="uid://4fr4ngaevi8a" path="res://components/fire/semi_auto/_semi_auto.tscn" id="6_ircoe"]
 [ext_resource type="Shader" uid="uid://ctc7jwnjkk8is" path="res://weapons/ally/color_hand.gdshader" id="6_or3xc"]
+[ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="9_t6wmo"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_uuhya"]
 resource_local_to_scene = true
@@ -161,7 +162,7 @@ y_sort_enabled = true
 script = ExtResource("2_p0o1h")
 damage = 1
 knockback = 80.0
-recoil = 500.0
+recoil = 1000.0
 mag_size = 5
 reload_time = 1.0
 audio_streams = Array[AudioStream]([ExtResource("4_pgxrn"), ExtResource("5_wx0gl")])
@@ -208,4 +209,7 @@ fire_rate = 1
 
 [node name="BasicShotgun" parent="." instance=ExtResource("5_v5jvg")]
 target_position = Vector2(31, 0)
-SPREAD_ANGLE = 40.0
+
+[node name="SoundBank" type="Node" parent="."]
+script = ExtResource("9_t6wmo")
+metadata/_custom_type_script = "uid://b7r334bhuu4yk"

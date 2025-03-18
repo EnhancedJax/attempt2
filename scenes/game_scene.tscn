@@ -1,11 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://5crhgeqe0yf4"]
+[gd_scene load_steps=14 format=3 uid="uid://5crhgeqe0yf4"]
 
 [ext_resource type="Script" uid="uid://des01au6sttgm" path="res://scenes/game.gd" id="1_i7woi"]
 [ext_resource type="PackedScene" uid="uid://o4gnxfkwntm" path="res://scenes/dungeon/tile_layer.tscn" id="2_7g524"]
 [ext_resource type="PackedScene" uid="uid://qgtqua65lnyp" path="res://entities/player/player.tscn" id="2_n6q6o"]
 [ext_resource type="PackedScene" uid="uid://728xqa5cdqim" path="res://scenes/misc/interaction_label.tscn" id="3_bfb72"]
 [ext_resource type="PackedScene" uid="uid://vo0xrja3uy5k" path="res://hud/game_hud.tscn" id="4_ujnmn"]
+[ext_resource type="Script" uid="uid://jciugafs5r0s" path="res://addons/resonate/music_manager/music_bank.gd" id="7_mw25s"]
+[ext_resource type="Script" uid="uid://lcw4smjpncd" path="res://addons/resonate/music_manager/music_track_resource.gd" id="8_tcjrq"]
+[ext_resource type="Script" uid="uid://b7r80lu8fh3o5" path="res://addons/resonate/music_manager/music_stem_resource.gd" id="9_rvs2r"]
 [ext_resource type="PackedScene" uid="uid://ytqeptloomhs" path="res://scenes/crosshair/crosshair.tscn" id="10_mw25s"]
+[ext_resource type="AudioStream" uid="uid://dt0llhfa4lnit" path="res://music/bg.mp3" id="10_tqxxy"]
 
 [sub_resource type="Environment" id="Environment_y3j0m"]
 background_mode = 3
@@ -14,6 +18,21 @@ glow_bloom = 0.05
 glow_blend_mode = 1
 fog_light_energy = 1.74
 fog_density = 0.967
+
+[sub_resource type="Resource" id="Resource_5ay1a"]
+script = ExtResource("9_rvs2r")
+name = "track"
+enabled = true
+volume = -20.0
+stream = ExtResource("10_tqxxy")
+metadata/_custom_type_script = "uid://b7r80lu8fh3o5"
+
+[sub_resource type="Resource" id="Resource_ldkr4"]
+script = ExtResource("8_tcjrq")
+name = "bgm"
+bus = ""
+stems = Array[ExtResource("9_rvs2r")]([SubResource("Resource_5ay1a")])
+metadata/_custom_type_script = "uid://lcw4smjpncd"
 
 [node name="GameLevel" type="Control"]
 y_sort_enabled = true
@@ -59,3 +78,9 @@ environment = SubResource("Environment_y3j0m")
 follow_viewport_enabled = true
 
 [node name="Crosshair" parent="CrosshairLayer" instance=ExtResource("10_mw25s")]
+
+[node name="MusicBank" type="Node" parent="."]
+script = ExtResource("7_mw25s")
+label = "bgm"
+tracks = Array[ExtResource("8_tcjrq")]([SubResource("Resource_ldkr4")])
+metadata/_custom_type_script = "uid://jciugafs5r0s"
