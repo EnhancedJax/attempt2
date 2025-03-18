@@ -1,6 +1,9 @@
 extends Control
 
+const bgm = preload("res://music/bg.mp3")
+
 func _ready() -> void:
+	#SoundManager.play_music(bgm)
 	Main.register_control(self)
 	var result_dict = $TileLayer.generate_new_dungeon()
 	Main.hud.draw_minimap(result_dict.nodes)

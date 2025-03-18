@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://5crhgeqe0yf4"]
+[gd_scene load_steps=8 format=3 uid="uid://5crhgeqe0yf4"]
 
 [ext_resource type="Script" uid="uid://des01au6sttgm" path="res://scenes/game.gd" id="1_i7woi"]
 [ext_resource type="PackedScene" uid="uid://o4gnxfkwntm" path="res://scenes/dungeon/tile_layer.tscn" id="2_7g524"]
 [ext_resource type="PackedScene" uid="uid://qgtqua65lnyp" path="res://entities/player/player.tscn" id="2_n6q6o"]
 [ext_resource type="PackedScene" uid="uid://728xqa5cdqim" path="res://scenes/misc/interaction_label.tscn" id="3_bfb72"]
 [ext_resource type="PackedScene" uid="uid://vo0xrja3uy5k" path="res://hud/game_hud.tscn" id="4_ujnmn"]
+[ext_resource type="PackedScene" uid="uid://ytqeptloomhs" path="res://scenes/crosshair/crosshair.tscn" id="10_mw25s"]
 
 [sub_resource type="Environment" id="Environment_y3j0m"]
 background_mode = 3
@@ -45,6 +46,7 @@ visible = false
 
 [node name="HUD" parent="Viewport" instance=ExtResource("4_ujnmn")]
 process_mode = 3
+z_index = 20
 metadata/_edit_lock_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
@@ -52,3 +54,8 @@ color = Color(0.377624, 0.350105, 0.47413, 1)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_y3j0m")
+
+[node name="CrosshairLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="Crosshair" parent="CrosshairLayer" instance=ExtResource("10_mw25s")]

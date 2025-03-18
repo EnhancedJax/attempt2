@@ -6,16 +6,21 @@ var hud : HUD
 var interaction_label : InteractionLabel
 var control : Control
 
+var player_autoaim_target : Node2D = null
+var player_autoaim_previous_target : Node2D = null
 var interactions: Array[Interaction]
 var is_paused: bool = false
 const floor_item = preload("res://scenes/floor_item/floor_item.tscn")
 const weapons = [0,1]
+const ENEMY_SWITCH_MINIMUM_DISTANCE = 64
 
 var coins = 0
 
 signal signal_player_equipped_weapon(node: Node2D)
+signal signal_player_landed_hit()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
+	_update_player_autoaim_target()
 	if Input.is_action_just_pressed("menu"):
 		_toggle_pause()
 	if Input.is_action_just_pressed("interact"):
@@ -103,40 +108,68 @@ func update_ammo_ui(count: int, max: int) -> void:
 func spawn_node(node : Node, position_global : Vector2, layer: int = 0) -> void:
 	node.global_position = position_global
 	control.get_child(layer).add_child(node)
-
-func find_closest_enemy(pos: Vector2) -> Node2D:
-	var enemies = get_tree().get_nodes_in_group("enemies")
-	var closest_enemy: Node2D = null
-	var closest_distance := INF
-	var fallback_enemy: Node2D = null
-	var fallback_distance := INF
-	var space_state = get_world_2d().direct_space_state
-
-	if enemies.size() == 0:
-		return null
-	
-	for enemy in enemies:
-		if enemy is CharacterBody2D:
-			var dist = pos.distance_squared_to(enemy.global_position)
-			# Store as fallback in case no enemies are visible
-			if dist < fallback_distance:
-				fallback_distance = dist
-				fallback_enemy = enemy
-			# Check line of sight
-			var query = PhysicsRayQueryParameters2D.create(pos, enemy.global_position)
-			query.exclude = [enemy]
-			var result = space_state.intersect_ray(query)
-			# If no collision or collision is with the enemy, it's visible
-			if result.is_empty() or result.collider == enemy:
-				if dist < closest_distance:
-					closest_distance = dist
-					closest_enemy = enemy
-	
-	# Return closest visible enemy, or fallback to closest non-visible enemy if none are visible
-	return closest_enemy if closest_enemy else fallback_enemy
-
 # /* ------------ Internals ------------ */
 
 func _toggle_pause() -> void:
 	is_paused = !is_paused
+	if is_paused:
+		SoundManager.pause_music()
+	else:
+		SoundManager.resume_music()
 	control.process_mode = Node.PROCESS_MODE_DISABLED if is_paused else PROCESS_MODE_INHERIT
+
+func _update_player_autoaim_target() -> void:
+	if player:
+		var pos = player.global_position
+		var enemies = get_tree().get_nodes_in_group("enemies")
+		var closest_enemy: Node2D = null
+		var closest_distance := INF
+		var fallback_enemy: Node2D = null
+		var fallback_distance := INF
+		var space_state = get_world_2d().direct_space_state
+
+		if enemies.size() == 0:
+			player_autoaim_previous_target = player_autoaim_target
+			player_autoaim_target = null
+			return
+		
+		for enemy in enemies:
+			if enemy is CharacterBody2D:
+				var dist = pos.distance_squared_to(enemy.global_position)
+				# Store as fallback in case no enemies are visible
+				if dist < fallback_distance:
+					fallback_distance = dist
+					fallback_enemy = enemy
+				# Check line of sight
+				var query = PhysicsRayQueryParameters2D.create(pos, enemy.global_position, 1)
+				query.exclude = [enemy]
+				var result = space_state.intersect_ray(query)
+				# If no collision or collision is with the enemy, it's visible
+				if result.is_empty() or result.collider == enemy:
+					if dist < closest_distance:
+						closest_distance = dist
+						closest_enemy = enemy
+		
+		# Store previous target before updating current target
+		player_autoaim_previous_target = player_autoaim_target
+		
+		# Handle target switching logic
+		if closest_enemy:
+			if player_autoaim_target and player_autoaim_target != closest_enemy:
+				# Check if current target is still visible
+				var current_query = PhysicsRayQueryParameters2D.create(pos, player_autoaim_target.global_position, 1)
+				current_query.exclude = [player_autoaim_target]
+				var current_result = space_state.intersect_ray(current_query)
+				
+				if current_result.is_empty() or current_result.collider == player_autoaim_target:
+					# Current target still visible, check distance difference
+					var current_distance = pos.distance_squared_to(player_autoaim_target.global_position)
+					if closest_distance < current_distance - ENEMY_SWITCH_MINIMUM_DISTANCE * ENEMY_SWITCH_MINIMUM_DISTANCE:
+						player_autoaim_target = closest_enemy
+				else:
+					# Current target not visible, switch to new target
+					player_autoaim_target = closest_enemy
+			else:
+				player_autoaim_target = closest_enemy
+		else:
+			player_autoaim_target = fallback_enemy

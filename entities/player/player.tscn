@@ -632,8 +632,8 @@ libraries = {
 visible = false
 
 [node name="HealthComponent" parent="." index="3"]
-MAX_HEALTH = 3
-INITIAL_HEALTH = 2
+MAX_HEALTH = 4
+INITIAL_HEALTH = 4
 
 [node name="HurtboxComponent" parent="." index="4"]
 visible = false

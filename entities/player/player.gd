@@ -58,9 +58,8 @@ func _process(delta: float) -> void:
 			weapon_node.call_reload()
 
 func get_aim_position() -> Vector2:
-	var closest_enemy = Main.find_closest_enemy(self.global_position)
-	if closest_enemy:
-		last_aiming_at = closest_enemy.global_position
+	if Main.player_autoaim_target:
+		last_aiming_at = Main.player_autoaim_target.global_position
 	else:
 		var input_vector = Input.get_vector("left", "right", "up", "down")
 		if input_vector != Vector2.ZERO:

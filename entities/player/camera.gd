@@ -16,11 +16,9 @@ func apply_shake(strength: float = 5.0):
 	shake_strength = strength / 4
 
 func _process(delta: float) -> void:
-	var closest_enemy = Main.find_closest_enemy(self.global_position)
-	
 	var target_offset := Vector2.ZERO
-	if closest_enemy:
-		var to_enemy = closest_enemy.global_position - global_position
+	if Main.player_autoaim_target:
+		var to_enemy = Main.player_autoaim_target.global_position - global_position
 		target_offset = to_enemy * enemy_offset_factor
 	
 	current_enemy_offset = current_enemy_offset.lerp(target_offset, enemy_lerp_speed * delta)
