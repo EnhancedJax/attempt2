@@ -30,27 +30,28 @@ func handle_attack() -> void:
 	atk.towards_vector = towards_vector
 	var shot = bullet_spawner.shoot(towards)
 	if shot: 
-		audio_bus_1.play()
+		SoundManager.play_at_position_varied("shotgun", "shot", global_position, randf_range(0.8,1.2), 1)
 		emit_signal("signal_weapon_did_use", atk)
 
 func handle_reload() -> void:
 	super.handle_reload()
-	#SoundManager.play_sound(audio_streams[0])
+	SoundManager.play("shotgun", "reload")
 	$AnimatedSprite2D.play('reload')
 
 func handle_finish_reload() -> void:
 	mag_count = min(mag_size, mag_count + 1)
 	can_reload = mag_size > mag_count
 	signal_weapon_did_reload.emit()
-	if can_reload:
-		handle_reload()
-	else:
-		#SoundManager.play_sound(audio_streams[1])
-		$AnimatedSprite2D.play('idle')
+	# if can_reload:
+	# 	handle_reload()
+	# else:
+	SoundManager.play("shotgun", "cycle")
+	$AnimatedSprite2D.play('idle')
 
 func rsignal_weapon_equipped(node: Node2D):
 	if self == node:
 		$AnimatedSprite2D/AnimationPlayer.play("equip")
+		SoundManager.play("shotgun", "cycle")
 
 func rsignal_shot():
 	$AnimatedSprite2D.play('idle')

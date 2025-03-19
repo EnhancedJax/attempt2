@@ -84,7 +84,7 @@ shape = SubResource("CircleShape2D_mbi0u")
 position = Vector2(0, -17.085)
 
 [node name="ItemSpawnPosition" type="Marker2D" parent="."]
-position = Vector2(0, 11.43)
+position = Vector2(0, 18)
 
 [connection signal="signal_player_entered" from="InteractionComponent" to="." method="rsignal_player_entered"]
 [connection signal="signal_player_exited" from="InteractionComponent" to="." method="rsignal_player_exited"]

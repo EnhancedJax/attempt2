@@ -12,4 +12,5 @@ func _process(delta: float) -> void:
 func rsignal_body_entered(body: Node2D) -> void:
 	if body is Player:
 		Main.update_coins(1)
+		SoundManager.play("coin", "pickup")
 		queue_free() # Destroy coin after collection

@@ -24,8 +24,8 @@ signal signal_player_entered()
 @onready var fow_canvas : CanvasLayer = $FogOfWar
 @onready var fow : Sprite2D = $FogOfWar/ColorRect
 
-var entrance_detector_scene = preload("res://scenes/rooms/entrance_detector.tscn")
-var coin_scene = preload("res://scenes/coin/coin.tscn")
+const entrance_detector_scene = preload("res://scenes/rooms/entrance_detector.tscn")
+const coin_scene = preload("res://scenes/coin/coin_spawner.tscn")
 var enemy_counter : int = 0
 
 # values to be set by generator
@@ -89,11 +89,11 @@ func clear_room() -> void:
 	signal_room_cleared.emit()
 
 	# spawn coins at the center of the room
-	for i in range(1):
-		var coin= coin_scene.instantiate()
-		var local: Vector2 = Vector2(dimension.x / 2, dimension.y / 2) * tilemap_px
-		coin.global_position = local * global_scale + self.global_position
-		Main.control.get_child(3).call_deferred("add_child", coin)
+	var coin = coin_scene.instantiate()
+	coin.count = 10
+	var local: Vector2 = Vector2(dimension.x / 2, dimension.y / 2) * tilemap_px
+	coin.global_position = local * global_scale + self.global_position
+	Main.control.get_child(3).call_deferred("add_child", coin)
 
 func start_wave(spawn_delay: float = 0.1) -> void: # externally managed waves`
 	var used_cells = floor_tilemap.get_used_cells()

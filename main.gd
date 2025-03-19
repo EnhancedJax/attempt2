@@ -32,7 +32,7 @@ func _process(_delta: float) -> void:
 		var scene = floor_item.instantiate()
 		scene.item_id = weapons[randi() % weapons.size()]
 		scene.global_position = player.global_position 
-		control.get_child(1).add_child(scene)
+		control.get_child(3).add_child(scene)
 
 # /* ------------ Registers ----------- */
 

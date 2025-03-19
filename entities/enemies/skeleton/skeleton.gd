@@ -5,6 +5,7 @@ const hit_sound = preload("res://entities/enemies/skeleton/hit.wav")
 func _ready():
 	super._ready()
 	equip_weapon(0)
+	$CPUParticles2D.emitting = true
 
 func _process(delta: float) -> void:
 	super._process(delta)

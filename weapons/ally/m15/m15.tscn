@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=4 uid="uid://bj81oeyskct0"]
+[gd_scene load_steps=32 format=4 uid="uid://bj81oeyskct0"]
 
 [ext_resource type="AudioStream" uid="uid://bcg5bvbknuelv" path="res://weapons/ally/m15/reload_1.wav" id="2_qd8bx"]
 [ext_resource type="Script" uid="uid://bam8hvn4ax01a" path="res://weapons/ally/m15/m15.gd" id="2_xu0o0"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cuiahy254v43" path="res://components/fire/full_auto/_full_auto.tscn" id="6_n1vsn"]
 [ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="9_crth4"]
 [ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="10_0qh87"]
+[ext_resource type="AudioStream" uid="uid://boe1wltt1l5s3" path="res://weapons/ally/revolver/equip.wav" id="10_crth4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kqkdb"]
 shader = ExtResource("4_x8wmp")
@@ -199,7 +200,7 @@ metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
 script = ExtResource("10_0qh87")
 name = "reload_1"
 bus = ""
-volume = 0.0
+volume = -10.0
 pitch = 1.0
 streams = Array[AudioStream]([ExtResource("2_qd8bx")])
 metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
@@ -208,9 +209,18 @@ metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
 script = ExtResource("10_0qh87")
 name = "reload_2"
 bus = ""
-volume = 0.0
+volume = -10.0
 pitch = 1.0
 streams = Array[AudioStream]([ExtResource("3_dvofk")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
+
+[sub_resource type="Resource" id="Resource_0qh87"]
+script = ExtResource("10_0qh87")
+name = "equip"
+bus = ""
+volume = -15.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("10_crth4")])
 metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
 
 [node name="M15" type="Node2D"]
@@ -266,5 +276,5 @@ one_shot = true
 [node name="SoundBank" type="Node" parent="."]
 script = ExtResource("9_crth4")
 label = "m15"
-events = Array[ExtResource("10_0qh87")]([SubResource("Resource_d0i0v"), SubResource("Resource_dvofk"), SubResource("Resource_crth4")])
+events = Array[ExtResource("10_0qh87")]([SubResource("Resource_d0i0v"), SubResource("Resource_dvofk"), SubResource("Resource_crth4"), SubResource("Resource_0qh87")])
 metadata/_custom_type_script = "uid://b7r334bhuu4yk"

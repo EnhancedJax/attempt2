@@ -36,11 +36,11 @@ func handle_attack() -> void:
 func handle_reload() -> void:
 	super.handle_reload()
 	$AnimatedSprite2D.play('reload')
-	SoundManager.play_at_position("m15", "reload_1", global_position)
+	SoundManager.play("m15", "reload_1")
 	reload_timer.start(reload_time / 2)
 
 func play_halfway_reload_sound() -> void:
-	SoundManager.play_at_position("m15", "reload_2", global_position)
+	SoundManager.play("m15", "reload_2")
 
 func handle_finish_reload() -> void:
 	super.handle_finish_reload()
@@ -48,6 +48,7 @@ func handle_finish_reload() -> void:
 
 func rsignal_weapon_equipped(node: Node2D):
 	if self == node:
+		SoundManager.play("m15", "equip")
 		$AnimatedSprite2D/AnimationPlayer.play("equip")
 
 func rsignal_shot():

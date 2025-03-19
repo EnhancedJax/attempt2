@@ -175,6 +175,7 @@ func handle_label_timeout():
 
 func handle_shield_timeout():
 	is_shield_active = true
+	$ShieldRegenerationParticle2D.emitting = true
 	shield_timer.stop()
 	Main.update_shield_ui(true)
 

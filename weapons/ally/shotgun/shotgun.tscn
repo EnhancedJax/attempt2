@@ -1,26 +1,14 @@
-[gd_scene load_steps=27 format=4 uid="uid://8m3clp0wpfeg"]
+[gd_scene load_steps=28 format=4 uid="uid://8m3clp0wpfeg"]
 
 [ext_resource type="Script" uid="uid://7djfqjywhjqq" path="res://weapons/ally/shotgun/shotgun.gd" id="2_p0o1h"]
 [ext_resource type="AudioStream" uid="uid://chnd0te4uref5" path="res://weapons/ally/shotgun/shot.wav" id="3_8fy2o"]
 [ext_resource type="AudioStream" uid="uid://gdctd1aynrkg" path="res://weapons/ally/shotgun/reload.wav" id="4_pgxrn"]
-[ext_resource type="PackedScene" uid="uid://culkeogipbs3r" path="res://scenes/misc/randomized_audio.tscn" id="5_oxegg"]
 [ext_resource type="PackedScene" uid="uid://cqpaelsgoqk53" path="res://components/bullet_spawner/basic_shotgun/node.tscn" id="5_v5jvg"]
 [ext_resource type="AudioStream" uid="uid://csu072mipm5dq" path="res://weapons/ally/shotgun/cycle.wav" id="5_wx0gl"]
 [ext_resource type="PackedScene" uid="uid://4fr4ngaevi8a" path="res://components/fire/semi_auto/_semi_auto.tscn" id="6_ircoe"]
 [ext_resource type="Shader" uid="uid://ctc7jwnjkk8is" path="res://weapons/ally/color_hand.gdshader" id="6_or3xc"]
+[ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="8_t6wmo"]
 [ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="9_t6wmo"]
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_uuhya"]
-resource_local_to_scene = true
-random_pitch = 2.0
-random_volume_offset_db = 0.5
-streams_count = 1
-stream_0/stream = ExtResource("3_8fy2o")
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_wx0gl"]
-resource_local_to_scene = true
-random_pitch = 1.5
-random_volume_offset_db = 0.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cs4gi"]
 shader = ExtResource("6_or3xc")
@@ -157,6 +145,33 @@ _data = {
 &"equip": SubResource("Animation_wx0gl")
 }
 
+[sub_resource type="Resource" id="Resource_d2uix"]
+script = ExtResource("8_t6wmo")
+name = "cycle"
+bus = ""
+volume = -10.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("5_wx0gl")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
+
+[sub_resource type="Resource" id="Resource_22swp"]
+script = ExtResource("8_t6wmo")
+name = "shot"
+bus = ""
+volume = 0.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("3_8fy2o")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
+
+[sub_resource type="Resource" id="Resource_1mkbx"]
+script = ExtResource("8_t6wmo")
+name = "reload"
+bus = ""
+volume = -10.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("4_pgxrn")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
+
 [node name="Gun" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("2_p0o1h")
@@ -166,12 +181,6 @@ recoil = 1000.0
 mag_size = 5
 reload_time = 1.0
 audio_streams = Array[AudioStream]([ExtResource("4_pgxrn"), ExtResource("5_wx0gl")])
-
-[node name="AudioBus1" parent="." instance=ExtResource("5_oxegg")]
-stream = SubResource("AudioStreamRandomizer_uuhya")
-
-[node name="AudioBus2" parent="." instance=ExtResource("5_oxegg")]
-stream = SubResource("AudioStreamRandomizer_wx0gl")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
@@ -212,4 +221,6 @@ target_position = Vector2(31, 0)
 
 [node name="SoundBank" type="Node" parent="."]
 script = ExtResource("9_t6wmo")
+label = "shotgun"
+events = Array[ExtResource("8_t6wmo")]([SubResource("Resource_d2uix"), SubResource("Resource_22swp"), SubResource("Resource_1mkbx")])
 metadata/_custom_type_script = "uid://b7r334bhuu4yk"

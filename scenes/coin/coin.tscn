@@ -1,7 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://ck262r3o6tqfj"]
+[gd_scene load_steps=19 format=3 uid="uid://ck262r3o6tqfj"]
 
 [ext_resource type="Script" uid="uid://cc3grftidd131" path="res://scenes/coin/coin.gd" id="1_u0637"]
 [ext_resource type="Texture2D" uid="uid://csmc34bqs4kla" path="res://pending_assets/Objects/Coin.png" id="1_yr0ns"]
+[ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="3_gtla7"]
+[ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="4_8afc0"]
+[ext_resource type="AudioStream" uid="uid://l08qkmlagfh0" path="res://scenes/coin/pickup.wav" id="5_0ifod"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u0637"]
+radius = 13.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u0637"]
 atlas = ExtResource("1_yr0ns")
@@ -60,17 +66,53 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_u0637"]
-radius = 7.0
+[sub_resource type="Animation" id="Animation_5vuvm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_u0637"]
+resource_name = "init"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.166667, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -16), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f38ba"]
+_data = {
+&"RESET": SubResource("Animation_5vuvm"),
+&"init": SubResource("Animation_u0637")
+}
+
+[sub_resource type="Resource" id="Resource_4qh87"]
+script = ExtResource("4_8afc0")
+name = "pickup"
+bus = ""
+volume = 0.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("5_0ifod")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
 
 [node name="Coin" type="Node2D"]
 script = ExtResource("1_u0637")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-self_modulate = Color(3, 2, 1, 1)
-sprite_frames = SubResource("SpriteFrames_ew8ne")
-autoplay = "default"
-frame_progress = 0.878374
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0
@@ -78,5 +120,31 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_u0637")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+self_modulate = Color(3, 2, 1, 1)
+sprite_frames = SubResource("SpriteFrames_ew8ne")
+autoplay = "default"
+frame_progress = 0.878374
+
+[node name="ShadowSprite2D" type="AnimatedSprite2D" parent="."]
+self_modulate = Color(0, 0, 0, 0.615686)
+position = Vector2(0, 8)
+skew = 0.759218
+sprite_frames = SubResource("SpriteFrames_ew8ne")
+autoplay = "default"
+frame_progress = 0.878374
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_f38ba")
+}
+autoplay = "init"
+
+[node name="SoundBank" type="Node" parent="."]
+script = ExtResource("3_gtla7")
+label = "coin"
+events = Array[ExtResource("4_8afc0")]([SubResource("Resource_4qh87")])
+metadata/_custom_type_script = "uid://b7r334bhuu4yk"
 
 [connection signal="body_entered" from="Area2D" to="." method="rsignal_body_entered"]

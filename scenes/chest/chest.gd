@@ -4,6 +4,7 @@ var items : Array[int]
 var items_count : int
 var is_opened : bool = false
 const floor_item = preload("res://scenes/floor_item/floor_item.tscn")
+const coin_scene = preload("res://scenes/coin/coin_spawner.tscn")
 
 var interaction : Interaction
 
@@ -20,7 +21,7 @@ func interaction_action() -> void:
 	var shuffled_items = items.duplicate()
 	print(items_count)
 	shuffled_items.shuffle()
-	var item_spacing = 100  # pixels between items
+	var item_spacing = 50  # pixels between items
 	var total_width = (items_count - 1) * item_spacing
 	var start_x = -total_width / 2  # center offset
 	
@@ -31,7 +32,11 @@ func interaction_action() -> void:
 		
 		var spawn_position = $ItemSpawnPosition.global_position
 		spawn_position.x += start_x + (i * item_spacing)
-		Main.spawn_node(node, spawn_position, 1)
+		Main.spawn_node(node, spawn_position, 3)
+		
+	var coin = coin_scene.instantiate()
+	coin.count = 5
+	Main.spawn_node(coin, global_position, 3)
 	
 	is_opened = true
 	$AnimatedSprite2D.play("open")

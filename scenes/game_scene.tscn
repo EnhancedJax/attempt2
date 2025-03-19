@@ -55,12 +55,6 @@ metadata/_edit_lock_ = true
 [node name="EnemyLayer" type="Node2D" parent="."]
 y_sort_enabled = true
 
-[node name="TextLayer" type="Node2D" parent="."]
-z_index = 10
-
-[node name="InteractionLabel" parent="TextLayer" instance=ExtResource("3_bfb72")]
-visible = false
-
 [node name="Viewport" type="CanvasLayer" parent="."]
 
 [node name="HUD" parent="Viewport" instance=ExtResource("4_ujnmn")]
@@ -76,6 +70,13 @@ environment = SubResource("Environment_y3j0m")
 
 [node name="CrosshairLayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
+
+[node name="InteractionLabel" parent="CrosshairLayer" instance=ExtResource("3_bfb72")]
+visible = false
+offset_left = -241.0
+offset_top = -136.0
+offset_right = -241.0
+offset_bottom = -136.0
 
 [node name="Crosshair" parent="CrosshairLayer" instance=ExtResource("10_mw25s")]
 
