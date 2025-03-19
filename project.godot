@@ -46,7 +46,23 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/resonate/plugin.cfg", "res://addons/sound_manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/resonate/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://addons/": "gray",
+"res://components/": "purple",
+"res://dungeon_generator/": "blue",
+"res://entities/": "green",
+"res://hud/": "orange",
+"res://hud/minimap/icons/": "gray",
+"res://music/": "gray",
+"res://pending_assets/": "gray",
+"res://scenes/": "yellow",
+"res://tables/": "blue",
+"res://weapons/": "yellow"
+}
 
 [global_group]
 

@@ -4,11 +4,21 @@ const panel_unvisited = preload("res://hud/minimap/unvisited.tres")
 const panel_visited = preload("res://hud/minimap/visited.tres")
 const panel_current = preload("res://hud/minimap/current.tres")
 
-func update_text(str: String):
-	if str != "E":
-		$CenterContainer/Label.text = str
-	else:
-		$CenterContainer/Label.text = ""
+@export var icon_bank : MinimapIconBank
+
+func update_text(str: String): # might be ran when not ready?!
+	var icon = $CenterContainer/Img
+	match str:
+		"E":
+			icon.texture = icon_bank.icon_enemy
+		"B":
+			icon.texture = icon_bank.icon_beginning
+		"F":
+			icon.texture = icon_bank.icon_finish
+		"L":
+			icon.texture = icon_bank.icon_loot
+		"S":
+			icon.texture = icon_bank.icon_shop
 
 func update_style(sty: String):
 	if sty == "current":

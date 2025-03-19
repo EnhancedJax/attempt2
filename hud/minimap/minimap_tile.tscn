@@ -1,23 +1,38 @@
-[gd_scene load_steps=3 format=3 uid="uid://ga3jop4y2drr"]
+[gd_scene load_steps=10 format=3 uid="uid://ga3jop4y2drr"]
 
 [ext_resource type="Script" uid="uid://ck6w2tayss4yv" path="res://minimap_tile.gd" id="1_8i6iv"]
 [ext_resource type="StyleBox" uid="uid://w3ks0dtiestu" path="res://hud/minimap/visited.tres" id="1_lggtc"]
+[ext_resource type="Texture2D" uid="uid://ww43eqt8488a" path="res://hud/minimap/icons/icon_boss.png" id="3_7bkb4"]
+[ext_resource type="Texture2D" uid="uid://ljujc21po7j3" path="res://hud/minimap/icons/icon_entrance.png" id="3_8g41g"]
+[ext_resource type="Script" uid="uid://cij3wb0xdpwi2" path="res://hud/minimap/icon_bank.gd" id="3_xvvys"]
+[ext_resource type="Texture2D" uid="uid://cp3p5ema8lj4m" path="res://hud/minimap/icons/icon_finish.png" id="4_erwkv"]
+[ext_resource type="Texture2D" uid="uid://6msmcfikwj27" path="res://hud/minimap/icons/icon_shop.png" id="6_5ackm"]
+[ext_resource type="Texture2D" uid="uid://d4jtc0wygmi7i" path="res://hud/minimap/icons/icon_smile.png" id="6_fckuc"]
+
+[sub_resource type="Resource" id="Resource_lp1jg"]
+script = ExtResource("3_xvvys")
+icon_beginning = ExtResource("3_8g41g")
+icon_loot = ExtResource("6_fckuc")
+icon_boss = ExtResource("3_7bkb4")
+icon_finish = ExtResource("4_erwkv")
+icon_shop = ExtResource("6_5ackm")
+metadata/_custom_type_script = "uid://cij3wb0xdpwi2"
 
 [node name="MinimapTile" type="PanelContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -310.0
-offset_bottom = -166.0
+offset_right = -416.0
+offset_bottom = -206.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = ExtResource("1_lggtc")
 script = ExtResource("1_8i6iv")
+icon_bank = SubResource("Resource_lp1jg")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer"]
+[node name="Img" type="TextureRect" parent="CenterContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "S"
+texture = ExtResource("3_7bkb4")
