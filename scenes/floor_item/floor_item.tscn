@@ -1,17 +1,26 @@
-[gd_scene load_steps=8 format=3 uid="uid://bfd2sd1k4hm71"]
+[gd_scene load_steps=10 format=3 uid="uid://bfd2sd1k4hm71"]
 
 [ext_resource type="Script" uid="uid://b77l7kr0ugsc0" path="res://scenes/floor_item/floor_item.gd" id="1_3uol4"]
 [ext_resource type="PackedScene" uid="uid://ct60dg4e24be8" path="res://components/interaction/_interaction.tscn" id="1_p8q7i"]
+[ext_resource type="Shader" uid="uid://chycovuryio5l" path="res://scenes/select.gdshader" id="3_0piie"]
 [ext_resource type="Texture2D" uid="uid://chgrqc0ex7y3p" path="res://weapons/ally/m15/static.png" id="3_ssods"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hqwej"]
 radius = 12.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ssg6e"]
+resource_local_to_scene = true
+shader = ExtResource("3_0piie")
+shader_parameter/width = 0
+shader_parameter/outline_color = Color(4, 4, 4, 1)
+shader_parameter/flickering_speed = 0.0
+shader_parameter/minimal_flickering_alpha = 0.0
+
 [sub_resource type="Gradient" id="Gradient_ssods"]
 colors = PackedColorArray(0.987013, 0.727503, 1.15514e-06, 1, 0.882353, 0.0156863, 0, 0)
 
 [sub_resource type="Gradient" id="Gradient_0piie"]
-colors = PackedColorArray(1, 0.557333, 0.17, 1, 1, 0.557333, 0.17, 0)
+colors = PackedColorArray(1, 0.557, 0.17, 0.686, 1, 0.557333, 0.17, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ssg6e"]
 gradient = SubResource("Gradient_0piie")
@@ -31,6 +40,8 @@ shape = SubResource("CircleShape2D_hqwej")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(1.5, 1.5, 1.5, 1)
+material = SubResource("ShaderMaterial_ssg6e")
+scale = Vector2(0.8, 0.8)
 texture = ExtResource("3_ssods")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]

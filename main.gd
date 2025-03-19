@@ -19,6 +19,7 @@ var coins = 0
 
 signal signal_player_equipped_weapon(node: Node2D)
 signal signal_player_landed_hit()
+signal signal_interaction_changed(interaction: Interaction)
 
 func _process(_delta: float) -> void:
 	_update_player_autoaim_target()
@@ -57,12 +58,14 @@ func register_interaction(i: Interaction):
 	interaction_label.set_text(i.label)
 	interaction_label.global_position = i.label_position
 	interaction_label.visible = true
+	signal_interaction_changed.emit(i)
 
 func reregister_interaction(i: Interaction):
 	print('Interaction reregister', i)
 	interaction_label.set_text(i.label)
 	interaction_label.global_position = i.label_position
 	interaction_label.visible = true
+	signal_interaction_changed.emit(i)
 
 func deregister_interaction(i: Interaction):
 	print('Interaction deregister', i)
@@ -73,6 +76,7 @@ func deregister_interaction(i: Interaction):
 		index += 1
 	interactions.pop_at(index)
 	if interactions.size() > 0:
+		signal_interaction_changed.emit(interactions[0])
 		interaction_label.set_text(interactions[0].label)
 		interaction_label.global_position = interactions[0].label_position
 	else:

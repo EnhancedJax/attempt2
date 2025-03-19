@@ -7,12 +7,3 @@ entrances_top = Vector2i(4, 0)
 entrances_bottom = Vector2i(4, 8)
 entrances_right = Vector2i(8, 4)
 is_peaceful_room = true
-
-[node name="CollisionShape2D" parent="EntranceDetector" index="0"]
-position = Vector2(80, 24)
-
-[node name="CollisionShape2D2" parent="EntranceDetector" index="1"]
-position = Vector2(80, 120)
-
-[node name="CollisionShape2D4" parent="EntranceDetector" index="3"]
-position = Vector2(120, 80)

@@ -1,77 +1,34 @@
-[gd_scene load_steps=19 format=3 uid="uid://c3f8flnplphu5"]
+[gd_scene load_steps=12 format=3 uid="uid://c3f8flnplphu5"]
 
 [ext_resource type="Script" uid="uid://cn1d5s6154jia" path="res://scenes/chest/chest.gd" id="1_57ibk"]
-[ext_resource type="Texture2D" uid="uid://6xe42ay02t06" path="res://scenes/chest/Chest_Closed.png" id="1_pykl5"]
 [ext_resource type="PackedScene" uid="uid://ct60dg4e24be8" path="res://components/interaction/_interaction.tscn" id="2_3dx1m"]
-[ext_resource type="Texture2D" uid="uid://bmj3abgqfwrry" path="res://scenes/chest/Chest_Open_Empty.png" id="3_qwiqt"]
+[ext_resource type="Texture2D" uid="uid://bsmfifyn01o1s" path="res://scenes/chest/Chest2_D.png" id="2_m5ma0"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_anxht"]
-atlas = ExtResource("1_pykl5")
-region = Rect2(0, 0, 16, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_vdnua"]
+atlas = ExtResource("2_m5ma0")
+region = Rect2(0, 0, 16, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_boo2k"]
-atlas = ExtResource("1_pykl5")
-region = Rect2(16, 0, 16, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_8qlbc"]
+atlas = ExtResource("2_m5ma0")
+region = Rect2(0, 0, 16, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gdqp5"]
-atlas = ExtResource("1_pykl5")
-region = Rect2(32, 0, 16, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_bw3f2"]
+atlas = ExtResource("2_m5ma0")
+region = Rect2(16, 0, 16, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_yep88"]
-atlas = ExtResource("1_pykl5")
-region = Rect2(48, 0, 16, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_nlyrn"]
+atlas = ExtResource("2_m5ma0")
+region = Rect2(32, 0, 16, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_jh10r"]
-atlas = ExtResource("1_pykl5")
-region = Rect2(64, 0, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xx7ea"]
-atlas = ExtResource("1_pykl5")
-region = Rect2(80, 0, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qo8cx"]
-atlas = ExtResource("1_pykl5")
-region = Rect2(96, 0, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_yte6x"]
-atlas = ExtResource("3_qwiqt")
-region = Rect2(0, 0, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mqakf"]
-atlas = ExtResource("3_qwiqt")
-region = Rect2(16, 0, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2o8td"]
-atlas = ExtResource("3_qwiqt")
-region = Rect2(32, 0, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_o3o7x"]
-atlas = ExtResource("3_qwiqt")
-region = Rect2(48, 0, 16, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_xcaki"]
+atlas = ExtResource("2_m5ma0")
+region = Rect2(48, 0, 16, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g2lem"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_anxht")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_boo2k")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gdqp5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_yep88")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jh10r")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xx7ea")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qo8cx")
+"texture": SubResource("AtlasTexture_vdnua")
 }],
 "loop": true,
 "name": &"default",
@@ -79,16 +36,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_yte6x")
+"texture": SubResource("AtlasTexture_8qlbc")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_mqakf")
+"texture": SubResource("AtlasTexture_bw3f2")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_2o8td")
+"texture": SubResource("AtlasTexture_nlyrn")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_o3o7x")
+"texture": SubResource("AtlasTexture_xcaki")
 }],
 "loop": false,
 "name": &"open",
@@ -110,7 +67,10 @@ y_sort_enabled = true
 position = Vector2(0, -6)
 scale = Vector2(0.994942, 1)
 sprite_frames = SubResource("SpriteFrames_g2lem")
+animation = &"open"
 autoplay = "default"
+frame = 3
+frame_progress = 1.0
 
 [node name="InteractionComponent" parent="." instance=ExtResource("2_3dx1m")]
 

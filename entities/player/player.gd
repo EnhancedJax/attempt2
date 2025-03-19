@@ -1,14 +1,20 @@
 class_name Player extends EntityBase
 
+# Inventory: each element is the weapon ID. If the same ID appears twice, the player owns two separate instances.
 var weapons : Array[int] = [0, 1]
 var equipped_weapon_index : int = 0
 var max_weapons_count : int = 2
+
 @onready var label : Label = $Label
 @onready var label_timeout : Timer = $LabelTimeout
 @onready var invincibility_timer: Timer = $InvincibilityTimer
 @onready var reload_progress_bar: ProgressBar = $ReloadIndicator/ProgressBar
 @onready var shield_timer : Timer = $ShieldTimer
-var weapon_nodes: Dictionary[int, WeaponBase] = {} # new: cache for weapon nodes
+
+# Changed: cache for weapon nodes as an array wherein each slot corresponds to an inventory slot.
+var weapon_nodes: Array[WeaponBase] = []
+
+# Reference to the currently active weapon node.
 var reload_duration: float = 0
 var reload_timer: float = 0
 var is_reloading: bool = false
@@ -23,7 +29,8 @@ signal signal_player_death()
 func _ready():
 	super._ready()
 	Main.register_player(self)
-	if equipped_weapon_index + 1 <= weapons.size():
+	# Ensure there is a valid equipped weapon
+	if equipped_weapon_index < weapons.size():
 		equip_weapon(weapons[equipped_weapon_index])
 	
 	invincibility_timer.timeout.connect(func(): is_invincible = false)
@@ -51,8 +58,8 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("switch_weapon"):
 		if weapons.size() > 1:
 			var next_weapon = (equipped_weapon_index + 1) % weapons.size()
-			equip_weapon(weapons[next_weapon])
 			equipped_weapon_index = next_weapon
+			equip_weapon(weapons[equipped_weapon_index])
 	if Input.is_action_just_pressed("reload"):
 		if weapon_node and weapon_node.can_reload:
 			weapon_node.call_reload()
@@ -118,36 +125,39 @@ func rsignal_health_deducted(health: int, max_health: int):
 	Main.camera.apply_shake(10)
 	Main.update_health_ui()
 
-# overrides base class implementation
+# Overrides base class implementation
+# This function now uses the equipped_weapon_index to cache/reuse a weapon node.
 func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
-	if is_reloading:
+	if is_reloading and weapon_node:
 		weapon_node.call_stop_reload()
 		is_reloading = false
 		reload_progress_bar.visible = false
 		reload_progress_bar.value = 0
 	
 	var weapon = Lookup.get_weapon(weapon_id, is_ally)
-	if weapon_node:
-		# disable current weapon instead of unloading
-		weapon_node.visible = false
-		# weapon_node.set_process(false)
 	
-	# reuse cached weapon node if exists; otherwise, instantiate and cache it.
-	if weapon_id in weapon_nodes:
-		weapon_node = weapon_nodes[weapon_id]
+	# If a previous weapon is equipped, disable its node.
+	if weapon_node:
+		weapon_node.visible = false
+	
+	# Use the node found in the corresponding inventory slot if it exists.
+	if equipped_weapon_index < weapon_nodes.size() and weapon_nodes[equipped_weapon_index] != null:
+		weapon_node = weapon_nodes[equipped_weapon_index]
 		weapon_node.visible = true
-		# weapon_node.set_process(true)
 	else:
+		# Instantiate weapon node and save it in the same index as the inventory slot.
 		weapon_node = weapon.scene.instantiate()
 		weapon_node.connect("signal_weapon_did_use", rsignal_weapon_did_use)
 		weapon_node.connect("signal_weapon_reloading", rsignal_weapon_reloading)
 		weapon_node.connect("signal_weapon_did_reload", rsignal_weapon_did_reload)
 		weapon_node.position = weaponOrigin.position
-		weapon_node.visible = false
-		add_child(weapon_node)
-		weapon_nodes[weapon_id] = weapon_node
 		weapon_node.visible = true
-		# weapon_node.set_process(true)
+		add_child(weapon_node)
+		# Save or extend the weapon_nodes array to ensure we store this node per inventory slot.
+		if equipped_weapon_index < weapon_nodes.size():
+			weapon_nodes[equipped_weapon_index] = weapon_node
+		else:
+			weapon_nodes.append(weapon_node)
 	
 	# update UI and label
 	label.visible = true
@@ -175,16 +185,18 @@ func do_die():
 
 func pickup_weapon(weapon_id: int) -> int:
 	"""
-	Picks up weapon and returns the weapon that was dropped
+	Picks up a weapon and returns the weapon that was dropped.
 	"""
 	if weapons.size() == max_weapons_count:
 		var dropped_weapon = weapons[equipped_weapon_index]
 		weapons.remove_at(equipped_weapon_index)
+		# Insert the new weapon in the same slot.
 		weapons.insert(equipped_weapon_index, weapon_id)
-		# if dropped weapon has a cached node, unload it since it is being dropped
-		if dropped_weapon in weapon_nodes:
-			weapon_nodes[dropped_weapon].queue_free()
-			weapon_nodes.erase(dropped_weapon)
+		# If the dropped weapon held a node, free it.
+		if equipped_weapon_index < weapon_nodes.size():
+			if weapon_nodes[equipped_weapon_index]:
+				weapon_nodes[equipped_weapon_index].queue_free()
+				weapon_nodes[equipped_weapon_index] = null
 		equip_weapon(weapon_id)
 		return dropped_weapon
 	else:
