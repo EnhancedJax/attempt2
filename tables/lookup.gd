@@ -1,10 +1,14 @@
 extends Node
 
+# Room type constants
+enum RoomType { B, E, L, S, F }
+
 const ALLY_WEAPONS_DATA_PATH = "res://tables/player_weapon_data.json"
 const ENEMY_WEAPONS_DATA_PATH = "res://tables/enemy_weapon_data.json"
 var _ally_weapons: Dictionary = {}
 var _enemy_weapons: Dictionary = {}
 var _texture_cache: Dictionary = {}
+var _level_room_scenes_list: LevelRoomScenesList
 
 class WeaponType:
 	var id: int
@@ -14,11 +18,22 @@ class WeaponType:
 	var rarity: int
 	var static_image: String # we only create texture when needed
 
-func _ready() -> void:
-	load_ally_weapons()
-	load_enemy_weapons()
+class LevelRoomScenesList:
+	var level1: RoomScenesList
 
-func load_ally_weapons() -> void:
+class RoomScenesList:
+	var B: Array[PackedScene] = []
+	var S: Array[PackedScene] = []
+	var E: Array[PackedScene] = []
+	var F: Array[PackedScene] = []
+	var L: Array[PackedScene] = []
+
+func _ready() -> void:
+	_load_ally_weapons()
+	_load_enemy_weapons()
+	_load_rooms()
+
+func _load_ally_weapons() -> void:
 	if FileAccess.file_exists(ALLY_WEAPONS_DATA_PATH):
 		var file = FileAccess.open(ALLY_WEAPONS_DATA_PATH, FileAccess.READ)
 		var json_object = JSON.parse_string(file.get_as_text())
@@ -37,7 +52,7 @@ func load_ally_weapons() -> void:
 				new_weapon.static_image = "res://weapons/ally/%s/static.png" % [path_name]
 				_ally_weapons[int(key)] = new_weapon
 
-func load_enemy_weapons() -> void:
+func _load_enemy_weapons() -> void:
 	if FileAccess.file_exists(ENEMY_WEAPONS_DATA_PATH):
 		var file = FileAccess.open(ENEMY_WEAPONS_DATA_PATH, FileAccess.READ)
 		var json_object = JSON.parse_string(file.get_as_text())
@@ -51,6 +66,40 @@ func load_enemy_weapons() -> void:
 				print(scene_path)
 				new_weapon.scene = load(scene_path)
 				_enemy_weapons[int(key)] = new_weapon
+
+func _load_rooms():
+	var dir = DirAccess.open("res://scenes/rooms/level1/")
+	if not dir:
+		push_error("Failed to open rooms directory")
+		return
+		
+	var level_rooms = LevelRoomScenesList.new()
+	var level1 = RoomScenesList.new()
+	
+	dir.list_dir_begin()
+	var file_name = dir.get_next()
+	while file_name != "":
+		if file_name.ends_with(".tscn"):
+			var path = "res://scenes/rooms/level1/" + file_name
+			var scene = load(path)
+			
+			if file_name.begins_with("enemy"):
+				level1.E.append(scene)
+			elif file_name == "loot.tscn":
+				level1.L.append(scene)
+			elif file_name == "start.tscn":
+				level1.B.append(scene)
+			elif file_name == "end.tscn":
+				level1.F.append(scene)
+			elif file_name == "shop.tscn":
+				level1.S.append(scene)
+				
+		file_name = dir.get_next()
+	
+	dir.list_dir_end()
+	level_rooms.level1 = level1
+
+	_level_room_scenes_list = level_rooms
 
 
 func get_weapon(id: int, is_ally: bool = true) -> WeaponType:
@@ -75,3 +124,17 @@ func get_weapon_texture(id: int, _weapon: WeaponType = null, is_ally: bool = tru
 
 func clear_texture_cache() -> void:
 	_texture_cache.clear()
+
+func get_room_list(room_type: RoomType) -> Array[PackedScene]:
+	match room_type:
+		RoomType.B:
+			return _level_room_scenes_list.level1.B
+		RoomType.S:
+			return _level_room_scenes_list.level1.S
+		RoomType.F:
+			return _level_room_scenes_list.level1.F
+		RoomType.L:
+			return _level_room_scenes_list.level1.L
+		RoomType.E:
+			return _level_room_scenes_list.level1.E
+	return []

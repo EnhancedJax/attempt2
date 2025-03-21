@@ -1,0 +1,68 @@
+[gd_scene load_steps=10 format=4 uid="uid://b8kdvijvf8dx6"]
+
+[ext_resource type="PackedScene" uid="uid://dnxw7kqi21unw" path="res://weapons/weapon_base.tscn" id="1_s7yg6"]
+[ext_resource type="PackedScene" uid="uid://4fr4ngaevi8a" path="res://components/fire/semi_auto/_semi_auto.tscn" id="2_47jf4"]
+[ext_resource type="Script" uid="uid://ddhw0aso76g6f" path="res://weapons/ally/sniper/sniper.gd" id="2_braa8"]
+[ext_resource type="PackedScene" uid="uid://cyyhdytcpd73i" path="res://components/bullet_spawner/basic_linear/node.tscn" id="3_braa8"]
+[ext_resource type="Script" uid="uid://de4sh4ok3rjrr" path="res://weapons/attack_base.gd" id="3_j20kw"]
+
+[sub_resource type="Resource" id="Resource_ok1sp"]
+script = ExtResource("3_j20kw")
+damage = 5
+knockback = 1000.0
+recoil = 400.0
+metadata/_custom_type_script = "uid://de4sh4ok3rjrr"
+
+[sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_s7yg6"]
+_data = PackedByteArray("AAADAAUAAAABAAAAMAAAACAAAADcAAAAUklGRtQAAABXRUJQVlA4TMcAAAAvL8AHEFegJpKt5sf+f3LsEIAg/Pe4UdS2DdRnCRTBAWH8mYzJJjWRpDAvglRHE/i3ggcq5j8AAPttyFbTnnYmi32v++MkPTq4jWzbTa6+pFwiJHrcj4+Y9zvQuAZ4JeBy14EqIVKbNoQwov8TgJ9Xzdy8k5ld2wPnSeh7Nw8EQIzTjYgD+2p9/0gBcDiEoJ7DGgPQoizL8myXbeuIqVp8GuY7PjXAuWnPddZF8lxGM8SXxaJb8XsEnExbS5lDyFl0IDE47X8IAA==")
+size_override = Vector2(48, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_47jf4"]
+atlas = SubResource("PortableCompressedTexture2D_s7yg6")
+region = Rect2(0, 0, 48, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_braa8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_47jf4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="Sniper" instance=ExtResource("1_s7yg6")]
+script = ExtResource("2_braa8")
+ATTACK = SubResource("Resource_ok1sp")
+spread = 0.0
+mag_size = 5
+reload_time = 3.0
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+texture_filter = 1
+position = Vector2(11, 6)
+sprite_frames = SubResource("SpriteFrames_braa8")
+offset = Vector2(13, -2)
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"should_round_fps": true,
+"slice": "",
+"source": "res://weapons/ally/sniper/sniper.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "23d98472b2676e043f4943a92705c839"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D" index="0"]
+
+[node name="SemiAutoComponent" parent="." index="2" instance=ExtResource("2_47jf4")]
+fire_rate = 0.5
+
+[node name="BulletSpawnerComponent" parent="." index="3" instance=ExtResource("3_braa8")]
+position = Vector2(0, 2)
+target_position = Vector2(41, 0)
+rotate = false

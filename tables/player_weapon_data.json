@@ -1,12 +1,17 @@
 {
   "0": {
-    "name": "M15",
-    "desc": "All around good rifle",
-    "rarity": 0
+	"name": "M15",
+	"desc": "All around good rifle",
+	"rarity": 0
   },
   "1": {
-    "name": "Shotgun",
-    "desc": "Generic shotgun",
-    "rarity": 0
+	"name": "Shotgun",
+	"desc": "Generic shotgun",
+	"rarity": 0
+  },
+  "2": {
+	"name": "Sniper",
+	"desc": "Generic sniper",
+	"rarity": 0
   }
 }

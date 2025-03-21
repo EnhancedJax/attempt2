@@ -1,7 +1,7 @@
 class_name Player extends EntityBase
 
 # Inventory: each element is the weapon ID. If the same ID appears twice, the player owns two separate instances.
-var weapons : Array[int] = [0, 1]
+var weapons : Array[int] = [0, 2]
 var equipped_weapon_index : int = 0
 var max_weapons_count : int = 2
 
@@ -40,6 +40,8 @@ func _ready():
 	reload_progress_bar.visible = false
 
 func _process(delta: float) -> void:
+	if is_dead:
+		return
 	super._process(delta)
 	if weapon_node:
 		var aim_pos = get_aim_position()
@@ -81,7 +83,6 @@ func get_aim_position() -> Vector2:
 
 func rsignal_weapon_did_use(attack: AttackBase):
 	_update_ui_ammo()
-	Main.camera.apply_shake(5)
 	apply_force(-attack.towards_vector * attack.recoil)
 
 func rsignal_weapon_reloading(duration: float):
@@ -104,6 +105,8 @@ func rsignal_hitbox_hit(attack: AttackBase):
 	
 	# Apply knockback force
 	apply_force(attack.towards_vector * attack.knockback)
+	
+	Main.camera.apply_shake(15)
 
 	# Handle shield mechanic
 	if is_shield_active:
@@ -122,7 +125,6 @@ func rsignal_hitbox_hit(attack: AttackBase):
 
 func rsignal_health_deducted(health: int, max_health: int):
 	super.rsignal_health_deducted(health, max_health)
-	Main.camera.apply_shake(10)
 	Main.update_health_ui()
 
 # Overrides base class implementation

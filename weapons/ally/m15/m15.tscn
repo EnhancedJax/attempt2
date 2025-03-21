@@ -1,5 +1,6 @@
-[gd_scene load_steps=32 format=4 uid="uid://bj81oeyskct0"]
+[gd_scene load_steps=34 format=4 uid="uid://bj81oeyskct0"]
 
+[ext_resource type="Script" uid="uid://de4sh4ok3rjrr" path="res://weapons/attack_base.gd" id="2_0qh87"]
 [ext_resource type="AudioStream" uid="uid://bcg5bvbknuelv" path="res://weapons/ally/m15/reload_1.wav" id="2_qd8bx"]
 [ext_resource type="Script" uid="uid://bam8hvn4ax01a" path="res://weapons/ally/m15/m15.gd" id="2_xu0o0"]
 [ext_resource type="PackedScene" uid="uid://cyyhdytcpd73i" path="res://components/bullet_spawner/basic_linear/node.tscn" id="3_1ifyx"]
@@ -10,6 +11,13 @@
 [ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="9_crth4"]
 [ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="10_0qh87"]
 [ext_resource type="AudioStream" uid="uid://boe1wltt1l5s3" path="res://weapons/ally/revolver/equip.wav" id="10_crth4"]
+
+[sub_resource type="Resource" id="Resource_t86hx"]
+script = ExtResource("2_0qh87")
+damage = 1
+knockback = 100.0
+recoil = 200.0
+metadata/_custom_type_script = "uid://de4sh4ok3rjrr"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kqkdb"]
 shader = ExtResource("4_x8wmp")
@@ -226,9 +234,7 @@ metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
 [node name="M15" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("2_xu0o0")
-damage = 1
-knockback = 500.0
-recoil = 250.0
+ATTACK = SubResource("Resource_t86hx")
 mag_size = 2
 reload_time = 1.5
 

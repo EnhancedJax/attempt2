@@ -1,13 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dnxw7kqi21unw"]
+[gd_scene load_steps=5 format=3 uid="uid://dnxw7kqi21unw"]
 
 [ext_resource type="Script" uid="uid://nhljx7rj7myl" path="res://weapons/weapon_base.gd" id="1_fqo6c"]
-[ext_resource type="PackedScene" uid="uid://culkeogipbs3r" path="res://scenes/misc/randomized_audio.tscn" id="2_mnvwy"]
 [ext_resource type="Shader" uid="uid://ctc7jwnjkk8is" path="res://weapons/ally/color_hand.gdshader" id="3_b5wl3"]
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8bifm"]
-resource_local_to_scene = true
-random_pitch = 1.5
-random_volume_offset_db = 0.5
+[ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="3_cs4gi"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cs4gi"]
 shader = ExtResource("3_b5wl3")
@@ -20,23 +15,16 @@ shader_parameter/hand_color_2 = Color(0.73, 0.43, 0.34, 1)
 y_sort_enabled = true
 script = ExtResource("1_fqo6c")
 
-[node name="RandomizedAudio" parent="." instance=ExtResource("2_mnvwy")]
-stream = SubResource("AudioStreamRandomizer_8bifm")
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_cs4gi")
 metadata/_aseprite_wizard_interface_config_ = {
 "layer_section": true,
 "pending_changes": {
-"embed_tex": true,
-"layers": [],
-"o_ex_p": "",
-"o_folder": "",
-"o_name": "",
-"only_visible": false,
-"should_round_fps": true,
-"slice": "",
 "source": ""
 }
 }
+
+[node name="SoundBank" type="Node" parent="."]
+script = ExtResource("3_cs4gi")
+metadata/_custom_type_script = "uid://b7r334bhuu4yk"

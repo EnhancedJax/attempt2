@@ -24,5 +24,5 @@ func handle_attack() -> void:
 	atk.towards_vector = towards_vector
 	var shot = bullet_spawner.shoot(towards)
 	if shot: 
-		$RandomizedAudio.play()
+		#$RandomizedAudio.play()
 		emit_signal("signal_weapon_did_use", atk)

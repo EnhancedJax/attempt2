@@ -214,7 +214,7 @@ libraries = {
 autoplay = "equip"
 
 [node name="SemiAutoComponent" parent="." instance=ExtResource("6_ircoe")]
-fire_rate = 1
+fire_rate = 1.0
 
 [node name="BasicShotgun" parent="." instance=ExtResource("5_v5jvg")]
 target_position = Vector2(31, 0)

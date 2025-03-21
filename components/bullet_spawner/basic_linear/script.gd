@@ -2,9 +2,13 @@ extends RayCast2D
 
 @export var rotate : bool = true
 var BULLET : PackedScene
-var ATTACK : BulletType
+var ATTACK : AttackBase
 
 signal signal_shot()
+
+func register(a: AttackBase, b: PackedScene):
+	self.BULLET = b
+	self.ATTACK = a
 
 func shoot(towards: float) -> bool:
 	var is_colliding = self.is_colliding()

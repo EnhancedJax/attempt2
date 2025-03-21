@@ -24,6 +24,10 @@ func _process(_delta: float) -> void:
 	fps_label.text = "FPS: %d" % Engine.get_frames_per_second()
 
 func update_health(value: int = 1, max: int = 1):
+	if value <= 1:
+		$HealthWarn.visible = true
+	else:
+		$HealthWarn.visible = false
 	# Update hearts if max changed
 	if max != current_max:
 		var hearts_needed = int(ceil(max / 2.0))

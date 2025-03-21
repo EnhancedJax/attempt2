@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://o04ryntw4127"]
+
+[ext_resource type="Script" uid="uid://v7ed7ptn35oy" path="res://weapons/ally/sniper/sniper_bullet.gd" id="1_ibf67"]
+
+[node name="SniperBullet" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_ibf67")
+
+[node name="Line2D" type="Line2D" parent="."]
+width = 2.0
+texture_mode = 2
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 1000)

@@ -400,27 +400,6 @@ func print_dungeon_layout() -> void:
 const TILE_SIZE := 16
 const GAP      := 12  * TILE_SIZE  # minimum pixel gap between rooms
 
-const ROOM_SCENES = {
-	RoomType.B: [
-		preload("res://scenes/rooms/level1/start.tscn"),
-	],
-	RoomType.E: [
-		preload("res://scenes/rooms/level1/enemy1.tscn"),
-		preload("res://scenes/rooms/level1/enemy2.tscn"),
-		preload("res://scenes/rooms/level1/enemy3.tscn"),
-		preload("res://scenes/rooms/level1/enemy4.tscn"),
-	],
-	RoomType.L: [
-		preload("res://scenes/rooms/level1/loot.tscn"),
-	],
-	RoomType.S: [
-		preload("res://scenes/rooms/level1/shop.tscn"),
-	],
-	RoomType.F: [
-		preload("res://scenes/rooms/level1/end.tscn"),
-	]
-}
-
 
 # Direction vectors for movement on the grid
 func get_offset_from_code(code: int) -> Vector2:
@@ -500,9 +479,9 @@ func place_rooms(matrix: Array) -> void:
 	for i in range(total_rooms):
 		# Get the room's type from its 'nodes' dictionary.
 		var room_type: int = nodes[i].type
+		var room_scenes_list = Lookup.get_room_list(room_type)
 		# Instantiate the scene based on the room's type.
-		var scene_list = ROOM_SCENES[room_type]
-		room_scenes[i] = scene_list[randi() % scene_list.size()].instantiate()
+		room_scenes[i] = room_scenes_list[randi() % room_scenes_list.size()].instantiate()
 	
 	# Create a dictionary to map room id -> computed world position (as Vector2).
 	# In these positions, the room scene’s top-left corner is considered the origin.

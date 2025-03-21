@@ -1,6 +1,6 @@
 extends FiringHandlerBase
 
-@export var fire_rate : int
+@export var fire_rate : float
 var fire_timer: float = 0
 var fire_rate_time : float
 

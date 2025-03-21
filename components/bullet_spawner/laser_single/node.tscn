@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bsegnfokerlgb"]
+
+[ext_resource type="Script" uid="uid://bpghwjx246qec" path="res://components/bullet_spawner/laser_single/script.gd" id="1_u3mtr"]
+
+[node name="LaserSIngleSpawner" type="Node2D"]
+script = ExtResource("1_u3mtr")
