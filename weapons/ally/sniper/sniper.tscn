@@ -9,7 +9,7 @@
 [sub_resource type="Resource" id="Resource_ok1sp"]
 script = ExtResource("3_j20kw")
 damage = 5
-knockback = 1000.0
+knockback = 2000.0
 recoil = 400.0
 metadata/_custom_type_script = "uid://de4sh4ok3rjrr"
 

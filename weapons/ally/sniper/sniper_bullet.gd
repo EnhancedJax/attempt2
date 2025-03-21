@@ -2,6 +2,8 @@ extends BulletBase
 
 @onready var line : Line2D = $Line2D
 @onready var raycast: RayCast2D = $RayCast2D
+@onready var particle : CPUParticles2D = $CPUParticles2D
+@onready var animationPlayer:  AnimationPlayer = $AnimationPlayer
 
 const MAX_DISTANCE = 1000
 
@@ -29,6 +31,12 @@ func perform_raycast() -> void:
 	line.clear_points()
 	line.add_point(Vector2.ZERO)
 	line.add_point(to_local(end_point))
+	animationPlayer.play("init")
 	
-	await get_tree().create_timer(0.1).timeout
+	particle.global_position = end_point
+
+func handle_hit():
+	pass
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	self.queue_free()
