@@ -11,7 +11,7 @@ signal signal_weapon_did_reload() # to be called by weapon implementation
 @export var audio_streams : Array[AudioStream]
 
 var firing_handler : FiringHandlerBase
-var mag_count : int = mag_size
+@onready var mag_count : int = mag_size
 var can_reload : bool = false
 var is_reloading : bool = false
 	

@@ -1,16 +1,16 @@
 extends Node2D
 
-var items : Array[int]
-var items_count : int
+var items
+@export var items_count : int
 var is_opened : bool = false
+const item_spacing : int = 32  # pixels between items
 const floor_item = preload("res://scenes/floor_item/floor_item.tscn")
 const coin_scene = preload("res://scenes/coin/coin_spawner.tscn")
 
 var interaction : Interaction
 
 func _ready() -> void:
-	items = [0,1]
-	items_count = 1
+	items = Lookup.get_droppable_items()
 	interaction = Interaction.new()
 	interaction.callable = interaction_action
 	interaction.source = self
@@ -21,7 +21,6 @@ func interaction_action() -> void:
 	var shuffled_items = items.duplicate()
 	print(items_count)
 	shuffled_items.shuffle()
-	var item_spacing = 50  # pixels between items
 	var total_width = (items_count - 1) * item_spacing
 	var start_x = -total_width / 2  # center offset
 	

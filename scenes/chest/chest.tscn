@@ -61,6 +61,7 @@ radius = 4.50174
 [node name="Chest" type="StaticBody2D"]
 y_sort_enabled = true
 script = ExtResource("1_57ibk")
+items_count = 3
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true

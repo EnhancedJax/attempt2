@@ -35,6 +35,10 @@ func perform_raycast() -> void:
 	
 	particle.global_position = end_point
 
+	await get_tree().process_frame
+
+	self.set_collision_layer_value(3, false)
+
 func handle_hit():
 	pass
 

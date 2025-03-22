@@ -1,10 +1,15 @@
-[gd_scene load_steps=10 format=4 uid="uid://b8kdvijvf8dx6"]
+[gd_scene load_steps=22 format=4 uid="uid://b8kdvijvf8dx6"]
 
 [ext_resource type="PackedScene" uid="uid://dnxw7kqi21unw" path="res://weapons/weapon_base.tscn" id="1_s7yg6"]
 [ext_resource type="PackedScene" uid="uid://4fr4ngaevi8a" path="res://components/fire/semi_auto/_semi_auto.tscn" id="2_47jf4"]
 [ext_resource type="Script" uid="uid://ddhw0aso76g6f" path="res://weapons/ally/sniper/sniper.gd" id="2_braa8"]
 [ext_resource type="PackedScene" uid="uid://cyyhdytcpd73i" path="res://components/bullet_spawner/basic_linear/node.tscn" id="3_braa8"]
 [ext_resource type="Script" uid="uid://de4sh4ok3rjrr" path="res://weapons/attack_base.gd" id="3_j20kw"]
+[ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="4_7yxvd"]
+[ext_resource type="AudioStream" uid="uid://d1ytbudkccgcb" path="res://weapons/ally/sniper/cycle.wav" id="5_5scbx"]
+[ext_resource type="AudioStream" uid="uid://dekukjdljjvcn" path="res://weapons/ally/sniper/shot.wav" id="6_lnjeg"]
+[ext_resource type="AudioStream" uid="uid://cx2htjpme3j3o" path="res://weapons/ally/sniper/reload_1.wav" id="7_iv7mh"]
+[ext_resource type="AudioStream" uid="uid://b8i2mro73uq3d" path="res://weapons/ally/sniper/reload_2.wav" id="8_0hp27"]
 
 [sub_resource type="Resource" id="Resource_ok1sp"]
 script = ExtResource("3_j20kw")
@@ -13,36 +18,157 @@ knockback = 2000.0
 recoil = 400.0
 metadata/_custom_type_script = "uid://de4sh4ok3rjrr"
 
-[sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_s7yg6"]
-_data = PackedByteArray("AAADAAUAAAABAAAAMAAAACAAAADcAAAAUklGRtQAAABXRUJQVlA4TMcAAAAvL8AHEFegJpKt5sf+f3LsEIAg/Pe4UdS2DdRnCRTBAWH8mYzJJjWRpDAvglRHE/i3ggcq5j8AAPttyFbTnnYmi32v++MkPTq4jWzbTa6+pFwiJHrcj4+Y9zvQuAZ4JeBy14EqIVKbNoQwov8TgJ9Xzdy8k5ld2wPnSeh7Nw8EQIzTjYgD+2p9/0gBcDiEoJ7DGgPQoizL8myXbeuIqVp8GuY7PjXAuWnPddZF8lxGM8SXxaJb8XsEnExbS5lDyFl0IDE47X8IAA==")
+[sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_7yxvd"]
+_data = PackedByteArray("AAADAAUAAAABAAAAMAAAACAAAADWAAAAUklGRs4AAABXRUJQVlA4TMEAAAAvL8AHEFegJpKt5sf+f3LsEIAg/Pe4UdS2DdRnCRTBAWH8mYzJJjWRpDAvglRHE/i3ggcq5j8AAPttyFbTnnYmi32v++MkPTq4jWzbTa5cjgiJPvcLGzHvd6BxDfBKwOWuA1VCpDbdCyGM6P8E4OcV1dh2UtVrd6DNhaGPbSAAYprxhIvBoejQPzIAHA8hiOe4JACkrKqqOutl28WYLeWnZb7jUwIsz2LRR+65igzOV+WyX/N7hKlwVQ5HmhiDxB8TAA==")
 size_override = Vector2(48, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_47jf4"]
-atlas = SubResource("PortableCompressedTexture2D_s7yg6")
+[sub_resource type="AtlasTexture" id="AtlasTexture_5scbx"]
+atlas = SubResource("PortableCompressedTexture2D_7yxvd")
 region = Rect2(0, 0, 48, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_braa8"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_lnjeg"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_47jf4")
+"texture": SubResource("AtlasTexture_5scbx")
 }],
 "loop": true,
 "name": &"default",
 "speed": 10.0
 }]
 
+[sub_resource type="Animation" id="Animation_7yxvd"]
+resource_name = "equip"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-5, -1), Vector2(11, 6)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-2.65465, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.7, 0.7), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_5scbx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(11, 6)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lnjeg"]
+_data = {
+&"RESET": SubResource("Animation_5scbx"),
+&"equip": SubResource("Animation_7yxvd")
+}
+
+[sub_resource type="Resource" id="Resource_yoqqk"]
+script = ExtResource("4_7yxvd")
+name = "cycle"
+bus = ""
+volume = 0.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("5_5scbx")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
+
+[sub_resource type="Resource" id="Resource_soys5"]
+script = ExtResource("4_7yxvd")
+name = "shot"
+bus = ""
+volume = 0.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("6_lnjeg")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
+
+[sub_resource type="Resource" id="Resource_062l6"]
+script = ExtResource("4_7yxvd")
+name = "reload_1"
+bus = ""
+volume = 0.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("7_iv7mh")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
+
+[sub_resource type="Resource" id="Resource_my5mh"]
+script = ExtResource("4_7yxvd")
+name = "reload_2"
+bus = ""
+volume = 0.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("8_0hp27")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
+
 [node name="Sniper" instance=ExtResource("1_s7yg6")]
 script = ExtResource("2_braa8")
 ATTACK = SubResource("Resource_ok1sp")
 spread = 0.0
-mag_size = 5
-reload_time = 3.0
+mag_size = 3
+reload_time = 2.0
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 texture_filter = 1
 position = Vector2(11, 6)
-sprite_frames = SubResource("SpriteFrames_braa8")
+sprite_frames = SubResource("SpriteFrames_lnjeg")
 offset = Vector2(13, -2)
 metadata/_aseprite_wizard_config_ = {
 "embed_tex": true,
@@ -55,14 +181,24 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://weapons/ally/sniper/sniper.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "23d98472b2676e043f4943a92705c839"
+metadata/_aseprite_wizard_source_file_hash_ = "475d472606b9995e157450cb80aa8655"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D" index="0"]
+libraries = {
+&"": SubResource("AnimationLibrary_lnjeg")
+}
+
+[node name="SoundBank" parent="." index="1"]
+label = "sniper"
+events = Array[ExtResource("4_7yxvd")]([SubResource("Resource_yoqqk"), SubResource("Resource_soys5"), SubResource("Resource_062l6"), SubResource("Resource_my5mh")])
 
 [node name="SemiAutoComponent" parent="." index="2" instance=ExtResource("2_47jf4")]
-fire_rate = 0.5
+fire_rate = 0.85
 
 [node name="BulletSpawnerComponent" parent="." index="3" instance=ExtResource("3_braa8")]
 position = Vector2(0, 2)
 target_position = Vector2(41, 0)
 rotate = false
+
+[node name="ReloadSound2Timer" type="Timer" parent="." index="4"]
+one_shot = true
