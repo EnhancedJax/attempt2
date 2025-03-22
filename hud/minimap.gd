@@ -39,6 +39,9 @@ const MINIMAP_CORRIDOR = preload("res://hud/minimap/minimap_corridor.tscn")
 
 @onready var positioner = $Positioner
 
+# Add this with other properties at the top
+var current_tween: Tween
+
 # ─────────────────────────────────────────────────────────────────────────────
 # PUBLIC FUNCTIONS TO INITIALIZE / UPDATE THE MINIMAP
 # ─────────────────────────────────────────────────────────────────────────────
@@ -88,7 +91,21 @@ func update_minimap(current_room_index: int) -> void:
 		if not minimap_unvisited_neighbors.has(neighbor.id):
 			minimap_unvisited_neighbors.append(neighbor.id)
 	
-	redraw_minimap()  # call the renamed draw function
+	redraw_minimap()
+	
+	# Get target position for smooth scrolling
+	var current_room_center = minimap_nodes_positions[minimap_current] + Vector2(ROOM_SIZE_MINIMAP/2, ROOM_SIZE_MINIMAP/2)
+	var target_position = self.size / 2 - current_room_center
+	
+	# Kill any existing tween
+	if current_tween:
+		current_tween.kill()
+	
+	# Create new tween for smooth movement
+	current_tween = create_tween()
+	current_tween.set_trans(Tween.TRANS_CUBIC)
+	current_tween.set_ease(Tween.EASE_OUT)
+	current_tween.tween_property(positioner, "position", target_position, 0.5)
 
 # Replaces _draw. Uses scene instancing instead of low-level drawing.
 func redraw_minimap() -> void:
@@ -152,10 +169,8 @@ func redraw_minimap() -> void:
 	
 	# Center positioner relative to self by moving it so that the current room is in the center.
 	# Get the center position of the current room within the minimap.
-	var current_room_center = minimap_nodes_positions[minimap_current] + Vector2(ROOM_SIZE_MINIMAP/2, ROOM_SIZE_MINIMAP/2)
 	# Calculate the new position: self.size is the size of the container,
 	# so the current room will be centered when its center aligns with self.size / 2.
-	positioner.position = self.size / 2 - current_room_center
 
 # ─────────────────────────────────────────────────────────────────────────────
 # HELPER FUNCTIONS: VISIBILITY AND OPACITY
