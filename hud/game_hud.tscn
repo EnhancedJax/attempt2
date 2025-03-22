@@ -135,6 +135,34 @@ scale = Vector2(0.25, 0.25)
 texture_normal = ExtResource("3_n6fa7")
 action = "switch_weapon"
 
+[node name="TouchScreenButton2" type="TouchScreenButton" parent="CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0.196078)
+position = Vector2(369, 210)
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("3_n6fa7")
+action = "fire"
+
+[node name="TouchScreenButton5" type="TouchScreenButton" parent="CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0.196078)
+position = Vector2(417, 213)
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("3_n6fa7")
+action = "reload"
+
+[node name="TouchScreenButton3" type="TouchScreenButton" parent="CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0.196078)
+position = Vector2(320, 207)
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("3_n6fa7")
+action = "roll"
+
+[node name="TouchScreenButton4" type="TouchScreenButton" parent="CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0.196078)
+position = Vector2(366, 159)
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("3_n6fa7")
+action = "interact"
+
 [node name="WeaponStaticSprite2D" type="Sprite2D" parent="CanvasLayer"]
 position = Vector2(430, 185)
 texture = ExtResource("6_rfnla")
@@ -209,17 +237,17 @@ show_percentage = false
 [node name="Virtual Joystick" parent="." instance=ExtResource("8_8ohwp")]
 layout_mode = 1
 offset_left = 20.0
-offset_top = -101.0
-offset_right = 101.0
+offset_top = -89.0
+offset_right = 90.0
 offset_bottom = -20.0
 deadzone_size = 0.0
-clampzone_size = 40.0
+clampzone_size = 16.0
 action_left = "left"
 action_right = "right"
 action_up = "up"
 action_down = "down"
 
 [node name="Base" parent="Virtual Joystick" index="0"]
-scale = Vector2(0.4, 0.4)
+scale = Vector2(0.3, 0.3)
 
 [editable path="Virtual Joystick"]
