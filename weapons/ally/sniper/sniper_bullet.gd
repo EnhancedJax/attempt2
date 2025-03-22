@@ -15,15 +15,6 @@ func _process(delta: float) -> void:
 
 func perform_raycast() -> void:
 	raycast.target_position = ATTACK.towards_vector * MAX_DISTANCE
-
-	# Setup collision area
-	var collision_shape = CollisionShape2D.new()
-	var rectangle = RectangleShape2D.new()
-	rectangle.size = Vector2(raycast.target_position.length(), 2)
-	collision_shape.shape = rectangle
-	collision_shape.rotation = ATTACK.towards_vector.angle()
-	collision_shape.position = raycast.target_position / 2
-	self.add_child(collision_shape)
 	
 	await get_tree().process_frame
 	
@@ -34,6 +25,15 @@ func perform_raycast() -> void:
 	animationPlayer.play("init")
 	
 	particle.global_position = end_point
+	
+	# Setup collision area
+	var collision_shape = CollisionShape2D.new()
+	var rectangle = RectangleShape2D.new()
+	rectangle.size = Vector2(to_local(end_point).length(), 2)
+	collision_shape.shape = rectangle
+	collision_shape.rotation = ATTACK.towards_vector.angle()
+	collision_shape.position = to_local(end_point) / 2
+	self.add_child(collision_shape)
 
 	await get_tree().process_frame
 

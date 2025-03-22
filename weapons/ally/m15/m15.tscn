@@ -242,7 +242,7 @@ reload_time = 1.5
 y_sort_enabled = true
 texture_filter = 1
 material = SubResource("ShaderMaterial_kqkdb")
-position = Vector2(1, 6)
+position = Vector2(12, 6)
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_y4oep")
 animation = &"idle"
@@ -270,8 +270,8 @@ libraries = {
 }
 
 [node name="BulletSpawnerComponent" parent="." instance=ExtResource("3_1ifyx")]
-position = Vector2(0, 1)
-target_position = Vector2(20, 0)
+position = Vector2(0, 2)
+target_position = Vector2(27, 0)
 
 [node name="FullAutoComponent" parent="." instance=ExtResource("6_n1vsn")]
 fire_rate = 8
