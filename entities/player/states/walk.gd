@@ -11,7 +11,7 @@ func enter():
 
 func update(delta: float):
 	if p.weapon_node:
-		p.weapon_node.handle_use(delta, false)
+		p.weapon_node.handle_use(delta, p.is_just_pressed_fire, p.is_holding_down_fire, false)
 		
 func physics_update(delta):
 	var input_direction = Input.get_vector("left", "right", "up", "down")

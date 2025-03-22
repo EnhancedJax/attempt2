@@ -36,7 +36,8 @@ func play_halfway_reload_sound() -> void:
 
 func handle_finish_reload() -> void:
 	super.handle_finish_reload()
-	$AnimatedSprite2D.play('RESET')
+	$AnimatedSprite2D.play('idle')
+	SoundManager.play("sniper", "cycle")
 
 func rsignal_weapon_equipped(node: Node2D):
 	if self == node:
@@ -44,8 +45,6 @@ func rsignal_weapon_equipped(node: Node2D):
 		$AnimatedSprite2D/AnimationPlayer.play("equip")
 
 func rsignal_shot():
-	pass
-	#$AnimatedSprite2D.play('idle')
-	#$AnimatedSprite2D.play('shot')
-	#$AnimatedSprite2D/AnimationPlayer.play("RESET")
-	#$AnimatedSprite2D/AnimationPlayer.play("shot")
+	$AnimatedSprite2D.play('idle')
+	$AnimatedSprite2D.play('shot')
+	$AnimatedSprite2D/AnimationPlayer.play('shot')

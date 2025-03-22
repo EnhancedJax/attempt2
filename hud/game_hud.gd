@@ -4,7 +4,7 @@ class_name HUD extends Control
 @onready var minimap_generator = $Minimap/Clipper/MinimapGenerator
 @onready var heart_container: HBoxContainer = $HeartConainer
 @onready var heart : Control = $HeartConainer/Heart
-@onready var weapon_texture: Sprite2D = $CanvasLayer/WeaponStaticSprite2D
+@onready var weapon_texture: TextureRect = $Swap/WeaponStaticSprite
 @onready var coin_label: Label = $CoinLabel
 @onready var shield_label: Label = $ShieldLabel
 @onready var ammo_indicator = $AmmoIndicator

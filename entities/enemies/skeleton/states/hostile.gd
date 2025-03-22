@@ -83,7 +83,7 @@ func physics_update(delta : float):
         
         # Handle weapon use during burst
         if is_bursting:
-            sm.parent.weapon_node.handle_use(delta, true)
+            sm.parent.weapon_node.handle_use(delta, false, false, true)
     else:
         p.velocity = Vector2.ZERO
     

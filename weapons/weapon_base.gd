@@ -59,8 +59,8 @@ func register_firing_handler(handler: FiringHandlerBase) -> void:
 	firing_handler = handler
 	print(firing_handler)
 
-func handle_use(delta: float, auto_firing: bool) -> void:
-	if firing_handler and firing_handler.is_to_attack(delta, auto_firing):
+func handle_use(delta: float, is_just_pressed_fire: bool, is_pressed_fire: bool, auto_firing: bool) -> void:
+	if firing_handler and firing_handler.is_to_attack(delta, is_just_pressed_fire, is_pressed_fire, auto_firing):
 		if (mag_count > 0 or mag_size == -1) and not is_reloading:
 			handle_attack()
 			can_reload = mag_size != -1 and mag_count < mag_size

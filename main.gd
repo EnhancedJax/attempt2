@@ -25,9 +25,9 @@ func _process(_delta: float) -> void:
 	_update_player_autoaim_target()
 	if Input.is_action_just_pressed("menu"):
 		_toggle_pause()
-	if Input.is_action_just_pressed("interact"):
-		if interactions.size() > 0:
-			interactions[0].callable.call()
+	# if Input.is_action_just_pressed("interact"):
+	# 	if interactions.size() > 0:
+	# 		interactions[0].callable.call()
 	if Input.is_action_just_pressed("dev"):
 		var scene = floor_item.instantiate()
 		scene.item_id = weapons[randi() % weapons.size()]

@@ -5,6 +5,10 @@ var weapons : Array[int] = [0, 2]
 var equipped_weapon_index : int = 0
 var max_weapons_count : int = 2
 
+var is_holding_down_fire : bool = false
+var is_just_pressed_fire : bool = false
+var _can_hold_down_fire : bool = true
+
 @onready var label : Label = $Label
 @onready var label_timeout : Timer = $LabelTimeout
 @onready var invincibility_timer: Timer = $InvincibilityTimer
@@ -57,6 +61,21 @@ func _process(delta: float) -> void:
 				reload_progress_bar.value = 0
 				reload_progress_bar.visible = false
 				weapon_node.call_finish_reload()
+
+	if Input.is_action_just_pressed("fire"):
+		if Main.interactions.size() > 0:
+			Main.interactions[0].callable.call()
+			_can_hold_down_fire = false
+		else:
+			is_just_pressed_fire = true
+	elif Input.is_action_just_released("fire"):
+		is_just_pressed_fire = false
+		_can_hold_down_fire = true
+	if Input.is_action_pressed("fire"):
+		if _can_hold_down_fire:
+			is_holding_down_fire = true
+	else:
+		is_holding_down_fire = false
 	if Input.is_action_just_pressed("switch_weapon"):
 		if weapons.size() > 1:
 			var next_weapon = (equipped_weapon_index + 1) % weapons.size()

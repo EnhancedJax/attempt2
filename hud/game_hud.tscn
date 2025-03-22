@@ -4,10 +4,10 @@
 [ext_resource type="Script" uid="uid://wm2ubopvbppu" path="res://hud/minimap.gd" id="2_5l0xr"]
 [ext_resource type="Texture2D" uid="uid://ci77yje5cwen5" path="res://hud/heart_bg.tres" id="2_ti8pg"]
 [ext_resource type="Texture2D" uid="uid://g2j8odyvauwq" path="res://hud/heart_half_color.tres" id="3_4w0yt"]
-[ext_resource type="Texture2D" uid="uid://c36y3l0uhyhak" path="res://hud/assets/circle.png" id="3_n6fa7"]
 [ext_resource type="PackedScene" uid="uid://hbscyswbcwmc" path="res://hud/title/title.tscn" id="5_iwsok"]
 [ext_resource type="Texture2D" uid="uid://chgrqc0ex7y3p" path="res://weapons/ally/m15/static.png" id="6_rfnla"]
 [ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="8_8ohwp"]
+[ext_resource type="PackedScene" uid="uid://ky07sq1b0bh3" path="res://hud/button.tscn" id="9_iqufn"]
 
 [sub_resource type="Gradient" id="Gradient_rfnla"]
 interpolation_mode = 2
@@ -126,47 +126,6 @@ grow_vertical = 2
 texture = ExtResource("3_4w0yt")
 metadata/_edit_lock_ = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="TouchScreenButton" type="TouchScreenButton" parent="CanvasLayer"]
-self_modulate = Color(1, 1, 1, 0.196078)
-position = Vector2(386, 128)
-scale = Vector2(0.25, 0.25)
-texture_normal = ExtResource("3_n6fa7")
-action = "switch_weapon"
-
-[node name="TouchScreenButton2" type="TouchScreenButton" parent="CanvasLayer"]
-self_modulate = Color(1, 1, 1, 0.196078)
-position = Vector2(343, 166)
-scale = Vector2(0.3625, 0.3625)
-texture_normal = ExtResource("3_n6fa7")
-action = "fire"
-
-[node name="TouchScreenButton5" type="TouchScreenButton" parent="CanvasLayer"]
-self_modulate = Color(1, 1, 1, 0.196078)
-position = Vector2(404, 169)
-scale = Vector2(0.14375, 0.14375)
-texture_normal = ExtResource("3_n6fa7")
-action = "reload"
-
-[node name="TouchScreenButton3" type="TouchScreenButton" parent="CanvasLayer"]
-self_modulate = Color(1, 1, 1, 0.196078)
-position = Vector2(296, 154)
-scale = Vector2(0.25, 0.25)
-texture_normal = ExtResource("3_n6fa7")
-action = "roll"
-
-[node name="TouchScreenButton4" type="TouchScreenButton" parent="CanvasLayer"]
-self_modulate = Color(1, 1, 1, 0.196078)
-position = Vector2(405, 98)
-scale = Vector2(0.14375, 0.14375)
-texture_normal = ExtResource("3_n6fa7")
-action = "interact"
-
-[node name="WeaponStaticSprite2D" type="Sprite2D" parent="CanvasLayer"]
-position = Vector2(406, 148)
-texture = ExtResource("6_rfnla")
-
 [node name="Title" parent="." instance=ExtResource("5_iwsok")]
 layout_mode = 1
 metadata/_edit_lock_ = true
@@ -249,5 +208,91 @@ action_down = "down"
 
 [node name="Base" parent="Virtual Joystick" index="0"]
 scale = Vector2(0.3, 0.3)
+
+[node name="Fire" parent="." instance=ExtResource("9_iqufn")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -81.0
+offset_top = -73.0
+offset_right = 64.0
+offset_bottom = 72.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.37, 0.37)
+action = "fire"
+
+[node name="Swap" parent="." instance=ExtResource("9_iqufn")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -61.0
+offset_top = -134.0
+offset_right = 84.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.37, 0.37)
+action = "switch_weapon"
+
+[node name="WeaponStaticSprite" type="TextureRect" parent="Swap"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("6_rfnla")
+metadata/_edit_lock_ = true
+
+[node name="Reload" parent="." instance=ExtResource("9_iqufn")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -103.0
+offset_top = -107.0
+offset_right = -15.0
+offset_bottom = -19.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.37, 0.37)
+action = "reload"
+
+[node name="Restart" parent="." instance=ExtResource("9_iqufn")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -116.0
+offset_top = -234.0
+offset_right = -43.0
+offset_bottom = -161.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.37, 0.37)
+action = "dev_reload"
+
+[node name="Roll" parent="." instance=ExtResource("9_iqufn")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -126.0
+offset_top = -56.0
+offset_right = -29.0
+offset_bottom = 39.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.37, 0.37)
+action = "roll"
 
 [editable path="Virtual Joystick"]
