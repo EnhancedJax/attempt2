@@ -13,6 +13,7 @@ config_version=5
 config/name="attempt2"
 run/main_scene="res://scenes/game_scene.tscn"
 config/features=PackedStringArray("4.4", "Mobile")
+run/max_fps=60
 config/icon="res://icon.svg"
 
 [audio]
@@ -37,8 +38,8 @@ gdscript/warnings/unused_signal=0
 
 [display]
 
-window/size/viewport_width=480
-window/size/viewport_height=270
+window/size/viewport_width=448
+window/size/viewport_height=238
 window/size/window_width_override=2500
 window/size/window_height_override=1500
 window/stretch/mode="viewport"
@@ -157,6 +158,7 @@ pointing/emulate_mouse_from_touch=false
 
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
 viewport/hdr_2d=true
 environment/defaults/default_clear_color=Color(0.0635131, 0.0635131, 0.063513, 1)
 2d/snap/snap_2d_transforms_to_pixel=true

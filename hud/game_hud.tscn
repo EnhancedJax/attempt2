@@ -130,41 +130,41 @@ metadata/_edit_lock_ = true
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="CanvasLayer"]
 self_modulate = Color(1, 1, 1, 0.196078)
-position = Vector2(410, 165)
+position = Vector2(386, 128)
 scale = Vector2(0.25, 0.25)
 texture_normal = ExtResource("3_n6fa7")
 action = "switch_weapon"
 
 [node name="TouchScreenButton2" type="TouchScreenButton" parent="CanvasLayer"]
 self_modulate = Color(1, 1, 1, 0.196078)
-position = Vector2(369, 210)
-scale = Vector2(0.25, 0.25)
+position = Vector2(343, 166)
+scale = Vector2(0.3625, 0.3625)
 texture_normal = ExtResource("3_n6fa7")
 action = "fire"
 
 [node name="TouchScreenButton5" type="TouchScreenButton" parent="CanvasLayer"]
 self_modulate = Color(1, 1, 1, 0.196078)
-position = Vector2(417, 213)
-scale = Vector2(0.25, 0.25)
+position = Vector2(404, 169)
+scale = Vector2(0.14375, 0.14375)
 texture_normal = ExtResource("3_n6fa7")
 action = "reload"
 
 [node name="TouchScreenButton3" type="TouchScreenButton" parent="CanvasLayer"]
 self_modulate = Color(1, 1, 1, 0.196078)
-position = Vector2(320, 207)
+position = Vector2(296, 154)
 scale = Vector2(0.25, 0.25)
 texture_normal = ExtResource("3_n6fa7")
 action = "roll"
 
 [node name="TouchScreenButton4" type="TouchScreenButton" parent="CanvasLayer"]
 self_modulate = Color(1, 1, 1, 0.196078)
-position = Vector2(366, 159)
-scale = Vector2(0.25, 0.25)
+position = Vector2(405, 98)
+scale = Vector2(0.14375, 0.14375)
 texture_normal = ExtResource("3_n6fa7")
 action = "interact"
 
 [node name="WeaponStaticSprite2D" type="Sprite2D" parent="CanvasLayer"]
-position = Vector2(430, 185)
+position = Vector2(406, 148)
 texture = ExtResource("6_rfnla")
 
 [node name="Title" parent="." instance=ExtResource("5_iwsok")]
