@@ -73,6 +73,12 @@ func do_die():
 	signal_death.emit()
 	queue_free()
 
+func disable():
+	print('DISABLE')
+	self.remove_from_group("enemies")
+	self.set_collision_layer_value(3, false)
+	_hurtbox.set_collision_mask_value(3, false)
+
 # /* ------------ Interals ------------ */
 
 # overriden by the player class for custom implementation. Still valid for enemies and allies.

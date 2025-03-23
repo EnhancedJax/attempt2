@@ -22,7 +22,7 @@ func handle_attack() -> void:
 	var shot = bullet_spawner.shoot(towards)
 	if shot: 
 		SoundManager.play_at_position_varied("sniper", "shot", global_position, randf_range(0.8,1.2), 1)
-		Main.camera.apply_shake(25)
+		#Main.camera.apply_shake(25)
 		emit_signal("signal_weapon_did_use", atk)
 
 func handle_reload() -> void:

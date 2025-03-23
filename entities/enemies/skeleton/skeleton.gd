@@ -20,3 +20,7 @@ func rsignal_hitbox_hit(attack: AttackBase):
 
 func get_aim_position() -> Vector2:
 	return Main.player.global_position
+
+func do_die():
+	SoundManager.play_at_position_varied("skeleton", "die", global_position, randf_range(0.8,1.2), 2)
+	signal_death.emit()

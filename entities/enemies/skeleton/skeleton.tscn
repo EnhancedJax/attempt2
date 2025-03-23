@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://dvecs081bwo7i"]
+[gd_scene load_steps=35 format=3 uid="uid://dvecs081bwo7i"]
 
 [ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_hs5hs"]
 [ext_resource type="Script" uid="uid://bknvveymhi5f2" path="res://entities/enemies/skeleton/skeleton.gd" id="2_0cjm2"]
@@ -7,9 +7,11 @@
 [ext_resource type="Script" uid="uid://4508clq887vd" path="res://entities/enemies/skeleton/state_node.gd" id="5_p3ot6"]
 [ext_resource type="Script" uid="uid://dwgubkt6224iq" path="res://entities/enemies/skeleton/states/idle.gd" id="6_3510d"]
 [ext_resource type="Script" uid="uid://0gq6mfuh3tex" path="res://entities/enemies/skeleton/states/hostile.gd" id="7_rs3xq"]
+[ext_resource type="Script" uid="uid://drbncwgs5pehx" path="res://entities/enemies/skeleton/states/death.gd" id="8_a01p3"]
 [ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="8_pw5te"]
 [ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="9_a01p3"]
 [ext_resource type="AudioStream" uid="uid://brvd86yj67fyk" path="res://entities/enemies/skeleton/hit.wav" id="10_mlpll"]
+[ext_resource type="AudioStream" uid="uid://cagms034gj23f" path="res://entities/enemies/skeleton/die.wav" id="12_mlpll"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rwji0"]
 resource_local_to_scene = true
@@ -138,7 +140,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(1, 0)]
+"values": [Vector2(1, 1)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -151,6 +153,45 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_a01p3"]
+resource_name = "death"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.330221, 0.330221, 0.330221, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/enabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_pw5te"]
@@ -195,10 +236,35 @@ tracks/0/keys = {
 "update": 1,
 "values": [true, false]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_aufv5"]
 _data = {
 &"RESET": SubResource("Animation_i6u7x"),
+&"death": SubResource("Animation_a01p3"),
 &"init": SubResource("Animation_pw5te"),
 &"take_attack": SubResource("Animation_f27go")
 }
@@ -210,6 +276,15 @@ bus = ""
 volume = -5.0
 pitch = 1.0
 streams = Array[AudioStream]([ExtResource("10_mlpll")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
+
+[sub_resource type="Resource" id="Resource_8vwmg"]
+script = ExtResource("9_a01p3")
+name = "die"
+bus = ""
+volume = 0.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("12_mlpll")])
 metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
 
 [sub_resource type="Gradient" id="Gradient_pw5te"]
@@ -224,9 +299,7 @@ is_ally = false
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_rwji0")
-scale = Vector2(1, 1e-05)
 sprite_frames = SubResource("SpriteFrames_g6sc2")
-animation = &"walk"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D" index="0"]
 libraries = {
@@ -252,10 +325,13 @@ IDEAL_DISTANCE = 50.0
 DISTANCE_TOLERANCE = 20.0
 STRAFE_SPEED = 25.0
 
+[node name="Death" type="Node" parent="StateMachine" index="2"]
+script = ExtResource("8_a01p3")
+
 [node name="SoundBank" type="Node" parent="." index="7"]
 script = ExtResource("8_pw5te")
 label = "skeleton"
-events = Array[ExtResource("9_a01p3")]([SubResource("Resource_1cywq")])
+events = Array[ExtResource("9_a01p3")]([SubResource("Resource_1cywq"), SubResource("Resource_8vwmg")])
 metadata/_custom_type_script = "uid://b7r334bhuu4yk"
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="." index="8"]

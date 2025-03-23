@@ -101,7 +101,7 @@ func _load_rooms():
 	level_rooms.level1 = level1
 	_level_room_scenes_list = level_rooms
 
-func get_droppable_items() -> Array:
+func get_droppable_items() -> Array[Variant]:
 	return _ally_weapons.keys()
 
 func get_weapon(id: int, is_ally: bool = true) -> WeaponType:

@@ -20,6 +20,10 @@ var coins = 0
 signal signal_player_equipped_weapon(node: Node2D)
 signal signal_player_landed_hit()
 signal signal_interaction_changed(interaction: Interaction)
+signal signal_player_entered_room(room: RoomBase)
+
+func _ready() -> void:
+	coins = 0
 
 func _process(_delta: float) -> void:
 	_update_player_autoaim_target()
@@ -81,6 +85,7 @@ func deregister_interaction(i: Interaction):
 		interaction_label.global_position = interactions[0].label_position
 	else:
 		interaction_label.visible = false
+		signal_interaction_changed.emit(null)
 
 
 # /* ------------- Methods ------------ */
@@ -110,11 +115,17 @@ func update_ammo_ui(count: int, max: int) -> void:
 
 func handle_room_entered(room: RoomBase) -> void:
 	player_room_at = room
+	signal_player_entered_room.emit(room)
 
 func handle_room_cleared() -> void:
 	pass
 
 # /* ------------- Helpers ------------ */
+
+func impact_frame(duration: float):
+	Engine.time_scale = 0
+	await get_tree().create_timer(duration, true, false, true).timeout
+	Engine.time_scale = 1
 
 func spawn_node(node : Node, position_global : Vector2, layer: int = 0) -> void:
 	node.global_position = position_global
@@ -143,6 +154,11 @@ func _update_player_autoaim_target() -> void:
 			player_autoaim_previous_target = player_autoaim_target
 			player_autoaim_target = null
 			return
+		
+		# Check if previous target is still valid
+		if player_autoaim_previous_target and not enemies.has(player_autoaim_previous_target):
+			player_autoaim_previous_target = null
+			player_autoaim_target = null
 		
 		for enemy in enemies:
 			if enemy is CharacterBody2D:

@@ -1,13 +1,16 @@
-[gd_scene load_steps=15 format=3 uid="uid://vo0xrja3uy5k"]
+[gd_scene load_steps=22 format=3 uid="uid://vo0xrja3uy5k"]
 
 [ext_resource type="Script" uid="uid://c78ubkjtmx3ea" path="res://hud/game_hud.gd" id="1_msi3a"]
 [ext_resource type="Script" uid="uid://wm2ubopvbppu" path="res://hud/minimap.gd" id="2_5l0xr"]
-[ext_resource type="Texture2D" uid="uid://ci77yje5cwen5" path="res://hud/heart_bg.tres" id="2_ti8pg"]
 [ext_resource type="Texture2D" uid="uid://g2j8odyvauwq" path="res://hud/heart_half_color.tres" id="3_4w0yt"]
+[ext_resource type="Shader" uid="uid://b4ndlpkl4rwho" path="res://entities/flash.tres" id="3_8ohwp"]
 [ext_resource type="PackedScene" uid="uid://hbscyswbcwmc" path="res://hud/title/title.tscn" id="5_iwsok"]
 [ext_resource type="Texture2D" uid="uid://chgrqc0ex7y3p" path="res://weapons/ally/m15/static.png" id="6_rfnla"]
 [ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="8_8ohwp"]
+[ext_resource type="Texture2D" uid="uid://bwsl4umdq08xt" path="res://hud/shoot.png" id="8_yfofs"]
 [ext_resource type="PackedScene" uid="uid://ky07sq1b0bh3" path="res://hud/button.tscn" id="9_iqufn"]
+[ext_resource type="Texture2D" uid="uid://b77fc7bqurv13" path="res://hud/reload.png" id="10_2s5eb"]
+[ext_resource type="Texture2D" uid="uid://dcvqh13fcjlgf" path="res://hud/roll.png" id="11_icrny"]
 
 [sub_resource type="Gradient" id="Gradient_rfnla"]
 interpolation_mode = 2
@@ -33,13 +36,79 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.046398, 0)
 
+[sub_resource type="Animation" id="Animation_i8oqv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HeartConainer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(10, 8)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HeartConainer:material:shader_parameter/enabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_iqufn"]
+resource_name = "hit"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HeartConainer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(10, 2), Vector2(10, 8)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HeartConainer:material:shader_parameter/enabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.166667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yfofs"]
+_data = {
+&"RESET": SubResource("Animation_i8oqv"),
+&"hit": SubResource("Animation_iqufn")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2s5eb"]
+shader = ExtResource("3_8ohwp")
+shader_parameter/enabled = false
+shader_parameter/tint = Color(1, 1, 1, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rfnla"]
 bg_color = Color(1, 1, 1, 0.254902)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ohwp"]
 bg_color = Color(1, 1, 1, 1)
 
-[node name="HUD" type="Control"]
+[node name="HUD" type="Control" node_paths=PackedStringArray("minimap_generator", "heart_container", "heart", "weapon_texture", "coin_label", "ammo_indicator", "ammo_indicator_bar", "fps_label", "action_texture")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -47,6 +116,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_msi3a")
+minimap_generator = NodePath("Minimap/Clipper/MinimapGenerator")
+heart_container = NodePath("HeartConainer")
+heart = NodePath("HeartConainer/Heart")
+weapon_texture = NodePath("ControlGroup/Swap/MarginContainer/WeaponStaticSprite")
+coin_label = NodePath("CoinLabel")
+ammo_indicator = NodePath("AmmoIndicator")
+ammo_indicator_bar = NodePath("AmmoIndicator/ProgressBar")
+fps_label = NodePath("FPSLabel")
+action_texture = NodePath("ControlGroup/Action/MarginContainer/ActionTexture")
 
 [node name="HealthWarn" type="TextureRect" parent="."]
 visible = false
@@ -87,40 +165,40 @@ script = ExtResource("2_5l0xr")
 [node name="Positioner" type="Node2D" parent="Minimap/Clipper/MinimapGenerator"]
 clip_children = 1
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_yfofs")
+}
+autoplay = "RESET"
+
 [node name="HeartConainer" type="HBoxContainer" parent="."]
+material = SubResource("ShaderMaterial_2s5eb")
 layout_mode = 0
 offset_left = 10.0
 offset_top = 8.0
-offset_right = 100.0
-offset_bottom = 98.0
+offset_right = 138.0
+offset_bottom = 136.0
 scale = Vector2(0.25, 0.25)
-theme_override_constants/separation = 16
+theme_override_constants/separation = 8
 
 [node name="Heart" type="Control" parent="HeartConainer"]
-custom_minimum_size = Vector2(90, 90)
+use_parent_material = true
+custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 metadata/_edit_lock_ = true
 
-[node name="HeartBG" type="TextureRect" parent="HeartConainer/Heart"]
-custom_minimum_size = Vector2(90, 90)
-layout_mode = 2
-offset_right = 80.0
-offset_bottom = 80.0
-scale = Vector2(1, 1.0039)
-texture = ExtResource("2_ti8pg")
-metadata/_edit_lock_ = true
-
-[node name="HeartColor" type="TextureRect" parent="HeartConainer/Heart"]
+[node name="TextureRect" type="TextureRect" parent="HeartConainer/Heart"]
+use_parent_material = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -35.0
-offset_top = -35.0
-offset_right = 35.0
-offset_bottom = 35.0
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_4w0yt")
@@ -132,31 +210,21 @@ metadata/_edit_lock_ = true
 
 [node name="CoinLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 9.0
-offset_top = 32.0
-offset_right = 57.0
-offset_bottom = 42.0
+offset_left = 12.0
+offset_top = 58.0
+offset_right = 60.0
+offset_bottom = 68.0
 theme_override_font_sizes/font_size = 8
 text = "Coins: 123"
 
 [node name="FPSLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 10.0
-offset_top = 50.0
-offset_right = 58.0
-offset_bottom = 60.0
+offset_left = 12.0
+offset_top = 72.0
+offset_right = 60.0
+offset_bottom = 82.0
 theme_override_font_sizes/font_size = 8
 text = "FPS"
-
-[node name="ShieldLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 63.0
-offset_top = 33.0
-offset_right = 108.0
-offset_bottom = 43.0
-scale = Vector2(1, 1.01596)
-theme_override_font_sizes/font_size = 8
-text = "Shield: On"
 
 [node name="AmmoIndicator" type="Label" parent="."]
 clip_children = 1
@@ -209,59 +277,125 @@ action_down = "down"
 [node name="Base" parent="Virtual Joystick" index="0"]
 scale = Vector2(0.3, 0.3)
 
-[node name="Fire" parent="." instance=ExtResource("9_iqufn")]
+[node name="ControlGroup" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -81.0
-offset_top = -73.0
-offset_right = 64.0
-offset_bottom = 72.0
+offset_left = -129.0
+offset_top = -145.0
+offset_right = -9.73001
+offset_bottom = -14.94
 grow_horizontal = 0
 grow_vertical = 0
-scale = Vector2(0.37, 0.37)
+
+[node name="Roll" parent="ControlGroup" instance=ExtResource("9_iqufn")]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 3.0
+offset_top = 100.0
+offset_right = 36.71
+offset_bottom = 132.0
+grow_horizontal = 1
+grow_vertical = 1
+action = "roll"
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlGroup/Roll"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="TextureRect2" type="TextureRect" parent="ControlGroup/Roll/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("11_icrny")
+
+[node name="Action" parent="ControlGroup" instance=ExtResource("9_iqufn")]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 44.15
+offset_top = 66.06
+offset_right = 108.15
+offset_bottom = 130.06
+grow_horizontal = 1
+grow_vertical = 1
 action = "fire"
 
-[node name="Swap" parent="." instance=ExtResource("9_iqufn")]
+[node name="MarginContainer" type="MarginContainer" parent="ControlGroup/Action"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="ActionTexture" type="TextureRect" parent="ControlGroup/Action/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("8_yfofs")
+
+[node name="Swap" parent="ControlGroup" instance=ExtResource("9_iqufn")]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -61.0
-offset_top = -134.0
-offset_right = 84.0
-offset_bottom = 11.0
-grow_horizontal = 0
-grow_vertical = 0
-scale = Vector2(0.37, 0.37)
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 69.0
+offset_top = 7.0
+offset_right = 117.0
+offset_bottom = 55.0
+grow_horizontal = 1
+grow_vertical = 1
 action = "switch_weapon"
 
-[node name="WeaponStaticSprite" type="TextureRect" parent="Swap"]
-custom_minimum_size = Vector2(64, 64)
+[node name="MarginContainer" type="MarginContainer" parent="ControlGroup/Swap"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="WeaponStaticSprite" type="TextureRect" parent="ControlGroup/Swap/MarginContainer"]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("6_rfnla")
 metadata/_edit_lock_ = true
 
-[node name="Reload" parent="." instance=ExtResource("9_iqufn")]
+[node name="Reload" parent="ControlGroup" instance=ExtResource("9_iqufn")]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -103.0
-offset_top = -107.0
-offset_right = -15.0
-offset_bottom = -19.0
-grow_horizontal = 0
-grow_vertical = 0
-scale = Vector2(0.37, 0.37)
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 31.0
+offset_top = 34.0
+offset_right = 63.0
+offset_bottom = 66.0
+grow_horizontal = 1
+grow_vertical = 1
 action = "reload"
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlGroup/Reload"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="TextureRect2" type="TextureRect" parent="ControlGroup/Reload/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("10_2s5eb")
 
 [node name="Restart" parent="." instance=ExtResource("9_iqufn")]
 layout_mode = 1
@@ -278,21 +412,5 @@ grow_horizontal = 0
 grow_vertical = 0
 scale = Vector2(0.37, 0.37)
 action = "dev_reload"
-
-[node name="Roll" parent="." instance=ExtResource("9_iqufn")]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -126.0
-offset_top = -56.0
-offset_right = -29.0
-offset_bottom = 39.0
-grow_horizontal = 0
-grow_vertical = 0
-scale = Vector2(0.37, 0.37)
-action = "roll"
 
 [editable path="Virtual Joystick"]

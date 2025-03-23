@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://c3f8flnplphu5"]
+[gd_scene load_steps=21 format=3 uid="uid://c3f8flnplphu5"]
 
 [ext_resource type="Script" uid="uid://cn1d5s6154jia" path="res://scenes/chest/chest.gd" id="1_57ibk"]
 [ext_resource type="PackedScene" uid="uid://ct60dg4e24be8" path="res://components/interaction/_interaction.tscn" id="2_3dx1m"]
 [ext_resource type="Texture2D" uid="uid://bsmfifyn01o1s" path="res://scenes/chest/Chest2_D.png" id="2_m5ma0"]
+[ext_resource type="Shader" uid="uid://c702bvt8i1ebn" path="res://scenes/chest/godray.gdshader" id="4_vdnua"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vdnua"]
 atlas = ExtResource("2_m5ma0")
@@ -30,7 +31,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vdnua")
 }],
-"loop": true,
+"loop": false,
 "name": &"default",
 "speed": 5.0
 }, {
@@ -58,20 +59,125 @@ radius = 14.8392
 [sub_resource type="CircleShape2D" id="CircleShape2D_mbi0u"]
 radius = 4.50174
 
+[sub_resource type="Gradient" id="Gradient_0piie"]
+colors = PackedColorArray(0.939373, 0.604814, 0, 0.686, 1, 0.557333, 0.17, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_m5ma0"]
+gradient = SubResource("Gradient_0piie")
+width = 50
+height = 50
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8qlbc"]
+resource_local_to_scene = true
+shader = ExtResource("4_vdnua")
+shader_parameter/angle = -0.2
+shader_parameter/position = 0.0
+shader_parameter/spread = 0.5
+shader_parameter/cutoff = 0.522
+shader_parameter/falloff = 0.2
+shader_parameter/edge_fade = 0.15
+shader_parameter/speed = 1.0
+shader_parameter/ray1_density = 8.0
+shader_parameter/ray2_density = 30.0
+shader_parameter/ray2_intensity = 0.3
+shader_parameter/color = Color(1, 0.9, 0.65, 0.8)
+shader_parameter/hdr = false
+shader_parameter/seed = 5.0
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_vdnua"]
+
+[sub_resource type="Animation" id="Animation_8qlbc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GodRay:material:shader_parameter/cutoff")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.522]
+}
+
+[sub_resource type="Animation" id="Animation_bw3f2"]
+resource_name = "enter"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GodRay:material:shader_parameter/cutoff")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.492, 0.342]
+}
+
+[sub_resource type="Animation" id="Animation_vdnua"]
+resource_name = "open"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1e-05, 1e-05)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GodRay:material:shader_parameter/cutoff")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.342, 0.502]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bw3f2"]
+_data = {
+&"RESET": SubResource("Animation_8qlbc"),
+&"enter": SubResource("Animation_bw3f2"),
+&"open": SubResource("Animation_vdnua")
+}
+
 [node name="Chest" type="StaticBody2D"]
 y_sort_enabled = true
 script = ExtResource("1_57ibk")
-items_count = 3
+items_count = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
 position = Vector2(0, -6)
 scale = Vector2(0.994942, 1)
 sprite_frames = SubResource("SpriteFrames_g2lem")
-animation = &"open"
 autoplay = "default"
-frame = 3
-frame_progress = 1.0
 
 [node name="InteractionComponent" parent="." instance=ExtResource("2_3dx1m")]
 
@@ -86,6 +192,22 @@ position = Vector2(0, -17.085)
 
 [node name="ItemSpawnPosition" type="Marker2D" parent="."]
 position = Vector2(0, 18)
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+texture = SubResource("GradientTexture2D_m5ma0")
+metadata/_edit_lock_ = true
+
+[node name="GodRay" type="Sprite2D" parent="."]
+z_index = 1
+material = SubResource("ShaderMaterial_8qlbc")
+position = Vector2(-133.65, -494)
+scale = Vector2(200, 514)
+texture = SubResource("CanvasTexture_vdnua")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_bw3f2")
+}
 
 [connection signal="signal_player_entered" from="InteractionComponent" to="." method="rsignal_player_entered"]
 [connection signal="signal_player_exited" from="InteractionComponent" to="." method="rsignal_player_exited"]

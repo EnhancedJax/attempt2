@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://dps0qnxco7qvr"]
+
+[ext_resource type="Texture2D" uid="uid://tm7b5ac56kvr" path="res://hud/heart-Sheet.png" id="1_3enro"]
+
+[resource]
+atlas = ExtResource("1_3enro")
+region = Rect2(64, 0, 16, 16)

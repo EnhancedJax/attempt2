@@ -16,7 +16,7 @@ func _ready() -> void:
 		scene.signal_room_cleared.connect(rsignal_room_cleared)
 
 func on_music_manager_loaded() -> void:
-	MusicManager.play("bgm", "bgm")
+	MusicManager.play("bgm", "bgm", 5.0, true)
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("dev_reload") and OS.is_debug_build():

@@ -1,7 +1,0 @@
-[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://ci77yje5cwen5"]
-
-[ext_resource type="Texture2D" uid="uid://c8muqgaxn3m5u" path="res://hud/assets/hp_border.png" id="1_uf6ip"]
-
-[resource]
-atlas = ExtResource("1_uf6ip")
-region = Rect2(96, 81, 16, 15)

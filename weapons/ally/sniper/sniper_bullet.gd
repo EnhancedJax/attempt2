@@ -40,7 +40,7 @@ func perform_raycast() -> void:
 	self.set_collision_layer_value(3, false)
 
 func handle_hit():
-	pass
+	Main.impact_frame(0.05)
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	self.queue_free()
