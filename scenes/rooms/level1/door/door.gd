@@ -25,6 +25,7 @@ func call_unlock_door() -> void:
 	is_locked = false
 
 func _handle_open_door(bottom: bool) -> void:
+	SoundManager.play("game", "door_open")
 	var anim = 'bottom' if bottom else 'top'
 	is_opened = true
 	if is_horizontal:
@@ -39,6 +40,7 @@ func _handle_open_door(bottom: bool) -> void:
 	set_collision(false)
 
 func _handle_close_door() -> void:
+	SoundManager.play("game", "door_close")
 	if is_opened:
 		set_collision(true)
 		door1.stop()

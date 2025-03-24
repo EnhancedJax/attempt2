@@ -1,9 +1,12 @@
-[gd_scene load_steps=21 format=3 uid="uid://c3f8flnplphu5"]
+[gd_scene load_steps=25 format=3 uid="uid://c3f8flnplphu5"]
 
 [ext_resource type="Script" uid="uid://cn1d5s6154jia" path="res://scenes/chest/chest.gd" id="1_57ibk"]
 [ext_resource type="PackedScene" uid="uid://ct60dg4e24be8" path="res://components/interaction/_interaction.tscn" id="2_3dx1m"]
 [ext_resource type="Texture2D" uid="uid://bsmfifyn01o1s" path="res://scenes/chest/Chest2_D.png" id="2_m5ma0"]
 [ext_resource type="Shader" uid="uid://c702bvt8i1ebn" path="res://scenes/chest/godray.gdshader" id="4_vdnua"]
+[ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="5_nlyrn"]
+[ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="6_xcaki"]
+[ext_resource type="AudioStream" uid="uid://8qb58thx3oc5" path="res://scenes/chest/open.wav" id="7_1n4xr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vdnua"]
 atlas = ExtResource("2_m5ma0")
@@ -167,6 +170,15 @@ _data = {
 &"open": SubResource("Animation_vdnua")
 }
 
+[sub_resource type="Resource" id="Resource_uigkj"]
+script = ExtResource("6_xcaki")
+name = "open"
+bus = ""
+volume = -15.2
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("7_1n4xr")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
+
 [node name="Chest" type="StaticBody2D"]
 y_sort_enabled = true
 script = ExtResource("1_57ibk")
@@ -208,6 +220,12 @@ texture = SubResource("CanvasTexture_vdnua")
 libraries = {
 &"": SubResource("AnimationLibrary_bw3f2")
 }
+
+[node name="SoundBank" type="Node" parent="."]
+script = ExtResource("5_nlyrn")
+label = "chest"
+events = Array[ExtResource("6_xcaki")]([SubResource("Resource_uigkj")])
+metadata/_custom_type_script = "uid://b7r334bhuu4yk"
 
 [connection signal="signal_player_entered" from="InteractionComponent" to="." method="rsignal_player_entered"]
 [connection signal="signal_player_exited" from="InteractionComponent" to="." method="rsignal_player_exited"]

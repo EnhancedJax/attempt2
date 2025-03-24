@@ -481,7 +481,8 @@ func place_rooms(matrix: Array) -> void:
 		var room_type: int = nodes[i].type
 		var room_scenes_list = Lookup.get_room_list(room_type)
 		# Instantiate the scene based on the room's type.
-		room_scenes[i] = room_scenes_list[randi() % room_scenes_list.size()].instantiate()
+		var picked_scene = room_scenes_list[randi() % room_scenes_list.size()]
+		room_scenes[i] = picked_scene.instantiate()
 	
 	# Create a dictionary to map room id -> computed world position (as Vector2).
 	# In these positions, the room scene’s top-left corner is considered the origin.

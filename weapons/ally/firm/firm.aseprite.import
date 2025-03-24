@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://bfy0egcvykr4e"
+path="res://.godot/imported/firm.aseprite-3f184b721678e756db62d357ad44805b.res"
+
+[deps]
+
+source_file="res://weapons/ally/firm/firm.aseprite"
+dest_files=["res://.godot/imported/firm.aseprite-3f184b721678e756db62d357ad44805b.res"]
+
+[params]
+

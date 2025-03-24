@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://5crhgeqe0yf4"]
+[gd_scene load_steps=20 format=3 uid="uid://5crhgeqe0yf4"]
 
 [ext_resource type="Script" uid="uid://des01au6sttgm" path="res://scenes/game.gd" id="1_i7woi"]
 [ext_resource type="PackedScene" uid="uid://o4gnxfkwntm" path="res://scenes/dungeon/tile_layer.tscn" id="2_7g524"]
@@ -9,7 +9,11 @@
 [ext_resource type="Script" uid="uid://lcw4smjpncd" path="res://addons/resonate/music_manager/music_track_resource.gd" id="8_tcjrq"]
 [ext_resource type="Script" uid="uid://b7r80lu8fh3o5" path="res://addons/resonate/music_manager/music_stem_resource.gd" id="9_rvs2r"]
 [ext_resource type="PackedScene" uid="uid://ytqeptloomhs" path="res://scenes/crosshair/crosshair.tscn" id="10_mw25s"]
-[ext_resource type="AudioStream" uid="uid://dt0llhfa4lnit" path="res://music/bg.mp3" id="10_tqxxy"]
+[ext_resource type="AudioStream" uid="uid://dt0llhfa4lnit" path="res://shared_assets/music/bg.mp3" id="10_tqxxy"]
+[ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="11_5ay1a"]
+[ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="12_ldkr4"]
+[ext_resource type="AudioStream" uid="uid://esvwfc2na14l" path="res://shared_assets/sound/door_close.wav" id="13_liy57"]
+[ext_resource type="AudioStream" uid="uid://dui5wopmx3f1l" path="res://shared_assets/sound/door_open.wav" id="14_mwyo0"]
 
 [sub_resource type="Environment" id="Environment_y3j0m"]
 background_mode = 3
@@ -33,6 +37,24 @@ name = "bgm"
 bus = ""
 stems = Array[ExtResource("9_rvs2r")]([SubResource("Resource_5ay1a")])
 metadata/_custom_type_script = "uid://lcw4smjpncd"
+
+[sub_resource type="Resource" id="Resource_s76x2"]
+script = ExtResource("12_ldkr4")
+name = "door_close"
+bus = ""
+volume = 0.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("13_liy57")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
+
+[sub_resource type="Resource" id="Resource_77hjl"]
+script = ExtResource("12_ldkr4")
+name = "door_open"
+bus = ""
+volume = 0.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("14_mwyo0")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
 
 [node name="GameLevel" type="Control"]
 y_sort_enabled = true
@@ -85,3 +107,9 @@ script = ExtResource("7_mw25s")
 label = "bgm"
 tracks = Array[ExtResource("8_tcjrq")]([SubResource("Resource_ldkr4")])
 metadata/_custom_type_script = "uid://jciugafs5r0s"
+
+[node name="SoundBank" type="Node" parent="."]
+script = ExtResource("11_5ay1a")
+label = "game"
+events = Array[ExtResource("12_ldkr4")]([SubResource("Resource_s76x2"), SubResource("Resource_77hjl")])
+metadata/_custom_type_script = "uid://b7r334bhuu4yk"

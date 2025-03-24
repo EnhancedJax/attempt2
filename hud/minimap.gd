@@ -31,9 +31,6 @@ var minimap_visited = {}       # Dictionary: room_id -> true (rooms the player h
 var minimap_unvisited_neighbors = []  # List of room IDs that are neighbors of visited rooms but haven't been visited yet
 var minimap_current : int = -1 # The currently active room id
 
-# You must assign or preload a font resource for text drawing.
-var minimap_font = preload("res://pending_assets/Fonts/minecraft_font.ttf")
-
 const MINIMAP_TILE = preload("res://hud/minimap/minimap_tile.tscn")
 const MINIMAP_CORRIDOR = preload("res://hud/minimap/minimap_corridor.tscn")
 

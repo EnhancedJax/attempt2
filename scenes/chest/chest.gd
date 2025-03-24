@@ -27,6 +27,7 @@ func _ready() -> void:
 	Main.signal_player_entered_room.connect(rsignal_player_entered_room)
 	
 func interaction_action() -> void:
+	SoundManager.play('chest', 'open')
 	var shuffled_items = items.duplicate()
 	for i in Main.player.weapons:
 		shuffled_items.erase(i)

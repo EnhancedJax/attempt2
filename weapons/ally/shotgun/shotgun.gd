@@ -3,7 +3,6 @@ extends WeaponBase
 @export var damage : int = 10
 @export var knockback : float = 200.0
 @export var recoil : float = 100.0
-@export var spread : float = 5
 @onready var bullet_spawner = $BasicShotgun
 @onready var audio_bus_1 = $AudioBus1
 @onready var audio_bus_2 = $AudioBus2
@@ -24,7 +23,7 @@ func _ready() -> void:
 
 func handle_attack() -> void:
 	mag_count -= 1
-	var towards = rotation + deg_to_rad(randf_range(-spread, spread))
+	var towards = rotation
 	var towards_vector = Vector2(cos(towards), sin(towards))
 	var atk = ATTACK.duplicate()
 	atk.towards_vector = towards_vector

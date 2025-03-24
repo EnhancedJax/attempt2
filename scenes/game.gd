@@ -1,6 +1,6 @@
 extends Control
 
-const bgm = preload("res://music/bg.mp3")
+const bgm = preload("res://shared_assets/music/bg.mp3")
 
 func _ready() -> void:
 	MusicManager.loaded.connect(on_music_manager_loaded)

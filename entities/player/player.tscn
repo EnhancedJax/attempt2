@@ -1,4 +1,4 @@
-[gd_scene load_steps=81 format=4 uid="uid://qgtqua65lnyp"]
+[gd_scene load_steps=89 format=4 uid="uid://qgtqua65lnyp"]
 
 [ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_mfkho"]
 [ext_resource type="Script" uid="uid://ba5txnl57okqe" path="res://entities/player/player.gd" id="2_2vuf7"]
@@ -9,6 +9,11 @@
 [ext_resource type="Script" uid="uid://dff7xdwabhnu" path="res://entities/player/states/roll.gd" id="6_uefxj"]
 [ext_resource type="Script" uid="uid://3urgwh1665ut" path="res://entities/player/camera.gd" id="8_p7rki"]
 [ext_resource type="Script" uid="uid://bd13d72y7rkdl" path="res://entities/player/states/death.gd" id="9_a1qjk"]
+[ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="10_a1qjk"]
+[ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="11_j3ovn"]
+[ext_resource type="AudioStream" uid="uid://cuon08t2obd6e" path="res://entities/player/death.wav" id="12_afbqv"]
+[ext_resource type="AudioStream" uid="uid://3terwnd083db" path="res://entities/player/shield_crack.wav" id="13_afbqv"]
+[ext_resource type="AudioStream" uid="uid://d02as1rutrvwn" path="res://entities/player/shield_recharge.wav" id="14_gx6sm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7rklg"]
 resource_local_to_scene = true
@@ -592,6 +597,33 @@ fill_to = Vector2(1, 0.5)
 offsets = PackedFloat32Array(0, 0.996558, 1)
 colors = PackedColorArray(0.454902, 0.980392, 0.980392, 1, 0.32549, 0.32549, 0.32549, 0, 1, 1, 1, 1)
 
+[sub_resource type="Resource" id="Resource_gx6sm"]
+script = ExtResource("11_j3ovn")
+name = "death"
+bus = ""
+volume = 0.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("12_afbqv")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
+
+[sub_resource type="Resource" id="Resource_yqrof"]
+script = ExtResource("11_j3ovn")
+name = "shield_crack"
+bus = ""
+volume = -10.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("13_afbqv")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
+
+[sub_resource type="Resource" id="Resource_3wlsy"]
+script = ExtResource("11_j3ovn")
+name = "shield_recharge"
+bus = ""
+volume = -10.0
+pitch = 1.0
+streams = Array[AudioStream]([ExtResource("14_gx6sm")])
+metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
+
 [node name="Player" instance=ExtResource("1_mfkho")]
 y_sort_enabled = true
 collision_layer = 2
@@ -779,6 +811,12 @@ linear_accel_max = 100.0
 scale_amount_min = 0.5
 scale_amount_max = 3.0
 color_ramp = SubResource("Gradient_wvtmh")
+
+[node name="SoundBank" type="Node" parent="." index="16"]
+script = ExtResource("10_a1qjk")
+label = "player"
+events = Array[ExtResource("11_j3ovn")]([SubResource("Resource_gx6sm"), SubResource("Resource_yqrof"), SubResource("Resource_3wlsy")])
+metadata/_custom_type_script = "uid://b7r334bhuu4yk"
 
 [connection signal="signal_player_death" from="." to="StateMachine" method="_on_player_signal_player_death"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="StateMachine/Death" method="_on_animated_sprite_2d_animation_finished"]

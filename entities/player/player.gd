@@ -1,7 +1,7 @@
 class_name Player extends EntityBase
 
 # Inventory: each element is the weapon ID. If the same ID appears twice, the player owns two separate instances.
-var weapons : Array[int] = [0]
+var weapons : Array[int] = [3]
 var equipped_weapon_index : int = 0
 var max_weapons_count : int = 2
 
@@ -134,6 +134,7 @@ func rsignal_hitbox_hit(attack: AttackBase):
 		shield_timer.start()
 		Main.update_shield_ui(false)
 		animationPlayer.play("take_attack")
+		SoundManager.play('player', 'shield_crack')
 	else:
 		shield_timer.start()
 		_health.take_damage(attack.damage)
@@ -195,6 +196,7 @@ func handle_label_timeout():
 	label_timeout.stop()
 
 func handle_shield_timeout():
+	SoundManager.play('player', 'shield_recharge')
 	is_shield_active = true
 	$ShieldRegenerationParticle2D.emitting = true
 	shield_timer.stop()
@@ -202,6 +204,7 @@ func handle_shield_timeout():
 
 func do_die():
 	if !is_dead:
+		SoundManager.play('player', 'death')
 		is_dead = true
 		signal_player_death.emit()
 

@@ -96,6 +96,7 @@ func _load_rooms():
 			var path = "res://scenes/rooms/level1/%s.tscn" % room_name
 			var scene = load(path)
 			print('loaded %s' % path)
+			print(scene)
 			scenes.append(scene)
 	
 	level_rooms.level1 = level1

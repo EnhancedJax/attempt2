@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://bjxxktcqu5a4e"]
 
 [ext_resource type="Script" uid="uid://b0mtmwxevwkuy" path="res://scenes/rooms/misc/box.gd" id="1_cw4wt"]
-[ext_resource type="Texture2D" uid="uid://ccwxp5mv5pgmk" path="res://pending_assets/Tilesets/Decor.png" id="2_cw4wt"]
+[ext_resource type="Texture2D" uid="uid://bpxriewkehryx" path="res://shared_assets/sprites/Decor.png" id="2_cw4wt"]
 [ext_resource type="PackedScene" uid="uid://piih37x1adkq" path="res://components/hurtbox/_hurtbox.tscn" id="4_6voqy"]
 [ext_resource type="PackedScene" uid="uid://dwic5pl3lo448" path="res://components/health/_health.tscn" id="4_f6rp5"]
 

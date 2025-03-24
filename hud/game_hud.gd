@@ -30,6 +30,8 @@ func _ready() -> void:
 	Main.register_hud(self)
 	show_title('Test!')
 	Main.signal_interaction_changed.connect(rsignal_interaction_changed)
+	Main.signal_player_room_cleared.connect(rsignal_player_room_cleared)
+	Main.signal_player_room_changed.connect(rsignal_player_room_changed)
 
 func _process(_delta: float) -> void:
 	fps_label.text = "FPS: %d" % Engine.get_frames_per_second()
@@ -112,6 +114,12 @@ func draw_minimap(n):
 func update_minimap(id):
 	minimap_generator.update_minimap(id)
 
+func rsignal_player_room_cleared():
+	$AnimationPlayer.play_backwards("room_enter")
+
+func rsignal_player_room_changed(r: RoomBase):
+	if r.room_state != 2 and not r.is_peaceful_room:
+		$AnimationPlayer.play("room_enter")
 
 func _on_button_pressed() -> void:
 	pass # Replace with function body.

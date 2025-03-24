@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://c5dtxekhcgula"
+path="res://.godot/imported/rifle.aseprite-3fa3bae1ab18a25fce8cc97a59e4ce3d.res"
+
+[deps]
+
+source_file="res://weapons/ally/rifle/rifle.aseprite"
+dest_files=["res://.godot/imported/rifle.aseprite-3fa3bae1ab18a25fce8cc97a59e4ce3d.res"]
+
+[params]
+

@@ -11,7 +11,6 @@ var player_autoaim_previous_target : Node2D = null
 var interactions: Array[Interaction]
 var is_paused: bool = false
 const floor_item = preload("res://scenes/floor_item/floor_item.tscn")
-const weapons = [0,1]
 const ENEMY_SWITCH_MINIMUM_DISTANCE = 64
 var player_room_at: RoomBase = null
 
@@ -21,6 +20,8 @@ signal signal_player_equipped_weapon(node: Node2D)
 signal signal_player_landed_hit()
 signal signal_interaction_changed(interaction: Interaction)
 signal signal_player_entered_room(room: RoomBase)
+signal signal_player_room_changed(room: RoomBase)
+signal signal_player_room_cleared()
 
 func _ready() -> void:
 	coins = 0
@@ -34,6 +35,7 @@ func _process(_delta: float) -> void:
 	# 		interactions[0].callable.call()
 	if Input.is_action_just_pressed("dev"):
 		var scene = floor_item.instantiate()
+		var weapons = Lookup.get_droppable_items()
 		scene.item_id = weapons[randi() % weapons.size()]
 		scene.global_position = player.global_position 
 		control.get_child(3).add_child(scene)
@@ -114,11 +116,13 @@ func update_ammo_ui(count: int, max: int) -> void:
 		hud.update_ammo(count, max)
 
 func handle_room_entered(room: RoomBase) -> void:
+	if room != player_room_at:
+		signal_player_room_changed.emit(room)
 	player_room_at = room
 	signal_player_entered_room.emit(room)
 
 func handle_room_cleared() -> void:
-	pass
+	signal_player_room_cleared.emit()
 
 # /* ------------- Helpers ------------ */
 

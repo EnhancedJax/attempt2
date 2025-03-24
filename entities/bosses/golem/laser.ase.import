@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://bl6ykbbwwrpn4"
+path="res://.godot/imported/laser.ase-dd7791bd62187b5d00852a956a51293c.res"
+
+[deps]
+
+source_file="res://entities/bosses/golem/laser.ase"
+dest_files=["res://.godot/imported/laser.ase-dd7791bd62187b5d00852a956a51293c.res"]
+
+[params]
+

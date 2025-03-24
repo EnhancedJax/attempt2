@@ -53,14 +53,15 @@ enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addon
 
 folder_colors={
 "res://addons/": "gray",
+"res://build/": "gray",
 "res://components/": "purple",
-"res://dungeon_generator/": "blue",
 "res://entities/": "green",
+"res://entities/enemies/": "red",
 "res://hud/": "orange",
 "res://hud/minimap/icons/": "gray",
-"res://music/": "gray",
 "res://pending_assets/": "gray",
 "res://scenes/": "yellow",
+"res://shared_assets/music/": "gray",
 "res://tables/": "blue",
 "res://weapons/": "yellow"
 }
@@ -72,7 +73,7 @@ enemies=""
 
 [gui]
 
-theme/custom_font="res://pending_assets/Fonts/minecraft_font.ttf"
+theme/custom_font="uid://cxn5pxamsnf3t"
 
 [input]
 
