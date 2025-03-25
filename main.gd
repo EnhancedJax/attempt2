@@ -23,6 +23,9 @@ signal signal_player_entered_room(room: RoomBase)
 signal signal_player_room_changed(room: RoomBase)
 signal signal_player_room_cleared()
 
+signal signal_r_control()
+signal signal_r_hud()
+
 func _ready() -> void:
 	coins = 0
 
@@ -45,6 +48,7 @@ func _process(_delta: float) -> void:
 func register_hud(h : HUD) -> void:
 	hud = h
 	update_health_ui()
+	signal_r_hud.emit()
 
 func register_player(p : Player) -> void:
 	player = p
@@ -57,6 +61,10 @@ func register_interaction_label(l : InteractionLabel) -> void:
 
 func register_control(c : Control) -> void:
 	control = c
+	signal_r_control.emit()
+
+func register_boss(boss: BossBase) -> void:
+	hud.register_boss(boss)
 
 func register_interaction(i: Interaction):
 	print('Interaction register', i)
@@ -88,7 +96,6 @@ func deregister_interaction(i: Interaction):
 	else:
 		interaction_label.visible = false
 		signal_interaction_changed.emit(null)
-
 
 # /* ------------- Methods ------------ */
 

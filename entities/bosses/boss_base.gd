@@ -1,0 +1,20 @@
+class_name BossBase extends EntityBase
+
+signal signal_boss_health_changed(value: int, max: int)
+signal signal_boss_health_depleted()
+
+func _ready() -> void:
+	super._ready()
+	Main.signal_r_hud.connect(rsignal_r_hud)
+
+func rsignal_r_hud():
+	Main.register_boss(self)
+
+func rsignal_health_deducted(health: int, max_health: int):
+	signal_boss_health_changed.emit(health, max_health)
+	super.rsignal_health_deducted(health, max_health)
+
+func rsignal_health_depleted():
+	signal_boss_health_depleted.emit()
+	Main.deregister_boss(self)
+	super.rsignal_health_depleted()

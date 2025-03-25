@@ -43,7 +43,6 @@ func physics_update(delta: float) -> void:
 	var curve_time = roll_timer / ROLL_DURATION
 	# Sample the curve and apply to roll speed
 	var speed_multiplier = 1-curve.sample_baked(curve_time)
-	print("Coordinates:", curve_time, speed_multiplier)
 	# Override the player's velocity with curve-modified speed
 	p.velocity = roll_direction * (ROLL_SPEED * speed_multiplier)
 	p.extra_velocity = Vector2.ZERO

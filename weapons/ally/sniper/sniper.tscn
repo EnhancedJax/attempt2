@@ -7,14 +7,14 @@
 [ext_resource type="Script" uid="uid://de4sh4ok3rjrr" path="res://weapons/attack_base.gd" id="3_j20kw"]
 [ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="4_7yxvd"]
 [ext_resource type="AudioStream" uid="uid://d1ytbudkccgcb" path="res://weapons/ally/sniper/cycle.wav" id="5_5scbx"]
-[ext_resource type="AudioStream" uid="uid://dekukjdljjvcn" path="res://weapons/ally/sniper/shot.wav" id="6_lnjeg"]
+[ext_resource type="AudioStream" uid="uid://f8duoi3fjt71" path="res://weapons/ally/sniper/shot.mp3" id="6_7yxvd"]
 [ext_resource type="AudioStream" uid="uid://cx2htjpme3j3o" path="res://weapons/ally/sniper/reload_1.wav" id="7_iv7mh"]
 [ext_resource type="AudioStream" uid="uid://b8i2mro73uq3d" path="res://weapons/ally/sniper/reload_2.wav" id="8_0hp27"]
 
 [sub_resource type="Resource" id="Resource_ok1sp"]
 script = ExtResource("3_j20kw")
 damage = 5
-knockback = 400.0
+knockback = 1000.0
 recoil = 1000.0
 metadata/_custom_type_script = "uid://de4sh4ok3rjrr"
 
@@ -369,7 +369,7 @@ name = "shot"
 bus = ""
 volume = 0.0
 pitch = 1.0
-streams = Array[AudioStream]([ExtResource("6_lnjeg")])
+streams = Array[AudioStream]([ExtResource("6_7yxvd")])
 metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
 
 [sub_resource type="Resource" id="Resource_062l6"]

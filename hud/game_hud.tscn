@@ -135,7 +135,7 @@ bg_color = Color(1, 1, 1, 0.254902)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ohwp"]
 bg_color = Color(1, 1, 1, 1)
 
-[node name="HUD" type="Control" node_paths=PackedStringArray("minimap_generator", "heart_container", "heart", "weapon_texture", "coin_label", "ammo_indicator", "ammo_indicator_bar", "fps_label", "action_texture")]
+[node name="HUD" type="Control" node_paths=PackedStringArray("minimap_generator", "heart_container", "heart", "weapon_texture", "coin_label", "ammo_indicator", "ammo_indicator_bar", "fps_label", "action_texture", "boss_bar_progress")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -152,6 +152,7 @@ ammo_indicator = NodePath("AmmoIndicator")
 ammo_indicator_bar = NodePath("AmmoIndicator/ProgressBar")
 fps_label = NodePath("FPSLabel")
 action_texture = NodePath("ControlGroup/Action/MarginContainer/ActionTexture")
+boss_bar_progress = NodePath("BossBar/ProgressBar")
 
 [node name="HealthWarn" type="TextureRect" parent="."]
 visible = false
@@ -290,10 +291,10 @@ show_percentage = false
 
 [node name="Virtual Joystick" parent="." instance=ExtResource("8_8ohwp")]
 layout_mode = 1
-offset_left = 20.0
-offset_top = -89.0
-offset_right = 90.0
-offset_bottom = -20.0
+offset_left = 32.0
+offset_top = -103.0
+offset_right = 102.0
+offset_bottom = -34.0
 deadzone_size = 0.0
 clampzone_size = 16.0
 action_left = "left"
@@ -438,5 +439,26 @@ grow_horizontal = 0
 grow_vertical = 0
 scale = Vector2(0.37, 0.37)
 action = "dev_reload"
+
+[node name="BossBar" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="BossBar"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -101.0
+offset_right = 101.0
+offset_bottom = 24.0
+grow_horizontal = 2
+value = 100.0
 
 [editable path="Virtual Joystick"]

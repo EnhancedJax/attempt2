@@ -1,9 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://5crhgeqe0yf4"]
+[gd_scene load_steps=24 format=3 uid="uid://5crhgeqe0yf4"]
 
 [ext_resource type="Script" uid="uid://des01au6sttgm" path="res://scenes/game.gd" id="1_i7woi"]
 [ext_resource type="PackedScene" uid="uid://o4gnxfkwntm" path="res://scenes/dungeon/tile_layer.tscn" id="2_7g524"]
 [ext_resource type="PackedScene" uid="uid://qgtqua65lnyp" path="res://entities/player/player.tscn" id="2_n6q6o"]
 [ext_resource type="PackedScene" uid="uid://728xqa5cdqim" path="res://scenes/misc/interaction_label.tscn" id="3_bfb72"]
+[ext_resource type="PackedScene" uid="uid://c34kdv6i2lx0o" path="res://entities/bosses/golem/golem.tscn" id="4_ldkr4"]
 [ext_resource type="PackedScene" uid="uid://vo0xrja3uy5k" path="res://hud/game_hud.tscn" id="4_ujnmn"]
 [ext_resource type="Script" uid="uid://jciugafs5r0s" path="res://addons/resonate/music_manager/music_bank.gd" id="7_mw25s"]
 [ext_resource type="Script" uid="uid://lcw4smjpncd" path="res://addons/resonate/music_manager/music_track_resource.gd" id="8_tcjrq"]
@@ -12,6 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://dt0llhfa4lnit" path="res://shared_assets/music/bg.mp3" id="10_tqxxy"]
 [ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="11_5ay1a"]
 [ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="12_ldkr4"]
+[ext_resource type="AudioStream" uid="uid://ddycwf13cbu3i" path="res://shared_assets/music/boss.wav" id="12_liy57"]
 [ext_resource type="AudioStream" uid="uid://esvwfc2na14l" path="res://shared_assets/sound/door_close.wav" id="13_liy57"]
 [ext_resource type="AudioStream" uid="uid://dui5wopmx3f1l" path="res://shared_assets/sound/door_open.wav" id="14_mwyo0"]
 
@@ -38,6 +40,21 @@ bus = ""
 stems = Array[ExtResource("9_rvs2r")]([SubResource("Resource_5ay1a")])
 metadata/_custom_type_script = "uid://lcw4smjpncd"
 
+[sub_resource type="Resource" id="Resource_mwyo0"]
+script = ExtResource("9_rvs2r")
+name = ""
+enabled = false
+volume = 0.0
+stream = ExtResource("12_liy57")
+metadata/_custom_type_script = "uid://b7r80lu8fh3o5"
+
+[sub_resource type="Resource" id="Resource_6aqbo"]
+script = ExtResource("8_tcjrq")
+name = "boss"
+bus = ""
+stems = Array[ExtResource("9_rvs2r")]([SubResource("Resource_mwyo0")])
+metadata/_custom_type_script = "uid://lcw4smjpncd"
+
 [sub_resource type="Resource" id="Resource_s76x2"]
 script = ExtResource("12_ldkr4")
 name = "door_close"
@@ -56,7 +73,7 @@ pitch = 1.0
 streams = Array[AudioStream]([ExtResource("14_mwyo0")])
 metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
 
-[node name="GameLevel" type="Control"]
+[node name="GameLevel" type="Control" node_paths=PackedStringArray("hud")]
 y_sort_enabled = true
 layout_mode = 3
 anchors_preset = 0
@@ -65,17 +82,25 @@ offset_top = -1.0
 offset_right = -1.0
 offset_bottom = -1.0
 script = ExtResource("1_i7woi")
+hud = NodePath("Viewport/HUD")
 
 [node name="TileLayer" parent="." instance=ExtResource("2_7g524")]
 
 [node name="GroundLayer" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("2_n6q6o")]
-position = Vector2(259, -219)
-metadata/_edit_lock_ = true
+position = Vector2(-59, -34)
 
 [node name="EnemyLayer" type="Node2D" parent="."]
 y_sort_enabled = true
+
+[node name="Golem" parent="EnemyLayer" instance=ExtResource("4_ldkr4")]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.550979, 0.521307, 0.660582, 1)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_y3j0m")
 
 [node name="Viewport" type="CanvasLayer" parent="."]
 
@@ -83,12 +108,6 @@ y_sort_enabled = true
 process_mode = 3
 z_index = 20
 metadata/_edit_lock_ = true
-
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.550979, 0.521307, 0.660582, 1)
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_y3j0m")
 
 [node name="CrosshairLayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
@@ -105,7 +124,7 @@ offset_bottom = -136.0
 [node name="MusicBank" type="Node" parent="."]
 script = ExtResource("7_mw25s")
 label = "bgm"
-tracks = Array[ExtResource("8_tcjrq")]([SubResource("Resource_ldkr4")])
+tracks = Array[ExtResource("8_tcjrq")]([SubResource("Resource_ldkr4"), SubResource("Resource_6aqbo")])
 metadata/_custom_type_script = "uid://jciugafs5r0s"
 
 [node name="SoundBank" type="Node" parent="."]

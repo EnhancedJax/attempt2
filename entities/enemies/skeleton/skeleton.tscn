@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://dvecs081bwo7i"]
+[gd_scene load_steps=37 format=3 uid="uid://dvecs081bwo7i"]
 
 [ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_hs5hs"]
 [ext_resource type="Script" uid="uid://bknvveymhi5f2" path="res://entities/enemies/skeleton/skeleton.gd" id="2_0cjm2"]
@@ -269,6 +269,16 @@ _data = {
 &"take_attack": SubResource("Animation_f27go")
 }
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mlpll"]
+resource_local_to_scene = true
+radius = 5.0
+height = 12.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1cywq"]
+resource_local_to_scene = true
+radius = 6.0
+height = 18.0
+
 [sub_resource type="Resource" id="Resource_1cywq"]
 script = ExtResource("9_a01p3")
 name = "hit"
@@ -307,8 +317,14 @@ libraries = {
 }
 autoplay = "init"
 
+[node name="CollisionShape2D" parent="." index="1"]
+shape = SubResource("CapsuleShape2D_mlpll")
+
 [node name="HurtboxComponent" parent="." index="4"]
 collision_mask = 4
+
+[node name="Shape" parent="HurtboxComponent" index="0"]
+shape = SubResource("CapsuleShape2D_1cywq")
 
 [node name="StateMachine" type="Node" parent="." index="6" node_paths=PackedStringArray("animatedSprite", "animator", "initial_state")]
 script = ExtResource("5_p3ot6")
@@ -321,9 +337,6 @@ script = ExtResource("6_3510d")
 
 [node name="Hostile" type="Node" parent="StateMachine" index="1"]
 script = ExtResource("7_rs3xq")
-IDEAL_DISTANCE = 50.0
-DISTANCE_TOLERANCE = 20.0
-STRAFE_SPEED = 25.0
 
 [node name="Death" type="Node" parent="StateMachine" index="2"]
 script = ExtResource("8_a01p3")

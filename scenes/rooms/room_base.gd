@@ -40,7 +40,7 @@ const ENTRANCES : Dictionary[int, String] = {
 }
 
 const ENTRANCE_WIDTH: int = 2  # tiles wide
-const DOOR_PADDING_FROM_ENTRANCE: int = 1
+const DOOR_PADDING_FROM_ENTRANCE: float = 1.5
 
 const FOW_PADDING: int = 0 # tiles wide
 
@@ -95,7 +95,8 @@ func clear_room() -> void:
 	coin.global_position = local * global_scale + self.global_position
 	Main.control.get_child(3).call_deferred("add_child", coin)
 
-func start_wave(spawn_delay: float = 0.1) -> void: # externally managed waves`
+func start_wave() -> void: # externally managed waves
+	var spawn_delay: float = 0.1
 	var used_cells = floor_tilemap.get_used_cells()
 	used_cells.shuffle()
 	if enemy_count == 0:
