@@ -4,9 +4,10 @@ signal signal_hit(attack: AttackBase)
 
 func _on_body_entered(body: Node2D) -> void:
 	print('body', body)
-	if body is BulletBase:
+	if "ATTACK" in body:
 		handle_hit(body)
 	
 func handle_hit(body: Node2D) -> void:
-	emit_signal("signal_hit", body.ATTACK)
-	body.handle_hit()
+	signal_hit.emit(body.ATTACK)
+	if body.has_method("handle_hit"):
+		body.handle_hit()

@@ -1,21 +1,21 @@
 extends State
 
-@onready var sm: StateMachine = get_parent()
-
 # New vars for movement behavior
 @export var IDEAL_DISTANCE := 200.0  # Distance to maintain from player
 @export var DISTANCE_TOLERANCE := 30.0  # How much deviation from ideal distance is acceptable
 @export var STRAFE_SPEED := 100.0
 @export var STRAFE_CHANGE_TIME := 1.5  # Time before changing strafe direction
+@export var MELEE_RANGE : float = 64
+@export var CHANGE_MODE_TIME : float = 0.5
 var strafe_direction := 1.0  # 1 for right, -1 for left
 var strafe_change_timer := 0.0
-
-var p
+var change_mode_timer := 0.0
 
 func enter():
-	sm.animatedSprite.play("default")
+	sm.animatedSprite.play("idle")
 	randomize()
 	p = sm.parent
+	change_mode_timer = 0.0
 	
 func physics_update(delta : float):
 	var player = Main.player
@@ -48,6 +48,23 @@ func physics_update(delta : float):
 		var distance = to_player.length()
 		var direction = to_player.normalized()
 		
+		 # Check if player is in melee range
+		
+		# Randomly wait to change to Shoot state
+		change_mode_timer += delta
+		if change_mode_timer >= CHANGE_MODE_TIME:
+			change_mode_timer = 0.0
+			if randf() > 0.5:
+				sm.on_child_transition(self, "Shoot")
+				return
+				
+		var player_in_melee_range = distance <= MELEE_RANGE
+		
+		if player_in_melee_range:
+			# Transition to melee attack state
+			sm.on_child_transition(self, "Melee")
+			return
+		
 		# Movement vector
 		var movement = Vector2.ZERO
 		
@@ -63,7 +80,6 @@ func physics_update(delta : float):
 		
 		# Apply movement using move_toward
 		p.velocity = p.velocity.move_toward(movement, 40000 * delta)
-		
 	else:
 		p.velocity = Vector2.ZERO
 	

@@ -701,8 +701,8 @@ script = ExtResource("4_fuwg5")
 
 [node name="Walk" type="Node" parent="StateMachine" index="2"]
 script = ExtResource("5_80dvk")
-BASE_SPEED = 180.0
-FAST_SPEED = 240.0
+BASE_SPEED = 120.0
+FAST_SPEED = 180.0
 
 [node name="Roll" type="Node" parent="StateMachine" index="3" node_paths=PackedStringArray("PLAYER_HURTBOX")]
 script = ExtResource("6_uefxj")

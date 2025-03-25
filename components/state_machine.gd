@@ -37,5 +37,6 @@ func on_child_transition(state, new_state_name: String) -> void:
 	if current_state:
 		current_state.exit()
 	
+	print("[StateMachine] Transitioning from " + current_state.name + " to " + new_state_name)
 	new_state.enter()
 	current_state = new_state

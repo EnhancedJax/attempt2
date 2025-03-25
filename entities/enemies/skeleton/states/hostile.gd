@@ -1,6 +1,5 @@
 extends State
 
-@onready var sm: StateMachine = get_parent()
 @export var BURST_DURATION := 0.5
 @export var BURST_COOLDOWN := 2.0
 var burst_timer := 0.0
@@ -15,12 +14,9 @@ var is_bursting := false
 var strafe_direction := 1.0  # 1 for right, -1 for left
 var strafe_change_timer := 0.0
 
-var p
-
 func enter():
 	sm.animatedSprite.play("default")
 	randomize()
-	p = sm.parent
 	
 func physics_update(delta : float):
 	if p.velocity.length() > 0:

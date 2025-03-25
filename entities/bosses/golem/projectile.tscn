@@ -1,0 +1,96 @@
+[gd_scene load_steps=9 format=4 uid="uid://kln1mpbhnwjb"]
+
+[sub_resource type="GDScript" id="GDScript_1lkxo"]
+script/source = "extends BulletBase
+
+var velocity : Vector2
+
+func _ready() -> void:
+	velocity = SPEED * ATTACK.towards_vector.normalized()
+	#rotation = velocity.angle()
+	
+func _physics_process(delta: float) -> void:
+	var collision = move_and_collide(velocity * delta)
+	physics_update(collision)
+"
+
+[sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_1lkxo"]
+_data = PackedByteArray("AAADAAUAAAABAAAAyAAAAMgAAACqAQAAUklGRqIBAABXRUJQVlA4TJYBAAAvx8AxED+gGJIkZkX2tRdEEvQJHZKitm2gXkz6m4ZuwIeBSADCEZoR3vjfJWX+A4DfrUSOsaLS3e0XYNfa20TiuIMJBRgZwzv2NMD53YDmqIEJFLCJ/lc8CdgcIvrPyG0bR8ptK7c+ovoDf/wmpL2z72Iq9UTuNXOpbZ44xkjVsGYpsRTOnElnrVISKZkRTsi9iDOT3mbSm5HUKxShIHNKNCBaSm88jkZSFhEkTikwch/S2RlJRx7HlnG7tCZSogEpFECb3Q0b6dgWQFOp1dvPQOYGQRcbS1uVGn4CVJo46G6LSO2sAjj9LlctrfRG9AtIL24b/+JNzL///fvfhzm/CemDs29vKvVE7jVzqW2eOMZI1bBmKbEUzpxJZ61SEilPjHDCUy/izKTHmfRoJPUKRSh44mmiAdFSeuTdzkjKIoKJp6ljPD106eyMpDve7WrGcV+bSIkGTF0BtNndsJHu6gJoKrV6+xnI3KDTxcbSWqWGnwCVJg662yJSO6sATr/LVUsrvREPC0j3bhv/4k3Mv//9CK4C")
+size_override = Vector2(200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xrg3c"]
+atlas = SubResource("PortableCompressedTexture2D_1lkxo")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c217t"]
+atlas = SubResource("PortableCompressedTexture2D_1lkxo")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4afi1"]
+atlas = SubResource("PortableCompressedTexture2D_1lkxo")
+region = Rect2(0, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kvnqx"]
+atlas = SubResource("PortableCompressedTexture2D_1lkxo")
+region = Rect2(100, 100, 100, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uvgtc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xrg3c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c217t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4afi1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kvnqx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4afi1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c217t")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xrg3c"]
+size = Vector2(14, 6)
+
+[node name="Projectile" type="RigidBody2D"]
+collision_layer = 2
+script = SubResource("GDScript_1lkxo")
+SPEED = 200.0
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(5, 2, 2, 1)
+texture_filter = 1
+position = Vector2(-12, 5)
+scale = Vector2(0.4, 0.4)
+sprite_frames = SubResource("SpriteFrames_uvgtc")
+autoplay = "default"
+frame_progress = 0.0335673
+metadata/_aseprite_wizard_interface_config_ = {
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"should_round_fps": true,
+"slice": "",
+"source": "res://entities/bosses/golem/projectile.ase"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "4c9bbb55537141417e3d8e232d8f159f"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_xrg3c")

@@ -5,8 +5,6 @@ class_name PlayerRoll extends State
 @export var PLAYER_HURTBOX : HurtboxComponent
 @export var curve: Curve
 
-@onready var sm: PlayerStateMachine = get_parent()
-var p
 var roll_direction : Vector2
 var roll_timer : float = 0
 var rotation_direction : float

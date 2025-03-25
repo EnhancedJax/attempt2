@@ -1,12 +1,8 @@
 extends State
 class_name PlayerIdle
 
-@onready var sm: PlayerStateMachine = get_parent()
-var p
-
 func enter():
 	sm.animatedSprite.play("idle")
-	p = sm.player
 
 func update(delta: float):
 	if p.weapon_node:

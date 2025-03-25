@@ -2,8 +2,6 @@ class_name PlayerWalk extends State
 
 @export var BASE_SPEED : float
 @export var FAST_SPEED : float
-@onready var sm: PlayerStateMachine = get_parent()
-var p
 
 func enter():
 	sm.animatedSprite.play("walk")

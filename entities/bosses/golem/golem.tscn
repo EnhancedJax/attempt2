@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=4 uid="uid://c34kdv6i2lx0o"]
+[gd_scene load_steps=81 format=4 uid="uid://c34kdv6i2lx0o"]
 
 [ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_54fl3"]
 [ext_resource type="Script" uid="uid://mxqoevwf4b4" path="res://entities/bosses/golem/golem.gd" id="2_57rg2"]
@@ -6,6 +6,13 @@
 [ext_resource type="Script" uid="uid://4508clq887vd" path="res://entities/enemies/skeleton/state_node.gd" id="4_idp7x"]
 [ext_resource type="Script" uid="uid://cmvc44rc5pgon" path="res://entities/bosses/golem/hostile.gd" id="5_idp7x"]
 [ext_resource type="Script" uid="uid://w2lv4n1a3mv4" path="res://entities/bosses/golem/death.gd" id="6_idp7x"]
+[ext_resource type="Script" uid="uid://bc8s8ensbqys4" path="res://entities/bosses/golem/melee.gd" id="7_6ms3o"]
+[ext_resource type="Script" uid="uid://c2shbewm1ct7k" path="res://entities/bosses/golem/laser.gd" id="8_jdnx3"]
+[ext_resource type="PackedScene" uid="uid://6pknfvprya8o" path="res://entities/bosses/golem/melee_attack.tscn" id="8_wrywd"]
+[ext_resource type="Script" uid="uid://dcxsduoh5xyar" path="res://entities/bosses/golem/idle.gd" id="9_llwlp"]
+[ext_resource type="Script" uid="uid://drnag24r8i113" path="res://entities/bosses/golem/shoot.gd" id="10_ayafp"]
+[ext_resource type="PackedScene" uid="uid://kln1mpbhnwjb" path="res://entities/bosses/golem/projectile.tscn" id="11_hmvou"]
+[ext_resource type="Script" uid="uid://de4sh4ok3rjrr" path="res://weapons/attack_base.gd" id="12_xmb5e"]
 
 [sub_resource type="Gradient" id="Gradient_idp7x"]
 offsets = PackedFloat32Array(0.235023, 0.417051)
@@ -352,7 +359,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_b5rvy")
 }],
-"loop": true,
+"loop": false,
 "name": &"glow",
 "speed": 10.0
 }, {
@@ -450,7 +457,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_28sjt")
 }],
-"loop": true,
+"loop": false,
 "name": &"melee",
 "speed": 10.0
 }, {
@@ -662,6 +669,13 @@ resource_local_to_scene = true
 radius = 26.0
 height = 60.0
 
+[sub_resource type="Resource" id="Resource_pkhrj"]
+script = ExtResource("12_xmb5e")
+damage = 1
+knockback = 400.0
+recoil = 200.0
+metadata/_custom_type_script = "uid://de4sh4ok3rjrr"
+
 [node name="Golem" groups=["enemies"] instance=ExtResource("1_54fl3")]
 collision_layer = 20
 script = ExtResource("2_57rg2")
@@ -675,8 +689,7 @@ texture = SubResource("GradientTexture2D_6ms3o")
 texture_filter = 1
 material = SubResource("ShaderMaterial_4asvw")
 sprite_frames = SubResource("SpriteFrames_lhgvv")
-animation = &"laser_cast"
-frame_progress = 0.331982
+animation = &"shoot"
 metadata/_aseprite_wizard_interface_config_ = {
 "pending_changes": {}
 }
@@ -704,8 +717,8 @@ position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_7sqln")
 
 [node name="HealthComponent" parent="." index="4"]
-MAX_HEALTH = 100
-INITIAL_HEALTH = 100
+MAX_HEALTH = 150
+INITIAL_HEALTH = 150
 
 [node name="Shape" parent="HurtboxComponent" index="0"]
 shape = SubResource("CapsuleShape2D_4asvw")
@@ -721,9 +734,26 @@ initial_state = NodePath("Hostile")
 
 [node name="Hostile" type="Node" parent="StateMachine" index="0"]
 script = ExtResource("5_idp7x")
-IDEAL_DISTANCE = 48.0
+IDEAL_DISTANCE = 32.0
 DISTANCE_TOLERANCE = 16.0
-STRAFE_SPEED = 30.0
+STRAFE_SPEED = 50.0
 
 [node name="Death" type="Node" parent="StateMachine" index="1"]
 script = ExtResource("6_idp7x")
+
+[node name="Melee" type="Node" parent="StateMachine" index="2" node_paths=PackedStringArray("animated_sprite")]
+script = ExtResource("7_6ms3o")
+animated_sprite = NodePath("../../AnimatedSprite2D")
+melee_attack = ExtResource("8_wrywd")
+RADIUS = 48.0
+
+[node name="Laser" type="Node" parent="StateMachine" index="3"]
+script = ExtResource("8_jdnx3")
+
+[node name="Shoot" type="Node" parent="StateMachine" index="4"]
+script = ExtResource("10_ayafp")
+PROJECTILE = ExtResource("11_hmvou")
+ATTACK = SubResource("Resource_pkhrj")
+
+[node name="Idle" type="Node" parent="StateMachine" index="5"]
+script = ExtResource("9_llwlp")

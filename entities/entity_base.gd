@@ -56,7 +56,6 @@ func rsignal_hitbox_hit(attack: AttackBase):
 	
 	# Apply knockback force
 	apply_force(attack.towards_vector * attack.knockback)
-	# show_damage_number(attack.damage)
 	_health.take_damage(attack.damage)
 
 func rsignal_health_deducted(health: int, max_health: int):
@@ -98,7 +97,7 @@ func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
 func apply_force(force: Vector2) -> void:
 	extra_velocity += force
 
-func show_damage_number(damage: int):
+func _show_damage_number(damage: int):
 	var damage_number = FLOATING_NUMBER.instantiate()
 	get_tree().root.add_child(damage_number)
 	damage_number.global_position = damageNumbersOrigin.global_position

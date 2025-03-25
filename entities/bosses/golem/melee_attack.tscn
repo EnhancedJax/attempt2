@@ -1,0 +1,76 @@
+[gd_scene load_steps=9 format=3 uid="uid://6pknfvprya8o"]
+
+[ext_resource type="Script" uid="uid://b1tw1bvd2utly" path="res://entities/bosses/golem/melee_attack.gd" id="1_qarld"]
+[ext_resource type="Script" uid="uid://de4sh4ok3rjrr" path="res://weapons/attack_base.gd" id="2_oqpmd"]
+
+[sub_resource type="Resource" id="Resource_x6kux"]
+script = ExtResource("2_oqpmd")
+damage = 2
+knockback = 1000.0
+recoil = 200.0
+metadata/_custom_type_script = "uid://de4sh4ok3rjrr"
+
+[sub_resource type="Animation" id="Animation_oqpmd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 0.7)]
+}
+
+[sub_resource type="Animation" id="Animation_qarld"]
+resource_name = "new_animation"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1, 0.7)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oqpmd"]
+_data = {
+&"RESET": SubResource("Animation_oqpmd"),
+&"new_animation": SubResource("Animation_qarld")
+}
+
+[sub_resource type="Gradient" id="Gradient_llwlp"]
+offsets = PackedFloat32Array(0.974654, 1)
+colors = PackedColorArray(1, 0, 0, 0.176471, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wrywd"]
+gradient = SubResource("Gradient_llwlp")
+width = 100
+height = 100
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 1)
+
+[node name="MeleeAttack" type="RigidBody2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_qarld")
+ATTACK = SubResource("Resource_x6kux")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_oqpmd")
+}
+autoplay = "new_animation"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1, 0.7)
+texture = SubResource("GradientTexture2D_wrywd")

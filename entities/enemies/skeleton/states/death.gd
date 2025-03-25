@@ -1,9 +1,7 @@
 extends State
 class_name SkeletonDeath
 
-@onready var sm: StateMachine = get_parent()
 var friction : float = 1000.0
-var p
 
 func enter():
 	p = sm.parent
