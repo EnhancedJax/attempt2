@@ -3,10 +3,13 @@ extends RayCast2D
 @export var PELLET_COUNT = 5
 @export var SPREAD_ANGLE = 30.0  # Total spread angle in degrees
 
-var BULLET : PackedScene
-var ATTACK : BulletType
+@export var BULLET : PackedScene
+var ATTACK : AttackBase
 
 signal signal_shot()
+
+func register(a: AttackBase):
+	self.ATTACK = a
 
 func shoot(towards: float) -> bool:
 	var is_colliding = self.is_colliding()

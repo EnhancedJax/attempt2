@@ -75,7 +75,7 @@ position = Vector2(-12, 5)
 scale = Vector2(0.4, 0.4)
 sprite_frames = SubResource("SpriteFrames_uvgtc")
 autoplay = "default"
-frame_progress = 0.0335673
+frame_progress = 0.126508
 metadata/_aseprite_wizard_interface_config_ = {
 "pending_changes": {}
 }

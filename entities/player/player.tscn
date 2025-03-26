@@ -591,12 +591,12 @@ bg_color = Color(1, 1, 1, 0.254902)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j3ovn"]
 bg_color = Color(1, 1, 1, 1)
 
-[sub_resource type="Gradient" id="Gradient_bectd"]
+[sub_resource type="Gradient" id="Gradient_afbqv"]
 offsets = PackedFloat32Array(0.52381, 1)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_j3ovn"]
-gradient = SubResource("Gradient_bectd")
+gradient = SubResource("Gradient_afbqv")
 width = 48
 height = 48
 fill = 1
@@ -701,8 +701,8 @@ script = ExtResource("4_fuwg5")
 
 [node name="Walk" type="Node" parent="StateMachine" index="2"]
 script = ExtResource("5_80dvk")
-BASE_SPEED = 120.0
-FAST_SPEED = 180.0
+BASE_SPEED = 160.0
+FAST_SPEED = 200.0
 
 [node name="Roll" type="Node" parent="StateMachine" index="3" node_paths=PackedStringArray("PLAYER_HURTBOX")]
 script = ExtResource("6_uefxj")

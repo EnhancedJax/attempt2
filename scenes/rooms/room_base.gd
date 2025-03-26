@@ -54,11 +54,15 @@ var fow_entrance_point := Vector2.ZERO
 var fow_image: Image
 var fow_texture: ImageTexture
 
+var _shuffled_used_cells : Array[Vector2i] = []
+
 func _ready() -> void:
 	if not door_config:
 		door_config = [true, true, true, true]
 	_setup_doors_and_entrances()
 	_setup_entrance_detection()
+	_shuffled_used_cells = floor_tilemap.get_used_cells()
+	_shuffled_used_cells.shuffle()
 	# if should_fow:
 	# 	_setup_fog_of_war()
 
@@ -87,26 +91,24 @@ func clear_room() -> void:
 	room_state = 2
 	_open_doors()
 	signal_room_cleared.emit()
+	handle_clear_room_rewards()
 
+func handle_clear_room_rewards():
 	# spawn coins at the center of the room
 	var coin = coin_scene.instantiate()
 	coin.count = 10
-	var local: Vector2 = Vector2(dimension.x / 2, dimension.y / 2) * tilemap_px
-	coin.global_position = local * global_scale + self.global_position
+	coin.global_position = _get_room_center()
 	Main.control.get_child(3).call_deferred("add_child", coin)
 
 func start_wave() -> void: # externally managed waves
 	var spawn_delay: float = 0.1
-	var used_cells = floor_tilemap.get_used_cells()
-	used_cells.shuffle()
 	if enemy_count == 0:
 		clear_room()
 		return
 	for i in range(enemy_count):
 		var random_index = randi() % enemy_scenes.size()
 		var enemy: EntityBase = enemy_scenes[random_index].instantiate()
-		var local: Vector2 = used_cells[i] * tilemap_px
-		enemy.global_position = local * global_scale + self.global_position
+		enemy.global_position = _pick_random_spawn_point()
 		enemy.connect("signal_death", rsignal_spawned_enemy_died)
 		Main.control.get_child(3).call_deferred("add_child", enemy)
 		await get_tree().create_timer(spawn_delay).timeout
@@ -117,6 +119,15 @@ func rsignal_spawned_enemy_died() -> void:
 		clear_room()
 
 # /* ------------ Internals ----------- */
+
+func _pick_random_spawn_point() -> Vector2:
+	var random_index = randi() % _shuffled_used_cells.size()
+	var local : Vector2 =  _shuffled_used_cells[random_index] * tilemap_px
+	return local * global_scale + self.global_position
+
+func _get_room_center() -> Vector2:
+	var local: Vector2 = Vector2(dimension.x / 2, dimension.y / 2) * tilemap_px
+	return local * global_scale + self.global_position
 
 func _setup_doors_and_entrances() -> void:
 	for dir in range(4):

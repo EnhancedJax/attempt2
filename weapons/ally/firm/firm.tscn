@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://dxlgc31vimg28"]
+[gd_scene load_steps=43 format=3 uid="uid://dxlgc31vimg28"]
 
 [ext_resource type="Script" uid="uid://bmj74ev3l60k5" path="res://weapons/ally/firm/firm.gd" id="1_8l8y3"]
 [ext_resource type="Shader" uid="uid://ctc7jwnjkk8is" path="res://weapons/ally/color_hand.gdshader" id="2_4v54v"]
@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://bo1d4nn0g26ui" path="res://weapons/ally/firm/rack.wav" id="8_6jhw5"]
 [ext_resource type="AudioStream" uid="uid://i2tne4sem7yn" path="res://weapons/ally/firm/reload_1.wav" id="9_givrx"]
 [ext_resource type="AudioStream" uid="uid://dx88ugl6ka6jp" path="res://weapons/ally/firm/reload_2.wav" id="10_yenhv"]
+[ext_resource type="PackedScene" uid="uid://cw4gi67nlj76t" path="res://weapons/ally/firm/firm_bullet.tscn" id="12_6jhw5"]
 
 [sub_resource type="Resource" id="Resource_krsku"]
 script = ExtResource("2_ev5st")
@@ -322,6 +323,8 @@ metadata/_custom_type_script = "uid://b7r334bhuu4yk"
 [node name="BulletSpawnerComponent" parent="." instance=ExtResource("4_okj6a")]
 position = Vector2(0, 1)
 target_position = Vector2(19, 0)
+rotate = false
+BULLET = ExtResource("12_6jhw5")
 
 [node name="FullAutoComponent" parent="." instance=ExtResource("5_ev5st")]
 fire_rate = 4

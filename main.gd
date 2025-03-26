@@ -66,6 +66,9 @@ func register_control(c : Control) -> void:
 func register_boss(boss: BossBase) -> void:
 	hud.register_boss(boss)
 
+func deregister_boss(boss: BossBase) -> void:
+	hud.deregister_boss(boss)
+
 func register_interaction(i: Interaction):
 	print('Interaction register', i)
 	interactions.push_front(i)

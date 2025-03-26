@@ -10,6 +10,7 @@ class_name HUD extends Control
 @export var ammo_indicator_bar : ProgressBar
 @export var fps_label : Label
 @export var action_texture : TextureRect
+@export var boss_bar : Control
 @export var boss_bar_progress : ProgressBar
 const heart_full_texture = preload('res://hud/heart_full_color.tres')
 const heart_half_texture = preload('res://hud/heart_half_color.tres')
@@ -45,8 +46,15 @@ func rsignal_interaction_changed(i: Interaction):
 
 func register_boss(boss: BossBase):
 	print('Registrating boss:', boss)
+	boss_bar.visible = true
 	boss.signal_boss_health_changed.connect(rsignal_boss_health_changed)
 	boss.signal_boss_health_depleted.connect(rsignal_boss_health_depleted)
+
+func deregister_boss(boss: BossBase):
+	print('Deregistrating boss:', boss)
+	boss_bar.visible = false
+	boss.signal_boss_health_changed.disconnect(rsignal_boss_health_changed)
+	boss.signal_boss_health_depleted.disconnect(rsignal_boss_health_depleted)
 
 func rsignal_boss_health_changed(value:int,max:int):
 	boss_bar_progress.max_value = max

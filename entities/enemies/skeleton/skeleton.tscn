@@ -337,6 +337,9 @@ script = ExtResource("6_3510d")
 
 [node name="Hostile" type="Node" parent="StateMachine" index="1"]
 script = ExtResource("7_rs3xq")
+IDEAL_DISTANCE = 16.0
+DISTANCE_TOLERANCE = 32.0
+STRAFE_SPEED = 30.0
 
 [node name="Death" type="Node" parent="StateMachine" index="2"]
 script = ExtResource("8_a01p3")

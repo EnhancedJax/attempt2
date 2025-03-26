@@ -1,44 +1,55 @@
 extends State
 
-@export var PROJECTILE : PackedScene
-@export var ATTACK: AttackBase
-@export var fire_rate : float = 15 # bullets per second
-@export var random_spread : float = 30.0 # angles
-@export var fire_duration : float = 3 # seconds
+@export var fire_duration_1 : float = 1 # seconds
+@export var fire_wait : float = 0.5
+@export var fire_duration_2 : float = 3
+@export var walk_speed : float = 80
 
 var fire_timer : float = 0.0
 var firing : bool = false
 var cooldown_timer : float = 0.0
+var phase : int = 0
 
 func enter() -> void:
-	sm.animatedSprite.play("shoot")
-	firing = true
-	fire_timer = fire_duration
+	fire_timer = 0.0
 	cooldown_timer = 0.0
+	phase = 0
+	firing = true
 
 func update(delta: float) -> void:
-	var attack_towards = (Main.player.global_position - p.global_position).normalized()
-	if firing:
-		fire_timer -= delta
-		cooldown_timer -= delta
-		if fire_timer <= 0:
+	if phase == 0: # Fire mode 1
+		p.weapon_node.handle_use_custom(delta, 1, true)
+		fire_timer += delta
+		if fire_timer >= fire_duration_1:
+			fire_timer = 0.0
+			phase = 1
 			firing = false
-		elif cooldown_timer <= 0:
-			_spawn_bullet(attack_towards)
-			cooldown_timer = 1.0 / fire_rate
-	else:
+	elif phase == 1: # Wait
+		p.weapon_node.handle_use_custom(delta, 1, false)
+		cooldown_timer += delta
+		if cooldown_timer >= fire_wait:
+			cooldown_timer = 0.0
+			phase = 2
+			firing = true
+	elif phase == 2: # Fire mode 2
+		p.weapon_node.handle_use_custom(delta, 2, true)
+		fire_timer += delta
+		if fire_timer >= fire_duration_2:
+			fire_timer = 0.0
+			phase = 3
+			firing = false
+	elif phase == 3: # Transition back to Hostile
 		sm.on_child_transition(self, "Hostile")
-
-func physics_update(delta: float):
-	p.velocity = p.velocity.move_toward(Vector2.ZERO, p.FRICTION * delta)    
+		
+func physics_update(delta : float):
+	var player = Main.player
+	
+	# Calculate direction to player
+	var to_player = player.global_position - sm.parent.global_position
+	var direction = to_player.normalized()
+	
+	# Move towards player
+	p.velocity = direction * walk_speed
+	
+	# Call physics_update on sm.parent
 	p.physics_update(delta)
-
-func _spawn_bullet(attack_towards: Vector2):
-	var spread_angle = randf_range(-random_spread, random_spread)
-	var rotated_vector = attack_towards.rotated(deg_to_rad(spread_angle))
-	var atk = ATTACK.duplicate()
-	atk.towards_vector = rotated_vector
-	var bullet = PROJECTILE.instantiate()
-	bullet.register_attack(atk)
-	bullet.rotation = rotated_vector.angle()
-	Main.spawn_node(bullet, p.global_position)

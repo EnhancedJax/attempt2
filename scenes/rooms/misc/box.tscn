@@ -1,31 +1,19 @@
-[gd_scene load_steps=9 format=3 uid="uid://bjxxktcqu5a4e"]
+[gd_scene load_steps=8 format=3 uid="uid://bjxxktcqu5a4e"]
 
 [ext_resource type="Script" uid="uid://b0mtmwxevwkuy" path="res://scenes/rooms/misc/box.gd" id="1_cw4wt"]
-[ext_resource type="Texture2D" uid="uid://bpxriewkehryx" path="res://shared_assets/sprites/Decor.png" id="2_cw4wt"]
+[ext_resource type="Texture2D" uid="uid://dbkavbe755yb8" path="res://scenes/rooms/misc/Objects.png" id="2_f6rp5"]
 [ext_resource type="PackedScene" uid="uid://piih37x1adkq" path="res://components/hurtbox/_hurtbox.tscn" id="4_6voqy"]
 [ext_resource type="PackedScene" uid="uid://dwic5pl3lo448" path="res://components/health/_health.tscn" id="4_f6rp5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6voqy"]
+atlas = ExtResource("2_f6rp5")
+region = Rect2(39, 69, 19, 27)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6voqy"]
 size = Vector2(16, 17)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f6rp5"]
-atlas = ExtResource("2_cw4wt")
-region = Rect2(48, 24, 16, 24)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_6voqy"]
-resource_local_to_scene = true
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_f6rp5")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f6rp5"]
-size = Vector2(16, 21)
+size = Vector2(16, 24)
 
 [node name="Box" type="StaticBody2D"]
 y_sort_enabled = true
@@ -33,13 +21,12 @@ collision_layer = 8
 collision_mask = 8
 script = ExtResource("1_cw4wt")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_6voqy")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2.5)
 shape = SubResource("RectangleShape2D_6voqy")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-y_sort_enabled = true
-sprite_frames = SubResource("SpriteFrames_6voqy")
 
 [node name="HealthComponent" parent="." instance=ExtResource("4_f6rp5")]
 MAX_HEALTH = 1
@@ -49,8 +36,28 @@ INITIAL_HEALTH = 1
 collision_mask = 6
 
 [node name="Shape" type="CollisionShape2D" parent="HurtboxComponent"]
-position = Vector2(0, 0.5)
+position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_f6rp5")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+process_mode = 3
+y_sort_enabled = true
+position = Vector2(0, -8)
+emitting = false
+amount = 20
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(8, 0)
+direction = Vector2(0, 1)
+spread = 0.0
+gravity = Vector2(0, 30)
+initial_velocity_max = 19.61
+angular_velocity_min = -203.04
+angular_velocity_max = 248.72
+scale_amount_max = 4.0
+color = Color(0.584314, 0.364706, 0.152941, 1)
 
 [connection signal="signal_health_deducted" from="HealthComponent" to="." method="rsignal_health_deducted"]
 [connection signal="signal_health_depleted" from="HealthComponent" to="." method="rsignal_health_depleted"]

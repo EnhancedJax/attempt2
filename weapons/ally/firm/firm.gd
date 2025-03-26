@@ -5,14 +5,13 @@ extends WeaponBase
 @onready var bullet_spawner = $BulletSpawnerComponent
 @onready var reload_timer_2: Timer = $ReloadSound2Timer
 @onready var reload_timer_3: Timer = $ReloadSound3Timer
-const BULLET = preload("res://weapons/ally/firm/firm_bullet.tscn")
 
 func _ready() -> void:
 	mag_size = 8
 	mag_count = mag_size
 	Main.signal_player_equipped_weapon.connect(rsignal_weapon_equipped)
 	bullet_spawner.signal_shot.connect(rsignal_shot)
-	bullet_spawner.register(ATTACK,BULLET)
+	bullet_spawner.register(ATTACK)
 	reload_timer_2.timeout.connect(play_second_reload_sound)
 	reload_timer_3.timeout.connect(play_third_reload_sound)
 	register_firing_handler($FullAutoComponent)

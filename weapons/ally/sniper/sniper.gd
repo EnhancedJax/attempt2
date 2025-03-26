@@ -4,12 +4,11 @@ extends WeaponBase
 @export var spread : float = 5
 @onready var bullet_spawner = $BulletSpawnerComponent
 @onready var reload_timer: Timer = $ReloadSound2Timer
-const BULLET = preload("res://weapons/ally/sniper/sniper_bullet.tscn")
 
 func _ready() -> void:
 	Main.signal_player_equipped_weapon.connect(rsignal_weapon_equipped)
 	bullet_spawner.signal_shot.connect(rsignal_shot)
-	bullet_spawner.register(ATTACK, BULLET)
+	bullet_spawner.register(ATTACK)
 	reload_timer.timeout.connect(play_halfway_reload_sound)
 	register_firing_handler($SemiAutoComponent)
 

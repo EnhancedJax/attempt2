@@ -1,6 +1,27 @@
 extends RoomBase
 
+var chest : PackedScene = preload("res://scenes/chest/chest.tscn")
+var splash : PackedScene = preload("res://entities/bosses/golem/splash.tscn")
+var splash_scene : SplashBase
+
 const bgm = preload("res://shared_assets/music/boss.wav")
 
+func _ready() -> void:
+	super._ready()
+	splash_scene = splash.instantiate()
+
 func start_wave():
-	MusicManager.play('bgm', 'boss', 5.0, true)
+	print(splash)
+	MusicManager.play('bgm', 'boss', 1.0, true)
+	var boss: EntityBase = enemy_scenes[0].instantiate()
+	boss.connect("signal_death", rsignal_spawned_enemy_died)
+	Main.spawn_node(boss, _get_room_center(), 3)
+	get_tree().root.add_child(splash_scene)
+	splash_scene.play()
+	#splash_scene.signal_splash_finished.connect()
+
+func handle_clear_room_rewards():
+	var chest_scene = chest.instantiate()
+	chest_scene.spawned_in_active_room = true
+	Main.spawn_node(chest_scene, _get_room_center() + Vector2(0, -64), 1)
+	MusicManager.play('bgm', 'bgm', 1.0, true)

@@ -16,3 +16,4 @@ position = Vector2(87, 47)
 
 [node name="Chest" parent="." index="4" instance=ExtResource("3_h6li5")]
 position = Vector2(54, 57)
+spawned_in_active_room = true

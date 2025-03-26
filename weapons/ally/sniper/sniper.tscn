@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=4 uid="uid://b8kdvijvf8dx6"]
+[gd_scene load_steps=37 format=4 uid="uid://b8kdvijvf8dx6"]
 
 [ext_resource type="PackedScene" uid="uid://dnxw7kqi21unw" path="res://weapons/weapon_base.tscn" id="1_s7yg6"]
 [ext_resource type="PackedScene" uid="uid://4fr4ngaevi8a" path="res://components/fire/semi_auto/_semi_auto.tscn" id="2_47jf4"]
@@ -10,6 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://f8duoi3fjt71" path="res://weapons/ally/sniper/shot.mp3" id="6_7yxvd"]
 [ext_resource type="AudioStream" uid="uid://cx2htjpme3j3o" path="res://weapons/ally/sniper/reload_1.wav" id="7_iv7mh"]
 [ext_resource type="AudioStream" uid="uid://b8i2mro73uq3d" path="res://weapons/ally/sniper/reload_2.wav" id="8_0hp27"]
+[ext_resource type="PackedScene" uid="uid://o04ryntw4127" path="res://weapons/ally/sniper/sniper_bullet.tscn" id="11_5scbx"]
 
 [sub_resource type="Resource" id="Resource_ok1sp"]
 script = ExtResource("3_j20kw")
@@ -432,6 +433,7 @@ fire_rate = 0.85
 position = Vector2(0, 2)
 target_position = Vector2(41, 0)
 rotate = false
+BULLET = ExtResource("11_5scbx")
 
 [node name="ReloadSound2Timer" type="Timer" parent="." index="4"]
 one_shot = true

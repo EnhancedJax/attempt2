@@ -5,9 +5,6 @@ signal signal_boss_health_depleted()
 
 func _ready() -> void:
 	super._ready()
-	Main.signal_r_hud.connect(rsignal_r_hud)
-
-func rsignal_r_hud():
 	Main.register_boss(self)
 
 func rsignal_health_deducted(health: int, max_health: int):

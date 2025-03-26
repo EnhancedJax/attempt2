@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbkavbe755yb8"
-path="res://.godot/imported/Objects.png-f1235bdabbf25ae6e41ec31361e0097c.ctex"
+uid="uid://dtuaquvfqcxvr"
+path="res://.godot/imported/enemy_bullet.png-ae794511062655820dd184e687f25217.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/rooms/misc/Objects.png"
-dest_files=["res://.godot/imported/Objects.png-f1235bdabbf25ae6e41ec31361e0097c.ctex"]
+source_file="res://entities/bosses/golem/chaingun/enemy_bullet.png"
+dest_files=["res://.godot/imported/enemy_bullet.png-ae794511062655820dd184e687f25217.ctex"]
 
 [params]
 

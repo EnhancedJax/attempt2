@@ -1,4 +1,4 @@
-extends Node2D
+extends StaticBody2D
 @onready var _health : HealthComponent = $HealthComponent
 @onready var _hurtbox : Area2D = $HurtboxComponent
 
@@ -14,4 +14,10 @@ func rsignal_health_deducted(health: int, max_health: int) -> void:
 	pass
 
 func rsignal_health_depleted():
+	$Sprite2D.visible = false
+	self.set_collision_layer_value(4, false)
+	self.set_collision_mask_value(4, false)
+	_hurtbox.queue_free()
+	$CPUParticles2D.emitting = true
+	await get_tree().create_timer(1).timeout
 	queue_free()

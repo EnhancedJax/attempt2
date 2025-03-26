@@ -1,13 +1,12 @@
 extends RayCast2D
 
 @export var rotate : bool = true
-var BULLET : PackedScene
+@export var BULLET : PackedScene
 var ATTACK : AttackBase
 
 signal signal_shot()
 
-func register(a: AttackBase, b: PackedScene):
-	self.BULLET = b
+func register(a: AttackBase):
 	self.ATTACK = a
 
 func shoot(towards: float) -> bool:

@@ -57,7 +57,6 @@ func call_finish_reload() -> void:
 
 func register_firing_handler(handler: FiringHandlerBase) -> void:
 	firing_handler = handler
-	print(firing_handler)
 
 func handle_use(delta: float, is_just_pressed_fire: bool, is_pressed_fire: bool, auto_firing: bool) -> void:
 	if firing_handler and firing_handler.is_to_attack(delta, is_just_pressed_fire, is_pressed_fire, auto_firing):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=4 uid="uid://bj81oeyskct0"]
+[gd_scene load_steps=35 format=4 uid="uid://bj81oeyskct0"]
 
 [ext_resource type="Script" uid="uid://de4sh4ok3rjrr" path="res://weapons/attack_base.gd" id="2_0qh87"]
 [ext_resource type="AudioStream" uid="uid://bcg5bvbknuelv" path="res://weapons/ally/rifle/reload_1.wav" id="2_qd8bx"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://cdore2781hk8c" path="res://weapons/ally/rifle/shot.wav" id="3_ceglm"]
 [ext_resource type="AudioStream" uid="uid://do8xf6v2ow800" path="res://weapons/ally/rifle/reload_2.wav" id="3_dvofk"]
 [ext_resource type="Shader" uid="uid://ctc7jwnjkk8is" path="res://weapons/ally/color_hand.gdshader" id="4_x8wmp"]
+[ext_resource type="PackedScene" uid="uid://dps8a8h16admb" path="res://weapons/ally/rifle/rifle_bullet.tscn" id="5_674yx"]
 [ext_resource type="PackedScene" uid="uid://cuiahy254v43" path="res://components/fire/full_auto/_full_auto.tscn" id="6_n1vsn"]
 [ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="9_crth4"]
 [ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="10_0qh87"]
@@ -272,6 +273,7 @@ libraries = {
 [node name="BulletSpawnerComponent" parent="." instance=ExtResource("3_1ifyx")]
 position = Vector2(0, 2)
 target_position = Vector2(27, 0)
+BULLET = ExtResource("5_674yx")
 
 [node name="FullAutoComponent" parent="." instance=ExtResource("6_n1vsn")]
 fire_rate = 8

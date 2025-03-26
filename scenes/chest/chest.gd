@@ -1,6 +1,7 @@
 extends Node2D
 
 var items
+@export var spawned_in_active_room : bool = false
 @export var items_count : int
 var is_opened : bool = false
 const item_spacing : int = 32
@@ -25,6 +26,8 @@ func _ready() -> void:
 		parent_room = parent
 	
 	Main.signal_player_entered_room.connect(rsignal_player_entered_room)
+	if spawned_in_active_room:
+		rsignal_player_entered_room(parent_room)
 	
 func interaction_action() -> void:
 	SoundManager.play('chest', 'open')

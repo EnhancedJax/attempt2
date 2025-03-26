@@ -56,6 +56,7 @@ folder_colors={
 "res://build/": "gray",
 "res://components/": "purple",
 "res://entities/": "green",
+"res://entities/bosses/": "red",
 "res://entities/enemies/": "red",
 "res://hud/": "orange",
 "res://hud/minimap/icons/": "gray",
@@ -63,7 +64,8 @@ folder_colors={
 "res://scenes/": "yellow",
 "res://shared_assets/music/": "gray",
 "res://tables/": "blue",
-"res://weapons/": "yellow"
+"res://weapons/": "yellow",
+"res://weapons/enemy/": "orange"
 }
 
 [global_group]

@@ -6,7 +6,6 @@ extends WeaponBase
 @onready var bullet_spawner = $BasicShotgun
 @onready var audio_bus_1 = $AudioBus1
 @onready var audio_bus_2 = $AudioBus2
-const BULLET = preload("res://weapons/ally/shotgun/shotgun_bullet.tscn")
 var ATTACK = BulletType.new()
 
 func _ready() -> void:
@@ -17,8 +16,7 @@ func _ready() -> void:
 	ATTACK.damage = damage
 	ATTACK.recoil = recoil
 	ATTACK.knockback = knockback
-	bullet_spawner.BULLET = BULLET
-	bullet_spawner.ATTACK = ATTACK
+	bullet_spawner.register(ATTACK)
 	register_firing_handler($SemiAutoComponent)
 
 func handle_attack() -> void:

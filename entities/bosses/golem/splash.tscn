@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://t0m4knfnqojx"]
+
+[ext_resource type="Script" uid="uid://cvxh5cm1n1igd" path="res://entities/bosses/golem/splash.gd" id="1_601pb"]
+[ext_resource type="FontFile" uid="uid://d1uby6v8i7f38" path="res://shared_assets/fonts/NicoClean-Regular.ttf" id="1_tl5xs"]
+
+[sub_resource type="Gradient" id="Gradient_601pb"]
+colors = PackedColorArray(0, 0, 0, 1, 0.0196, 0.11508, 0.28, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bnfk6"]
+gradient = SubResource("Gradient_601pb")
+fill_from = Vector2(0.942613, 0.885226)
+fill_to = Vector2(0.173382, 0.128205)
+
+[node name="Control" type="CanvasLayer"]
+layer = 6
+script = ExtResource("1_601pb")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_bnfk6")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -109.0
+offset_top = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_tl5xs")
+text = "Golem thingy"

@@ -135,7 +135,7 @@ bg_color = Color(1, 1, 1, 0.254902)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ohwp"]
 bg_color = Color(1, 1, 1, 1)
 
-[node name="HUD" type="Control" node_paths=PackedStringArray("minimap_generator", "heart_container", "heart", "weapon_texture", "coin_label", "ammo_indicator", "ammo_indicator_bar", "fps_label", "action_texture", "boss_bar_progress")]
+[node name="HUD" type="Control" node_paths=PackedStringArray("minimap_generator", "heart_container", "heart", "weapon_texture", "coin_label", "ammo_indicator", "ammo_indicator_bar", "fps_label", "action_texture", "boss_bar", "boss_bar_progress")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -152,6 +152,7 @@ ammo_indicator = NodePath("AmmoIndicator")
 ammo_indicator_bar = NodePath("AmmoIndicator/ProgressBar")
 fps_label = NodePath("FPSLabel")
 action_texture = NodePath("ControlGroup/Action/MarginContainer/ActionTexture")
+boss_bar = NodePath("BossBar")
 boss_bar_progress = NodePath("BossBar/ProgressBar")
 
 [node name="HealthWarn" type="TextureRect" parent="."]
@@ -441,6 +442,7 @@ scale = Vector2(0.37, 0.37)
 action = "dev_reload"
 
 [node name="BossBar" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5

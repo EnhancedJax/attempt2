@@ -1,0 +1,149 @@
+[gd_scene load_steps=21 format=3 uid="uid://cdo8st1jff7jl"]
+
+[ext_resource type="PackedScene" uid="uid://dnxw7kqi21unw" path="res://weapons/weapon_base.tscn" id="1_f8l1g"]
+[ext_resource type="Texture2D" uid="uid://k4jb06p12q4l" path="res://entities/bosses/golem/chaingun/chaingun.png" id="2_b0jc0"]
+[ext_resource type="Script" uid="uid://bpd2u5h6mpy3u" path="res://entities/bosses/golem/chaingun/chaingun.gd" id="2_pskwu"]
+[ext_resource type="PackedScene" uid="uid://cyyhdytcpd73i" path="res://components/bullet_spawner/basic_linear/node.tscn" id="3_j8o80"]
+[ext_resource type="Script" uid="uid://de4sh4ok3rjrr" path="res://weapons/attack_base.gd" id="3_ogd5s"]
+[ext_resource type="PackedScene" uid="uid://cuiahy254v43" path="res://components/fire/full_auto/_full_auto.tscn" id="4_2wccf"]
+[ext_resource type="PackedScene" uid="uid://cqpaelsgoqk53" path="res://components/bullet_spawner/basic_shotgun/node.tscn" id="5_2wccf"]
+[ext_resource type="PackedScene" uid="uid://drp5me6lewdh1" path="res://entities/bosses/golem/chaingun/bullet.tscn" id="6_kamok"]
+
+[sub_resource type="Resource" id="Resource_kamok"]
+script = ExtResource("3_ogd5s")
+damage = 1
+knockback = 400.0
+recoil = 200.0
+metadata/_custom_type_script = "uid://de4sh4ok3rjrr"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kamok"]
+atlas = ExtResource("2_b0jc0")
+region = Rect2(0, 32, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hqkos"]
+atlas = ExtResource("2_b0jc0")
+region = Rect2(64, 32, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ps6p"]
+atlas = ExtResource("2_b0jc0")
+region = Rect2(128, 32, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shonb"]
+atlas = ExtResource("2_b0jc0")
+region = Rect2(192, 32, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v4pcy"]
+atlas = ExtResource("2_b0jc0")
+region = Rect2(0, 64, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xolib"]
+atlas = ExtResource("2_b0jc0")
+region = Rect2(64, 64, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h0r14"]
+atlas = ExtResource("2_b0jc0")
+region = Rect2(64, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sguor"]
+atlas = ExtResource("2_b0jc0")
+region = Rect2(128, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k3hsc"]
+atlas = ExtResource("2_b0jc0")
+region = Rect2(192, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c6w50"]
+atlas = ExtResource("2_b0jc0")
+region = Rect2(0, 0, 64, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a6npq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kamok")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hqkos")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ps6p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_shonb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v4pcy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xolib")
+}],
+"loop": false,
+"name": &"charge",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h0r14")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sguor")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k3hsc")
+}],
+"loop": true,
+"name": &"fire_1",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c6w50")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[node name="Chaingun" node_paths=PackedStringArray("attack_1_firing_handler", "attack_1_bullet_spawner", "attack_2_firing_handler", "attack_2_bullet_spawner") instance=ExtResource("1_f8l1g")]
+script = ExtResource("2_pskwu")
+ATTACK = SubResource("Resource_kamok")
+spread = 30.0
+attack_1_firing_handler = NodePath("BasicLinear/FireComponent")
+attack_1_bullet_spawner = NodePath("BasicLinear")
+attack_2_firing_handler = NodePath("BasicShotgun/FireComponent")
+attack_2_bullet_spawner = NodePath("BasicShotgun")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+texture_filter = 1
+position = Vector2(22, 0)
+sprite_frames = SubResource("SpriteFrames_a6npq")
+animation = &"idle"
+frame_progress = 1.0
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": false,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"should_round_fps": true,
+"slice": "",
+"source": "res://entities/bosses/golem/chaingun/chaingun.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "e72017832bb0bbcc3bdd88d082d2f024"
+
+[node name="BasicLinear" parent="." index="2" instance=ExtResource("3_j8o80")]
+target_position = Vector2(40, 0)
+BULLET = ExtResource("6_kamok")
+
+[node name="FireComponent" parent="BasicLinear" index="0" instance=ExtResource("4_2wccf")]
+fire_rate = 15
+
+[node name="BasicShotgun" parent="." index="3" instance=ExtResource("5_2wccf")]
+target_position = Vector2(40, 0)
+PELLET_COUNT = 15
+SPREAD_ANGLE = 60.0
+BULLET = ExtResource("6_kamok")
+
+[node name="FireComponent" parent="BasicShotgun" index="0" instance=ExtResource("4_2wccf")]
+fire_rate = 1
