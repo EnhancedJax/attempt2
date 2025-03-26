@@ -1,0 +1,81 @@
+[gd_scene load_steps=12 format=3 uid="uid://c6tvylyruu2ao"]
+
+[ext_resource type="Texture2D" uid="uid://bvuu5p6bl51cy" path="res://scenes/rooms/misc/fire/fire_animation.png" id="1_uoutl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_88aqd"]
+atlas = ExtResource("1_uoutl")
+region = Rect2(84, 0, 42, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sjsx6"]
+atlas = ExtResource("1_uoutl")
+region = Rect2(84, 48, 42, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g8eo4"]
+atlas = ExtResource("1_uoutl")
+region = Rect2(84, 96, 42, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wxx4"]
+atlas = ExtResource("1_uoutl")
+region = Rect2(84, 144, 42, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_csexj"]
+atlas = ExtResource("1_uoutl")
+region = Rect2(84, 192, 42, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_08gf8"]
+atlas = ExtResource("1_uoutl")
+region = Rect2(84, 240, 42, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yk6t4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_88aqd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sjsx6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g8eo4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5wxx4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_csexj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_08gf8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_26q78"]
+offsets = PackedFloat32Array(0.262712, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lyqur"]
+gradient = SubResource("Gradient_26q78")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uoutl"]
+radius = 13.0
+
+[node name="FirePot" type="StaticBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_yk6t4")
+autoplay = "default"
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+scale = Vector2(3.28125, 3.28125)
+color = Color(0.94, 0.360333, 0, 1)
+texture = SubResource("GradientTexture2D_lyqur")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("CircleShape2D_uoutl")

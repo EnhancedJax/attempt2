@@ -18,5 +18,10 @@
 	"name": "Firm",
 	"desc": "Pistol wow",
 	"rarity": 0,
+},
+"4" : {
+	"name" : "Smg",
+	"desc": "Wow",
+	"rarity": 1
 }
 }

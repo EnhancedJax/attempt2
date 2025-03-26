@@ -695,8 +695,8 @@ position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_7sqln")
 
 [node name="HealthComponent" parent="." index="5"]
-MAX_HEALTH = 1
-INITIAL_HEALTH = 1
+MAX_HEALTH = 150
+INITIAL_HEALTH = 150
 
 [node name="Shape" parent="HurtboxComponent" index="0"]
 shape = SubResource("CapsuleShape2D_4asvw")

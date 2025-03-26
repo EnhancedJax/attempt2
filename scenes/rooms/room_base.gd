@@ -17,6 +17,9 @@ signal signal_player_entered()
 @export var door_horizontal : PackedScene
 @export var should_fow: bool = true
 
+@export var reward_coins_min : int = 1
+@export var reward_coins_max : int = 3
+
 @onready var wall_tilemap : TileMapLayer = $WallTileLayer
 @onready var floor_tilemap : TileMapLayer = $FloorTileLayer
 @onready var tilemap_px : int = wall_tilemap.tile_set.tile_size.x
@@ -27,6 +30,7 @@ signal signal_player_entered()
 const entrance_detector_scene = preload("res://scenes/rooms/entrance_detector.tscn")
 const coin_scene = preload("res://scenes/coin/coin_spawner.tscn")
 var enemy_counter : int = 0
+var _room_enemies : Array[EntityBase] = []
 
 # values to be set by generator
 var room_state : int = 0 # 0: unvisited, 1: visited, 2: cleared
@@ -57,6 +61,7 @@ var fow_texture: ImageTexture
 var _shuffled_used_cells : Array[Vector2i] = []
 
 func _ready() -> void:
+	randomize()
 	if not door_config:
 		door_config = [true, true, true, true]
 	_setup_doors_and_entrances()
@@ -94,11 +99,12 @@ func clear_room() -> void:
 	handle_clear_room_rewards()
 
 func handle_clear_room_rewards():
-	# spawn coins at the center of the room
-	var coin = coin_scene.instantiate()
-	coin.count = 10
-	coin.global_position = _get_room_center()
-	Main.control.get_child(3).call_deferred("add_child", coin)
+	# Spawn random number of coins at each enemy's position
+	for enemy in _room_enemies:
+		var coin_count = randi_range(reward_coins_min, reward_coins_max)
+		var coin = coin_scene.instantiate()
+		coin.count = coin_count
+		Main.spawn_node(coin, enemy.global_position, 3)
 
 func start_wave() -> void: # externally managed waves
 	var spawn_delay: float = 0.1
@@ -108,9 +114,9 @@ func start_wave() -> void: # externally managed waves
 	for i in range(enemy_count):
 		var random_index = randi() % enemy_scenes.size()
 		var enemy: EntityBase = enemy_scenes[random_index].instantiate()
-		enemy.global_position = _pick_random_spawn_point()
 		enemy.connect("signal_death", rsignal_spawned_enemy_died)
-		Main.control.get_child(3).call_deferred("add_child", enemy)
+		Main.spawn_node(enemy, _pick_random_spawn_point(), 3)
+		_room_enemies.append(enemy)
 		await get_tree().create_timer(spawn_delay).timeout
 
 func rsignal_spawned_enemy_died() -> void:

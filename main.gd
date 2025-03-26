@@ -26,9 +26,6 @@ signal signal_player_room_cleared()
 signal signal_r_control()
 signal signal_r_hud()
 
-func _ready() -> void:
-	coins = 0
-
 func _process(_delta: float) -> void:
 	_update_player_autoaim_target()
 	if Input.is_action_just_pressed("menu"):

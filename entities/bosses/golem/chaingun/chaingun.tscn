@@ -137,6 +137,7 @@ target_position = Vector2(40, 0)
 BULLET = ExtResource("6_kamok")
 
 [node name="FireComponent" parent="BasicLinear" index="0" instance=ExtResource("4_2wccf")]
+fire_rate = 12.0
 
 [node name="BasicShotgun" parent="." index="3" instance=ExtResource("5_2wccf")]
 target_position = Vector2(40, 0)

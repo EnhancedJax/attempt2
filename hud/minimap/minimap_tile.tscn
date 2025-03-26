@@ -7,12 +7,12 @@
 [ext_resource type="Script" uid="uid://cij3wb0xdpwi2" path="res://hud/minimap/icon_bank.gd" id="3_xvvys"]
 [ext_resource type="Texture2D" uid="uid://cp3p5ema8lj4m" path="res://hud/minimap/icons/icon_finish.png" id="4_erwkv"]
 [ext_resource type="Texture2D" uid="uid://6msmcfikwj27" path="res://hud/minimap/icons/icon_shop.png" id="6_5ackm"]
-[ext_resource type="Texture2D" uid="uid://d4jtc0wygmi7i" path="res://hud/minimap/icons/icon_smile.png" id="6_fckuc"]
+[ext_resource type="Texture2D" uid="uid://c44yxw7nab5u8" path="res://hud/minimap/icons/icon_chest.png" id="6_8g41g"]
 
 [sub_resource type="Resource" id="Resource_lp1jg"]
 script = ExtResource("3_xvvys")
 icon_beginning = ExtResource("3_8g41g")
-icon_loot = ExtResource("6_fckuc")
+icon_loot = ExtResource("6_8g41g")
 icon_boss = ExtResource("3_7bkb4")
 icon_finish = ExtResource("4_erwkv")
 icon_shop = ExtResource("6_5ackm")
