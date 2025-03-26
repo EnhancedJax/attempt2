@@ -777,6 +777,7 @@ position_smoothing_enabled = true
 position_smoothing_speed = 30.0
 script = ExtResource("8_p7rki")
 enemy_offset_factor = 0.3
+boss_focus_move_duration = 0.7
 
 [node name="PointLight2D" type="PointLight2D" parent="." index="13"]
 position = Vector2(0, 1)

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b4yuoa280bmr0" path="res://weapons/bullet_base.gd" id="1_7jcqy"]
 
-[node name="BulletBase" type="RigidBody2D"]
+[node name="BulletBase" type="RigidBody2D" groups=["bullet"]]
 collision_layer = 4
 script = ExtResource("1_7jcqy")
 

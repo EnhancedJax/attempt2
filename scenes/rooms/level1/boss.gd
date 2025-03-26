@@ -18,7 +18,7 @@ func start_wave():
 	get_tree().root.add_child(splash_scene)
 	splash_scene.play()
 	await splash_scene.signal_splash_finished
-	Main.spawn_node(boss, _get_room_center(), 3)
+	Main.spawn_node(boss, _get_room_center(), 1)
 
 func handle_clear_room_rewards():
 	var chest_scene = chest.instantiate()

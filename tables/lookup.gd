@@ -140,3 +140,6 @@ func get_room_list(room_type: int) -> Array[PackedScene]:
 		RoomType.E:
 			return _level_room_scenes_list.level1.E
 	return []
+
+func get_item_cost(rarity: int, level: int = 1):
+	return 15 * (rarity + 1) * 1.1 * level

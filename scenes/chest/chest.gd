@@ -6,7 +6,7 @@ var items
 var is_opened : bool = false
 const item_spacing : int = 32
   # pixels between items
-const floor_item = preload("res://scenes/floor_item/floor_item.tscn")
+const floor_item = preload("res://scenes/interactions/floor_item/floor_item.tscn")
 const coin_scene = preload("res://scenes/coin/coin_spawner.tscn")
 
 var interaction : Interaction

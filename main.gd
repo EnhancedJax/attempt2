@@ -10,7 +10,7 @@ var player_autoaim_target : Node2D = null
 var player_autoaim_previous_target : Node2D = null
 var interactions: Array[Interaction]
 var is_paused: bool = false
-const floor_item = preload("res://scenes/floor_item/floor_item.tscn")
+const floor_item = preload("res://scenes/interactions/floor_item/floor_item.tscn")
 const ENEMY_SWITCH_MINIMUM_DISTANCE = 64
 var player_room_at: RoomBase = null
 
@@ -64,21 +64,21 @@ func register_boss(boss: BossBase) -> void:
 	hud.register_boss(boss)
 
 func deregister_boss(boss: BossBase) -> void:
+	camera.focus_boss(boss)
 	hud.deregister_boss(boss)
+	var bullets = get_tree().get_nodes_in_group("bullet")
+	for b in bullets:
+		b.handle_hit()
 
 func register_interaction(i: Interaction):
 	print('Interaction register', i)
 	interactions.push_front(i)
-	interaction_label.set_text(i.label)
-	interaction_label.global_position = i.label_position
-	interaction_label.visible = true
+	interaction_label.display(i.label, i.label_position)
 	signal_interaction_changed.emit(i)
 
 func reregister_interaction(i: Interaction):
 	print('Interaction reregister', i)
-	interaction_label.set_text(i.label)
-	interaction_label.global_position = i.label_position
-	interaction_label.visible = true
+	interaction_label.remove()
 	signal_interaction_changed.emit(i)
 
 func deregister_interaction(i: Interaction):
