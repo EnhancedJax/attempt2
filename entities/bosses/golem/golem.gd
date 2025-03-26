@@ -18,7 +18,9 @@ func _process(delta: float) -> void:
 		else:
 			weapon_node.position.x = weapon_node_x
 
-	
+func do_die():
+	pass
+
 # func rsignal_hitbox_hit(attack: AttackBase):
 # 	super.rsignal_hitbox_hit(attack)
 

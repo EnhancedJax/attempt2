@@ -15,10 +15,10 @@ func start_wave():
 	MusicManager.play('bgm', 'boss', 1.0, true)
 	var boss: EntityBase = enemy_scenes[0].instantiate()
 	boss.connect("signal_death", rsignal_spawned_enemy_died)
-	Main.spawn_node(boss, _get_room_center(), 3)
 	get_tree().root.add_child(splash_scene)
 	splash_scene.play()
-	#splash_scene.signal_splash_finished.connect()
+	await splash_scene.signal_splash_finished
+	Main.spawn_node(boss, _get_room_center(), 3)
 
 func handle_clear_room_rewards():
 	var chest_scene = chest.instantiate()

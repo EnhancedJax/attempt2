@@ -24,7 +24,6 @@ var reload_timer: float = 0
 var is_reloading: bool = false
 
 var last_aiming_at : Vector2 = Vector2.ZERO
-var is_dead : bool = false
 var is_shield_active : bool = true
 
 signal signal_weapon_equipped()
@@ -203,10 +202,8 @@ func handle_shield_timeout():
 	Main.update_shield_ui(true)
 
 func do_die():
-	if !is_dead:
-		SoundManager.play('player', 'death')
-		is_dead = true
-		signal_player_death.emit()
+	SoundManager.play('player', 'death')
+	signal_player_death.emit()
 
 func pickup_weapon(weapon_id: int) -> int:
 	"""

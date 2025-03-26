@@ -1,9 +1,10 @@
-[gd_scene load_steps=23 format=3 uid="uid://5crhgeqe0yf4"]
+[gd_scene load_steps=24 format=3 uid="uid://5crhgeqe0yf4"]
 
 [ext_resource type="Script" uid="uid://des01au6sttgm" path="res://scenes/game.gd" id="1_i7woi"]
 [ext_resource type="PackedScene" uid="uid://o4gnxfkwntm" path="res://scenes/dungeon/tile_layer.tscn" id="2_7g524"]
 [ext_resource type="PackedScene" uid="uid://qgtqua65lnyp" path="res://entities/player/player.tscn" id="2_n6q6o"]
 [ext_resource type="PackedScene" uid="uid://728xqa5cdqim" path="res://scenes/misc/interaction_label.tscn" id="3_bfb72"]
+[ext_resource type="PackedScene" uid="uid://br20wgh8irmg5" path="res://scenes/rooms/level1/boss.tscn" id="3_liy57"]
 [ext_resource type="PackedScene" uid="uid://vo0xrja3uy5k" path="res://hud/game_hud.tscn" id="4_ujnmn"]
 [ext_resource type="Script" uid="uid://jciugafs5r0s" path="res://addons/resonate/music_manager/music_bank.gd" id="7_mw25s"]
 [ext_resource type="Script" uid="uid://lcw4smjpncd" path="res://addons/resonate/music_manager/music_track_resource.gd" id="8_tcjrq"]
@@ -84,6 +85,8 @@ script = ExtResource("1_i7woi")
 hud = NodePath("Viewport/HUD")
 
 [node name="TileLayer" parent="." instance=ExtResource("2_7g524")]
+
+[node name="RoomBase" parent="TileLayer" instance=ExtResource("3_liy57")]
 
 [node name="GroundLayer" type="Node2D" parent="."]
 

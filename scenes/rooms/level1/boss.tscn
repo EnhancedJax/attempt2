@@ -116,3 +116,30 @@ position = Vector2(425, 324)
 
 [node name="Box32" parent="." index="34" instance=ExtResource("4_d1njm")]
 position = Vector2(441, 324)
+
+[node name="Box33" parent="." index="35" instance=ExtResource("4_d1njm")]
+position = Vector2(504, 57)
+
+[node name="Box34" parent="." index="36" instance=ExtResource("4_d1njm")]
+position = Vector2(520, 57)
+
+[node name="Box35" parent="." index="37" instance=ExtResource("4_d1njm")]
+position = Vector2(536, 57)
+
+[node name="Box37" parent="." index="38" instance=ExtResource("4_d1njm")]
+position = Vector2(504, 72)
+
+[node name="Box38" parent="." index="39" instance=ExtResource("4_d1njm")]
+position = Vector2(520, 72)
+
+[node name="Box39" parent="." index="40" instance=ExtResource("4_d1njm")]
+position = Vector2(536, 72)
+
+[node name="Box41" parent="." index="41" instance=ExtResource("4_d1njm")]
+position = Vector2(504, 87)
+
+[node name="Box42" parent="." index="42" instance=ExtResource("4_d1njm")]
+position = Vector2(520, 87)
+
+[node name="Box43" parent="." index="43" instance=ExtResource("4_d1njm")]
+position = Vector2(536, 87)

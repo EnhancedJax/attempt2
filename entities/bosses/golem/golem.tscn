@@ -305,44 +305,8 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_m47ck")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_m47ck")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wsots")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_db4c4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fe1bp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_l2ufg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_b5rvy")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_nn5ld")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_d2aik")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_iw8wl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6luae")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_oivxp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pkhrj")
 }],
-"loop": true,
+"loop": false,
 "name": &"death",
 "speed": 10.0
 }, {
@@ -702,7 +666,7 @@ texture = SubResource("GradientTexture2D_6ms3o")
 texture_filter = 1
 material = SubResource("ShaderMaterial_4asvw")
 sprite_frames = SubResource("SpriteFrames_mhnmq")
-animation = &"shoot"
+animation = &"death"
 metadata/_aseprite_wizard_interface_config_ = {
 "layer_section": true,
 "pending_changes": {}
@@ -718,7 +682,7 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://entities/bosses/golem/golem.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "b72080d4d099e20172d448f18578c7de"
+metadata/_aseprite_wizard_source_file_hash_ = "5903bea75dcae0cac669f07cd1a91f86"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D" index="0"]
 libraries = {
@@ -731,8 +695,8 @@ position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_7sqln")
 
 [node name="HealthComponent" parent="." index="5"]
-MAX_HEALTH = 150
-INITIAL_HEALTH = 150
+MAX_HEALTH = 1
+INITIAL_HEALTH = 1
 
 [node name="Shape" parent="HurtboxComponent" index="0"]
 shape = SubResource("CapsuleShape2D_4asvw")
@@ -752,8 +716,9 @@ IDEAL_DISTANCE = 32.0
 DISTANCE_TOLERANCE = 16.0
 STRAFE_SPEED = 50.0
 
-[node name="Death" type="Node" parent="StateMachine" index="1"]
+[node name="Death" type="Node" parent="StateMachine" index="1" node_paths=PackedStringArray("animated_sprite")]
 script = ExtResource("6_idp7x")
+animated_sprite = NodePath("../../AnimatedSprite2D")
 
 [node name="Melee" type="Node" parent="StateMachine" index="2" node_paths=PackedStringArray("animated_sprite")]
 script = ExtResource("7_6ms3o")

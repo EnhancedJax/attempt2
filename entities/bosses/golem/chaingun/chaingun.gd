@@ -1,7 +1,7 @@
 extends WeaponBase
 
 @export var ATTACK : AttackBase
-@export var spread : float = 30
+@export var spread : float = 40
 @export var attack_1_firing_handler : FiringHandlerBase
 @export var attack_1_bullet_spawner : RayCast2D
 @export var attack_2_firing_handler : FiringHandlerBase

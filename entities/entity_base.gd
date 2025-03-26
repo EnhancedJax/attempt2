@@ -20,6 +20,7 @@ var weapon_node : Node2D
 
 const FRICTION: float = 40000.0
 var extra_velocity: Vector2 = Vector2.ZERO
+var is_dead : bool = false
 
 func _ready() -> void:
 	animatedSprite2D.play("default")
@@ -28,9 +29,10 @@ func _ready() -> void:
 	_hurtbox.connect("signal_hit", rsignal_hitbox_hit)
 
 func _process(_delta: float) -> void:
-	is_walking_left = velocity.x < 0
-	is_walking_backwards = velocity.x > 0 if is_walking_left else velocity.x < 0
-	animatedSprite2D.flip_h = get_aim_position().x < global_position.x
+	if not is_dead:
+		is_walking_left = velocity.x < 0
+		is_walking_backwards = velocity.x > 0 if is_walking_left else velocity.x < 0
+		animatedSprite2D.flip_h = get_aim_position().x < global_position.x
 
 func physics_update(delta: float) -> void:
 	var extra_velocity_move_toward = Vector2.ZERO
@@ -63,13 +65,15 @@ func rsignal_health_deducted(health: int, max_health: int):
 	animationPlayer.play("take_attack")
 
 func rsignal_health_depleted():
-	do_die()
+	if not is_dead:
+		is_dead = true
+		signal_death.emit()
+		do_die()
 
 func rsignal_weapon_did_use(attack: AttackBase):
 	pass
 
 func do_die():
-	signal_death.emit()
 	queue_free()
 
 func disable():
