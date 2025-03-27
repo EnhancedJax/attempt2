@@ -18,10 +18,10 @@ func start_wave():
 	get_tree().root.add_child(splash_scene)
 	splash_scene.play()
 	await splash_scene.signal_splash_finished
-	Main.spawn_node(boss, _get_room_center(), 1)
+	Main.spawn_node(boss, _get_room_center(), 3)
 
 func handle_clear_room_rewards():
 	var chest_scene = chest.instantiate()
 	chest_scene.spawned_in_active_room = true
-	Main.spawn_node(chest_scene, _get_room_center() + Vector2(0, -64), 1)
+	Main.spawn_node(chest_scene, _get_room_center() + Vector2(0, -64), 3)
 	MusicManager.play('bgm', 'bgm', 1.0, true)

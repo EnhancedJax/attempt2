@@ -137,9 +137,10 @@ func rsignal_hitbox_hit(attack: AttackBase):
 	else:
 		shield_timer.start()
 		_health.take_damage(attack.damage)
-		# Start brief invincibility
-		is_invincible = true
-		invincibility_timer.start()
+
+	# Start brief invincibility
+	is_invincible = true
+	invincibility_timer.start()
 	
 
 func rsignal_health_deducted(health: int, max_health: int):
