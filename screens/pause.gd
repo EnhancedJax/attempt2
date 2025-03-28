@@ -9,4 +9,5 @@ func _on_settings_button_pressed() -> void:
 
 
 func _on_quit_button_pressed() -> void:
-	Router.go_root()
+	Router.go_back()
+	Input.action_press('dev_reload')

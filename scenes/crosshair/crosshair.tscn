@@ -99,7 +99,6 @@ _data = {
 }
 
 [node name="Crosshair" type="Node2D"]
-visible = false
 z_index = 10
 script = ExtResource("1_2ntjo")
 

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="settingAudioMute" load_steps=2 format=3 uid="uid://bs644qmg5uk8v"]
+
+[ext_resource type="Script" uid="uid://ygqsn1ic74oo" path="res://addons/ggs/templates/audio/setting_audio_mute.gd" id="1_3r4nl"]
+
+[resource]
+resource_name = "mute"
+script = ExtResource("1_3r4nl")
+audio_bus = "None"
+read_only_properties = PackedStringArray("value_type", "value_hint", "value_hint_string")
+default = true
+section = "audio"
+key = "mute"
+value_type = 1
+value_hint = 0
+value_hint_string = ""
+metadata/_custom_type_script = "uid://ygqsn1ic74oo"

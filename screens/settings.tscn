@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cd50vx7w0su6n"]
+[gd_scene load_steps=5 format=3 uid="uid://cd50vx7w0su6n"]
 
 [ext_resource type="Script" uid="uid://buw3y460kg8ir" path="res://screens/settings.gd" id="1_5em86"]
+[ext_resource type="PackedScene" uid="uid://cha8xesfthpfk" path="res://addons/ggs/components/switch/component_switch.tscn" id="2_e8gum"]
+[ext_resource type="Resource" uid="uid://bd722ncmjpdqp" path="res://game_settings/self_aim.tres" id="3_qyhqh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5em86"]
 bg_color = Color(0, 0, 0, 1)
@@ -34,9 +36,10 @@ text = "Go back
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CheckButton" type="CheckButton" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Switch" parent="PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_e8gum")]
 layout_mode = 2
-text = "Is On"
+setting = ExtResource("3_qyhqh")
+apply_on_changed = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2

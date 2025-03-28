@@ -12,6 +12,8 @@ class_name HUD extends Control
 @export var action_texture : TextureRect
 @export var boss_bar : Control
 @export var boss_bar_progress : TextureProgressBar
+@export var action_button : PanelContainer
+@export var aim_stick : VirtualJoystick
 const heart_full_texture = preload('res://hud/heart_full_color.tres')
 const heart_half_texture = preload('res://hud/heart_half_color.tres')
 const heart_empty_texture = preload('res://hud/heart_empty_color.tres')
@@ -21,6 +23,7 @@ const heart_empty_shield_texture = preload('res://hud/heart_empty_shield.tres')
 var action_shoot_texture = preload("res://hud/shoot.png")
 var action_interact_texture = preload("res://hud/interact.png")
 const title = preload("res://hud/title/title.tscn")
+var self_aim_setting : ggsSetting = preload("res://game_settings/self_aim.tres")
 
 var current_max: int = 0  # store previous max health
 var shield_active: bool = true  # track shield state
@@ -28,11 +31,20 @@ var shield_active: bool = true  # track shield state
 var _cache_player_max_health: int = 0
 var _cache_player_health: int = 0
 
+var _is_using_self_aim : bool = false
+var _has_interactions : bool = false
+
 func _ready() -> void:
 	Main.register_hud(self)
 	Main.signal_interaction_changed.connect(rsignal_interaction_changed)
 	Main.signal_player_room_cleared.connect(rsignal_player_room_cleared)
 	Main.signal_player_room_changed.connect(rsignal_player_room_changed)
+	_update_aim_stick()
+	Main.signal_reactive_setting_updated.connect(rsignal_reactive_setting_updated)
+
+func rsignal_reactive_setting_updated(setting: ggsSetting, value: Variant):
+	if setting == self_aim_setting:
+		_update_aim_stick()
 
 func _process(_delta: float) -> void:
 	fps_label.text = "FPS: %d" % Engine.get_frames_per_second()
@@ -40,8 +52,20 @@ func _process(_delta: float) -> void:
 func rsignal_interaction_changed(i: Interaction):
 	if i == null:
 		action_texture.texture = action_shoot_texture
+		_has_interactions = false
 	else:
 		action_texture.texture = action_interact_texture
+		_has_interactions = true
+	_update_aim_stick()
+		
+
+func _update_aim_stick():
+	if _has_interactions:
+		action_button.visible = true
+	else:
+		action_button.visible = not Main.is_using_self_aim
+		aim_stick.visible = Main.is_using_self_aim
+
 
 func register_boss(boss: BossBase):
 	print('Registrating boss:', boss)
@@ -61,7 +85,7 @@ func rsignal_boss_health_changed(value:int,max:int):
 
 func rsignal_boss_health_depleted():
 	pass
-
+	
 func update_health(value: int = 1, max: int = 1):
 	if _cache_player_health and _cache_player_health > value:
 		$AnimationPlayer.play("hit")

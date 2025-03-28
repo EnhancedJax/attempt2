@@ -32,6 +32,7 @@ Lookup="*res://tables/lookup.gd"
 SoundManager="*res://addons/resonate/sound_manager/sound_manager.gd"
 MusicManager="*res://addons/resonate/music_manager/music_manager.gd"
 Router="*res://router.gd"
+GGS="*res://addons/ggs/plugin/singleton/ggs.tscn"
 
 [debug]
 
@@ -48,7 +49,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/resonate/plugin.cfg")
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/ggs/plugin.cfg", "res://addons/resonate/plugin.cfg")
 
 [file_customization]
 
@@ -59,10 +60,12 @@ folder_colors={
 "res://entities/": "green",
 "res://entities/bosses/": "red",
 "res://entities/enemies/": "red",
+"res://game_settings/": "pink",
 "res://hud/": "orange",
 "res://hud/minimap/icons/": "gray",
 "res://pending_assets/": "gray",
 "res://scenes/": "yellow",
+"res://screens/": "pink",
 "res://shared_assets/music/": "gray",
 "res://tables/": "blue",
 "res://weapons/": "yellow",
@@ -103,8 +106,7 @@ right={
 }
 fire={
 "deadzone": 0.5,
-"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
-, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"location":0,"echo":false,"script":null)
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"location":0,"echo":false,"script":null)
 ]
 }
 menu={
@@ -162,7 +164,6 @@ aim_right={
 [input_devices]
 
 pointing/emulate_touch_from_mouse=true
-pointing/emulate_mouse_from_touch=false
 
 [layer_names]
 

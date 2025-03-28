@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ggsSetting" load_steps=2 format=3 uid="uid://bd722ncmjpdqp"]
+
+[ext_resource type="Script" uid="uid://csg56lfl7n1o" path="res://addons/ggs/plugin/classes/ggs_setting.gd" id="1_whbel"]
+
+[resource]
+resource_name = "self_aim"
+script = ExtResource("1_whbel")
+read_only_properties = PackedStringArray()
+default = true
+section = "gameplay"
+key = "self_aim"
+value_type = 1
+value_hint = 0
+value_hint_string = ""
+metadata/_custom_type_script = "uid://csg56lfl7n1o"

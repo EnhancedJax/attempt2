@@ -19,11 +19,6 @@ func _ready() -> void:
 func on_music_manager_loaded() -> void:
 	MusicManager.play("bgm", "bgm", 5.0, true)
 
-func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("dev_reload") and OS.is_debug_build():
-		Main.coins = 0
-		get_tree().reload_current_scene()
-
 func rsignal_player_entered(room_index: int, scene: RoomBase) -> void:
 	Main.hud.update_minimap(room_index)
 	Main.handle_room_entered(scene)

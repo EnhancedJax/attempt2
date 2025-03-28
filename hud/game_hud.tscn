@@ -138,7 +138,7 @@ bg_color = Color(1, 1, 1, 0.254902)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ohwp"]
 bg_color = Color(1, 1, 1, 1)
 
-[node name="HUD" type="Control" node_paths=PackedStringArray("minimap_generator", "heart_container", "heart", "weapon_texture", "coin_label", "ammo_indicator", "ammo_indicator_bar", "fps_label", "action_texture", "boss_bar", "boss_bar_progress")]
+[node name="HUD" type="Control" node_paths=PackedStringArray("minimap_generator", "heart_container", "heart", "weapon_texture", "coin_label", "ammo_indicator", "ammo_indicator_bar", "fps_label", "action_texture", "boss_bar", "boss_bar_progress", "action_button", "aim_stick")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -157,6 +157,8 @@ fps_label = NodePath("FPSLabel")
 action_texture = NodePath("ControlGroup/Action/MarginContainer/ActionTexture")
 boss_bar = NodePath("BossBar")
 boss_bar_progress = NodePath("BossBar/TextureProgressBar")
+action_button = NodePath("ControlGroup/Action")
+aim_stick = NodePath("Aim Joystick")
 
 [node name="HealthWarn" type="TextureRect" parent="."]
 visible = false
@@ -311,6 +313,22 @@ action_down = "down"
 [node name="Base" parent="Virtual Joystick" index="0"]
 scale = Vector2(0.3, 0.3)
 
+[node name="Aim Joystick" parent="." instance=ExtResource("8_8ohwp")]
+layout_mode = 1
+offset_left = 252.98
+offset_top = -103.0
+offset_right = 322.98
+offset_bottom = -34.0
+deadzone_size = 0.0
+clampzone_size = 16.0
+action_left = "aim_left"
+action_right = "aim_right"
+action_up = "aim_up"
+action_down = "aim_down"
+
+[node name="Base" parent="Aim Joystick" index="0"]
+scale = Vector2(0.3, 0.3)
+
 [node name="ControlGroup" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 3
@@ -324,6 +342,7 @@ offset_right = -9.73001
 offset_bottom = -14.94
 grow_horizontal = 0
 grow_vertical = 0
+mouse_filter = 2
 
 [node name="Roll" parent="ControlGroup" instance=ExtResource("9_iqufn")]
 layout_mode = 1
@@ -482,3 +501,4 @@ texture_under = ExtResource("12_icrny")
 texture_progress = ExtResource("13_d8j6h")
 
 [editable path="Virtual Joystick"]
+[editable path="Aim Joystick"]

@@ -23,7 +23,8 @@ var reload_duration: float = 0
 var reload_timer: float = 0
 var is_reloading: bool = false
 
-var last_aiming_at : Vector2 = Vector2.ZERO
+var _last_aiming_at : Vector2 = Vector2.ZERO
+var _last_aiming_direction : Vector2 = Vector2.ZERO
 var is_shield_active : bool = true
 
 signal signal_weapon_equipped()
@@ -50,6 +51,8 @@ func _process(delta: float) -> void:
 		_handle_weapon_update(delta)
 	
 	_handle_fire_input()
+	if Main.is_using_self_aim:
+		_handle_self_aim_fire_input()
 	_handle_weapon_switch()
 	_handle_reload_input()
 
@@ -84,6 +87,11 @@ func _handle_fire_input() -> void:
 	
 	is_holding_down_fire = Input.is_action_pressed("fire") and _can_hold_down_fire
 
+func _handle_self_aim_fire_input() -> void:
+	var aim_vec = Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
+	if aim_vec != Vector2.ZERO:
+		is_holding_down_fire = _can_hold_down_fire
+
 func _handle_weapon_switch() -> void:
 	if Input.is_action_just_pressed("switch_weapon") and weapons.size() > 1:
 		var next_weapon = (equipped_weapon_index + 1) % weapons.size()
@@ -95,19 +103,26 @@ func _handle_reload_input() -> void:
 		weapon_node.call_reload()
 
 func get_aim_position() -> Vector2:
+	# Self-aim mode: aim based on aim_* actions, 64px from the player.
+	if Main.is_using_self_aim:
+		var aim_vec = Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
+		if aim_vec != Vector2.ZERO:
+			_last_aiming_direction = aim_vec.normalized() * 64
+		return self.global_position + _last_aiming_direction
+	
 	if Main.player_autoaim_target:
-		last_aiming_at = Main.player_autoaim_target.global_position
+		_last_aiming_at = Main.player_autoaim_target.global_position
 	else:
 		var input_vector = Input.get_vector("left", "right", "up", "down")
 		if input_vector != Vector2.ZERO:
-			last_aiming_at = input_vector.normalized() * 1000 + self.global_position
+			_last_aiming_at = input_vector.normalized() * 1000 + self.global_position
 	
 	if is_reloading:
 		# During reload, project last aiming at to horizontal line
-		var direction = (last_aiming_at - self.global_position)
+		var direction = (_last_aiming_at - self.global_position)
 		return self.global_position + Vector2(direction.x, 0).normalized() * 1000
 	
-	return last_aiming_at
+	return _last_aiming_at
 
 func rsignal_weapon_did_use(attack: AttackBase):
 	_update_ui_ammo()
