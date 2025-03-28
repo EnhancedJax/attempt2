@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ggsSetting" load_steps=2 format=3 uid="uid://b5vgcrbot7gm"]
+
+[ext_resource type="Script" uid="uid://csg56lfl7n1o" path="res://addons/ggs/plugin/classes/ggs_setting.gd" id="1_q1mr8"]
+
+[resource]
+resource_name = "display_margin"
+script = ExtResource("1_q1mr8")
+read_only_properties = PackedStringArray()
+default = 12
+section = "gameplay"
+key = "display_margin"
+value_type = 2
+value_hint = 0
+value_hint_string = ""
+metadata/_custom_type_script = "uid://csg56lfl7n1o"

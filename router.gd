@@ -6,16 +6,32 @@ var scene_stack: Array[Node] = []
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("dev_reload"):
-		# remove current scene and reload the current route
-		print("[Router] Reloading current route")
-		if scene_stack.size() > 0:
-			var last_scene = scene_stack.pop_back()
-			last_scene.queue_free()
-		if history.size() > 0:
-			var current_route = history[history.size() - 1]
-			var new_scene = current_route.scene.instantiate()
+		# Find and reload the "game" route
+		print("[Router] Attempting to reload 'game' route")
+		var game_index = -1
+		for i in range(history.size()):
+			if history[i].name == "game":
+				game_index = i
+				break
+		
+		if game_index != -1:
+			var game_route = history[game_index]
+			# Remove all scenes from the game route up
+			for i in range(game_index, scene_stack.size()):
+				var scene = scene_stack[i]
+				if scene.is_inside_tree():
+					scene.queue_free()
+			
+			# Update stacks
+			scene_stack.resize(game_index)
+			history.resize(game_index)
+			
+			# Recreate the game scene
+			var new_scene = game_route.scene.instantiate()
 			scene_stack.append(new_scene)
+			history.append(game_route)
 			add_child(new_scene)
+			print("[Router] Reloaded 'game' route")
 
 func navigate(route_name: String) -> bool:
 	print("[Router] Attempting to navigate to route: ", route_name)

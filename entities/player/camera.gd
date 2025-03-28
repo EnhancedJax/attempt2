@@ -2,9 +2,11 @@ class_name PlayerCamera extends Camera2D
 
 @export var shakeFade: float = 5.0
 @export var enemy_lerp_speed: float = 3.0  # Speed of enemy position interpolation
+@export var self_aim_lerp_speed: float = 12.0  # Speed of self-aim position interpolation
 @export var enemy_offset_factor = 0.1  # 3/10 of the distance
 @export var boss_focus_move_duration = 1.0  # Duration of moving the camera to the boss (back and forth)
 @export var boss_focus_duration = 1.5  # Duration of boss focus
+var self_aim_setting : ggsSetting = preload("res://game_settings/self_aim.tres")
 
 var focusing_boss : BossBase = null
 var rng = RandomNumberGenerator.new()
@@ -27,7 +29,10 @@ func _process(delta: float) -> void:
 	if focusing_boss:
 		_process_focus_boss(delta)
 	else:
-		_process_shift_enemy(delta)
+		if GGS.get_value_state(self_aim_setting):
+			_process_shift_aiming(delta)
+		else:
+			_process_shift_enemy(delta)
 	
 	_process_shake(delta)
 
@@ -67,6 +72,10 @@ func _process_shift_enemy(delta: float) -> void:
 	
 	current_enemy_offset = current_enemy_offset.lerp(target_offset, enemy_lerp_speed * delta)
 	offset = current_enemy_offset
+
+func _process_shift_aiming(delta: float) -> void:
+	var target_offset = (Main.player.get_aim_position() - global_position)  / 2
+	offset = offset.lerp(target_offset, self_aim_lerp_speed * delta)
 
 func randomOffset() -> Vector2:
 	return Vector2(rng.randf_range(-shake_strength, shake_strength), rng.randf_range(-shake_strength, shake_strength))

@@ -1,14 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://ytqeptloomhs"]
+[gd_scene load_steps=9 format=3 uid="uid://ytqeptloomhs"]
 
 [ext_resource type="Script" uid="uid://1xowtkcmtn77" path="res://scenes/crosshair/crosshair.gd" id="1_2ntjo"]
 [ext_resource type="Texture2D" uid="uid://bxuurgpxgjjq4" path="res://scenes/crosshair/crosshair_fragment.png" id="2_n4lyx"]
+[ext_resource type="Texture2D" uid="uid://bnvkf6r0bf3ko" path="res://scenes/crosshair/crosshair_self.png" id="3_30klo"]
 
 [sub_resource type="Animation" id="Animation_30klo"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Frag1:scale")
+tracks/0/path = NodePath("Sprite2D:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -20,7 +21,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Frag1:self_modulate")
+tracks/1/path = NodePath("Sprite2D:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -36,7 +37,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Frag1:rotation")
+tracks/0/path = NodePath("Sprite2D:rotation")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -52,7 +53,7 @@ length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Frag1:scale")
+tracks/0/path = NodePath("Sprite2D:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -64,7 +65,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Frag1:self_modulate")
+tracks/1/path = NodePath("Sprite2D:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -80,7 +81,7 @@ length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Frag1:scale")
+tracks/0/path = NodePath("Sprite2D:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -98,11 +99,14 @@ _data = {
 &"hit": SubResource("Animation_kuaaa")
 }
 
-[node name="Crosshair" type="Node2D"]
+[node name="Crosshair" type="Node2D" node_paths=PackedStringArray("sprite")]
 z_index = 10
 script = ExtResource("1_2ntjo")
+sprite = NodePath("Sprite2D")
+crosshair_texture = ExtResource("2_n4lyx")
+crosshair_texture2 = ExtResource("3_30klo")
 
-[node name="Frag1" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(4, 4, 4, 1)
 rotation = 6.28319
 texture = ExtResource("2_n4lyx")

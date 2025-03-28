@@ -17,7 +17,7 @@ func _ready() -> void:
 	ATTACK.recoil = recoil
 	ATTACK.knockback = knockback
 	bullet_spawner.register(ATTACK)
-	register_firing_handler($SemiAutoComponent)
+	register_firing_handler($FullAutoComponent)
 
 func handle_attack() -> void:
 	mag_count -= 1

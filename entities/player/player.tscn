@@ -776,6 +776,7 @@ process_callback = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 30.0
 script = ExtResource("8_p7rki")
+self_aim_lerp_speed = 6.0
 enemy_offset_factor = 0.3
 boss_focus_move_duration = 0.7
 

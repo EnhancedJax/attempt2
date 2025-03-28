@@ -26,6 +26,11 @@ height = 180
 fill = 2
 fill_from = Vector2(0.5, 0.5)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2s5eb"]
+shader = ExtResource("3_8ohwp")
+shader_parameter/enabled = false
+shader_parameter/tint = Color(1, 1, 1, 1)
+
 [sub_resource type="Gradient" id="Gradient_flvoc"]
 offsets = PackedFloat32Array(0.438776, 0.705782)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -38,12 +43,18 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.046398, 0)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rfnla"]
+bg_color = Color(1, 1, 1, 0.254902)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ohwp"]
+bg_color = Color(1, 1, 1, 1)
+
 [sub_resource type="Animation" id="Animation_i8oqv"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("HeartConainer:position")
+tracks/0/path = NodePath("DisplayMargin/HeartPositioner/HeartConainer:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -55,7 +66,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("HeartConainer:material:shader_parameter/enabled")
+tracks/1/path = NodePath("DisplayMargin/HeartPositioner/HeartConainer:material:shader_parameter/enabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -67,7 +78,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Minimap:modulate")
+tracks/2/path = NodePath("DisplayMargin/MinimapPositioner/Minimap:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -83,7 +94,7 @@ length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("HeartConainer:position")
+tracks/0/path = NodePath("DisplayMargin/HeartPositioner/HeartConainer:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -95,7 +106,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("HeartConainer:material:shader_parameter/enabled")
+tracks/1/path = NodePath("DisplayMargin/HeartPositioner/HeartConainer:material:shader_parameter/enabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -110,7 +121,7 @@ resource_name = "room_enter"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Minimap:modulate")
+tracks/0/path = NodePath("DisplayMargin/MinimapPositioner/Minimap:modulate")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -127,18 +138,7 @@ _data = {
 &"room_enter": SubResource("Animation_yfofs")
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2s5eb"]
-shader = ExtResource("3_8ohwp")
-shader_parameter/enabled = false
-shader_parameter/tint = Color(1, 1, 1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rfnla"]
-bg_color = Color(1, 1, 1, 0.254902)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ohwp"]
-bg_color = Color(1, 1, 1, 1)
-
-[node name="HUD" type="Control" node_paths=PackedStringArray("minimap_generator", "heart_container", "heart", "weapon_texture", "coin_label", "ammo_indicator", "ammo_indicator_bar", "fps_label", "action_texture", "boss_bar", "boss_bar_progress", "action_button", "aim_stick")]
+[node name="HUD" type="Control" node_paths=PackedStringArray("minimap_generator", "heart_container", "heart", "weapon_texture", "coin_label", "ammo_indicator", "ammo_indicator_bar", "fps_label", "action_texture", "boss_bar", "boss_bar_progress", "action_button", "aim_stick", "display_margin", "control_margin")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -146,19 +146,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_msi3a")
-minimap_generator = NodePath("Minimap/Clipper/MinimapGenerator")
-heart_container = NodePath("HeartConainer")
-heart = NodePath("HeartConainer/Heart")
-weapon_texture = NodePath("ControlGroup/Swap/MarginContainer/WeaponStaticSprite")
+minimap_generator = NodePath("DisplayMargin/MinimapPositioner/Minimap/Clipper/MinimapGenerator")
+heart_container = NodePath("DisplayMargin/HeartPositioner/HeartConainer")
+heart = NodePath("DisplayMargin/HeartPositioner/HeartConainer/Heart")
+weapon_texture = NodePath("ControlMargin/ControlGroup/Swap/MarginContainer/WeaponStaticSprite")
 coin_label = NodePath("CoinLabel")
-ammo_indicator = NodePath("AmmoIndicator")
-ammo_indicator_bar = NodePath("AmmoIndicator/ProgressBar")
+ammo_indicator = NodePath("ControlMargin/AmmoIndicator")
+ammo_indicator_bar = NodePath("ControlMargin/AmmoIndicator/ProgressBar")
 fps_label = NodePath("FPSLabel")
-action_texture = NodePath("ControlGroup/Action/MarginContainer/ActionTexture")
+action_texture = NodePath("ControlMargin/ControlGroup/Action/MarginContainer/ActionTexture")
 boss_bar = NodePath("BossBar")
 boss_bar_progress = NodePath("BossBar/TextureProgressBar")
-action_button = NodePath("ControlGroup/Action")
-aim_stick = NodePath("Aim Joystick")
+action_button = NodePath("ControlMargin/ControlGroup/Action")
+aim_stick = NodePath("ControlMargin/RightJoystickPositioner/Aim Joystick")
+display_margin = NodePath("DisplayMargin")
+control_margin = NodePath("ControlMargin")
+stick_size = Vector2(70, 70)
 
 [node name="HealthWarn" type="TextureRect" parent="."]
 visible = false
@@ -170,60 +173,34 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_8ohwp")
 
-[node name="Minimap" type="Control" parent="."]
+[node name="DisplayMargin" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
+anchors_preset = 15
 anchor_right = 1.0
-offset_left = -80.0
-offset_top = 5.0
-offset_right = -5.0
-offset_bottom = 80.0
-grow_horizontal = 0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Clipper" type="Sprite2D" parent="Minimap"]
-clip_children = 1
-texture = SubResource("GradientTexture2D_wgepp")
-centered = false
+[node name="HeartPositioner" type="Control" parent="DisplayMargin"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
-[node name="MinimapGenerator" type="Control" parent="Minimap/Clipper"]
-layout_mode = 3
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -109.0
-offset_top = 1.0
-offset_right = -34.0
-offset_bottom = 76.0
-grow_horizontal = 0
-script = ExtResource("2_5l0xr")
-
-[node name="Positioner" type="Node2D" parent="Minimap/Clipper/MinimapGenerator"]
-clip_children = 1
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_yfofs")
-}
-autoplay = "RESET"
-
-[node name="HeartConainer" type="HBoxContainer" parent="."]
+[node name="HeartConainer" type="HBoxContainer" parent="DisplayMargin/HeartPositioner"]
 material = SubResource("ShaderMaterial_2s5eb")
 layout_mode = 0
-offset_left = 10.0
-offset_top = 8.0
-offset_right = 138.0
-offset_bottom = 136.0
+offset_right = 128.0
+offset_bottom = 128.0
 scale = Vector2(0.25, 0.25)
 theme_override_constants/separation = 8
 
-[node name="Heart" type="Control" parent="HeartConainer"]
+[node name="Heart" type="Control" parent="DisplayMargin/HeartPositioner/HeartConainer"]
 use_parent_material = true
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 metadata/_edit_lock_ = true
 
-[node name="TextureRect" type="TextureRect" parent="HeartConainer/Heart"]
+[node name="TextureRect" type="TextureRect" parent="DisplayMargin/HeartPositioner/HeartConainer/Heart"]
 use_parent_material = true
 layout_mode = 1
 anchors_preset = 8
@@ -239,6 +216,295 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_4w0yt")
 metadata/_edit_lock_ = true
+
+[node name="MinimapPositioner" type="Control" parent="DisplayMargin"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="Minimap" type="Control" parent="DisplayMargin/MinimapPositioner"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -104.02
+offset_right = -29.02
+offset_bottom = 75.0
+grow_horizontal = 0
+
+[node name="Clipper" type="Sprite2D" parent="DisplayMargin/MinimapPositioner/Minimap"]
+clip_children = 1
+texture = SubResource("GradientTexture2D_wgepp")
+centered = false
+
+[node name="MinimapGenerator" type="Control" parent="DisplayMargin/MinimapPositioner/Minimap/Clipper"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -75.0
+offset_bottom = 75.0
+grow_horizontal = 0
+script = ExtResource("2_5l0xr")
+
+[node name="Positioner" type="Node2D" parent="DisplayMargin/MinimapPositioner/Minimap/Clipper/MinimapGenerator"]
+clip_children = 1
+
+[node name="PausePositioner" type="Control" parent="DisplayMargin"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="Pause" parent="DisplayMargin/PausePositioner" instance=ExtResource("9_iqufn")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -24.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 24.0
+grow_horizontal = 0
+grow_vertical = 1
+action = "menu"
+
+[node name="MarginContainer" type="MarginContainer" parent="DisplayMargin/PausePositioner/Pause"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="TextureRect2" type="TextureRect" parent="DisplayMargin/PausePositioner/Pause/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("11_yfofs")
+
+[node name="ControlMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ControlGroup" type="Control" parent="ControlMargin"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+mouse_filter = 2
+
+[node name="Roll" parent="ControlMargin/ControlGroup" instance=ExtResource("9_iqufn")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -114.0
+offset_top = -45.0
+offset_right = -80.29
+offset_bottom = -13.0
+grow_horizontal = 0
+grow_vertical = 0
+action = "roll"
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlMargin/ControlGroup/Roll"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+metadata/_edit_lock_ = true
+
+[node name="TextureRect2" type="TextureRect" parent="ControlMargin/ControlGroup/Roll/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("11_icrny")
+metadata/_edit_lock_ = true
+
+[node name="Action" parent="ControlMargin/ControlGroup" instance=ExtResource("9_iqufn")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0
+action = "fire"
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlMargin/ControlGroup/Action"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+metadata/_edit_lock_ = true
+
+[node name="ActionTexture" type="TextureRect" parent="ControlMargin/ControlGroup/Action/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("8_yfofs")
+
+[node name="Swap" parent="ControlMargin/ControlGroup" instance=ExtResource("9_iqufn")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -52.0
+offset_top = -122.0
+offset_right = -4.0
+offset_bottom = -74.0
+grow_horizontal = 0
+grow_vertical = 0
+action = "switch_weapon"
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlMargin/ControlGroup/Swap"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+metadata/_edit_lock_ = true
+
+[node name="WeaponStaticSprite" type="TextureRect" parent="ControlMargin/ControlGroup/Swap/MarginContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="Reload" parent="ControlMargin/ControlGroup" instance=ExtResource("9_iqufn")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -90.0
+offset_top = -92.0
+offset_right = -58.0
+offset_bottom = -60.0
+grow_horizontal = 0
+grow_vertical = 0
+action = "reload"
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlMargin/ControlGroup/Reload"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+metadata/_edit_lock_ = true
+
+[node name="TextureRect2" type="TextureRect" parent="ControlMargin/ControlGroup/Reload/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("10_2s5eb")
+metadata/_edit_lock_ = true
+
+[node name="AmmoIndicator" type="Label" parent="ControlMargin"]
+clip_children = 1
+z_index = 1000
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 8
+text = "/////////////"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="ControlMargin/AmmoIndicator"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -122.0
+offset_right = 122.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_rfnla")
+theme_override_styles/fill = SubResource("StyleBoxFlat_8ohwp")
+show_percentage = false
+
+[node name="LeftJoystickPositioner" type="Control" parent="ControlMargin"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="Virtual Joystick" parent="ControlMargin/LeftJoystickPositioner" instance=ExtResource("8_8ohwp")]
+layout_mode = 1
+offset_top = -80.0
+offset_right = 80.0
+offset_bottom = 0.0
+deadzone_size = 0.0
+clampzone_size = 16.0
+action_left = "left"
+action_right = "right"
+action_up = "up"
+action_down = "down"
+
+[node name="Base" parent="ControlMargin/LeftJoystickPositioner/Virtual Joystick" index="0"]
+offset_left = -35.0
+offset_top = -35.0
+offset_right = 35.0
+offset_bottom = 35.0
+expand_mode = 1
+
+[node name="Tip" parent="ControlMargin/LeftJoystickPositioner/Virtual Joystick/Base" index="0"]
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+pivot_offset = Vector2(20, 20)
+expand_mode = 1
+
+[node name="RightJoystickPositioner" type="Control" parent="ControlMargin"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="Aim Joystick" parent="ControlMargin/RightJoystickPositioner" instance=ExtResource("8_8ohwp")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -70.0
+offset_top = -70.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+deadzone_size = 0.0
+clampzone_size = 16.0
+action_left = "aim_left"
+action_right = "aim_right"
+action_up = "aim_up"
+action_down = "aim_down"
+
+[node name="Base" parent="ControlMargin/RightJoystickPositioner/Aim Joystick" index="0"]
+offset_left = -35.0
+offset_top = -35.0
+offset_right = 35.0
+offset_bottom = 35.0
+expand_mode = 1
+
+[node name="Tip" parent="ControlMargin/RightJoystickPositioner/Aim Joystick/Base" index="0"]
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+pivot_offset = Vector2(20, 20)
+expand_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_yfofs")
+}
+autoplay = "RESET"
 
 [node name="Title" parent="." instance=ExtResource("5_iwsok")]
 layout_mode = 1
@@ -261,219 +527,6 @@ offset_right = 60.0
 offset_bottom = 82.0
 theme_override_font_sizes/font_size = 8
 text = "FPS"
-
-[node name="AmmoIndicator" type="Label" parent="."]
-clip_children = 1
-z_index = 1000
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -227.0
-offset_top = -20.0
-offset_right = 227.0
-offset_bottom = -10.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 8
-text = "/////////////"
-horizontal_alignment = 1
-vertical_alignment = 2
-
-[node name="ProgressBar" type="ProgressBar" parent="AmmoIndicator"]
-layout_mode = 1
-anchors_preset = 13
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -122.0
-offset_right = 122.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_rfnla")
-theme_override_styles/fill = SubResource("StyleBoxFlat_8ohwp")
-show_percentage = false
-
-[node name="Virtual Joystick" parent="." instance=ExtResource("8_8ohwp")]
-layout_mode = 1
-offset_left = 32.0
-offset_top = -103.0
-offset_right = 102.0
-offset_bottom = -34.0
-deadzone_size = 0.0
-clampzone_size = 16.0
-action_left = "left"
-action_right = "right"
-action_up = "up"
-action_down = "down"
-
-[node name="Base" parent="Virtual Joystick" index="0"]
-scale = Vector2(0.3, 0.3)
-
-[node name="Aim Joystick" parent="." instance=ExtResource("8_8ohwp")]
-layout_mode = 1
-offset_left = 252.98
-offset_top = -103.0
-offset_right = 322.98
-offset_bottom = -34.0
-deadzone_size = 0.0
-clampzone_size = 16.0
-action_left = "aim_left"
-action_right = "aim_right"
-action_up = "aim_up"
-action_down = "aim_down"
-
-[node name="Base" parent="Aim Joystick" index="0"]
-scale = Vector2(0.3, 0.3)
-
-[node name="ControlGroup" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -129.0
-offset_top = -145.0
-offset_right = -9.73001
-offset_bottom = -14.94
-grow_horizontal = 0
-grow_vertical = 0
-mouse_filter = 2
-
-[node name="Roll" parent="ControlGroup" instance=ExtResource("9_iqufn")]
-layout_mode = 1
-anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 3.0
-offset_top = 100.0
-offset_right = 36.71
-offset_bottom = 132.0
-grow_horizontal = 1
-grow_vertical = 1
-action = "roll"
-
-[node name="MarginContainer" type="MarginContainer" parent="ControlGroup/Roll"]
-layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
-
-[node name="TextureRect2" type="TextureRect" parent="ControlGroup/Roll/MarginContainer"]
-layout_mode = 2
-texture = ExtResource("11_icrny")
-
-[node name="Action" parent="ControlGroup" instance=ExtResource("9_iqufn")]
-layout_mode = 1
-anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 44.15
-offset_top = 66.06
-offset_right = 108.15
-offset_bottom = 130.06
-grow_horizontal = 1
-grow_vertical = 1
-action = "fire"
-
-[node name="MarginContainer" type="MarginContainer" parent="ControlGroup/Action"]
-layout_mode = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
-
-[node name="ActionTexture" type="TextureRect" parent="ControlGroup/Action/MarginContainer"]
-layout_mode = 2
-texture = ExtResource("8_yfofs")
-
-[node name="Swap" parent="ControlGroup" instance=ExtResource("9_iqufn")]
-layout_mode = 1
-anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 69.0
-offset_top = 7.0
-offset_right = 117.0
-offset_bottom = 55.0
-grow_horizontal = 1
-grow_vertical = 1
-action = "switch_weapon"
-
-[node name="MarginContainer" type="MarginContainer" parent="ControlGroup/Swap"]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="WeaponStaticSprite" type="TextureRect" parent="ControlGroup/Swap/MarginContainer"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-metadata/_edit_lock_ = true
-
-[node name="Reload" parent="ControlGroup" instance=ExtResource("9_iqufn")]
-layout_mode = 1
-anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 31.0
-offset_top = 34.0
-offset_right = 63.0
-offset_bottom = 66.0
-grow_horizontal = 1
-grow_vertical = 1
-action = "reload"
-
-[node name="MarginContainer" type="MarginContainer" parent="ControlGroup/Reload"]
-layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
-
-[node name="TextureRect2" type="TextureRect" parent="ControlGroup/Reload/MarginContainer"]
-layout_mode = 2
-texture = ExtResource("10_2s5eb")
-
-[node name="Restart" parent="." instance=ExtResource("9_iqufn")]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 0.0
-offset_left = -28.0
-offset_top = 4.0
-offset_right = -4.0
-offset_bottom = 28.0
-grow_horizontal = 0
-grow_vertical = 1
-action = "menu"
-
-[node name="MarginContainer" type="MarginContainer" parent="Restart"]
-layout_mode = 2
-theme_override_constants/margin_left = 6
-theme_override_constants/margin_top = 6
-theme_override_constants/margin_right = 6
-theme_override_constants/margin_bottom = 6
-
-[node name="TextureRect2" type="TextureRect" parent="Restart/MarginContainer"]
-layout_mode = 2
-texture = ExtResource("11_yfofs")
 
 [node name="BossBar" type="Control" parent="."]
 visible = false
@@ -500,5 +553,5 @@ value = 100.0
 texture_under = ExtResource("12_icrny")
 texture_progress = ExtResource("13_d8j6h")
 
-[editable path="Virtual Joystick"]
-[editable path="Aim Joystick"]
+[editable path="ControlMargin/LeftJoystickPositioner/Virtual Joystick"]
+[editable path="ControlMargin/RightJoystickPositioner/Aim Joystick"]

@@ -1,8 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://cd50vx7w0su6n"]
+[gd_scene load_steps=8 format=3 uid="uid://cd50vx7w0su6n"]
 
 [ext_resource type="Script" uid="uid://buw3y460kg8ir" path="res://screens/settings.gd" id="1_5em86"]
 [ext_resource type="PackedScene" uid="uid://cha8xesfthpfk" path="res://addons/ggs/components/switch/component_switch.tscn" id="2_e8gum"]
 [ext_resource type="Resource" uid="uid://bd722ncmjpdqp" path="res://game_settings/self_aim.tres" id="3_qyhqh"]
+[ext_resource type="PackedScene" uid="uid://ds06mwhee8ygm" path="res://addons/ggs/components/slider/component_slider.tscn" id="4_0o1eh"]
+[ext_resource type="Resource" uid="uid://r8qwb8oshi1g" path="res://game_settings/controls_margin.tres" id="5_hhs7c"]
+[ext_resource type="Resource" uid="uid://b5vgcrbot7gm" path="res://game_settings/display_margin.tres" id="6_hhs7c"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5em86"]
 bg_color = Color(0, 0, 0, 1)
@@ -41,43 +44,14 @@ layout_mode = 2
 setting = ExtResource("3_qyhqh")
 apply_on_changed = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Slider" parent="PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_0o1eh")]
 layout_mode = 2
+setting = ExtResource("5_hhs7c")
+apply_on_changed = true
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Slider2" parent="PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("4_0o1eh")]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Volume"
-
-[node name="HSlider" type="HSlider" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-tick_count = 6
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Volume"
-
-[node name="HSlider" type="HSlider" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-tick_count = 6
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Volume"
-
-[node name="HSlider" type="HSlider" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-size_flags_horizontal = 3
-tick_count = 6
+setting = ExtResource("6_hhs7c")
+apply_on_changed = true
 
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]

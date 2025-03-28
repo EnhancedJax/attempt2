@@ -14,6 +14,9 @@ class_name HUD extends Control
 @export var boss_bar_progress : TextureProgressBar
 @export var action_button : PanelContainer
 @export var aim_stick : VirtualJoystick
+@export var display_margin : MarginContainer
+@export var control_margin : MarginContainer
+@export var stick_size : Vector2
 const heart_full_texture = preload('res://hud/heart_full_color.tres')
 const heart_half_texture = preload('res://hud/heart_half_color.tres')
 const heart_empty_texture = preload('res://hud/heart_empty_color.tres')
@@ -24,6 +27,8 @@ var action_shoot_texture = preload("res://hud/shoot.png")
 var action_interact_texture = preload("res://hud/interact.png")
 const title = preload("res://hud/title/title.tscn")
 var self_aim_setting : ggsSetting = preload("res://game_settings/self_aim.tres")
+var display_margin_setting : ggsSetting = preload("res://game_settings/display_margin.tres")
+var controls_margin_setting : ggsSetting = preload("res://game_settings/controls_margin.tres")
 
 var current_max: int = 0  # store previous max health
 var shield_active: bool = true  # track shield state
@@ -31,7 +36,6 @@ var shield_active: bool = true  # track shield state
 var _cache_player_max_health: int = 0
 var _cache_player_health: int = 0
 
-var _is_using_self_aim : bool = false
 var _has_interactions : bool = false
 
 func _ready() -> void:
@@ -39,12 +43,21 @@ func _ready() -> void:
 	Main.signal_interaction_changed.connect(rsignal_interaction_changed)
 	Main.signal_player_room_cleared.connect(rsignal_player_room_cleared)
 	Main.signal_player_room_changed.connect(rsignal_player_room_changed)
-	_update_aim_stick()
-	Main.signal_reactive_setting_updated.connect(rsignal_reactive_setting_updated)
+	GGS.setting_applied.connect(rsignal_setting_updated)
+	_update_initial_settings()
 
-func rsignal_reactive_setting_updated(setting: ggsSetting, value: Variant):
+func _update_initial_settings():
+	_update_margins(display_margin, GGS.get_value_state(display_margin_setting))
+	_update_margins(control_margin, GGS.get_value_state(controls_margin_setting))
+	_update_aim_stick(GGS.get_value_state(self_aim_setting))
+
+func rsignal_setting_updated(setting: ggsSetting, value: Variant):
 	if setting == self_aim_setting:
-		_update_aim_stick()
+		_update_aim_stick(value)
+	elif setting == display_margin_setting:
+		_update_margins(display_margin, value)
+	elif setting == controls_margin_setting:
+		_update_margins(control_margin, value)
 
 func _process(_delta: float) -> void:
 	fps_label.text = "FPS: %d" % Engine.get_frames_per_second()
@@ -56,16 +69,31 @@ func rsignal_interaction_changed(i: Interaction):
 	else:
 		action_texture.texture = action_interact_texture
 		_has_interactions = true
-	_update_aim_stick()
-		
+	_update_aim_stick(GGS.get_value_state(self_aim_setting))
 
-func _update_aim_stick():
+func _update_margins(container: MarginContainer, size: int):
+	container.add_theme_constant_override("margin_top", size)
+	container.add_theme_constant_override("margin_left", size)
+	container.add_theme_constant_override("margin_bottom", size)
+	container.add_theme_constant_override("margin_right", size)
+
+func _update_aim_stick(is_self_aim: bool):
 	if _has_interactions:
 		action_button.visible = true
+		_display_aim_stick(false)
 	else:
-		action_button.visible = not Main.is_using_self_aim
-		aim_stick.visible = Main.is_using_self_aim
+		action_button.visible = not is_self_aim
+		_display_aim_stick(is_self_aim)
 
+func _display_aim_stick(display: bool):
+	if display:
+		aim_stick.visible = true
+		aim_stick.process_mode = Node.PROCESS_MODE_INHERIT
+		aim_stick.size = stick_size
+	else:
+		aim_stick.visible = false
+		aim_stick.process_mode = Node.PROCESS_MODE_DISABLED
+		aim_stick.size = Vector2.ZERO
 
 func register_boss(boss: BossBase):
 	print('Registrating boss:', boss)

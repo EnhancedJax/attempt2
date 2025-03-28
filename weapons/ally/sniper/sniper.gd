@@ -10,7 +10,7 @@ func _ready() -> void:
 	bullet_spawner.signal_shot.connect(rsignal_shot)
 	bullet_spawner.register(ATTACK)
 	reload_timer.timeout.connect(play_halfway_reload_sound)
-	register_firing_handler($SemiAutoComponent)
+	register_firing_handler($FullAutoComponent)
 
 func handle_attack() -> void:
 	mag_count -= 1

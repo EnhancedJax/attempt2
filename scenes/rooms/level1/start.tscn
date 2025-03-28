@@ -1,20 +1,17 @@
-[gd_scene load_steps=5 format=4 uid="uid://dxfg45jttklnt"]
+[gd_scene load_steps=6 format=4 uid="uid://dxfg45jttklnt"]
 
 [ext_resource type="PackedScene" uid="uid://oue2kr2eaavc" path="res://scenes/rooms/room_base.tscn" id="1_8q4ve"]
 [ext_resource type="PackedScene" uid="uid://bjxxktcqu5a4e" path="res://scenes/rooms/misc/box.tscn" id="2_x2sl8"]
 [ext_resource type="PackedScene" uid="uid://c6tvylyruu2ao" path="res://scenes/rooms/misc/fire/fire_pot.tscn" id="4_0c5ip"]
 [ext_resource type="PackedScene" uid="uid://btlqootllbmyi" path="res://scenes/interactions/shop_item/shop_item.tscn" id="5_3ppn2"]
+[ext_resource type="PackedScene" uid="uid://c3f8flnplphu5" path="res://scenes/chest/chest.tscn" id="5_sugpw"]
 
 [node name="RoomBase" instance=ExtResource("1_8q4ve")]
 dimension = Vector2i(10, 10)
 entrances_top = Vector2i(4, 0)
 entrances_bottom = Vector2i(4, 9)
 entrances_right = Vector2i(9, 4)
-enemy_scenes = Array[PackedScene]([])
 is_peaceful_room = true
-enemy_count = 0
-reward_coins_min = 1
-reward_coins_max = 3
 
 [node name="FloorTileLayer" parent="." index="0"]
 tile_map_data = PackedByteArray("AAABAAEAAAACAAAAAAABAAIAAAACAAAAAAABAAQAAAABAAAAAAABAAUAAAAAAAAAAAABAAYAAAAAAAEAAAABAAcAAAACAAAAAAACAAEAAAAAAAAAAAACAAIAAAABAAAAAAACAAQAAAABAAAAAAACAAUAAAABAAEAAAACAAYAAAAAAAAAAAACAAcAAAAAAAAAAAADAAEAAAACAAAAAAADAAIAAAABAAEAAAADAAQAAAABAAAAAAADAAUAAAACAAAAAAADAAYAAAABAAAAAAADAAcAAAABAAAAAAAEAAIAAAABAAAAAAAEAAQAAAAAAAAAAAAEAAUAAAAAAAEAAAAEAAYAAAADAAAAAAAEAAcAAAABAAEAAAAFAAEAAAABAAAAAAAFAAIAAAAAAAEAAAAFAAMAAAABAAAAAAAFAAQAAAABAAAAAAAFAAUAAAABAAAAAAAFAAYAAAABAAAAAAAFAAcAAAABAAAAAAAGAAEAAAADAAAAAAAGAAIAAAABAAAAAAAGAAMAAAAAAAAAAAAGAAQAAAAAAAAAAAAGAAUAAAADAAAAAAAGAAYAAAABAAEAAAAGAAcAAAABAAAAAAAHAAEAAAABAAEAAAAHAAIAAAACAAAAAAAHAAMAAAAAAAAAAAAHAAQAAAAAAAEAAAAHAAUAAAAAAAEAAAAHAAYAAAABAAEAAAAHAAcAAAACAAAAAAABAAMAAAADAAAAAAACAAMAAAABAAAAAAADAAMAAAACAAAAAAAEAAMAAAABAAAAAAAEAAEAAAABAAAAAAAIAAEAAAADAAAAAAAIAAIAAAADAAAAAAAIAAMAAAACAAAAAAAIAAQAAAAAAAAAAAAIAAUAAAACAAAAAAAIAAYAAAABAAEAAAAIAAcAAAACAAAAAAAIAAgAAAAAAAEAAAAHAAgAAAAAAAEAAAAGAAgAAAADAAAAAAAFAAgAAAABAAAAAAACAAgAAAABAAAAAAABAAgAAAADAAAAAAADAAgAAAAAAAEAAAAEAAgAAAAAAAEAAAA=")
@@ -61,3 +58,11 @@ position = Vector2(47, 46)
 [node name="FirePot" parent="." index="14" instance=ExtResource("4_0c5ip")]
 position = Vector2(128, 30)
 metadata/_edit_lock_ = true
+
+[node name="Chest" parent="." index="15" instance=ExtResource("5_sugpw")]
+position = Vector2(129, 58)
+spawned_in_active_room = true
+
+[node name="Chest2" parent="." index="16" instance=ExtResource("5_sugpw")]
+position = Vector2(130, 107)
+spawned_in_active_room = true

@@ -71,7 +71,6 @@ func _set_setting(value: ggsSetting) -> void:
 ## Saves the setting value to the save file and applies it to the game.
 func apply_setting() -> void:
 	GGS.set_value(setting, value)
-	GGS.setting_applied.emit(setting, value)
 	setting.apply(value)
 
 

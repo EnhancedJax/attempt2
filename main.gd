@@ -16,10 +16,6 @@ var player_room_at: RoomBase = null
 
 var coins = 0
 
-# reactive settings
-var self_aim_setting : ggsSetting = preload("res://game_settings/self_aim.tres")
-var is_using_self_aim: bool = false
-
 signal signal_player_equipped_weapon(node: Node2D)
 signal signal_player_landed_hit()
 signal signal_interaction_changed(interaction: Interaction)
@@ -32,12 +28,6 @@ signal signal_r_hud()
 
 signal signal_reactive_setting_updated(setting: ggsSetting, value: Variant)
 
-func _ready() -> void:
-	is_using_self_aim = GGS.get_value(self_aim_setting)
-	print('is_using_self_aim: ', is_using_self_aim)
-	signal_reactive_setting_updated.emit(self_aim_setting, is_using_self_aim)
-	GGS.setting_applied.connect(rsignal_setting_applied)
-
 func _process(_delta: float) -> void:
 	_update_player_autoaim_target()
 	if Input.is_action_just_pressed("menu"):
@@ -48,15 +38,6 @@ func _process(_delta: float) -> void:
 		scene.item_id = weapons[randi() % weapons.size()]
 		scene.global_position = player.global_position 
 		control.get_child(3).add_child(scene)
-
-func rsignal_setting_applied(setting: ggsSetting, value: Variant):
-	var react_setting_updated = false
-	if setting == self_aim_setting:
-		is_using_self_aim = value
-		react_setting_updated = true
-	
-	if react_setting_updated:
-		signal_reactive_setting_updated.emit(setting, value)
 
 # /* ------------ Registers ----------- */
 

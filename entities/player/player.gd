@@ -14,6 +14,7 @@ var _can_hold_down_fire : bool = true
 @onready var invincibility_timer: Timer = $InvincibilityTimer
 @onready var reload_progress_bar: ProgressBar = $ReloadIndicator/ProgressBar
 @onready var shield_timer : Timer = $ShieldTimer
+var self_aim_setting : ggsSetting = preload("res://game_settings/self_aim.tres")
 
 # Changed: cache for weapon nodes as an array wherein each slot corresponds to an inventory slot.
 var weapon_nodes: Array[WeaponBase] = []
@@ -51,7 +52,7 @@ func _process(delta: float) -> void:
 		_handle_weapon_update(delta)
 	
 	_handle_fire_input()
-	if Main.is_using_self_aim:
+	if GGS.get_value_state(self_aim_setting):
 		_handle_self_aim_fire_input()
 	_handle_weapon_switch()
 	_handle_reload_input()
@@ -104,7 +105,7 @@ func _handle_reload_input() -> void:
 
 func get_aim_position() -> Vector2:
 	# Self-aim mode: aim based on aim_* actions, 64px from the player.
-	if Main.is_using_self_aim:
+	if GGS.get_value_state(self_aim_setting):
 		var aim_vec = Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
 		if aim_vec != Vector2.ZERO:
 			_last_aiming_direction = aim_vec.normalized() * 64
