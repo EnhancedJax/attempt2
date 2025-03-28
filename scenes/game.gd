@@ -3,6 +3,7 @@ extends Control
 @export var hud : HUD
 
 func _ready() -> void:
+	Main.show_title_ui('Level 0')
 	MusicManager.loaded.connect(on_music_manager_loaded)
 	Main.register_control(self)
 	var result_dict = $TileLayer.generate_new_dungeon()

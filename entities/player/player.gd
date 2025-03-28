@@ -47,20 +47,31 @@ func _process(delta: float) -> void:
 		return
 	super._process(delta)
 	if weapon_node:
-		var aim_pos = get_aim_position()
-		weapon_node.update_sprite_flip(aim_pos)
-		
-		if is_reloading:
-			reload_timer += delta
-			var progress = (reload_timer / reload_duration) * 100
-			reload_progress_bar.value = progress
-			
-			if reload_timer >= reload_duration:
-				is_reloading = false
-				reload_progress_bar.value = 0
-				reload_progress_bar.visible = false
-				weapon_node.call_finish_reload()
+		_handle_weapon_update(delta)
+	
+	_handle_fire_input()
+	_handle_weapon_switch()
+	_handle_reload_input()
 
+func _handle_weapon_update(delta: float) -> void:
+	var aim_pos = get_aim_position()
+	weapon_node.update_sprite_flip(aim_pos)
+	
+	if is_reloading:
+		_update_reload_progress(delta)
+
+func _update_reload_progress(delta: float) -> void:
+	reload_timer += delta
+	var progress = (reload_timer / reload_duration) * 100
+	reload_progress_bar.value = progress
+	
+	if reload_timer >= reload_duration:
+		is_reloading = false
+		reload_progress_bar.value = 0
+		reload_progress_bar.visible = false
+		weapon_node.call_finish_reload()
+
+func _handle_fire_input() -> void:
 	if Input.is_action_just_pressed("fire"):
 		if Main.interactions.size() > 0:
 			Main.interactions[0].callable.call()
@@ -70,19 +81,18 @@ func _process(delta: float) -> void:
 	elif Input.is_action_just_released("fire"):
 		is_just_pressed_fire = false
 		_can_hold_down_fire = true
-	if Input.is_action_pressed("fire"):
-		if _can_hold_down_fire:
-			is_holding_down_fire = true
-	else:
-		is_holding_down_fire = false
-	if Input.is_action_just_pressed("switch_weapon"):
-		if weapons.size() > 1:
-			var next_weapon = (equipped_weapon_index + 1) % weapons.size()
-			equipped_weapon_index = next_weapon
-			equip_weapon(weapons[equipped_weapon_index])
-	if Input.is_action_just_pressed("reload"):
-		if weapon_node and weapon_node.can_reload:
-			weapon_node.call_reload()
+	
+	is_holding_down_fire = Input.is_action_pressed("fire") and _can_hold_down_fire
+
+func _handle_weapon_switch() -> void:
+	if Input.is_action_just_pressed("switch_weapon") and weapons.size() > 1:
+		var next_weapon = (equipped_weapon_index + 1) % weapons.size()
+		equipped_weapon_index = next_weapon
+		equip_weapon(weapons[equipped_weapon_index])
+
+func _handle_reload_input() -> void:
+	if Input.is_action_just_pressed("reload") and weapon_node and weapon_node.can_reload:
+		weapon_node.call_reload()
 
 func get_aim_position() -> Vector2:
 	if Main.player_autoaim_target:

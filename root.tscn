@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxlq1tiessvhr"]
+
+[ext_resource type="Script" uid="uid://buiab1mm02fxi" path="res://root.gd" id="1_pq8q7"]
+[ext_resource type="Texture2D" uid="uid://dksj1ks2xpib2" path="res://hud/title/divider.png" id="2_pyidc"]
+
+[node name="Root" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pq8q7")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_pyidc")

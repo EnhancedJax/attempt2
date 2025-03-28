@@ -100,10 +100,10 @@ color = Color(0.550979, 0.521307, 0.660582, 1)
 environment = SubResource("Environment_y3j0m")
 
 [node name="Viewport" type="CanvasLayer" parent="."]
+layer = 0
 
 [node name="HUD" parent="Viewport" instance=ExtResource("4_ujnmn")]
 process_mode = 3
-z_index = 20
 metadata/_edit_lock_ = true
 
 [node name="CrosshairLayer" type="CanvasLayer" parent="."]

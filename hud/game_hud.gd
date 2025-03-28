@@ -11,7 +11,7 @@ class_name HUD extends Control
 @export var fps_label : Label
 @export var action_texture : TextureRect
 @export var boss_bar : Control
-@export var boss_bar_progress : ProgressBar
+@export var boss_bar_progress : TextureProgressBar
 const heart_full_texture = preload('res://hud/heart_full_color.tres')
 const heart_half_texture = preload('res://hud/heart_half_color.tres')
 const heart_empty_texture = preload('res://hud/heart_empty_color.tres')
@@ -30,7 +30,6 @@ var _cache_player_health: int = 0
 
 func _ready() -> void:
 	Main.register_hud(self)
-	show_title('Test!')
 	Main.signal_interaction_changed.connect(rsignal_interaction_changed)
 	Main.signal_player_room_cleared.connect(rsignal_player_room_cleared)
 	Main.signal_player_room_changed.connect(rsignal_player_room_changed)

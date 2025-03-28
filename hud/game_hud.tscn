@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://vo0xrja3uy5k"]
+[gd_scene load_steps=25 format=3 uid="uid://vo0xrja3uy5k"]
 
 [ext_resource type="Script" uid="uid://c78ubkjtmx3ea" path="res://hud/game_hud.gd" id="1_msi3a"]
 [ext_resource type="Script" uid="uid://wm2ubopvbppu" path="res://hud/minimap.gd" id="2_5l0xr"]
@@ -10,6 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://ky07sq1b0bh3" path="res://hud/button.tscn" id="9_iqufn"]
 [ext_resource type="Texture2D" uid="uid://b77fc7bqurv13" path="res://hud/reload.png" id="10_2s5eb"]
 [ext_resource type="Texture2D" uid="uid://dcvqh13fcjlgf" path="res://hud/roll.png" id="11_icrny"]
+[ext_resource type="Texture2D" uid="uid://2lnk4j6um86f" path="res://hud/pause.png" id="11_yfofs"]
+[ext_resource type="Texture2D" uid="uid://cskfsdcto41rk" path="res://hud/boss_bar_empty.png" id="12_icrny"]
+[ext_resource type="Texture2D" uid="uid://bq6kabeupsp0r" path="res://hud/boss_bar_fill.png" id="13_d8j6h"]
 
 [sub_resource type="Gradient" id="Gradient_rfnla"]
 interpolation_mode = 2
@@ -153,7 +156,7 @@ ammo_indicator_bar = NodePath("AmmoIndicator/ProgressBar")
 fps_label = NodePath("FPSLabel")
 action_texture = NodePath("ControlGroup/Action/MarginContainer/ActionTexture")
 boss_bar = NodePath("BossBar")
-boss_bar_progress = NodePath("BossBar/ProgressBar")
+boss_bar_progress = NodePath("BossBar/TextureProgressBar")
 
 [node name="HealthWarn" type="TextureRect" parent="."]
 visible = false
@@ -186,8 +189,10 @@ layout_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -75.0
-offset_bottom = 75.0
+offset_left = -109.0
+offset_top = 1.0
+offset_right = -34.0
+offset_bottom = 76.0
 grow_horizontal = 0
 script = ExtResource("2_5l0xr")
 
@@ -427,19 +432,29 @@ texture = ExtResource("10_2s5eb")
 
 [node name="Restart" parent="." instance=ExtResource("9_iqufn")]
 layout_mode = 1
-anchors_preset = 3
+anchors_preset = 1
 anchor_left = 1.0
-anchor_top = 1.0
+anchor_top = 0.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -116.0
-offset_top = -234.0
-offset_right = -43.0
-offset_bottom = -161.0
+anchor_bottom = 0.0
+offset_left = -28.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = 28.0
 grow_horizontal = 0
-grow_vertical = 0
-scale = Vector2(0.37, 0.37)
-action = "dev_reload"
+grow_vertical = 1
+action = "menu"
+
+[node name="MarginContainer" type="MarginContainer" parent="Restart"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="TextureRect2" type="TextureRect" parent="Restart/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("11_yfofs")
 
 [node name="BossBar" type="Control" parent="."]
 visible = false
@@ -452,15 +467,18 @@ offset_right = 20.0
 offset_bottom = 40.0
 grow_horizontal = 2
 
-[node name="ProgressBar" type="ProgressBar" parent="BossBar"]
+[node name="TextureProgressBar" type="TextureProgressBar" parent="BossBar"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -101.0
-offset_right = 101.0
-offset_bottom = 24.0
+offset_left = -92.0
+offset_top = 8.0
+offset_right = 92.0
+offset_bottom = 48.0
 grow_horizontal = 2
 value = 100.0
+texture_under = ExtResource("12_icrny")
+texture_progress = ExtResource("13_d8j6h")
 
 [editable path="Virtual Joystick"]

@@ -29,10 +29,7 @@ signal signal_r_hud()
 func _process(_delta: float) -> void:
 	_update_player_autoaim_target()
 	if Input.is_action_just_pressed("menu"):
-		_toggle_pause()
-	# if Input.is_action_just_pressed("interact"):
-	# 	if interactions.size() > 0:
-	# 		interactions[0].callable.call()
+		Router.navigate('pause')
 	if Input.is_action_just_pressed("dev"):
 		var scene = floor_item.instantiate()
 		var weapons = Lookup.get_droppable_items()
@@ -91,8 +88,7 @@ func deregister_interaction(i: Interaction):
 	interactions.pop_at(index)
 	if interactions.size() > 0:
 		signal_interaction_changed.emit(interactions[0])
-		interaction_label.set_text(interactions[0].label)
-		interaction_label.global_position = interactions[0].label_position
+		interaction_label.display(interactions[0].label, interactions[0].label_position)
 	else:
 		interaction_label.visible = false
 		signal_interaction_changed.emit(null)
@@ -145,10 +141,6 @@ func spawn_node(node : Node, position_global : Vector2, layer: int = 0) -> void:
 
 func _toggle_pause() -> void:
 	is_paused = !is_paused
-	#if is_paused:
-		#SoundManager.sound_process_mode = Node.PROCESS_MODE_DISABLED
-	#else:
-		#SoundManager.sound_process_mode = Node.PROCESS_MODE_INHERIT
 	control.process_mode = Node.PROCESS_MODE_DISABLED if is_paused else PROCESS_MODE_INHERIT
 
 func _update_player_autoaim_target() -> void:
