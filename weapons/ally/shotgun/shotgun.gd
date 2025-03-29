@@ -1,11 +1,5 @@
 extends WeaponBase
 
-@export var damage : int = 10
-@export var knockback : float = 200.0
-@export var recoil : float = 100.0
-@onready var bullet_spawner = $BasicShotgun
-@onready var audio_bus_1 = $AudioBus1
-@onready var audio_bus_2 = $AudioBus2
 var ATTACK = BulletType.new()
 
 func _ready() -> void:
@@ -13,22 +7,11 @@ func _ready() -> void:
 	mag_count = mag_size
 	Main.signal_player_equipped_weapon.connect(rsignal_weapon_equipped)
 	bullet_spawner.signal_shot.connect(rsignal_shot)
-	ATTACK.damage = damage
-	ATTACK.recoil = recoil
-	ATTACK.knockback = knockback
-	bullet_spawner.register(ATTACK)
-	register_firing_handler($FullAutoComponent)
 
 func handle_attack() -> void:
 	mag_count -= 1
-	var towards = rotation
-	var towards_vector = Vector2(cos(towards), sin(towards))
-	var atk = ATTACK.duplicate()
-	atk.towards_vector = towards_vector
-	var shot = bullet_spawner.shoot(towards)
-	if shot: 
-		SoundManager.play_at_position_varied("shotgun", "shot", global_position, randf_range(0.8,1.2), 1)
-		emit_signal("signal_weapon_did_use", atk)
+	bullet_spawner.shoot()
+	SoundManager.play_at_position_varied("shotgun", "shot", global_position, randf_range(0.8,1.2), 1)
 
 func handle_reload() -> void:
 	super.handle_reload()

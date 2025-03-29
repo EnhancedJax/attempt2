@@ -1,11 +1,12 @@
 class_name WeaponBase extends Node2D
 
-
-signal signal_weapon_did_use(attack: AttackBase) # to be called by weapon implementation
+signal signal_weapon_did_use(kickback_vector: Vector2) # to be called by weapon implementation
 signal signal_weapon_reloading(duration: float) # to be called by weapon implementation
 signal signal_reload_stopped()
 signal signal_weapon_did_reload() # to be called by weapon implementation
 
+@export var kickback : float = 100.0
+@export var bullet_spawner: BulletSpawner
 @export var mag_size : int = -1
 @export var reload_time : float = 0.5
 @export var audio_streams : Array[AudioStream]
@@ -59,12 +60,16 @@ func register_firing_handler(handler: FiringHandlerBase) -> void:
 	firing_handler = handler
 
 func handle_use(delta: float, is_just_pressed_fire: bool, is_pressed_fire: bool, auto_firing: bool) -> void:
-	if firing_handler and firing_handler.is_to_attack(delta, is_just_pressed_fire, is_pressed_fire, auto_firing):
+	if is_pressed_fire and bullet_spawner.can_shoot:
 		if (mag_count > 0 or mag_size == -1) and not is_reloading:
 			handle_attack()
+			signal_weapon_did_use.emit(_calculate_kickback_vector())
 			can_reload = mag_size != -1 and mag_count < mag_size
 			if mag_count > 0:
 				return
 		handle_out_of_ammo()
 		if can_reload:
 			handle_reload()
+
+func _calculate_kickback_vector() -> Vector2:
+	return Vector2(cos(self.global_rotation), sin(self.global_rotation)) * -kickback

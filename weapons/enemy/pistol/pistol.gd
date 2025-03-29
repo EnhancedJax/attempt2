@@ -5,7 +5,6 @@ extends WeaponBase
 @export var knockback : float = 200.0
 @export var recoil : float = 100.0
 @export var spread : float = 5
-@onready var bullet_spawner = $BulletSpawnerComponent
 const BULLET = preload("res://weapons/enemy/pistol/bullet.tscn")
 var ATTACK = BulletType.new()
 
@@ -18,11 +17,4 @@ func _ready() -> void:
 	register_firing_handler($FullAutoComponent)
 
 func handle_attack() -> void:
-	var towards = rotation + deg_to_rad(randf_range(-spread, spread))
-	var towards_vector = Vector2(cos(towards), sin(towards))
-	var atk = ATTACK.duplicate()
-	atk.towards_vector = towards_vector
-	var shot = bullet_spawner.shoot(towards)
-	if shot: 
-		#$RandomizedAudio.play()
-		emit_signal("signal_weapon_did_use", atk)
+	pass

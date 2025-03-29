@@ -69,6 +69,7 @@ folder_colors={
 "res://shared_assets/music/": "gray",
 "res://tables/": "blue",
 "res://weapons/": "yellow",
+"res://weapons/ally/": "green",
 "res://weapons/enemy/": "orange"
 }
 

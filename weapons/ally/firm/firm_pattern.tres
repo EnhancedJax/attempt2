@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PatternPoints" load_steps=2 format=3 uid="uid://c0vs8maky2mvc"]
+
+[ext_resource type="Script" uid="uid://d1ylqbvjqhtj8" path="res://components/bullets/patterns/pattern_points.gd" id="1_70d28"]
+
+[resource]
+script = ExtResource("1_70d28")
+points = Array[Vector2]([Vector2(0, 0)])
+randomized_angle_spread = 5.0
+speed = 700.0
+amount_of_bullets = 1
+time_between_bullets = 0.0
+time_before_move = 0.0
+time_between_bullets_before_move = 0.0
+time_between_fire = 0.2

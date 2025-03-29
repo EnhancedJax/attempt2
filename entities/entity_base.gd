@@ -57,7 +57,7 @@ func rsignal_hitbox_hit(attack: AttackBase):
 		return
 	
 	# Apply knockback force
-	apply_force(attack.towards_vector * attack.knockback)
+	apply_force(attack.knockback_vector)
 	_health.take_damage(attack.damage)
 
 func rsignal_health_deducted(health: int, max_health: int):
@@ -70,8 +70,8 @@ func rsignal_health_depleted():
 		signal_death.emit()
 		do_die()
 
-func rsignal_weapon_did_use(attack: AttackBase):
-	pass
+func rsignal_weapon_did_use(kickback_vector: Vector2):
+	apply_force(kickback_vector)
 
 func do_die():
 	queue_free()

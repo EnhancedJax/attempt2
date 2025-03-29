@@ -1,25 +1,17 @@
-[gd_scene load_steps=43 format=3 uid="uid://dxlgc31vimg28"]
+[gd_scene load_steps=41 format=3 uid="uid://dxlgc31vimg28"]
 
 [ext_resource type="Script" uid="uid://bmj74ev3l60k5" path="res://weapons/ally/firm/firm.gd" id="1_8l8y3"]
 [ext_resource type="Shader" uid="uid://ctc7jwnjkk8is" path="res://weapons/ally/color_hand.gdshader" id="2_4v54v"]
-[ext_resource type="Script" uid="uid://de4sh4ok3rjrr" path="res://weapons/attack_base.gd" id="2_ev5st"]
 [ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="3_4upuw"]
 [ext_resource type="Texture2D" uid="uid://qp0ljm0fs7kc" path="res://weapons/ally/firm/firm.png" id="4_krsku"]
-[ext_resource type="PackedScene" uid="uid://cyyhdytcpd73i" path="res://components/bullet_spawner/basic_linear/node.tscn" id="4_okj6a"]
-[ext_resource type="PackedScene" uid="uid://cuiahy254v43" path="res://components/fire/full_auto/_full_auto.tscn" id="5_ev5st"]
 [ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="6_2n7jg"]
 [ext_resource type="AudioStream" uid="uid://chk7br650rjjr" path="res://weapons/ally/firm/shot.wav" id="7_gi5sp"]
 [ext_resource type="AudioStream" uid="uid://bo1d4nn0g26ui" path="res://weapons/ally/firm/rack.wav" id="8_6jhw5"]
 [ext_resource type="AudioStream" uid="uid://i2tne4sem7yn" path="res://weapons/ally/firm/reload_1.wav" id="9_givrx"]
 [ext_resource type="AudioStream" uid="uid://dx88ugl6ka6jp" path="res://weapons/ally/firm/reload_2.wav" id="10_yenhv"]
-[ext_resource type="PackedScene" uid="uid://cw4gi67nlj76t" path="res://weapons/ally/firm/firm_bullet.tscn" id="12_6jhw5"]
-
-[sub_resource type="Resource" id="Resource_krsku"]
-script = ExtResource("2_ev5st")
-damage = 2
-knockback = 200.0
-recoil = 0.0
-metadata/_custom_type_script = "uid://de4sh4ok3rjrr"
+[ext_resource type="PackedScene" uid="uid://da0l8m01w4qxl" path="res://components/bullets/bullet_spawner.tscn" id="11_5giwu"]
+[ext_resource type="Resource" uid="uid://ofj83k6nr551" path="res://weapons/ally/firm/firm_bullet.tres" id="11_gi5sp"]
+[ext_resource type="Resource" uid="uid://c0vs8maky2mvc" path="res://weapons/ally/firm/firm_pattern.tres" id="12_gi5sp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_okj6a"]
 shader = ExtResource("2_4v54v")
@@ -276,10 +268,9 @@ pitch = 1.0
 streams = Array[AudioStream]([ExtResource("10_yenhv")])
 metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
 
-[node name="Firm" type="Node2D"]
+[node name="Firm" type="Node2D" node_paths=PackedStringArray("bullet_spawner")]
 script = ExtResource("1_8l8y3")
-ATTACK = SubResource("Resource_krsku")
-spread = 3.0
+bullet_spawner = NodePath("BulletSpawner")
 mag_size = 8
 reload_time = 1.0
 
@@ -320,15 +311,6 @@ label = "firm"
 events = Array[ExtResource("6_2n7jg")]([SubResource("Resource_6ktr4"), SubResource("Resource_7jfy5"), SubResource("Resource_5giwu"), SubResource("Resource_gi5sp")])
 metadata/_custom_type_script = "uid://b7r334bhuu4yk"
 
-[node name="BulletSpawnerComponent" parent="." instance=ExtResource("4_okj6a")]
-position = Vector2(0, 1)
-target_position = Vector2(19, 0)
-rotate = false
-BULLET = ExtResource("12_6jhw5")
-
-[node name="FullAutoComponent" parent="." instance=ExtResource("5_ev5st")]
-fire_rate = 4
-
 [node name="ReloadSound2Timer" type="Timer" parent="."]
 wait_time = 0.3
 one_shot = true
@@ -336,3 +318,8 @@ one_shot = true
 [node name="ReloadSound3Timer" type="Timer" parent="."]
 wait_time = 0.8
 one_shot = true
+
+[node name="BulletSpawner" parent="." instance=ExtResource("11_5giwu")]
+target_position = Vector2(20, 0)
+bullet_props = ExtResource("11_gi5sp")
+bullet_pattern = ExtResource("12_gi5sp")

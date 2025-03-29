@@ -1,7 +1,7 @@
 class_name Player extends EntityBase
 
 # Inventory: each element is the weapon ID. If the same ID appears twice, the player owns two separate instances.
-var weapons : Array[int] = [3]
+var weapons : Array[int] = [0,1]
 var equipped_weapon_index : int = 0
 var max_weapons_count : int = 2
 
@@ -125,9 +125,9 @@ func get_aim_position() -> Vector2:
 	
 	return _last_aiming_at
 
-func rsignal_weapon_did_use(attack: AttackBase):
+func rsignal_weapon_did_use(kickback_vector: Vector2):
+	super.rsignal_weapon_did_use(kickback_vector)
 	_update_ui_ammo()
-	apply_force(-attack.towards_vector * attack.recoil)
 
 func rsignal_weapon_reloading(duration: float):
 	is_reloading = true
@@ -148,7 +148,7 @@ func rsignal_hitbox_hit(attack: AttackBase):
 		return
 	
 	# Apply knockback force
-	apply_force(attack.towards_vector * attack.knockback)
+	apply_force(attack.knockback_vector)
 	
 	Main.camera.apply_shake(15)
 
@@ -195,9 +195,9 @@ func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
 	else:
 		# Instantiate weapon node and save it in the same index as the inventory slot.
 		weapon_node = weapon.scene.instantiate()
-		weapon_node.connect("signal_weapon_did_use", rsignal_weapon_did_use)
-		weapon_node.connect("signal_weapon_reloading", rsignal_weapon_reloading)
-		weapon_node.connect("signal_weapon_did_reload", rsignal_weapon_did_reload)
+		weapon_node.signal_weapon_did_use.connect(rsignal_weapon_did_use)
+		weapon_node.signal_weapon_reloading.connect(rsignal_weapon_reloading)
+		weapon_node.signal_weapon_did_reload.connect(rsignal_weapon_did_reload)
 		weapon_node.position = weaponOrigin.position
 		weapon_node.visible = true
 		add_child(weapon_node)

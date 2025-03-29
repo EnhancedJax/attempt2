@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://da0l8m01w4qxl"]
+
+[ext_resource type="Script" uid="uid://cjuk7gr3wbhqt" path="res://components/bullets/bullet_spawner.gd" id="1_570xx"]
+
+[node name="BulletSpawner" type="RayCast2D"]
+editor_description = "Responsible for instantiating bullets and calling pattern for spawning."
+script = ExtResource("1_570xx")
