@@ -1,24 +1,17 @@
-[gd_scene load_steps=35 format=4 uid="uid://bj81oeyskct0"]
+[gd_scene load_steps=36 format=4 uid="uid://bj81oeyskct0"]
 
-[ext_resource type="Script" uid="uid://de4sh4ok3rjrr" path="res://weapons/attack_base.gd" id="2_0qh87"]
 [ext_resource type="AudioStream" uid="uid://bcg5bvbknuelv" path="res://weapons/ally/rifle/reload_1.wav" id="2_qd8bx"]
 [ext_resource type="Script" uid="uid://bam8hvn4ax01a" path="res://weapons/ally/rifle/rifle.gd" id="2_xu0o0"]
-[ext_resource type="PackedScene" uid="uid://cyyhdytcpd73i" path="res://components/bullet_spawner/basic_linear/node.tscn" id="3_1ifyx"]
 [ext_resource type="AudioStream" uid="uid://cdore2781hk8c" path="res://weapons/ally/rifle/shot.wav" id="3_ceglm"]
 [ext_resource type="AudioStream" uid="uid://do8xf6v2ow800" path="res://weapons/ally/rifle/reload_2.wav" id="3_dvofk"]
 [ext_resource type="Shader" uid="uid://ctc7jwnjkk8is" path="res://weapons/ally/color_hand.gdshader" id="4_x8wmp"]
-[ext_resource type="PackedScene" uid="uid://dps8a8h16admb" path="res://weapons/ally/rifle/rifle_bullet.tscn" id="5_674yx"]
-[ext_resource type="PackedScene" uid="uid://cuiahy254v43" path="res://components/fire/full_auto/_full_auto.tscn" id="6_n1vsn"]
+[ext_resource type="PackedScene" uid="uid://da0l8m01w4qxl" path="res://components/bullets/bullet_spawner.tscn" id="9_0qcfc"]
 [ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="9_crth4"]
 [ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="10_0qh87"]
+[ext_resource type="Script" uid="uid://dyy3wgjoku8xv" path="res://components/bullets/variants/projectile/projectile_props.gd" id="10_51q0u"]
 [ext_resource type="AudioStream" uid="uid://cewvokry67pih" path="res://weapons/ally/rifle/equip.wav" id="10_crth4"]
-
-[sub_resource type="Resource" id="Resource_t86hx"]
-script = ExtResource("2_0qh87")
-damage = 1
-knockback = 100.0
-recoil = 200.0
-metadata/_custom_type_script = "uid://de4sh4ok3rjrr"
+[ext_resource type="Script" uid="uid://d1ylqbvjqhtj8" path="res://components/bullets/patterns/pattern_points.gd" id="11_674yx"]
+[ext_resource type="Texture2D" uid="uid://b01e1qjah6km7" path="res://weapons/ally/rifle/rifle_bullet.png" id="11_s52lg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kqkdb"]
 shader = ExtResource("4_x8wmp")
@@ -232,10 +225,36 @@ pitch = 1.0
 streams = Array[AudioStream]([ExtResource("10_crth4")])
 metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
 
-[node name="Rifle" type="Node2D"]
+[sub_resource type="Resource" id="Resource_s52lg"]
+script = ExtResource("10_51q0u")
+sprite_texture = ExtResource("11_s52lg")
+should_rotate = true
+has_shadow = true
+life_time = 30
+bullet_pierce_count = 0
+bullet_bounce_count = 0
+damage = 3.0
+knockback_magnitude = 200.0
+is_player_bullet = true
+bullet_modulate = Color(2, 2, 2, 1)
+metadata/_custom_type_script = "uid://dyy3wgjoku8xv"
+
+[sub_resource type="Resource" id="Resource_3aslw"]
+script = ExtResource("11_674yx")
+points = Array[Vector2]([Vector2(0, 0)])
+randomized_angle_spread = 0.0
+speed = 800.0
+amount_of_bullets = 1
+time_between_bullets = 0.0
+time_before_move = 0.0
+time_between_bullets_before_move = 0.0
+time_between_fire = 0.15
+metadata/_custom_type_script = "uid://d1ylqbvjqhtj8"
+
+[node name="Rifle" type="Node2D" node_paths=PackedStringArray("bullet_spawner")]
 y_sort_enabled = true
 script = ExtResource("2_xu0o0")
-ATTACK = SubResource("Resource_t86hx")
+bullet_spawner = NodePath("BulletSpawner")
 mag_size = 2
 reload_time = 1.5
 
@@ -270,14 +289,6 @@ libraries = {
 &"": SubResource("AnimationLibrary_kqkdb")
 }
 
-[node name="BulletSpawnerComponent" parent="." instance=ExtResource("3_1ifyx")]
-position = Vector2(0, 2)
-target_position = Vector2(27, 0)
-BULLET = ExtResource("5_674yx")
-
-[node name="FullAutoComponent" parent="." instance=ExtResource("6_n1vsn")]
-fire_rate = 8
-
 [node name="ReloadSound2Timer" type="Timer" parent="."]
 one_shot = true
 
@@ -286,3 +297,9 @@ script = ExtResource("9_crth4")
 label = "rifle"
 events = Array[ExtResource("10_0qh87")]([SubResource("Resource_d0i0v"), SubResource("Resource_dvofk"), SubResource("Resource_crth4"), SubResource("Resource_0qh87")])
 metadata/_custom_type_script = "uid://b7r334bhuu4yk"
+
+[node name="BulletSpawner" parent="." instance=ExtResource("9_0qcfc")]
+position = Vector2(0, 2)
+target_position = Vector2(27, 0)
+bullet_props = SubResource("Resource_s52lg")
+bullet_pattern = SubResource("Resource_3aslw")

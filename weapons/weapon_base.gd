@@ -60,12 +60,12 @@ func register_firing_handler(handler: FiringHandlerBase) -> void:
 	firing_handler = handler
 
 func handle_use(delta: float, is_just_pressed_fire: bool, is_pressed_fire: bool, auto_firing: bool) -> void:
-	if is_pressed_fire and bullet_spawner.can_shoot:
+	if (is_pressed_fire or auto_firing) and bullet_spawner.can_shoot:
 		if (mag_count > 0 or mag_size == -1) and not is_reloading:
 			handle_attack()
 			signal_weapon_did_use.emit(_calculate_kickback_vector())
 			can_reload = mag_size != -1 and mag_count < mag_size
-			if mag_count > 0:
+			if mag_count > 0 or mag_size == -1:
 				return
 		handle_out_of_ammo()
 		if can_reload:

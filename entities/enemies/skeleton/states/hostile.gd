@@ -1,6 +1,5 @@
 extends State
 
-@export var BURST_DURATION := 0.5
 @export var BURST_COOLDOWN := 2.0
 var burst_timer := 0.0
 var cooldown_timer := 0.0
@@ -27,10 +26,9 @@ func physics_update(delta : float):
 	
 	# Update timers
 	if is_bursting:
-		burst_timer += delta
-		if burst_timer >= BURST_DURATION:
-			is_bursting = false
-			burst_timer = 0.0
+		# Immediately use weapon and reset burst state
+		sm.parent.weapon_node.handle_use(delta, false, false, true)
+		is_bursting = false
 	else:
 		cooldown_timer += delta
 		if cooldown_timer >= BURST_COOLDOWN:
@@ -79,10 +77,6 @@ func physics_update(delta : float):
 		
 		# Apply movement using move_toward
 		p.velocity = p.velocity.move_toward(movement, 40000 * delta)
-		
-		# Handle weapon use during burst
-		if is_bursting:
-			sm.parent.weapon_node.handle_use(delta, false, false, true)
 	else:
 		p.velocity = Vector2.ZERO
 	

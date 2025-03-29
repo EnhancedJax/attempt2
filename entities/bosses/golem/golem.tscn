@@ -1,4 +1,4 @@
-[gd_scene load_steps=81 format=4 uid="uid://c34kdv6i2lx0o"]
+[gd_scene load_steps=79 format=4 uid="uid://c34kdv6i2lx0o"]
 
 [ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_54fl3"]
 [ext_resource type="Script" uid="uid://mxqoevwf4b4" path="res://entities/bosses/golem/golem.gd" id="2_57rg2"]
@@ -6,9 +6,7 @@
 [ext_resource type="Script" uid="uid://4508clq887vd" path="res://entities/enemies/skeleton/state_node.gd" id="4_idp7x"]
 [ext_resource type="Script" uid="uid://cmvc44rc5pgon" path="res://entities/bosses/golem/hostile.gd" id="5_idp7x"]
 [ext_resource type="Script" uid="uid://w2lv4n1a3mv4" path="res://entities/bosses/golem/death.gd" id="6_idp7x"]
-[ext_resource type="Script" uid="uid://bc8s8ensbqys4" path="res://entities/bosses/golem/melee.gd" id="7_6ms3o"]
 [ext_resource type="Script" uid="uid://c2shbewm1ct7k" path="res://entities/bosses/golem/laser.gd" id="8_jdnx3"]
-[ext_resource type="PackedScene" uid="uid://6pknfvprya8o" path="res://entities/bosses/golem/melee_attack.tscn" id="8_wrywd"]
 [ext_resource type="Script" uid="uid://dcxsduoh5xyar" path="res://entities/bosses/golem/idle.gd" id="9_llwlp"]
 [ext_resource type="Script" uid="uid://drnag24r8i113" path="res://entities/bosses/golem/shoot.gd" id="10_ayafp"]
 [ext_resource type="PackedScene" uid="uid://cdo8st1jff7jl" path="res://entities/bosses/golem/chaingun/chaingun.tscn" id="14_pkhrj"]
@@ -695,8 +693,8 @@ position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_7sqln")
 
 [node name="HealthComponent" parent="." index="5"]
-MAX_HEALTH = 150
-INITIAL_HEALTH = 150
+MAX_HEALTH = 450
+INITIAL_HEALTH = 450
 
 [node name="Shape" parent="HurtboxComponent" index="0"]
 shape = SubResource("CapsuleShape2D_4asvw")
@@ -720,22 +718,14 @@ STRAFE_SPEED = 50.0
 script = ExtResource("6_idp7x")
 animated_sprite = NodePath("../../AnimatedSprite2D")
 
-[node name="Melee" type="Node" parent="StateMachine" index="2" node_paths=PackedStringArray("animated_sprite")]
-script = ExtResource("7_6ms3o")
-animated_sprite = NodePath("../../AnimatedSprite2D")
-melee_attack = ExtResource("8_wrywd")
-RADIUS = 48.0
-
-[node name="Laser" type="Node" parent="StateMachine" index="3"]
+[node name="Laser" type="Node" parent="StateMachine" index="2"]
 script = ExtResource("8_jdnx3")
 
-[node name="Shoot" type="Node" parent="StateMachine" index="4"]
+[node name="Shoot" type="Node" parent="StateMachine" index="3"]
 script = ExtResource("10_ayafp")
-fire_duration_1 = 2.0
 fire_wait = 2.0
-fire_duration_2 = 2.0
 
-[node name="Idle" type="Node" parent="StateMachine" index="5"]
+[node name="Idle" type="Node" parent="StateMachine" index="4"]
 script = ExtResource("9_llwlp")
 
 [node name="Chaingun" parent="." index="9" instance=ExtResource("14_pkhrj")]

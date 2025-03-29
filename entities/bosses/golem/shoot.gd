@@ -1,43 +1,30 @@
 extends State
 
-@export var fire_duration_1 : float = 1 # seconds
-@export var fire_wait : float = 0.5
-@export var fire_duration_2 : float = 3
+@export var fire_wait : float = 1.5
 @export var walk_speed : float = 80
 
-var fire_timer : float = 0.0
-var firing : bool = false
 var cooldown_timer : float = 0.0
 var phase : int = 0
 
 func enter() -> void:
-	fire_timer = 0.0
 	cooldown_timer = 0.0
 	phase = 0
-	firing = true
+	# Fire mode 1 immediately on enter
+	p.weapon_node.handle_use_custom(0, 1, true)
+	phase = 1
 
 func update(delta: float) -> void:
-	if phase == 0: # Fire mode 1
-		p.weapon_node.handle_use_custom(delta, 1, true)
-		fire_timer += delta
-		if fire_timer >= fire_duration_1:
-			fire_timer = 0.0
-			phase = 1
-			firing = false
-	elif phase == 1: # Wait
-		p.weapon_node.handle_use_custom(delta, 1, false)
+	if phase == 1: # Wait after first shot
 		cooldown_timer += delta
 		if cooldown_timer >= fire_wait:
 			cooldown_timer = 0.0
+			# Fire mode 2
+			p.weapon_node.handle_use_custom(0, 2, true)
 			phase = 2
-			firing = true
-	elif phase == 2: # Fire mode 2
-		p.weapon_node.handle_use_custom(delta, 2, true)
-		fire_timer += delta
-		if fire_timer >= fire_duration_2:
-			fire_timer = 0.0
+	elif phase == 2: # Wait after second shot
+		cooldown_timer += delta
+		if cooldown_timer >= fire_wait:
 			phase = 3
-			firing = false
 	elif phase == 3: # Transition back to Hostile
 		sm.on_child_transition(self, "Hostile")
 		

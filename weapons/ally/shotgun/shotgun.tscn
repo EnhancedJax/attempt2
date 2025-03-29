@@ -7,7 +7,7 @@
 [ext_resource type="Shader" uid="uid://ctc7jwnjkk8is" path="res://weapons/ally/color_hand.gdshader" id="6_or3xc"]
 [ext_resource type="PackedScene" uid="uid://da0l8m01w4qxl" path="res://components/bullets/bullet_spawner.tscn" id="8_22swp"]
 [ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="8_t6wmo"]
-[ext_resource type="Script" uid="uid://d1ur5u3r3txg" path="res://components/bullets/bullet_props.gd" id="9_1mkbx"]
+[ext_resource type="Script" uid="uid://dyy3wgjoku8xv" path="res://components/bullets/variants/projectile/projectile_props.gd" id="9_d2uix"]
 [ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="9_t6wmo"]
 [ext_resource type="Texture2D" uid="uid://dyoumkequfj2r" path="res://weapons/ally/shotgun/shotgun_bullet.png" id="10_22swp"]
 [ext_resource type="Script" uid="uid://dn6saeqlvy3bq" path="res://components/bullets/patterns/pattern_arc.gd" id="11_krgqm"]
@@ -174,19 +174,19 @@ pitch = 1.0
 streams = Array[AudioStream]([ExtResource("4_pgxrn")])
 metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
 
-[sub_resource type="Resource" id="Resource_0ruoe"]
-script = ExtResource("9_1mkbx")
-damage = 1.0
-knockback_magnitude = 100.0
+[sub_resource type="Resource" id="Resource_cwej4"]
+script = ExtResource("9_d2uix")
 sprite_texture = ExtResource("10_22swp")
 should_rotate = true
 has_shadow = true
 life_time = 30
-is_player_bullet = true
 bullet_pierce_count = 0
-bullet_bounce_count = 1
+bullet_bounce_count = 0
+damage = 2.0
+knockback_magnitude = 100.0
+is_player_bullet = true
 bullet_modulate = Color(2, 2, 2, 1)
-metadata/_custom_type_script = "uid://d1ur5u3r3txg"
+metadata/_custom_type_script = "uid://dyy3wgjoku8xv"
 
 [sub_resource type="Resource" id="Resource_hs4lf"]
 script = ExtResource("11_krgqm")
@@ -246,5 +246,5 @@ metadata/_custom_type_script = "uid://b7r334bhuu4yk"
 
 [node name="BulletSpawner" parent="." instance=ExtResource("8_22swp")]
 target_position = Vector2(31, 0)
-bullet_props = SubResource("Resource_0ruoe")
+bullet_props = SubResource("Resource_cwej4")
 bullet_pattern = SubResource("Resource_hs4lf")

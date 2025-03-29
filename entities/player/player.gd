@@ -1,7 +1,7 @@
 class_name Player extends EntityBase
 
 # Inventory: each element is the weapon ID. If the same ID appears twice, the player owns two separate instances.
-var weapons : Array[int] = [0,1]
+var weapons : Array[int] = [2, 4]
 var equipped_weapon_index : int = 0
 var max_weapons_count : int = 2
 

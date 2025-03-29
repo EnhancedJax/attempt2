@@ -3,18 +3,10 @@
 [ext_resource type="PackedScene" uid="uid://dnxw7kqi21unw" path="res://weapons/weapon_base.tscn" id="1_f8l1g"]
 [ext_resource type="Texture2D" uid="uid://k4jb06p12q4l" path="res://entities/bosses/golem/chaingun/chaingun.png" id="2_b0jc0"]
 [ext_resource type="Script" uid="uid://bpd2u5h6mpy3u" path="res://entities/bosses/golem/chaingun/chaingun.gd" id="2_pskwu"]
-[ext_resource type="PackedScene" uid="uid://cyyhdytcpd73i" path="res://components/bullet_spawner/basic_linear/node.tscn" id="3_j8o80"]
-[ext_resource type="Script" uid="uid://de4sh4ok3rjrr" path="res://weapons/attack_base.gd" id="3_ogd5s"]
-[ext_resource type="PackedScene" uid="uid://cuiahy254v43" path="res://components/fire/full_auto/_full_auto.tscn" id="4_2wccf"]
-[ext_resource type="PackedScene" uid="uid://cqpaelsgoqk53" path="res://components/bullet_spawner/basic_shotgun/node.tscn" id="5_2wccf"]
-[ext_resource type="PackedScene" uid="uid://drp5me6lewdh1" path="res://entities/bosses/golem/chaingun/bullet.tscn" id="6_kamok"]
-
-[sub_resource type="Resource" id="Resource_kamok"]
-script = ExtResource("3_ogd5s")
-damage = 1
-knockback = 400.0
-recoil = 200.0
-metadata/_custom_type_script = "uid://de4sh4ok3rjrr"
+[ext_resource type="PackedScene" uid="uid://da0l8m01w4qxl" path="res://components/bullets/bullet_spawner.tscn" id="5_2wccf"]
+[ext_resource type="Resource" uid="uid://bn0kk1f8waacn" path="res://components/bullets/shared_bullet_props/enemy_simple.tres" id="5_ogd5s"]
+[ext_resource type="Script" uid="uid://dn6saeqlvy3bq" path="res://components/bullets/patterns/pattern_arc.gd" id="6_kamok"]
+[ext_resource type="Script" uid="uid://d1ylqbvjqhtj8" path="res://components/bullets/patterns/pattern_points.gd" id="7_hqkos"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kamok"]
 atlas = ExtResource("2_b0jc0")
@@ -104,14 +96,33 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="Chaingun" node_paths=PackedStringArray("attack_1_firing_handler", "attack_1_bullet_spawner", "attack_2_firing_handler", "attack_2_bullet_spawner") instance=ExtResource("1_f8l1g")]
+[sub_resource type="Resource" id="Resource_4ps6p"]
+script = ExtResource("6_kamok")
+arc_angle = 80.0
+speed = 200.0
+amount_of_bullets = 15
+time_between_bullets = 1.5
+time_before_move = 0.0
+time_between_bullets_before_move = 0.0
+time_between_fire = 0.0
+metadata/_custom_type_script = "uid://dn6saeqlvy3bq"
+
+[sub_resource type="Resource" id="Resource_shonb"]
+script = ExtResource("7_hqkos")
+points = Array[Vector2]([Vector2(0, 0)])
+randomized_angle_spread = 40.0
+speed = 200.0
+amount_of_bullets = 15
+time_between_bullets = 0.1
+time_before_move = 0.0
+time_between_bullets_before_move = 0.0
+time_between_fire = 0.0
+metadata/_custom_type_script = "uid://d1ylqbvjqhtj8"
+
+[node name="Chaingun" node_paths=PackedStringArray("spawner_1", "spawner_2") instance=ExtResource("1_f8l1g")]
 script = ExtResource("2_pskwu")
-ATTACK = SubResource("Resource_kamok")
-spread = 40.0
-attack_1_firing_handler = NodePath("BasicLinear/FireComponent")
-attack_1_bullet_spawner = NodePath("BasicLinear")
-attack_2_firing_handler = NodePath("BasicShotgun/FireComponent")
-attack_2_bullet_spawner = NodePath("BasicShotgun")
+spawner_1 = NodePath("BulletSpawner1")
+spawner_2 = NodePath("BulletSpawner2")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 texture_filter = 1
@@ -132,18 +143,14 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "e72017832bb0bbcc3bdd88d082d2f024"
 
-[node name="BasicLinear" parent="." index="2" instance=ExtResource("3_j8o80")]
-target_position = Vector2(40, 0)
-BULLET = ExtResource("6_kamok")
+[node name="BulletSpawner2" parent="." index="2" instance=ExtResource("5_2wccf")]
+target_position = Vector2(34, 0)
+collision_mask = 11
+bullet_props = ExtResource("5_ogd5s")
+bullet_pattern = SubResource("Resource_4ps6p")
 
-[node name="FireComponent" parent="BasicLinear" index="0" instance=ExtResource("4_2wccf")]
-fire_rate = 12.0
-
-[node name="BasicShotgun" parent="." index="3" instance=ExtResource("5_2wccf")]
-target_position = Vector2(40, 0)
-PELLET_COUNT = 18
-SPREAD_ANGLE = 80.0
-BULLET = ExtResource("6_kamok")
-
-[node name="FireComponent" parent="BasicShotgun" index="0" instance=ExtResource("4_2wccf")]
-fire_rate = 0.8
+[node name="BulletSpawner1" parent="." index="3" instance=ExtResource("5_2wccf")]
+target_position = Vector2(33, 0)
+collision_mask = 11
+bullet_props = ExtResource("5_ogd5s")
+bullet_pattern = SubResource("Resource_shonb")

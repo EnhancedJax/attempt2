@@ -1,23 +1,16 @@
-[gd_scene load_steps=37 format=4 uid="uid://b8kdvijvf8dx6"]
+[gd_scene load_steps=39 format=4 uid="uid://b8kdvijvf8dx6"]
 
 [ext_resource type="PackedScene" uid="uid://dnxw7kqi21unw" path="res://weapons/weapon_base.tscn" id="1_s7yg6"]
 [ext_resource type="Script" uid="uid://ddhw0aso76g6f" path="res://weapons/ally/sniper/sniper.gd" id="2_braa8"]
-[ext_resource type="PackedScene" uid="uid://cyyhdytcpd73i" path="res://components/bullet_spawner/basic_linear/node.tscn" id="3_braa8"]
-[ext_resource type="Script" uid="uid://de4sh4ok3rjrr" path="res://weapons/attack_base.gd" id="3_j20kw"]
 [ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="4_7yxvd"]
 [ext_resource type="AudioStream" uid="uid://d1ytbudkccgcb" path="res://weapons/ally/sniper/cycle.wav" id="5_5scbx"]
 [ext_resource type="AudioStream" uid="uid://f8duoi3fjt71" path="res://weapons/ally/sniper/shot.mp3" id="6_7yxvd"]
 [ext_resource type="AudioStream" uid="uid://cx2htjpme3j3o" path="res://weapons/ally/sniper/reload_1.wav" id="7_iv7mh"]
 [ext_resource type="AudioStream" uid="uid://b8i2mro73uq3d" path="res://weapons/ally/sniper/reload_2.wav" id="8_0hp27"]
-[ext_resource type="PackedScene" uid="uid://o04ryntw4127" path="res://weapons/ally/sniper/sniper_bullet.tscn" id="11_5scbx"]
-[ext_resource type="PackedScene" uid="uid://cuiahy254v43" path="res://components/fire/full_auto/_full_auto.tscn" id="11_lnjeg"]
-
-[sub_resource type="Resource" id="Resource_ok1sp"]
-script = ExtResource("3_j20kw")
-damage = 5
-knockback = 1000.0
-recoil = 1000.0
-metadata/_custom_type_script = "uid://de4sh4ok3rjrr"
+[ext_resource type="PackedScene" uid="uid://da0l8m01w4qxl" path="res://components/bullets/bullet_spawner.tscn" id="8_hcqri"]
+[ext_resource type="PackedScene" uid="uid://xrox2sh77fgk" path="res://components/bullets/shared_hit_particles/basic_cpu.tscn" id="9_5scbx"]
+[ext_resource type="Script" uid="uid://c4doxu14h34ks" path="res://components/bullets/variants/laser/laser_props.gd" id="9_7yxvd"]
+[ext_resource type="Script" uid="uid://d1ylqbvjqhtj8" path="res://components/bullets/patterns/pattern_points.gd" id="10_5scbx"]
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_7yxvd"]
 _data = PackedByteArray("AAADAAUAAAABAAAAwAAAAIAAAAB+AwAAUklGRnYDAABXRUJQVlA4TGoDAAAvv8AfEKfAJgCANOjn7jBvs1QrvAbUUBrJVvM6+P8TFCrH/uvB4dAoBrWRbCX/ox1o5hlDTjV0TwUaMf8BANb/4QK/nzZTdVvQ/KRnQN5o49RW1mW8lxgcRMthG+nQe7xvdqmBBwMo2LZVN3Ken897mKbdDq6a/2BlQMAS5J9E9N+B27aRZHVm9l7Fe75B/qrktvvc53vuaN3kNttzL3ncZ2+P++ztcaGEA07D4+f9dpvuOXuuywQLzxfQHtQev/36cb9N95w+11ATRdPTbp9SMqvHCgWPgx9yv7xnTz59labnTUu/pX2g2TY8HlJwv7pnV7AWrW3QshBosrJnaVg/QZ8TXZZ8MMOsq+crek7ZaGGhgfFKoS92kEjPvrGW8eSE6rwZnAt16ZafUzPrq2EZTwxvUIiOvzB8KDQBj6iKyNU9hxNjdFCNpehg0Y2RVKPIkYyILO1puB+baM5aig4WXdVcaoLnTy7vOWPhfMIM0armUlMARC7vOSMI7qrVm344uDteeFas7VlV22x4Vs+LeF4TgGU8L5sFPP//h8DGg4UQ4HQBg6JdRS/pGQ5SSs9Xx/ZKoSMWQlOU86znaSFYTaPIEgOzrhekRVcN63lS9wUC1M8EA53XPn1ewHqeHxNKzE76GtpoYaGB8UphOU9ovFVIz5Hb0qYWNYNzoTU8T129/KBiNvb+xmtqz/RkZU9oiEbAI6YymhijAw1Psz14qqrIkawyHI+OCJHKU/fgqTkr4DkjExYOHrm4p+r76/u78BxO4XnkowHMCFLIcm1PzfqePFfr7TEaoHqkq3vqNE9rzXVtyrfhJf8pgixB8TbcOyr/kwQWDtixp4WClNLzBWzYE2sBsmFPqeX6JIH9eRYmtLDQwHilsKqnjntyQvU2MYNzoUU9Neu4p+Elqu+v7++QEunJ0McBr8n5/TXZUzXM9fRwZIpnjNHRrG/AI2YmMzxBVd9zPXOePZdH0DmeHh0RjYgcyaoyx5OlPMdF8bJm8JyR/XoiuDuIAOzWsxJr+23E83+ZwcIBO46FgpTS8wU7XliLLW8idVnQ58QeN6WFhQbGK4V91dVEs5bnzTjFbGMfN7zmyOeGpGfXxVtLjNEBjwoeMTPZbPzYRIiIHMmqIttdOHgE8JyR/QbB3UEEYLsB6kf6Lx4E")
@@ -391,10 +384,41 @@ pitch = 1.0
 streams = Array[AudioStream]([ExtResource("8_0hp27")])
 metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
 
-[node name="Sniper" instance=ExtResource("1_s7yg6")]
+[sub_resource type="Gradient" id="Gradient_7yxvd"]
+offsets = PackedFloat32Array(0, 0.135945)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
+
+[sub_resource type="Resource" id="Resource_lnjeg"]
+script = ExtResource("9_7yxvd")
+laser_width = 1.0
+laser_fill_gradient = SubResource("Gradient_7yxvd")
+time_laser_active = -1.0
+time_laser_reach_collision = -1.0
+time_laser_fade = 1.0
+laser_pierce_count = 2
+damage = 10.0
+knockback_magnitude = 100.0
+is_player_bullet = true
+bullet_modulate = Color(2, 2, 2, 1)
+hit_particle = ExtResource("9_5scbx")
+metadata/_custom_type_script = "uid://c4doxu14h34ks"
+
+[sub_resource type="Resource" id="Resource_iv7mh"]
+script = ExtResource("10_5scbx")
+points = Array[Vector2]([Vector2(0, 0)])
+randomized_angle_spread = 0.0
+speed = 0.0
+amount_of_bullets = 1
+time_between_bullets = 0.0
+time_before_move = 0.0
+time_between_bullets_before_move = 0.0
+time_between_fire = 0.5
+metadata/_custom_type_script = "uid://d1ylqbvjqhtj8"
+
+[node name="Sniper" node_paths=PackedStringArray("bullet_spawner") instance=ExtResource("1_s7yg6")]
 script = ExtResource("2_braa8")
-ATTACK = SubResource("Resource_ok1sp")
-spread = 0.0
+kickback = 1000.0
+bullet_spawner = NodePath("BulletSpawner")
 mag_size = 3
 reload_time = 2.0
 
@@ -426,14 +450,12 @@ libraries = {
 label = "sniper"
 events = Array[ExtResource("4_7yxvd")]([SubResource("Resource_yoqqk"), SubResource("Resource_soys5"), SubResource("Resource_062l6"), SubResource("Resource_my5mh")])
 
-[node name="BulletSpawnerComponent" parent="." index="2" instance=ExtResource("3_braa8")]
-position = Vector2(0, 2)
-target_position = Vector2(41, 0)
-rotate = false
-BULLET = ExtResource("11_5scbx")
-
-[node name="ReloadSound2Timer" type="Timer" parent="." index="3"]
+[node name="ReloadSound2Timer" type="Timer" parent="." index="2"]
 one_shot = true
 
-[node name="FullAutoComponent" parent="." index="4" instance=ExtResource("11_lnjeg")]
-fire_rate = 0.85
+[node name="BulletSpawner" parent="." index="3" instance=ExtResource("8_hcqri")]
+position = Vector2(0, 2)
+target_position = Vector2(44, 0)
+collision_mask = 9
+bullet_props = SubResource("Resource_lnjeg")
+bullet_pattern = SubResource("Resource_iv7mh")

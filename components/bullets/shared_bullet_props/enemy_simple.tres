@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ProjectileBulletProps" load_steps=3 format=3 uid="uid://bn0kk1f8waacn"]
+
+[ext_resource type="Script" uid="uid://dyy3wgjoku8xv" path="res://components/bullets/variants/projectile/projectile_props.gd" id="1_onk37"]
+[ext_resource type="Texture2D" uid="uid://diwvdsmigedsc" path="res://weapons/enemy/pistol/enemy_bullet.png" id="2_jccxr"]
+
+[resource]
+script = ExtResource("1_onk37")
+sprite_texture = ExtResource("2_jccxr")
+should_rotate = false
+has_shadow = true
+life_time = 30
+bullet_pierce_count = 0
+bullet_bounce_count = 0
+damage = 1.0
+knockback_magnitude = 100.0
+is_player_bullet = false
+bullet_modulate = Color(2, 2, 2, 1)
+metadata/_custom_type_script = "uid://dyy3wgjoku8xv"

@@ -4,4 +4,5 @@
 
 [node name="BulletSpawner" type="RayCast2D"]
 editor_description = "Responsible for instantiating bullets and calling pattern for spawning."
+collision_mask = 15
 script = ExtResource("1_570xx")

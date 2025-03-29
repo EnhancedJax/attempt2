@@ -3,7 +3,6 @@ extends RayCast2D
 
 @export var bullet_props : BulletProps
 @export var bullet_pattern : BulletSpawnPattern
-var bullet_scene = preload("res://components/bullets/bullet.tscn")
 
 signal signal_shot()
 signal signal_bullet_removed()
@@ -45,8 +44,11 @@ func shoot() -> bool:
 	signal_shot.emit()
 	
 	# Start shoot cooldown
-	shoot_timer.wait_time = bullet_pattern.time_between_fire
-	shoot_timer.start()
+	if bullet_pattern.time_between_fire > 0:
+		shoot_timer.wait_time = bullet_pattern.time_between_fire
+		shoot_timer.start()
+	else:
+		can_shoot = true
 	return true
 
 func _spawn_bullets() -> void:
@@ -136,7 +138,8 @@ func _spawn_next_bullet() -> void:
 		return
 		
 	var bullet_data = shot_queue.pop_front()
-	
+	var bullet_scene = bullet_props.bullet_scene
+
 	# Instantiate the bullet
 	if not bullet_scene:
 		push_error("BulletSpawner: No bullet scene assigned")
@@ -155,7 +158,7 @@ func _spawn_next_bullet() -> void:
 	
 	# Connect signals
 	bullet_instance.signal_bullet_collision.connect(_on_bullet_collision.bind(bullet_instance))
-	bullet_instance.sginal_bullet_removed.connect(_on_bullet_removed.bind(bullet_instance))
+	bullet_instance.signal_bullet_removed.connect(_on_bullet_removed.bind(bullet_instance))
 	
 	# Set initial velocity but wait before moving if needed
 	var velocity_direction = Vector2(cos(bullet_data.rotation), sin(bullet_data.rotation))

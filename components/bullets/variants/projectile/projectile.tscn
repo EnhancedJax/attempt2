@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvcgru38uk8n8"]
+
+[ext_resource type="Script" uid="uid://de6ll0jyxx6iu" path="res://components/bullets/variants/projectile/projectile.gd" id="1_2r3pw"]
+
+[node name="Bullet" type="RigidBody2D" node_paths=PackedStringArray("sprite_2d", "shadow_sprite_2d", "collision_shape_2d")]
+y_sort_enabled = true
+collision_layer = 0
+script = ExtResource("1_2r3pw")
+sprite_2d = NodePath("Sprite")
+shadow_sprite_2d = NodePath("ShadowSprite")
+collision_shape_2d = NodePath("CollisionShape2D")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.337255)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

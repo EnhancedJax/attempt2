@@ -1,12 +1,32 @@
 {
-  "0": {
-    "name": "Firm",
-    "desc": "Pistol wow",
-    "rarity": 0
-  },
-  "1": {
-    "name": "Shotgun",
-    "desc": "Generic shotgun",
-    "rarity": 1
-  }
+	"0": {
+		"name": "Rifle",
+		"desc": "All around good rifle",
+		"rarity": 0.0,
+		"code_name": "rifle"
+	},
+	"1": {
+		"name": "Shotgun",
+		"desc": "Generic shotgun",
+		"rarity": 1.0,
+		"code_name": "shotgun"
+	},
+	"2": {
+		"name": "Sniper",
+		"desc": "Generic sniper",
+		"rarity": 2.0,
+		"code_name": "sniper"
+	},
+	"3": {
+		"name": "Firm",
+		"desc": "Pistol wow",
+		"rarity": 0.0,
+		"code_name": "firm"
+	},
+	"4": {
+		"name": "Submachine gun",
+		"desc": "Generic submachine gun",
+		"rarity": 1.0,
+		"code_name": "smg"
+	}
 }

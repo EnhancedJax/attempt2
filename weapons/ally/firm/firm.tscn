@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://dxlgc31vimg28"]
+[gd_scene load_steps=44 format=3 uid="uid://dxlgc31vimg28"]
 
 [ext_resource type="Script" uid="uid://bmj74ev3l60k5" path="res://weapons/ally/firm/firm.gd" id="1_8l8y3"]
 [ext_resource type="Shader" uid="uid://ctc7jwnjkk8is" path="res://weapons/ally/color_hand.gdshader" id="2_4v54v"]
@@ -10,8 +10,9 @@
 [ext_resource type="AudioStream" uid="uid://i2tne4sem7yn" path="res://weapons/ally/firm/reload_1.wav" id="9_givrx"]
 [ext_resource type="AudioStream" uid="uid://dx88ugl6ka6jp" path="res://weapons/ally/firm/reload_2.wav" id="10_yenhv"]
 [ext_resource type="PackedScene" uid="uid://da0l8m01w4qxl" path="res://components/bullets/bullet_spawner.tscn" id="11_5giwu"]
-[ext_resource type="Resource" uid="uid://ofj83k6nr551" path="res://weapons/ally/firm/firm_bullet.tres" id="11_gi5sp"]
-[ext_resource type="Resource" uid="uid://c0vs8maky2mvc" path="res://weapons/ally/firm/firm_pattern.tres" id="12_gi5sp"]
+[ext_resource type="Script" uid="uid://dyy3wgjoku8xv" path="res://components/bullets/variants/projectile/projectile_props.gd" id="11_6jhw5"]
+[ext_resource type="Texture2D" uid="uid://cins8k8r442gt" path="res://weapons/ally/firm/firm_bullet.png" id="12_givrx"]
+[ext_resource type="Script" uid="uid://d1ylqbvjqhtj8" path="res://components/bullets/patterns/pattern_points.gd" id="13_yenhv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_okj6a"]
 shader = ExtResource("2_4v54v")
@@ -268,6 +269,32 @@ pitch = 1.0
 streams = Array[AudioStream]([ExtResource("10_yenhv")])
 metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
 
+[sub_resource type="Resource" id="Resource_2yue8"]
+script = ExtResource("11_6jhw5")
+sprite_texture = ExtResource("12_givrx")
+should_rotate = false
+has_shadow = true
+life_time = 30
+bullet_pierce_count = 0
+bullet_bounce_count = 0
+damage = 3.0
+knockback_magnitude = 100.0
+is_player_bullet = true
+bullet_modulate = Color(2, 2, 2, 1)
+metadata/_custom_type_script = "uid://dyy3wgjoku8xv"
+
+[sub_resource type="Resource" id="Resource_j4b5i"]
+script = ExtResource("13_yenhv")
+points = Array[Vector2]([Vector2(0, 0)])
+randomized_angle_spread = 0.0
+speed = 600.0
+amount_of_bullets = 2
+time_between_bullets = 0.5
+time_before_move = 0.0
+time_between_bullets_before_move = 0.0
+time_between_fire = 0.2
+metadata/_custom_type_script = "uid://d1ylqbvjqhtj8"
+
 [node name="Firm" type="Node2D" node_paths=PackedStringArray("bullet_spawner")]
 script = ExtResource("1_8l8y3")
 bullet_spawner = NodePath("BulletSpawner")
@@ -321,5 +348,5 @@ one_shot = true
 
 [node name="BulletSpawner" parent="." instance=ExtResource("11_5giwu")]
 target_position = Vector2(20, 0)
-bullet_props = ExtResource("11_gi5sp")
-bullet_pattern = ExtResource("12_gi5sp")
+bullet_props = SubResource("Resource_2yue8")
+bullet_pattern = SubResource("Resource_j4b5i")

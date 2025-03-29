@@ -44,7 +44,7 @@ func _load_ally_weapons() -> void:
 				var new_weapon = WeaponType.new()
 				new_weapon.id = int(key)
 				new_weapon.name = weapon.name
-				var path_name = weapon.name.to_lower().replace(" ", "_")
+				var path_name = weapon.code_name
 				new_weapon.player_tooltip = weapon.desc
 				var scene_path = "res://weapons/ally/%s/%s.tscn" % [path_name, path_name]
 				print(scene_path)

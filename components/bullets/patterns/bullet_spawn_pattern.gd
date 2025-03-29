@@ -2,7 +2,7 @@ class_name BulletSpawnPattern
 extends Resource
 
 ## Flat speed of bullet
-@export var speed = 400.0
+@export var speed = 200.0
 ## Amount of bullets each fire
 @export var amount_of_bullets : int = 1
 ## Time between each bullet spawn
