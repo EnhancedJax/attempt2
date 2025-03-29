@@ -13,3 +13,5 @@ extends Resource
 @export var time_between_bullets_before_move : float = 0.0
 ## Time between each fire (after previous fire finishes)
 @export var time_between_fire : float = 0.5
+## If each bullets should spawn at the target position
+@export var continous_shoot_position : bool = false

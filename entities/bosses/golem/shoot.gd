@@ -1,6 +1,7 @@
 extends State
 
 @export var fire_wait : float = 1.5
+@export var wait_between_shotgun : float = 1.5
 @export var walk_speed : float = 80
 
 var cooldown_timer : float = 0.0
@@ -18,14 +19,21 @@ func update(delta: float) -> void:
 		cooldown_timer += delta
 		if cooldown_timer >= fire_wait:
 			cooldown_timer = 0.0
-			# Fire mode 2
+			# Fire mode 2 - first time
 			p.weapon_node.handle_use_custom(0, 2, true)
 			phase = 2
-	elif phase == 2: # Wait after second shot
+	elif phase == 2: # Wait between shotgun shots
+		cooldown_timer += delta
+		if cooldown_timer >= wait_between_shotgun:
+			cooldown_timer = 0.0
+			# Fire mode 2 - second time
+			p.weapon_node.handle_use_custom(0, 2, true)
+			phase = 3
+	elif phase == 3: # Wait after second shotgun shot
 		cooldown_timer += delta
 		if cooldown_timer >= fire_wait:
-			phase = 3
-	elif phase == 3: # Transition back to Hostile
+			phase = 4
+	elif phase == 4: # Transition back to Hostile
 		sm.on_child_transition(self, "Hostile")
 		
 func physics_update(delta : float):

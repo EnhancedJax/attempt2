@@ -101,10 +101,11 @@ script = ExtResource("6_kamok")
 arc_angle = 80.0
 speed = 200.0
 amount_of_bullets = 15
-time_between_bullets = 1.5
+time_between_bullets = 0.0
 time_before_move = 0.0
 time_between_bullets_before_move = 0.0
 time_between_fire = 0.0
+continous_shoot_position = false
 metadata/_custom_type_script = "uid://dn6saeqlvy3bq"
 
 [sub_resource type="Resource" id="Resource_shonb"]
@@ -117,6 +118,7 @@ time_between_bullets = 0.1
 time_before_move = 0.0
 time_between_bullets_before_move = 0.0
 time_between_fire = 0.0
+continous_shoot_position = true
 metadata/_custom_type_script = "uid://d1ylqbvjqhtj8"
 
 [node name="Chaingun" node_paths=PackedStringArray("spawner_1", "spawner_2") instance=ExtResource("1_f8l1g")]

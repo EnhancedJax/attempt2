@@ -32,6 +32,7 @@ time_between_bullets = 0.5
 time_before_move = 0.0
 time_between_bullets_before_move = 0.0
 time_between_fire = 0.0
+continous_shoot_position = false
 metadata/_custom_type_script = "uid://d1ylqbvjqhtj8"
 
 [node name="Pistol" node_paths=PackedStringArray("bullet_spawner") instance=ExtResource("1_0ayoa")]

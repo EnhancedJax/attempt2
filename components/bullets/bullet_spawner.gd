@@ -58,19 +58,33 @@ func _spawn_bullets() -> void:
 	# Add bullets to shot queue based on pattern
 	shot_queue.clear()
 	
-	# Create positions and rotations based on pattern type
-	if bullet_pattern is PatternArc:
-		_setup_arc_pattern(base_pos, base_rot)
-	elif bullet_pattern is PatternLine:
-		_setup_line_pattern(base_pos, base_rot)
-	elif bullet_pattern is PatternPoints:
-		_setup_points_pattern(base_pos, base_rot)
-	else:
-		# Default - single bullet
+	# If continuous positioning is enabled, only set up the first bullet
+	# The rest will get their positions when they are spawned
+	if bullet_pattern.continous_shoot_position and bullet_pattern.time_between_bullets > 0:
+		# Create a single bullet for now, the rest will be created dynamically
 		shot_queue.append({
 			"position": base_pos,
 			"rotation": base_rot
 		})
+		# Store pattern info to generate positions later
+		shot_queue.append({
+			"pattern_type": bullet_pattern.get_class(),
+			"bullets_left": bullet_pattern.amount_of_bullets - 1
+		})
+	else:
+		# Create positions and rotations based on pattern type
+		if bullet_pattern is PatternArc:
+			_setup_arc_pattern(base_pos, base_rot)
+		elif bullet_pattern is PatternLine:
+			_setup_line_pattern(base_pos, base_rot)
+		elif bullet_pattern is PatternPoints:
+			_setup_points_pattern(base_pos, base_rot)
+		else:
+			# Default - single bullet
+			shot_queue.append({
+				"position": base_pos,
+				"rotation": base_rot
+			})
 	
 	# Start spawning bullets from queue
 	if shot_queue.size() > 0:
@@ -138,6 +152,33 @@ func _spawn_next_bullet() -> void:
 		return
 		
 	var bullet_data = shot_queue.pop_front()
+	
+	# Check if this is pattern info for continuous shooting
+	if bullet_data.has("bullets_left"):
+		var bullets_left = bullet_data.bullets_left
+		var pattern_type = bullet_data.pattern_type
+		
+		# Get updated position and rotation
+		var updated_pos = _get_base_spawn_position()
+		var updated_rot = global_rotation
+		
+		# Generate next bullet with updated position
+		shot_queue.insert(0, {
+			"position": updated_pos,
+			"rotation": updated_rot
+		})
+		
+		# Update the pattern info for next bullets
+		if bullets_left > 1:
+			shot_queue.append({
+				"pattern_type": pattern_type,
+				"bullets_left": bullets_left - 1
+			})
+		
+		# Restart the function to handle the actual bullet we just added
+		_spawn_next_bullet()
+		return
+	
 	var bullet_scene = bullet_props.bullet_scene
 
 	# Instantiate the bullet
@@ -187,7 +228,8 @@ func _spawn_next_bullet() -> void:
 ## if not colliding, spawn at tip, otherwise, spawn at base
 func _get_base_spawn_position() -> Vector2:
 	if not is_colliding():
-		return global_position + target_position.rotated(self.global_rotation) * abs(global_scale)
+		var scaled_target = Vector2(target_position.x * abs(global_scale.x), target_position.y * abs(global_scale.y))
+		return global_position + scaled_target.rotated(self.global_rotation)
 	else:
 		return global_position
 
