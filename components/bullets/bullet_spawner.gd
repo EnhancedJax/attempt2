@@ -162,6 +162,11 @@ func _spawn_next_bullet() -> void:
 		var updated_pos = _get_base_spawn_position()
 		var updated_rot = global_rotation
 		
+		 # Apply randomized angle spread if enabled
+		if bullet_pattern.randomized_angle_spread > 0:
+			updated_rot += randf_range(-deg_to_rad(bullet_pattern.randomized_angle_spread), 
+				deg_to_rad(bullet_pattern.randomized_angle_spread))
+		
 		# Generate next bullet with updated position
 		shot_queue.insert(0, {
 			"position": updated_pos,

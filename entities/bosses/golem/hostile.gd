@@ -4,30 +4,24 @@ extends State
 @export var IDEAL_DISTANCE := 200.0  # Distance to maintain from player
 @export var DISTANCE_TOLERANCE := 30.0  # How much deviation from ideal distance is acceptable
 @export var STRAFE_SPEED := 100.0
-@export var STRAFE_CHANGE_TIME := 1.5  # Time before changing strafe direction
-@export var MELEE_RANGE : float = 64
-@export var CHANGE_MODE_TIME : float = 0.5
+@export var STRAFE_TIME := 1.5  # Time to strafe before changing states
+
 var strafe_direction := 1.0  # 1 for right, -1 for left
-var strafe_change_timer := 0.0
-var change_mode_timer := 0.0
+var strafe_timer := 0.0
+var last_attack_state := ""  # Track the last attack state used
 
 func enter():
 	sm.animatedSprite.play("idle")
 	randomize()
 	p = sm.parent
-	change_mode_timer = 0.0
+	strafe_timer = 0.0
+	strafe_direction = 1.0 if randf() > 0.5 else -1.0
 	
 func physics_update(delta : float):
 	var player = Main.player
 	var can_see_player = false
 	
-	# Update strafe timer and direction
-	strafe_change_timer += delta
-	if strafe_change_timer >= STRAFE_CHANGE_TIME:
-		strafe_change_timer = 0.0
-		strafe_direction = -strafe_direction if randf() > 0.3 else strafe_direction
-	
-	# Cast rays in a fan pattern
+	# Cast rays in a fan pattern to check visibility
 	for i in range(-1, 2):
 		var space_state = sm.parent.get_world_2d().direct_space_state
 		var query = PhysicsRayQueryParameters2D.create(
@@ -48,21 +42,21 @@ func physics_update(delta : float):
 		var distance = to_player.length()
 		var direction = to_player.normalized()
 		
-		 # Check if player is in melee range
+		# Update strafe timer
+		strafe_timer += delta
 		
-		# Randomly wait to change to Shoot state
-		change_mode_timer += delta
-		if change_mode_timer >= CHANGE_MODE_TIME:
-			change_mode_timer = 0.0
-			if randf() > 0.5:
-				sm.on_child_transition(self, "Shoot")
-				return
-				
-		var player_in_melee_range = distance <= MELEE_RANGE
-		
-		if player_in_melee_range:
-			# Transition to melee attack state
-			sm.on_child_transition(self, "Melee")
+		# After strafe time, transition to a random attack state
+		if strafe_timer >= STRAFE_TIME:
+			var available_states = ["Shoot1", "Shoot2", "Laser"]
+			
+			# Remove the last used state from options if it exists
+			if last_attack_state in available_states:
+				available_states.erase(last_attack_state)
+			
+			# Pick a random state from remaining options
+			var next_state = available_states[randi() % available_states.size()]
+			last_attack_state = next_state
+			sm.on_child_transition(self, next_state)
 			return
 		
 		# Movement vector

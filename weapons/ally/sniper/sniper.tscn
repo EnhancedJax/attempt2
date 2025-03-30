@@ -393,7 +393,7 @@ script = ExtResource("9_7yxvd")
 laser_width = 1.0
 laser_fill_gradient = SubResource("Gradient_7yxvd")
 time_laser_active = -1.0
-time_laser_reach_collision = -1.0
+time_laser_reach_collision = 0.5
 time_laser_fade = 1.0
 laser_pierce_count = 2
 damage = 10.0
@@ -412,7 +412,8 @@ amount_of_bullets = 1
 time_between_bullets = 0.0
 time_before_move = 0.0
 time_between_bullets_before_move = 0.0
-time_between_fire = 0.5
+time_between_fire = 1.0
+continous_shoot_position = false
 metadata/_custom_type_script = "uid://d1ylqbvjqhtj8"
 
 [node name="Sniper" node_paths=PackedStringArray("bullet_spawner") instance=ExtResource("1_s7yg6")]
