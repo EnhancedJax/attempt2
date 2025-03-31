@@ -707,7 +707,7 @@ position = Vector2(0, 0)
 script = ExtResource("4_idp7x")
 animatedSprite = NodePath("../AnimatedSprite2D")
 animator = NodePath("../AnimatedSprite2D/AnimationPlayer")
-initial_state = NodePath("Hostile")
+initial_state = NodePath("Idle")
 
 [node name="Hostile" type="Node" parent="StateMachine" index="0"]
 script = ExtResource("5_idp7x")

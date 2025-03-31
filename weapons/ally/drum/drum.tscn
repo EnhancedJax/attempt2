@@ -229,14 +229,13 @@ colors = PackedColorArray(0, 0, 0, 0, 0, 0.8, 1, 1)
 
 [sub_resource type="Resource" id="Resource_ta3kp"]
 script = ExtResource("10_jymqp")
-laser_width = 1.0
-laser_speed = 1000.0
-collide_at_impact = false
+laser_width = 1
 laser_fill_gradient = SubResource("Gradient_roske")
 time_laser_active = -1.0
 external_control_disable = false
 time_laser_fade = 0.2
-laser_pierce_count = -1
+laser_pierce_count = 0
+damage_tick_interval = 1.0
 damage = 3.0
 knockback_magnitude = 200.0
 is_player_bullet = true
