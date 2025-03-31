@@ -1,0 +1,170 @@
+[gd_scene load_steps=18 format=3 uid="uid://bxrcxrjqc3wld"]
+
+[ext_resource type="Script" uid="uid://dmtq83w4kpf3d" path="res://weapons/ally/crossbow/crossbow.gd" id="1_ivtsl"]
+[ext_resource type="Shader" uid="uid://ctc7jwnjkk8is" path="res://weapons/ally/color_hand.gdshader" id="2_mgv3b"]
+[ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="3_10vgv"]
+[ext_resource type="Texture2D" uid="uid://bedemlmyymcc5" path="res://weapons/ally/crossbow/crossbow.png" id="3_a06je"]
+[ext_resource type="Texture2D" uid="uid://48amwp0uaiqg" path="res://weapons/ally/crossbow/arrow.png" id="7_ivtsl"]
+[ext_resource type="PackedScene" uid="uid://da0l8m01w4qxl" path="res://components/bullets/bullet_spawner.tscn" id="9_7qkhg"]
+[ext_resource type="PackedScene" uid="uid://difktybkx5rre" path="res://components/bullets/shared_hit_particles/basic_sprite.tscn" id="10_llcxp"]
+[ext_resource type="Script" uid="uid://dyy3wgjoku8xv" path="res://components/bullets/variants/projectile/projectile_props.gd" id="11_ajw32"]
+[ext_resource type="Script" uid="uid://d1ylqbvjqhtj8" path="res://components/bullets/patterns/pattern_points.gd" id="13_unrpn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_okj6a"]
+shader = ExtResource("2_mgv3b")
+shader_parameter/og_color_1 = Color(0.675, 0, 0.776, 1)
+shader_parameter/hand_color_1 = Color(0.914, 0.678, 0.49, 1)
+shader_parameter/og_color_2 = Color(0.87, 0, 1, 1)
+shader_parameter/hand_color_2 = Color(0.73, 0.43, 0.34, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ly8dl"]
+atlas = ExtResource("3_a06je")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jvhka"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ly8dl")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_6jhw5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(7, 4)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_gi5sp"]
+resource_name = "equip"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-11, -3), Vector2(7, 4)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-2.43823, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6jhw5"]
+_data = {
+&"RESET": SubResource("Animation_6jhw5"),
+&"equip": SubResource("Animation_gi5sp")
+}
+
+[sub_resource type="Resource" id="Resource_a06je"]
+script = ExtResource("11_ajw32")
+sprite_texture = ExtResource("7_ivtsl")
+should_rotate = true
+has_shadow = true
+life_time = 30
+bullet_pierce_count = 3
+bullet_bounce_count = 0
+damage = 5
+knockback_magnitude = 800.0
+is_player_bullet = true
+bullet_modulate = Color(1, 1, 1, 1)
+hit_particle = ExtResource("10_llcxp")
+metadata/_custom_type_script = "uid://dyy3wgjoku8xv"
+
+[sub_resource type="Resource" id="Resource_ly8dl"]
+script = ExtResource("13_unrpn")
+points = Array[Vector2]([Vector2(0, 0)])
+randomized_angle_spread = 2.0
+speed = 800.0
+amount_of_bullets = 1
+time_between_bullets = 0.0
+time_before_move = 0.0
+time_between_bullets_before_move = 0.0
+time_between_fire = 0.0
+continous_shoot_position = false
+metadata/_custom_type_script = "uid://d1ylqbvjqhtj8"
+
+[node name="Crossbow" type="Node2D" node_paths=PackedStringArray("bullet_spawner")]
+script = ExtResource("1_ivtsl")
+kickback = 0.0
+bullet_spawner = NodePath("BulletSpawner")
+mag_size = 1
+reload_time = 1.2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
+texture_filter = 1
+material = SubResource("ShaderMaterial_okj6a")
+position = Vector2(7, 4)
+sprite_frames = SubResource("SpriteFrames_jvhka")
+animation = &"idle"
+offset = Vector2(4, -2)
+metadata/_aseprite_wizard_interface_config_ = {
+"layer_section": true,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": false,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"should_round_fps": true,
+"slice": "",
+"source": "res://weapons/ally/crossbow/crossbow.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "8e9326c1dcdf9a1e84e5569d51d30975"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_6jhw5")
+}
+
+[node name="SoundBank" type="Node" parent="."]
+script = ExtResource("3_10vgv")
+metadata/_custom_type_script = "uid://b7r334bhuu4yk"
+
+[node name="BulletSpawner" parent="." instance=ExtResource("9_7qkhg")]
+position = Vector2(0, 2)
+target_position = Vector2(21, 0)
+bullet_props = SubResource("Resource_a06je")
+bullet_pattern = SubResource("Resource_ly8dl")

@@ -29,6 +29,8 @@ func _find_ticker(body: Node2D) -> DamageTicker:
 
 func _on_body_entered(body: Node2D) -> void:
 	print('[HURTBOX] Body entered: ', body)
+	if body == get_parent():
+		return
 	if "ATTACK" in body:
 		handle_hit(body)  # Initial damage tick
 		# Only handle continuous ticking if damage_tick_interval > 0.

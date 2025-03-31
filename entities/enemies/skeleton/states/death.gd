@@ -6,8 +6,9 @@ var friction : float = 1000.0
 func enter():
 	p = sm.parent
 	sm.parent.weapon_node.queue_free()
-	sm.animator.play("RESET")
-	sm.animator.play("death")
+	if sm.animator:
+		sm.animator.play("RESET")
+		sm.animator.play("death")
 	sm.animatedSprite.stop()
 
 	p.disable()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=4 uid="uid://8m3clp0wpfeg"]
+[gd_scene load_steps=33 format=4 uid="uid://8m3clp0wpfeg"]
 
 [ext_resource type="Script" uid="uid://7djfqjywhjqq" path="res://weapons/ally/shotgun/shotgun.gd" id="2_p0o1h"]
 [ext_resource type="AudioStream" uid="uid://chnd0te4uref5" path="res://weapons/ally/shotgun/shot.wav" id="3_8fy2o"]
@@ -7,10 +7,11 @@
 [ext_resource type="Shader" uid="uid://ctc7jwnjkk8is" path="res://weapons/ally/color_hand.gdshader" id="6_or3xc"]
 [ext_resource type="PackedScene" uid="uid://da0l8m01w4qxl" path="res://components/bullets/bullet_spawner.tscn" id="8_22swp"]
 [ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="8_t6wmo"]
+[ext_resource type="PackedScene" uid="uid://difktybkx5rre" path="res://components/bullets/shared_hit_particles/basic_sprite.tscn" id="9_1mkbx"]
 [ext_resource type="Script" uid="uid://dyy3wgjoku8xv" path="res://components/bullets/variants/projectile/projectile_props.gd" id="9_d2uix"]
 [ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="9_t6wmo"]
 [ext_resource type="Texture2D" uid="uid://dyoumkequfj2r" path="res://weapons/ally/shotgun/shotgun_bullet.png" id="10_22swp"]
-[ext_resource type="Script" uid="uid://dn6saeqlvy3bq" path="res://components/bullets/patterns/pattern_arc.gd" id="11_krgqm"]
+[ext_resource type="Script" uid="uid://d1ylqbvjqhtj8" path="res://components/bullets/patterns/pattern_points.gd" id="12_1mkbx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cs4gi"]
 shader = ExtResource("6_or3xc")
@@ -186,18 +187,21 @@ damage = 2.0
 knockback_magnitude = 100.0
 is_player_bullet = true
 bullet_modulate = Color(2, 2, 2, 1)
+hit_particle = ExtResource("9_1mkbx")
 metadata/_custom_type_script = "uid://dyy3wgjoku8xv"
 
-[sub_resource type="Resource" id="Resource_hs4lf"]
-script = ExtResource("11_krgqm")
-arc_angle = 30.0
+[sub_resource type="Resource" id="Resource_krgqm"]
+script = ExtResource("12_1mkbx")
+points = Array[Vector2]([Vector2(0, 0), Vector2(0, 8), Vector2(0, -8), Vector2(8, 4), Vector2(8, -4)])
+randomized_angle_spread = 30.0
 speed = 400.0
 amount_of_bullets = 5
 time_between_bullets = 0.0
 time_before_move = 0.0
 time_between_bullets_before_move = 0.0
 time_between_fire = 0.5
-metadata/_custom_type_script = "uid://dn6saeqlvy3bq"
+continous_shoot_position = false
+metadata/_custom_type_script = "uid://d1ylqbvjqhtj8"
 
 [node name="Gun" type="Node2D" node_paths=PackedStringArray("bullet_spawner")]
 y_sort_enabled = true
@@ -247,4 +251,4 @@ metadata/_custom_type_script = "uid://b7r334bhuu4yk"
 [node name="BulletSpawner" parent="." instance=ExtResource("8_22swp")]
 target_position = Vector2(31, 0)
 bullet_props = SubResource("Resource_cwej4")
-bullet_pattern = SubResource("Resource_hs4lf")
+bullet_pattern = SubResource("Resource_krgqm")

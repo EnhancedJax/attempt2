@@ -30,9 +30,9 @@ func initialize(_bullet_data: Variant, _start_rotation: float):
 		# Set collision shape size to match sprite texture
 		if collision_shape_2d:
 			var texture_size = bullet_data.sprite_texture.get_size()
-			var rect_shape = RectangleShape2D.new()
-			rect_shape.size = texture_size
-			collision_shape_2d.shape = rect_shape
+			var shape = CircleShape2D.new()
+			shape.radius = texture_size.y / 2
+			collision_shape_2d.shape = shape
 	else:
 		push_error("Bullet sprite texture is not set or bullet data is missing.")
 		return

@@ -62,7 +62,3 @@ metadata/_edit_lock_ = true
 [node name="Chest" parent="." index="15" instance=ExtResource("5_sugpw")]
 position = Vector2(129, 58)
 spawned_in_active_room = true
-
-[node name="Chest2" parent="." index="16" instance=ExtResource("5_sugpw")]
-position = Vector2(130, 107)
-spawned_in_active_room = true

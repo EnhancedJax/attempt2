@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=4 uid="uid://bj81oeyskct0"]
+[gd_scene load_steps=37 format=4 uid="uid://bj81oeyskct0"]
 
 [ext_resource type="AudioStream" uid="uid://bcg5bvbknuelv" path="res://weapons/ally/rifle/reload_1.wav" id="2_qd8bx"]
 [ext_resource type="Script" uid="uid://bam8hvn4ax01a" path="res://weapons/ally/rifle/rifle.gd" id="2_xu0o0"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="10_0qh87"]
 [ext_resource type="Script" uid="uid://dyy3wgjoku8xv" path="res://components/bullets/variants/projectile/projectile_props.gd" id="10_51q0u"]
 [ext_resource type="AudioStream" uid="uid://cewvokry67pih" path="res://weapons/ally/rifle/equip.wav" id="10_crth4"]
+[ext_resource type="PackedScene" uid="uid://difktybkx5rre" path="res://components/bullets/shared_hit_particles/basic_sprite.tscn" id="10_s52lg"]
 [ext_resource type="Script" uid="uid://d1ylqbvjqhtj8" path="res://components/bullets/patterns/pattern_points.gd" id="11_674yx"]
 [ext_resource type="Texture2D" uid="uid://b01e1qjah6km7" path="res://weapons/ally/rifle/rifle_bullet.png" id="11_s52lg"]
 
@@ -237,6 +238,7 @@ damage = 3.0
 knockback_magnitude = 200.0
 is_player_bullet = true
 bullet_modulate = Color(2, 2, 2, 1)
+hit_particle = ExtResource("10_s52lg")
 metadata/_custom_type_script = "uid://dyy3wgjoku8xv"
 
 [sub_resource type="Resource" id="Resource_3aslw"]
@@ -249,6 +251,7 @@ time_between_bullets = 0.0
 time_before_move = 0.0
 time_between_bullets_before_move = 0.0
 time_between_fire = 0.15
+continous_shoot_position = false
 metadata/_custom_type_script = "uid://d1ylqbvjqhtj8"
 
 [node name="Rifle" type="Node2D" node_paths=PackedStringArray("bullet_spawner")]

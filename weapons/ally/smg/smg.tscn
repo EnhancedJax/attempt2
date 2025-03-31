@@ -227,6 +227,7 @@ time_between_bullets = 0.0
 time_before_move = 0.0
 time_between_bullets_before_move = 0.0
 time_between_fire = 0.1
+continous_shoot_position = false
 metadata/_custom_type_script = "uid://d1ylqbvjqhtj8"
 
 [node name="Smg" type="Node2D" node_paths=PackedStringArray("bullet_spawner")]
