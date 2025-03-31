@@ -56,7 +56,7 @@ func physics_update(delta : float):
 			# Pick a random state from remaining options
 			var next_state = available_states[randi() % available_states.size()]
 			last_attack_state = next_state
-			sm.on_child_transition(self, next_state)
+			sm.on_child_transition(self, 'Laser')
 			return
 		
 		# Movement vector

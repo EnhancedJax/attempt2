@@ -1,7 +1,7 @@
 class_name Player extends EntityBase
 
 # Inventory: each element is the weapon ID. If the same ID appears twice, the player owns two separate instances.
-var weapons : Array[int] = [1,4]
+var weapons : Array[int] = [3]
 var equipped_weapon_index : int = 0
 var max_weapons_count : int = 2
 
@@ -118,10 +118,10 @@ func get_aim_position() -> Vector2:
 		if input_vector != Vector2.ZERO:
 			_last_aiming_at = input_vector.normalized() * 1000 + self.global_position
 	
-	if is_reloading:
-		# During reload, project last aiming at to horizontal line
-		var direction = (_last_aiming_at - self.global_position)
-		return self.global_position + Vector2(direction.x, 0).normalized() * 1000
+	#if is_reloading:
+		## During reload, project last aiming at to horizontal line
+		#var direction = (_last_aiming_at - self.global_position)
+		#return self.global_position + Vector2(direction.x, 0).normalized() * 1000
 	
 	return _last_aiming_at
 

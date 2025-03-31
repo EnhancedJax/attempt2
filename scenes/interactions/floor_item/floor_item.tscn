@@ -112,9 +112,8 @@ _data = {
 &"init": SubResource("Animation_0piie")
 }
 
-[node name="FloorItem" type="Node2D" node_paths=PackedStringArray("interaction_component")]
+[node name="FloorItem" type="Node2D"]
 script = ExtResource("1_3uol4")
-interaction_component = NodePath("InteractionComponent")
 
 [node name="LabelPosition" type="Marker2D" parent="."]
 position = Vector2(0, -24)

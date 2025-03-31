@@ -29,5 +29,7 @@ extends BulletProps
 @export var laser_fill_gradient : Gradient
 ## The texture used for the laser.
 @export var laser_texture : Texture
+## Start end cap
+@export var line_cap_round : bool = false
 
 var bullet_scene = preload("res://components/bullets/variants/laser/laser.tscn")

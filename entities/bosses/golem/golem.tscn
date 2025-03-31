@@ -1,4 +1,4 @@
-[gd_scene load_steps=81 format=4 uid="uid://c34kdv6i2lx0o"]
+[gd_scene load_steps=83 format=4 uid="uid://c34kdv6i2lx0o"]
 
 [ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_54fl3"]
 [ext_resource type="Script" uid="uid://mxqoevwf4b4" path="res://entities/bosses/golem/golem.gd" id="2_57rg2"]
@@ -407,7 +407,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_y0bpm")
 }],
-"loop": true,
+"loop": false,
 "name": &"laser_cast",
 "speed": 10.0
 }, {
@@ -510,50 +510,50 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:material:shader_parameter/enabled")
+tracks/0/path = NodePath(".:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
+"update": 0,
+"values": [Vector2(0, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:scale")
+tracks/1/path = NodePath(".:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(1, 1)]
+"values": [0.0]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath(".:position")
+tracks/2/path = NodePath("../Chaingun:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, 0)]
+"values": [Vector2(-15, -8)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath(".:modulate")
+tracks/3/path = NodePath("../Chaingun:rotation")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [1.82038]
 }
 
 [sub_resource type="Animation" id="Animation_a01p3"]
@@ -583,34 +583,6 @@ tracks/1/keys = {
 "values": [false]
 }
 
-[sub_resource type="Animation" id="Animation_pw5te"]
-resource_name = "init"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(0.6875, 1.1875), Vector2(1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(0, -3), Vector2(0, 0)]
-}
-
 [sub_resource type="Animation" id="Animation_f27go"]
 resource_name = "take_attack"
 length = 0.1
@@ -631,8 +603,118 @@ tracks/0/keys = {
 _data = {
 &"RESET": SubResource("Animation_i6u7x"),
 &"death": SubResource("Animation_a01p3"),
-&"init": SubResource("Animation_pw5te"),
 &"take_attack": SubResource("Animation_f27go")
+}
+
+[sub_resource type="Animation" id="Animation_hmvou"]
+resource_name = "laser"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-5.79, -20), Vector2(-7, -20)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -0.303687, 0.20944]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Chaingun:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-15, -8), Vector2(-21, -25), Vector2(-21, -28.45)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Chaingun:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.82038, 2.42775]
+}
+
+[sub_resource type="Animation" id="Animation_xmb5e"]
+resource_name = "laser_2"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(5.79, -20), Vector2(7, -20)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.303687, -0.20944]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Chaingun:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-15, -8), Vector2(21, -25), Vector2(21, -28.45)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Chaingun:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.17461, 0.607375]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hmvou"]
+_data = {
+&"RESET": SubResource("Animation_i6u7x"),
+&"laser": SubResource("Animation_hmvou"),
+&"laser_2": SubResource("Animation_xmb5e")
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7sqln"]
@@ -645,9 +727,10 @@ resource_local_to_scene = true
 radius = 26.0
 height = 60.0
 
-[node name="Golem" groups=["enemies"] instance=ExtResource("1_54fl3")]
+[node name="Golem" node_paths=PackedStringArray("state_machine") groups=["enemies"] instance=ExtResource("1_54fl3")]
 collision_layer = 20
 script = ExtResource("2_57rg2")
+state_machine = NodePath("StateMachine")
 
 [node name="PointLight2D" type="PointLight2D" parent="." index="0"]
 position = Vector2(0, 1)
@@ -666,7 +749,7 @@ texture = SubResource("GradientTexture2D_6ms3o")
 texture_filter = 1
 material = SubResource("ShaderMaterial_4asvw")
 sprite_frames = SubResource("SpriteFrames_mhnmq")
-animation = &"death"
+animation = &"glow"
 metadata/_aseprite_wizard_interface_config_ = {
 "layer_section": true,
 "pending_changes": {}
@@ -687,6 +770,11 @@ metadata/_aseprite_wizard_source_file_hash_ = "5903bea75dcae0cac669f07cd1a91f86"
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D" index="0"]
 libraries = {
 &"": SubResource("AnimationLibrary_aufv5")
+}
+
+[node name="AttackAnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D" index="1"]
+libraries = {
+&"": SubResource("AnimationLibrary_hmvou")
 }
 autoplay = "init"
 
@@ -720,8 +808,9 @@ STRAFE_SPEED = 50.0
 script = ExtResource("6_idp7x")
 animated_sprite = NodePath("../../AnimatedSprite2D")
 
-[node name="Laser" type="Node" parent="StateMachine" index="2" node_paths=PackedStringArray("laser_spawn_point")]
+[node name="Laser" type="Node" parent="StateMachine" index="2" node_paths=PackedStringArray("attack_anim_player", "laser_spawn_point")]
 script = ExtResource("8_jdnx3")
+attack_anim_player = NodePath("../../AnimatedSprite2D/AttackAnimationPlayer")
 laser = ExtResource("8_hmvou")
 laser_spawn_point = NodePath("../../LaserMarker")
 rotation_angle_degrees = 140.0
@@ -738,6 +827,7 @@ script = ExtResource("10_hmvou")
 
 [node name="Chaingun" parent="." index="9" instance=ExtResource("14_pkhrj")]
 position = Vector2(-15, -8)
+rotation = 1.82038
 
 [node name="LaserMarker" type="Marker2D" parent="." index="10"]
-position = Vector2(0, -18)
+position = Vector2(-1, -36)

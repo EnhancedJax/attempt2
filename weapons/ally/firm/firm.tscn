@@ -288,11 +288,12 @@ script = ExtResource("13_yenhv")
 points = Array[Vector2]([Vector2(0, 0)])
 randomized_angle_spread = 0.0
 speed = 600.0
-amount_of_bullets = 2
-time_between_bullets = 0.5
+amount_of_bullets = 1
+time_between_bullets = 0.0
 time_before_move = 0.0
 time_between_bullets_before_move = 0.0
 time_between_fire = 0.2
+continous_shoot_position = false
 metadata/_custom_type_script = "uid://d1ylqbvjqhtj8"
 
 [node name="Firm" type="Node2D" node_paths=PackedStringArray("bullet_spawner")]

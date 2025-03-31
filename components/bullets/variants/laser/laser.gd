@@ -67,6 +67,10 @@ func initialize(_bullet_data: Variant, _start_rotation: float):
 	elif bullet_data.laser_fill_gradient:
 		line.gradient = bullet_data.laser_fill_gradient
 	
+	if bullet_data.line_cap_round:
+		line.begin_cap_mode = Line2D.LINE_CAP_ROUND
+		line.end_cap_mode = Line2D.LINE_CAP_ROUND
+	
 	# Initialize width and animation variables
 	current_width = 0 if bullet_data.animate_width_speed > 0 else bullet_data.laser_width
 	target_width = bullet_data.laser_width

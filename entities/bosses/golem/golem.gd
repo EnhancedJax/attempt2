@@ -1,5 +1,6 @@
 extends BossBase
 
+@export var state_machine : StateMachine
 var weapon_node_x : float
 
 func _ready() -> void:
@@ -10,6 +11,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	super._process(delta)
 	if weapon_node:
+		if state_machine.current_state is GolemLaserState:
+			return
 		weapon_node.update_sprite_flip(get_aim_position())
 		weapon_node.visible = true
 
@@ -21,7 +24,9 @@ func _process(delta: float) -> void:
 func do_die():
 	pass
 
-# func rsignal_hitbox_hit(attack: AttackBase):
-# 	super.rsignal_hitbox_hit(attack)
-
-# 	_show_damage_number(attack.damage)
+func get_aim_position() -> Vector2: 
+	var player = Main.player
+	if player:
+		return player.global_position
+	else:
+		return Vector2.ZERO
