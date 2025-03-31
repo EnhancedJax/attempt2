@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://c2shbewm1ct7k" path="res://entities/bosses/golem/laser.gd" id="8_jdnx3"]
 [ext_resource type="Script" uid="uid://dcxsduoh5xyar" path="res://entities/bosses/golem/idle.gd" id="9_llwlp"]
 [ext_resource type="Script" uid="uid://drnag24r8i113" path="res://entities/bosses/golem/shoot.gd" id="10_ayafp"]
-[ext_resource type="Script" path="res://entities/bosses/golem/shoot2.gd" id="10_hmvou"]
+[ext_resource type="Script" uid="uid://dhxqmilt4xj4o" path="res://entities/bosses/golem/shoot2.gd" id="10_hmvou"]
 [ext_resource type="PackedScene" uid="uid://cdo8st1jff7jl" path="res://entities/bosses/golem/chaingun/chaingun.tscn" id="14_pkhrj"]
 
 [sub_resource type="Gradient" id="Gradient_bectd"]

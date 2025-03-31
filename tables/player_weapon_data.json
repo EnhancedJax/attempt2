@@ -28,5 +28,11 @@
 		"desc": "Generic submachine gun",
 		"rarity": 1.0,
 		"code_name": "smg"
+	},
+	"5": {
+		"name": "Drum",
+		"desc": "drum rtatata",
+		"rarity": 2,
+		"code_name": "drum"
 	}
 }
