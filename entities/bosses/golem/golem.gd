@@ -1,6 +1,7 @@
 extends BossBase
 
 var weapon_node_x : float
+#var ATTACK : AttackBase = preload("res://entities/bosses/golem_collision_attack.tres")
 
 func _ready() -> void:
 	super._ready()

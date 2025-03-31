@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="AttackBase" load_steps=2 format=3 uid="uid://dr2atbs2o2i2t"]
+
+[ext_resource type="Script" uid="uid://de4sh4ok3rjrr" path="res://weapons/attack_base.gd" id="1_d8f7v"]
+
+[resource]
+script = ExtResource("1_d8f7v")
+damage = 1
+damage_tick_interval = 1.0
+metadata/_custom_type_script = "uid://de4sh4ok3rjrr"

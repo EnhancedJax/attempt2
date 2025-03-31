@@ -1,31 +1,43 @@
 extends State
 
-@export var laser_duration : float = 2.0
-@export var walk_speed : float = 50
+@export var laser : LaserBulletProps
+@export var laser_spawn_point : Marker2D
+@export_range(0, 360) var rotation_angle_degrees : float = 180.0  # Rotation angle in degrees
 
-var timer : float = 0.0
+var elapsed_time: float = 0.0
+var initial_angle: float = 0.0
+var current_laser: Bullet
+var rotation_angle_rad: float = 0.0  # Cached radians value
 
 func enter() -> void:
-	timer = 0.0
-	# Activate laser attack
-	# This is a placeholder - implement actual laser behavior
-	p.weapon_node.handle_use_custom(0, 3, true) # Assuming mode 3 is for laser
+	elapsed_time = 0.0
+	var direction_to_player := Main.player.global_position - laser_spawn_point.global_position
+	rotation_angle_rad = deg_to_rad(rotation_angle_degrees)
+	
+	initial_angle = direction_to_player.angle() + PI * 2 - rotation_angle_rad / 2
+	
+	current_laser = laser.bullet_scene.instantiate()
+	laser_spawn_point.add_child(current_laser)
+	current_laser.initialize(laser, initial_angle)
+	current_laser.signal_bullet_removed.connect(rsignal_bullet_remove)
 
-func update(delta: float) -> void:
-	timer += delta
-	if timer >= laser_duration:
-		# Transition back to Hostile
-		sm.on_child_transition(self, "Hostile")
-		
-func physics_update(delta : float):
-	var player = Main.player
+func physics_update(delta: float):
+	p.velocity = p.velocity.move_toward(Vector2.ZERO, p.FRICTION * delta)
 	
-	# Calculate direction to player
-	var to_player = player.global_position - sm.parent.global_position
-	var direction = to_player.normalized()
+	elapsed_time += delta
+	if elapsed_time <= laser.time_laser_active:
+		var rotation_progress = elapsed_time / (laser.time_laser_active / 2.0)
+		if rotation_progress <= 1.0:
+			current_laser.rotation = initial_angle + rotation_progress * rotation_angle_rad
+		else:
+			current_laser.rotation = initial_angle + rotation_angle_rad - (rotation_progress - 1.0) * rotation_angle_rad
 	
-	# Move more slowly while firing laser
-	p.velocity = direction * walk_speed
-	
-	# Call physics_update on sm.parent
 	p.physics_update(delta)
+
+func rsignal_bullet_remove() -> void:
+	if current_laser:
+		current_laser.queue_free()
+		current_laser = null
+		sm.on_child_transition(self, "Hostile")
+	else:
+		print("current_laser is null")

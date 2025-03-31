@@ -7,3 +7,5 @@ Our project uses Godot 4.4. Use the latest syntax and features of GDScript 4.4 w
 - **Never use `@onready var x = $Node2D`**: Avoid using the `$` shorthand for node paths. Always export a variable for the node and use that variable to access the node.
 - **Suggest `await` keyword** Use `await` to handle asynchronous operations.
 - **Use `null` instead of `Nil`**
+
+In our project, states are implemented as separate classes that extends State. `p` gives the entity that has the state (e.g. player), `sm` is the state machine, functions `enter`, `exit`, `physics_update` and `update` can be used and are automatically called. Use `sm.on_child_transition(self, "SomeStateName")` to transition to another state.

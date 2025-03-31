@@ -1,5 +1,5 @@
 class_name AttackBase extends Resource
 
-var damage : int
-var knockback_vector : Vector2
-var damage_tick_interval : float = -1
+@export var damage : int
+@export var damage_tick_interval : float = -1
+var knockback_vector : Vector2 = Vector2.ZERO

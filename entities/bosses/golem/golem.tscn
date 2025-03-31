@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=4 uid="uid://c34kdv6i2lx0o"]
+[gd_scene load_steps=81 format=4 uid="uid://c34kdv6i2lx0o"]
 
 [ext_resource type="PackedScene" uid="uid://nl6av3r2mo54" path="res://entities/entity_base.tscn" id="1_54fl3"]
 [ext_resource type="Script" uid="uid://mxqoevwf4b4" path="res://entities/bosses/golem/golem.gd" id="2_57rg2"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://4508clq887vd" path="res://entities/enemies/skeleton/state_node.gd" id="4_idp7x"]
 [ext_resource type="Script" uid="uid://cmvc44rc5pgon" path="res://entities/bosses/golem/hostile.gd" id="5_idp7x"]
 [ext_resource type="Script" uid="uid://w2lv4n1a3mv4" path="res://entities/bosses/golem/death.gd" id="6_idp7x"]
+[ext_resource type="Resource" uid="uid://cctix1jl7j5cn" path="res://entities/bosses/golem/golem_laser.tres" id="8_hmvou"]
 [ext_resource type="Script" uid="uid://c2shbewm1ct7k" path="res://entities/bosses/golem/laser.gd" id="8_jdnx3"]
 [ext_resource type="Script" uid="uid://dcxsduoh5xyar" path="res://entities/bosses/golem/idle.gd" id="9_llwlp"]
 [ext_resource type="Script" uid="uid://drnag24r8i113" path="res://entities/bosses/golem/shoot.gd" id="10_ayafp"]
@@ -719,8 +720,11 @@ STRAFE_SPEED = 50.0
 script = ExtResource("6_idp7x")
 animated_sprite = NodePath("../../AnimatedSprite2D")
 
-[node name="Laser" type="Node" parent="StateMachine" index="2"]
+[node name="Laser" type="Node" parent="StateMachine" index="2" node_paths=PackedStringArray("laser_spawn_point")]
 script = ExtResource("8_jdnx3")
+laser = ExtResource("8_hmvou")
+laser_spawn_point = NodePath("../../LaserMarker")
+rotation_angle_degrees = 140.0
 
 [node name="Shoot1" type="Node" parent="StateMachine" index="3"]
 script = ExtResource("10_ayafp")
@@ -734,3 +738,6 @@ script = ExtResource("10_hmvou")
 
 [node name="Chaingun" parent="." index="9" instance=ExtResource("14_pkhrj")]
 position = Vector2(-15, -8)
+
+[node name="LaserMarker" type="Marker2D" parent="." index="10"]
+position = Vector2(0, -18)
