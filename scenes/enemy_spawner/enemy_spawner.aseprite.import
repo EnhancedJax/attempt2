@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://de4srqocyuv4r"
+path="res://.godot/imported/enemy_spawner.aseprite-6096f7c0eed290dd6bed5f2292cbbd46.res"
+
+[deps]
+
+source_file="res://scenes/enemy_spawner/enemy_spawner.aseprite"
+dest_files=["res://.godot/imported/enemy_spawner.aseprite-6096f7c0eed290dd6bed5f2292cbbd46.res"]
+
+[params]
+

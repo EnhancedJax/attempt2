@@ -10,11 +10,11 @@ signal signal_player_entered()
 @export var entrances_left : Vector2i
 @export var entrances_bottom : Vector2i
 @export var entrances_right : Vector2i
-@export var enemy_scenes: Array[PackedScene] = []
 @export var is_peaceful_room : bool = false
-@export var enemy_count : int
+@export var waves_data : Waves
 @export var door_vertical : PackedScene
 @export var door_horizontal : PackedScene
+@export var enemy_spawner : PackedScene
 
 @export var reward_coins_min : int = 1
 @export var reward_coins_max : int = 3
@@ -25,8 +25,14 @@ signal signal_player_entered()
 
 const entrance_detector_scene = preload("res://scenes/rooms/entrance_detector.tscn")
 const coin_scene = preload("res://scenes/coin/coin_spawner.tscn")
-var enemy_counter : int = 0
+var enemy_remaining: int = 0
 var _room_enemies : Array[EntityBase] = []
+var current_wave_index : int = 0
+var total_enemies_in_waves : int = 0
+
+var boss_counter : int = 0
+var total_bosses : int = 0
+var _room_bosses : Array[EntityBase] = []
 
 # values to be set by generator
 var room_state : int = 0 # 0: unvisited, 1: visited, 2: cleared
@@ -54,6 +60,18 @@ func _ready() -> void:
 	_setup_entrance_detection()
 	_shuffled_used_cells = floor_tilemap.get_used_cells()
 	_shuffled_used_cells.shuffle()
+	_calculate_total_enemies()
+
+func _calculate_total_enemies() -> void:
+	if not waves_data or waves_data.waves.is_empty():
+		total_enemies_in_waves = 0
+		total_bosses = 0
+		return
+	for wave in waves_data.waves:
+		for enemy in wave.wave_enemies:
+			total_enemies_in_waves += enemy.spawn_count
+			if enemy.enemy_is_boss:
+				total_bosses += enemy.spawn_count
 
 func rsignal_player_entered(entrance_index: int) -> void:
 	print("Player entered through entrance: ", entrance_index)
@@ -73,29 +91,70 @@ func clear_room() -> void:
 
 func handle_clear_room_rewards():
 	# Spawn random number of coins at each enemy's position
-	for enemy in _room_enemies:
+	for enemy in _room_enemies:	
 		var coin_count = randi_range(reward_coins_min, reward_coins_max)
 		var coin = coin_scene.instantiate()
 		coin.count = coin_count
 		Main.spawn_node(coin, enemy.global_position, 3)
 
-func start_wave() -> void: # externally managed waves
-	var spawn_delay: float = 0.1
-	if enemy_count == 0:
+func start_wave() -> void:
+	if not waves_data or waves_data.waves.is_empty():
 		clear_room()
 		return
-	for i in range(enemy_count):
-		var random_index = randi() % enemy_scenes.size()
-		var enemy: EntityBase = enemy_scenes[random_index].instantiate()
-		enemy.connect("signal_death", rsignal_spawned_enemy_died)
-		Main.spawn_node(enemy, _pick_random_spawn_point(), 3)
-		_room_enemies.append(enemy)
-		await get_tree().create_timer(spawn_delay).timeout
+		
+	var current_wave: Wave = waves_data.waves[current_wave_index]
+	enemy_remaining = 0    # initialize enemy count for current wave
+	for enemy_props in current_wave.wave_enemies:
+		enemy_remaining += enemy_props.spawn_count
+	for enemy_props in current_wave.wave_enemies:
+		for i in range(enemy_props.spawn_count):
+			var enemy: EntityBase = enemy_props.enemy.instantiate()
+			
+			if enemy_props.enemy_is_boss:
+				enemy.connect("signal_death", rsignal_boss_died)
+				_room_bosses.append(enemy)
+				
+				if enemy_props.splash_scene:
+					# Show boss splash screen
+					var splash = enemy_props.splash_scene.instantiate()
+					get_tree().root.add_child(splash)
+					splash.play()
+					Main.control.process_mode = Node.PROCESS_MODE_DISABLED
+					await splash.signal_splash_finished
+					Main.control.process_mode = Node.PROCESS_MODE_INHERIT
+				
+				# Play boss music
+				MusicManager.play("bgm", enemy_props.boss_bgm, 1.0, true)
+			
+			enemy.connect("signal_death", rsignal_spawned_enemy_died)
+			
+			var spawn_position: Vector2
+			if enemy_props.spawn_at_center:
+				spawn_position = _get_room_center() + enemy_props.spawn_center_offset
+			else:
+				spawn_position = _pick_random_spawn_point()
+			
+			var new_enemy_spawner : EnemySpawner = enemy_spawner.instantiate()
+			new_enemy_spawner.node = enemy
+			Main.spawn_node(new_enemy_spawner, spawn_position, 3)
+			_room_enemies.append(enemy)
+			
+			if enemy_props.spawn_delay > 0:
+				await get_tree().create_timer(enemy_props.spawn_delay).timeout
 
 func rsignal_spawned_enemy_died() -> void:
-	enemy_counter += 1
-	if enemy_counter == enemy_count:
-		clear_room()
+	enemy_remaining -= 1
+	if enemy_remaining <= 0:
+		if current_wave_index < waves_data.waves.size() - 1:
+			current_wave_index += 1
+			start_wave()
+		else:
+			clear_room()
+
+func rsignal_boss_died() -> void:
+	boss_counter += 1
+	if boss_counter == total_bosses:
+		MusicManager.play("bgm", "bgm", 1.0, true)
 
 # /* ------------ Internals ----------- */
 

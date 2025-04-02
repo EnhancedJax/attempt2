@@ -1,0 +1,113 @@
+[gd_scene load_steps=13 format=4 uid="uid://bv73sleuk00k6"]
+
+[ext_resource type="Script" uid="uid://bgc5bostcudyd" path="res://scenes/enemy_spawner/enemy_spawner.gd" id="1_85wi1"]
+
+[sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_85wi1"]
+_data = PackedByteArray("AAADAAUAAAABAAAAkAAAAJAAAADMAAAAUklGRsQAAABXRUJQVlA4TLgAAAAvj8AjEA8wevM/evMf8IAb23bc5nxQtjNAFRiuxGIp6oQsjaWgBITaFXnfHUX0X2HaNkx2e4p/I7YCvUK7g90GThPsKpwmeNzBaQOXK9z3V8Ur30Ar0Kt/XfYKwK5CbgBcrxACu4ql9IGFhMuEFvMdD6xQOrbcPoF5WOI1eHIYSSgdS+kDcwhcJrheITfYVdhV6NU/J3vAGgC5Qd4CEAIBwEJiAaOP5EgCCSTmECAA5Aa5AaCCtW+L")
+size_override = Vector2(144, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gppuq"]
+atlas = SubResource("PortableCompressedTexture2D_85wi1")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hibn7"]
+atlas = SubResource("PortableCompressedTexture2D_85wi1")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_33mpf"]
+atlas = SubResource("PortableCompressedTexture2D_85wi1")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hcuxm"]
+atlas = SubResource("PortableCompressedTexture2D_85wi1")
+region = Rect2(0, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rrnmd"]
+atlas = SubResource("PortableCompressedTexture2D_85wi1")
+region = Rect2(48, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_64k6q"]
+atlas = SubResource("PortableCompressedTexture2D_85wi1")
+region = Rect2(96, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nvd24"]
+atlas = SubResource("PortableCompressedTexture2D_85wi1")
+region = Rect2(0, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8r6be"]
+atlas = SubResource("PortableCompressedTexture2D_85wi1")
+region = Rect2(48, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mxxxn"]
+atlas = SubResource("PortableCompressedTexture2D_85wi1")
+region = Rect2(96, 96, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jb556"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gppuq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hibn7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_33mpf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hcuxm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rrnmd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_64k6q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nvd24")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8r6be")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mxxxn")
+}],
+"loop": false,
+"name": &"spawn",
+"speed": 10.0
+}]
+
+[node name="EnemySpawner" type="Node2D"]
+script = ExtResource("1_85wi1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+self_modulate = Color(4, 4, 4, 1)
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_jb556")
+animation = &"spawn"
+autoplay = "spawn"
+frame = 8
+frame_progress = 1.0
+metadata/_aseprite_wizard_interface_config_ = {
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"should_round_fps": true,
+"slice": "",
+"source": "res://scenes/enemy_spawner/enemy_spawner.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "b1812b31bf196c5b7020279e7f78c0be"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
