@@ -3,44 +3,44 @@
 [ext_resource type="Script" uid="uid://bgc5bostcudyd" path="res://scenes/enemy_spawner/enemy_spawner.gd" id="1_85wi1"]
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_85wi1"]
-_data = PackedByteArray("AAADAAUAAAABAAAAkAAAAJAAAADMAAAAUklGRsQAAABXRUJQVlA4TLgAAAAvj8AjEA8wevM/evMf8IAb23bc5nxQtjNAFRiuxGIp6oQsjaWgBITaFXnfHUX0X2HaNkx2e4p/I7YCvUK7g90GThPsKpwmeNzBaQOXK9z3V8Ur30Ar0Kt/XfYKwK5CbgBcrxACu4ql9IGFhMuEFvMdD6xQOrbcPoF5WOI1eHIYSSgdS+kDcwhcJrheITfYVdhV6NU/J3vAGgC5Qd4CEAIBwEJiAaOP5EgCCSTmECAA5Aa5AaCCtW+L")
-size_override = Vector2(144, 144)
+_data = PackedByteArray("AAADAAUAAAABAAAAkAAAAMAAAABqAQAAUklGRmIBAABXRUJQVlA4TFUBAAAvj8AvED+gkJEk5vxVDuo4yheN+VfQtg1T/lQKqjjODkG2Tf0JhnWjB8D/E4kCzNw5EYCjbZMipVirFCddOwCaO5xgH1InLvQ//0h3/V24R/SfgdtGijJ0C3fXhVfIP2hmADgAQDmdBXJIB1rO6tRAnQa05tE66QowaEvsy0kvp/vlvPalbPNzf40zfEcawxdCR1qGtVvoMBADAKXkNMkQBxLzQ5OGRq03eZdwSIIxQblBXQGJDJFOw5Ao6Xr9bcsocKm9YigumYOCBiKLI+mUENPIqja6UTyFkK30lKIPURtn4O95oB5p6/mCsvWt2roEu4ct6/0LQOetSLPZDslxJB0RO23SPXzObpq4GsRVTRrqchLdgCSYq4ftNn2RUzqOiPVJw7CQDgWxI1uTzS3h0zRuZirAsgwz3nPPa5hTQB+Y8gssOA3X0X6P18NEiQElz19eJgA=")
+size_override = Vector2(144, 192)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gppuq"]
 atlas = SubResource("PortableCompressedTexture2D_85wi1")
-region = Rect2(0, 0, 48, 48)
+region = Rect2(0, 0, 48, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hibn7"]
 atlas = SubResource("PortableCompressedTexture2D_85wi1")
-region = Rect2(48, 0, 48, 48)
+region = Rect2(48, 0, 48, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_33mpf"]
 atlas = SubResource("PortableCompressedTexture2D_85wi1")
-region = Rect2(96, 0, 48, 48)
+region = Rect2(96, 0, 48, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hcuxm"]
 atlas = SubResource("PortableCompressedTexture2D_85wi1")
-region = Rect2(0, 48, 48, 48)
+region = Rect2(0, 64, 48, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rrnmd"]
 atlas = SubResource("PortableCompressedTexture2D_85wi1")
-region = Rect2(48, 48, 48, 48)
+region = Rect2(48, 64, 48, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_64k6q"]
 atlas = SubResource("PortableCompressedTexture2D_85wi1")
-region = Rect2(96, 48, 48, 48)
+region = Rect2(96, 64, 48, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nvd24"]
 atlas = SubResource("PortableCompressedTexture2D_85wi1")
-region = Rect2(0, 96, 48, 48)
+region = Rect2(0, 128, 48, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8r6be"]
 atlas = SubResource("PortableCompressedTexture2D_85wi1")
-region = Rect2(48, 96, 48, 48)
+region = Rect2(48, 128, 48, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mxxxn"]
 atlas = SubResource("PortableCompressedTexture2D_85wi1")
-region = Rect2(96, 96, 48, 48)
+region = Rect2(96, 128, 48, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_jb556"]
 animations = [{
@@ -81,13 +81,12 @@ animations = [{
 script = ExtResource("1_85wi1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-self_modulate = Color(4, 4, 4, 1)
+self_modulate = Color(2, 2, 2, 1)
 texture_filter = 1
+position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_jb556")
 animation = &"spawn"
 autoplay = "spawn"
-frame = 8
-frame_progress = 1.0
 metadata/_aseprite_wizard_interface_config_ = {
 "pending_changes": {}
 }
@@ -102,7 +101,7 @@ metadata/_aseprite_wizard_config_ = {
 "slice": "",
 "source": "res://scenes/enemy_spawner/enemy_spawner.aseprite"
 }
-metadata/_aseprite_wizard_source_file_hash_ = "b1812b31bf196c5b7020279e7f78c0be"
+metadata/_aseprite_wizard_source_file_hash_ = "7d5d66cfe4935199cbfb2099a134fde7"
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5
