@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://o4gnxfkwntm"]
 
-[ext_resource type="Script" uid="uid://c2w1rivqrb2eg" path="res://scenes/dungeon/generator.gd" id="1_ff6w2"]
+[ext_resource type="Script" uid="uid://c2w1rivqrb2eg" path="res://scenes/dungeon/generator.gd" id="1_tp6rh"]
 [ext_resource type="TileSet" uid="uid://b3hq822pff26v" path="res://scenes/rooms/level1/tileset_level1.tres" id="2_mnl1e"]
 
 [node name="TileLayer" type="Node2D"]
 y_sort_enabled = true
-script = ExtResource("1_ff6w2")
+script = ExtResource("1_tp6rh")
 
 [node name="RoomNodes" type="Node2D" parent="."]
 y_sort_enabled = true

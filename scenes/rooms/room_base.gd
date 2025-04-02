@@ -69,7 +69,7 @@ func _ready() -> void:
 	_calculate_total_enemies()
 
 func _calculate_total_enemies() -> void:
-	if not waves_data or waves_data.waves.is_empty():
+	if not waves_data or waves_data.waves.is_empty() or Main.IS_DEBUG_MODE:
 		_total_enemy_in_waves = 0
 		total_bosses = 0
 		return
@@ -104,7 +104,7 @@ func handle_clear_room_rewards():
 		Main.spawn_node(coin, enemy.global_position, 3)
 
 func start_wave() -> void:
-	if not waves_data or waves_data.waves.is_empty():
+	if not waves_data or waves_data.waves.is_empty() or Main.IS_DEBUG_MODE:
 		clear_room()
 		return
 		

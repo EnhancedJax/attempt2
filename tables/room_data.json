@@ -1,9 +1,10 @@
 {
   "1": {
-	"B": ["start"],
-	"F": ["boss"],
-	"E": ["enemy1", "enemy2", "enemy3", "long", "storage"],
-	"L": ["loot"],
-	"S": ["shop"]
+    "entrance": ["start"],
+    "boss": ["boss"],
+    "exit": ["exit"],
+    "enemy": ["enemy1", "enemy2", "enemy3", "long", "storage"],
+    "loot": ["loot"],
+    "shop": ["shop"]
   }
 }

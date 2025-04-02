@@ -33,6 +33,7 @@ SoundManager="*res://addons/resonate/sound_manager/sound_manager.gd"
 MusicManager="*res://addons/resonate/music_manager/music_manager.gd"
 Router="*res://router.gd"
 GGS="*res://addons/ggs/plugin/singleton/ggs.tscn"
+Dungen="*res://scenes/dungeon/types.gd"
 
 [debug]
 

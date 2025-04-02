@@ -1,8 +1,5 @@
 extends Node
 
-# Room type constants
-enum RoomType { B, E, L, S, F }
-
 const ALLY_WEAPONS_DATA_PATH = "res://tables/player_weapon_data.json"
 const ENEMY_WEAPONS_DATA_PATH = "res://tables/enemy_weapon_data.json"
 const ROOM_DATA_PATH = "res://tables/room_data.json"
@@ -23,11 +20,12 @@ class LevelRoomScenesList:
 	var level1: RoomScenesList
 
 class RoomScenesList:
-	var B: Array[PackedScene] = []
-	var S: Array[PackedScene] = []
-	var E: Array[PackedScene] = []
-	var F: Array[PackedScene] = []
-	var L: Array[PackedScene] = []
+	var entrance: Array[PackedScene] = []
+	var shop: Array[PackedScene] = []
+	var enemy: Array[PackedScene] = []
+	var boss: Array[PackedScene] = []
+	var loot: Array[PackedScene] = []
+	var exit: Array[PackedScene] = []
 
 func _ready() -> void:
 	_load_ally_weapons()
@@ -86,11 +84,12 @@ func _load_rooms():
 	for room_type in level_data:
 		var scenes: Array[PackedScene]
 		match room_type:
-			"B": scenes = level1.B
-			"E": scenes = level1.E
-			"L": scenes = level1.L
-			"S": scenes = level1.S
-			"F": scenes = level1.F
+			"entrance": scenes = level1.entrance
+			"shop": scenes = level1.shop
+			"enemy": scenes = level1.enemy
+			"boss": scenes = level1.boss
+			"loot": scenes = level1.loot
+			"exit": scenes = level1.exit
 			
 		for room_name in level_data[room_type]:
 			var path = "res://scenes/rooms/level1/%s.tscn" % room_name
@@ -127,18 +126,20 @@ func get_weapon_texture(id: int, _weapon: WeaponType = null, is_ally: bool = tru
 func clear_texture_cache() -> void:
 	_texture_cache.clear()
 
-func get_room_list(room_type: int) -> Array[PackedScene]:
+func get_room_list(room_type: Dungen.RoomType) -> Array[PackedScene]:
 	match room_type:
-		RoomType.B:
-			return _level_room_scenes_list.level1.B
-		RoomType.S:
-			return _level_room_scenes_list.level1.S
-		RoomType.F:
-			return _level_room_scenes_list.level1.F
-		RoomType.L:
-			return _level_room_scenes_list.level1.L
-		RoomType.E:
-			return _level_room_scenes_list.level1.E
+		Dungen.RoomType.ENTRANCE:
+			return _level_room_scenes_list.level1.entrance
+		Dungen.RoomType.SHOP:
+			return _level_room_scenes_list.level1.shop
+		Dungen.RoomType.BOSS:
+			return _level_room_scenes_list.level1.boss
+		Dungen.RoomType.LOOT:
+			return _level_room_scenes_list.level1.loot
+		Dungen.RoomType.ENEMY:
+			return _level_room_scenes_list.level1.enemy
+		Dungen.RoomType.EXIT:
+			return _level_room_scenes_list.level1.exit
 	return []
 
 func get_item_cost(rarity: int, level: int = 1):
