@@ -46,6 +46,7 @@ window/size/window_width_override=2500
 window/size/window_height_override=1500
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
+window/handheld/orientation=6
 
 [editor_plugins]
 

@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="LaserBulletProps" load_steps=4 format=3 uid="uid://cctix1jl7j5cn"]
+[gd_resource type="Resource" script_class="LaserBulletProps" load_steps=5 format=3 uid="uid://cctix1jl7j5cn"]
 
 [ext_resource type="Script" uid="uid://c4doxu14h34ks" path="res://components/bullets/variants/laser/laser_props.gd" id="1_h1w2a"]
+[ext_resource type="PackedScene" uid="uid://donlhobkltxnb" path="res://entities/bosses/golem/beam_particle_end.tscn" id="1_mwe1u"]
 
 [sub_resource type="Gradient" id="Gradient_h1w2a"]
 offsets = PackedFloat32Array(0, 0.5, 1)
@@ -30,4 +31,5 @@ damage = 1
 knockback_magnitude = 1000.0
 is_player_bullet = false
 bullet_modulate = Color(2, 2, 2, 1)
+hit_particle = ExtResource("1_mwe1u")
 metadata/_custom_type_script = "uid://c4doxu14h34ks"

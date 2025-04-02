@@ -28,7 +28,8 @@ func handle_attack() -> void:
 
 # @ override
 func handle_out_of_ammo() -> void:
-	print('out of ammo')
+	pass
+	# print('out of ammo')
 
 # @ override
 func handle_reload() -> void:

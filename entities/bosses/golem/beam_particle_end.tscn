@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://donlhobkltxnb"]
+
+[ext_resource type="Texture2D" uid="uid://do2g3ix4pxl31" path="res://shared_assets/sprites/glow.png" id="1_hde1t"]
+
+[sub_resource type="Curve" id="Curve_xuq84"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.48593), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="BeamParticleEnd" type="CPUParticles2D"]
+modulate = Color(3, 3, 3, 1)
+texture = ExtResource("1_hde1t")
+lifetime_randomness = 0.3
+local_coords = true
+gravity = Vector2(0, 0)
+scale_amount_min = 2.0
+scale_amount_max = 3.0
+scale_amount_curve = SubResource("Curve_xuq84")

@@ -18,8 +18,6 @@ var target_end_point : Vector2 = Vector2.ZERO
 var impact_colliders : Array[CollisionShape2D] = []
 
 var pierce_count : int = -1  # Default to infinite pierce
-var hit_objects = []  # Track objects that have been hit
-var collision_points : Array[Vector2] = []
 
 # Animation properties
 var current_width : float = 0.0
@@ -30,6 +28,7 @@ var target_length : float = 0.0
 
 var origin_particle_instance : Node2D = null
 var laser_particle_instance : Node2D = null
+var hit_particle_instance : Node2D = null  # Add this line
 
 signal signal_collision_reached
 signal signal_activation_complete
@@ -118,7 +117,7 @@ func setup_particles():
 			laser_particle_instance.emitting = true
 			# Initial setup - will be properly sized during physics process
 
-func instantiate_and_validate_particle(particle_scene: PackedScene) -> GPUParticles2D:
+func instantiate_and_validate_particle(particle_scene: PackedScene) -> Node2D:
 	if not particle_scene:
 		return null
 		
@@ -254,9 +253,6 @@ func _on_active_time_timeout():
 	start_fade_out()
 
 func perform_raycast(skip_draw_line: bool = false):
-	# Reset hit objects list if not just calculating
-	hit_objects.clear()
-	
 	# Get the end point considering pierce
 	var end_point = get_endpoint_with_pierce()
 	target_end_point = end_point
@@ -292,9 +288,6 @@ func get_endpoint_with_pierce() -> Vector2:
 	# Prepare the default endpoint (no collision)
 	var final_endpoint = ray_origin + ray_direction * max_distance
 	
-	# Clear existing collision points if they exist
-	collision_points.clear()
-	
 	# If pierce is 0, just use the original raycast once
 	if current_pierce == 0:
 		raycast.force_raycast_update()
@@ -302,16 +295,17 @@ func get_endpoint_with_pierce() -> Vector2:
 			final_endpoint = raycast.get_collision_point()
 			var collider = raycast.get_collider()
 			
-			hit_objects.append(collider)
-			
-			# Spawn hit particle at collision point
+			 # Handle hit particle
 			if bullet_data.hit_particle:
-				var particle = bullet_data.hit_particle.instantiate()
-				add_child(particle)
-				particle.global_position = final_endpoint
-			
-			# Add to collision points array
-			collision_points.append(final_endpoint)
+				if bullet_data.continous_cast:
+					if not hit_particle_instance:
+						hit_particle_instance = bullet_data.hit_particle.instantiate()
+						add_child(hit_particle_instance)
+					hit_particle_instance.global_position = final_endpoint
+				else:
+					var particle = bullet_data.hit_particle.instantiate()
+					add_child(particle)
+					particle.global_position = final_endpoint
 			
 		return final_endpoint
 	
@@ -330,14 +324,18 @@ func get_endpoint_with_pierce() -> Vector2:
 			break
 			
 		var collider = result.collider
-		hit_objects.append(collider)
 	
+		# Handle hit particle
 		if bullet_data.hit_particle:
-			var particle = bullet_data.hit_particle.instantiate()
-			add_child(particle)
-			particle.global_position = result.position
-		
-		collision_points.append(result.position)
+			if bullet_data.continous_cast:
+				if not hit_particle_instance:
+					hit_particle_instance = bullet_data.hit_particle.instantiate()
+					add_child(hit_particle_instance)
+				hit_particle_instance.global_position = result.position
+			else:
+				var particle = bullet_data.hit_particle.instantiate()
+				add_child(particle)
+				particle.global_position = result.position
 		
 		if collider is TileMapLayer:
 			final_endpoint = result.position
@@ -399,6 +397,9 @@ func _disable_collision():
 			collider.disabled = true
 
 func start_fade_out():
+	if hit_particle_instance:
+		hit_particle_instance.queue_free()
+		hit_particle_instance = null
 	animation_player.play("fade")
 	
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
