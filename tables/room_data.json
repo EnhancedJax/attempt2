@@ -2,7 +2,7 @@
   "1": {
 	"B": ["start"],
 	"F": ["boss"],
-	"E": ["enemy1"],
+	"E": ["enemy1", "enemy2", "enemy3", "long", "storage"],
 	"L": ["loot"],
 	"S": ["shop"]
   }

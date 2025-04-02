@@ -32,7 +32,7 @@ time_between_bullets = 0.5
 time_before_move = 0.0
 time_between_bullets_before_move = 0.0
 time_between_fire = 0.0
-continous_shoot_position = false
+continous_shoot_position = true
 metadata/_custom_type_script = "uid://d1ylqbvjqhtj8"
 
 [node name="Pistol" node_paths=PackedStringArray("bullet_spawner") instance=ExtResource("1_0ayoa")]
@@ -40,8 +40,7 @@ script = ExtResource("2_rm0xp")
 bullet_spawner = NodePath("BulletSpawner")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
-position = Vector2(4, 2)
-scale = Vector2(0.5, 0.5)
+position = Vector2(7, 5)
 sprite_frames = SubResource("SpriteFrames_fq8fx")
 
 [node name="BulletSpawner" parent="." index="2" instance=ExtResource("4_3p4rv")]

@@ -23,14 +23,20 @@ signal signal_player_entered()
 @onready var floor_tilemap : TileMapLayer = $FloorTileLayer
 @onready var tilemap_px : int = wall_tilemap.tile_set.tile_size.x
 
+## Amount of tiles away from the player that the enemy must not be randomly spawned at
+const spawn_player_margin : int = 3
+## Amount of tiles away from walls that the enemy must not be randomly spawned at
+const spawn_room_margin : int = 1
+
 const entrance_detector_scene = preload("res://scenes/rooms/entrance_detector.tscn")
 const coin_scene = preload("res://scenes/coin/coin_spawner.tscn")
-var enemy_remaining: int = 0
-var _room_enemies : Array[EntityBase] = []
-var current_wave_index : int = 0
-var total_enemies_in_waves : int = 0
 
-var boss_counter : int = 0
+var _enemy_remaining: int = 0
+var _room_enemies : Array[EntityBase] = []
+var _current_wave_index : int = 0
+var _total_enemy_in_waves : int = 0
+
+var _boss_counter : int = 0
 var total_bosses : int = 0
 var _room_bosses : Array[EntityBase] = []
 
@@ -64,12 +70,12 @@ func _ready() -> void:
 
 func _calculate_total_enemies() -> void:
 	if not waves_data or waves_data.waves.is_empty():
-		total_enemies_in_waves = 0
+		_total_enemy_in_waves = 0
 		total_bosses = 0
 		return
 	for wave in waves_data.waves:
 		for enemy in wave.wave_enemies:
-			total_enemies_in_waves += enemy.spawn_count
+			_total_enemy_in_waves += enemy.spawn_count
 			if enemy.enemy_is_boss:
 				total_bosses += enemy.spawn_count
 
@@ -102,10 +108,10 @@ func start_wave() -> void:
 		clear_room()
 		return
 		
-	var current_wave: Wave = waves_data.waves[current_wave_index]
-	enemy_remaining = 0    # initialize enemy count for current wave
+	var current_wave: Wave = waves_data.waves[_current_wave_index]
+	_enemy_remaining = 0    # initialize enemy count for current wave
 	for enemy_props in current_wave.wave_enemies:
-		enemy_remaining += enemy_props.spawn_count
+		_enemy_remaining += enemy_props.spawn_count
 	for enemy_props in current_wave.wave_enemies:
 		for i in range(enemy_props.spawn_count):
 			var enemy: EntityBase = enemy_props.enemy.instantiate()
@@ -143,25 +149,57 @@ func start_wave() -> void:
 				await get_tree().create_timer(enemy_props.spawn_delay).timeout
 
 func rsignal_spawned_enemy_died() -> void:
-	enemy_remaining -= 1
-	if enemy_remaining <= 0:
-		if current_wave_index < waves_data.waves.size() - 1:
-			current_wave_index += 1
+	_enemy_remaining -= 1
+	if _enemy_remaining <= 0:
+		if _current_wave_index < waves_data.waves.size() - 1:
+			_current_wave_index += 1
 			start_wave()
 		else:
 			clear_room()
 
 func rsignal_boss_died() -> void:
-	boss_counter += 1
-	if boss_counter == total_bosses:
+	_boss_counter += 1
+	if _boss_counter == total_bosses:
 		MusicManager.play("bgm", "bgm", 1.0, true)
 
 # /* ------------ Internals ----------- */
 
 func _pick_random_spawn_point() -> Vector2:
-	var random_index = randi() % _shuffled_used_cells.size()
-	var local : Vector2 =  _shuffled_used_cells[random_index] * tilemap_px
-	return local * global_scale + self.global_position
+	var valid_position_found := false
+	var local := Vector2.ZERO
+	var attempts := 0
+	const MAX_ATTEMPTS := 100
+	
+	while not valid_position_found and attempts < MAX_ATTEMPTS:
+		var random_index := randi() % _shuffled_used_cells.size()
+		local = _shuffled_used_cells[random_index] * tilemap_px
+		var global_pos := local * global_scale + global_position
+		
+		# Check distance from player
+		var player_distance := (global_pos - Main.player.global_position).length() / tilemap_px
+		if player_distance < spawn_player_margin:
+			attempts += 1
+			continue
+			
+		# Check distance from walls
+		if _is_near_wall(_shuffled_used_cells[random_index]):
+			attempts += 1
+			continue
+			
+		valid_position_found = true
+	
+	# If no valid position found after max attempts, use the last tried position
+	return local * global_scale + global_position
+
+func _is_near_wall(cell_pos: Vector2i) -> bool:
+	# Check surrounding cells in a square pattern
+	for x in range(-spawn_room_margin, spawn_room_margin + 1):
+		for y in range(-spawn_room_margin, spawn_room_margin + 1):
+			var check_pos := cell_pos + Vector2i(x, y)
+			# If any surrounding cell is a wall or outside the floor, position is invalid
+			if not floor_tilemap.get_cell_source_id(check_pos) == 0:
+				return true
+	return false
 
 func _get_room_center() -> Vector2:
 	var local: Vector2 = Vector2(dimension.x / 2, dimension.y / 2) * tilemap_px
