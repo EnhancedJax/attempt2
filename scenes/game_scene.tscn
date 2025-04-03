@@ -72,7 +72,7 @@ pitch = 1.0
 streams = Array[AudioStream]([ExtResource("14_mwyo0")])
 metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
 
-[node name="GameLevel" type="Control" node_paths=PackedStringArray("hud")]
+[node name="GameLevel" type="Control" node_paths=PackedStringArray("hud", "tile_layer")]
 y_sort_enabled = true
 layout_mode = 3
 anchors_preset = 15
@@ -82,6 +82,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_i7woi")
 hud = NodePath("Viewport/HUD")
+tile_layer = NodePath("TileLayer")
 
 [node name="TileLayer" parent="." instance=ExtResource("2_7g524")]
 
