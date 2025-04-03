@@ -35,6 +35,7 @@ class Room extends RefCounted:
 	var room_type: RoomType
 	var neighbours: Neighbours
 	var grid_position: Vector2i
+	var id : int
 	
 	func _init():
 		neighbours = Neighbours.new()

@@ -10,11 +10,13 @@ func _init():
 	_rng.randomize()
 
 func _add_room(type: Dungen.RoomType) -> int:
-	var room := Dungen.Room.new()
+	var room = Dungen.Room.new()
 	room.room_type = type
+	var room_id: int = _rooms.size()
+	room.id = room_id
 	_rooms.append(room)
-	print("[GraphBuilder] Created new room: %s at index %d" % [Dungen.RoomType.keys()[type], _rooms.size() - 1])
-	return _rooms.size() - 1
+	print("[GraphBuilder] Created new room: %s at index %d" % [Dungen.RoomType.keys()[type], room_id])
+	return room_id
 
 func _connect_rooms(room1: int, room2: int, forced_direction: Dungen.Direction = -1) -> void:
 	print("[GraphBuilder] Attempting to connect room %d to room %d" % [room1, room2])

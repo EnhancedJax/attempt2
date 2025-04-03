@@ -6,19 +6,21 @@ const panel_current = preload("res://hud/minimap/current.tres")
 
 @export var icon_bank : MinimapIconBank
 
-func update_text(str: String): # might be ran when not ready?!
+func update_text(type: Dungen.RoomType): # might be ran when not ready?!
 	var icon = $CenterContainer/Img
-	match str:
-		"E":
+	match type:
+		Dungen.RoomType.ENEMY:
 			icon.texture = icon_bank.icon_enemy
-		"B":
+		Dungen.RoomType.ENTRANCE:
 			icon.texture = icon_bank.icon_beginning
-		"F":
+		Dungen.RoomType.EXIT:
 			icon.texture = icon_bank.icon_finish
-		"L":
+		Dungen.RoomType.LOOT:
 			icon.texture = icon_bank.icon_loot
-		"S":
+		Dungen.RoomType.SHOP:
 			icon.texture = icon_bank.icon_shop
+		Dungen.RoomType.BOSS:
+			icon.texture = icon_bank.icon_boss
 
 func update_style(sty: String):
 	if sty == "current":

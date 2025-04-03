@@ -15,7 +15,7 @@ const ENEMY_SWITCH_MINIMUM_DISTANCE = 64
 var player_room_at: RoomBase = null
 
 var coins = 0
-var IS_DEBUG_MODE : bool = false
+var IS_DEBUG_MODE : bool = true
 
 signal signal_player_equipped_weapon(node: Node2D)
 signal signal_player_landed_hit()

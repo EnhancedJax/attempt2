@@ -25,7 +25,7 @@ var room_labels = {
 }
 
 # Global state that the minimap uses to control what is visible.
-var minimap_nodes = []         # The complete list of dungeon nodes (stored from the dungeon generator)
+var minimap_nodes : Array[Dungen.Room] = []         # The complete list of dungeon nodes (stored from the dungeon generator)
 var minimap_nodes_positions = {}   # Dictionary: room_id (int) -> Vector2 (screen position)
 var minimap_visited = {}       # Dictionary: room_id -> true (rooms the player has visited/explored)
 var minimap_unvisited_neighbors = []  # List of room IDs that are neighbors of visited rooms but haven't been visited yet
@@ -44,25 +44,26 @@ var current_tween: Tween
 # ─────────────────────────────────────────────────────────────────────────────
 
 # Call this function once after generating the dungeon.
-func draw_minimap(nodes: Array) -> void:
+func draw_minimap(rooms: Array[Dungen.Room]) -> void:
 	# Store the dungeon data for the minimap.
-	minimap_nodes = nodes.duplicate()  # duplicate the array reference if needed
+	minimap_nodes = rooms.duplicate()  # duplicate the array reference if needed
 	
 	# Compute the grid bounds so that all rooms are visible.
 	var min_x = INF
 	var min_y = INF
 	for room in minimap_nodes:
-		min_x = min(min_x, room.pos.x)
-		min_y = min(min_y, room.pos.y)
+		min_x = min(min_x, room.grid_position.x)
+		min_y = min(min_y, room.grid_position.y)
 	# Use an offset so that the room with minimum (x,y) appears at (0,0)
 	var offset = Vector2(-min_x, -min_y)
 	
 	# Compute screen positions for every room.
 	minimap_nodes_positions.clear()
 	for room in minimap_nodes:
-		# The room.pos is in grid coordinates. Multiply by MINIMAP_SCALE to get a pixel position.
+		# The room.grid_position is in grid coordinates. Multiply by MINIMAP_SCALE to get a pixel position.
 		# You can also add a constant margin if you wish.
-		minimap_nodes_positions[ room.id ] = (room.pos + offset) * MINIMAP_SCALE + Vector2(MINIMAP_MARGIN, MINIMAP_MARGIN)
+		var room_grid_position : Vector2 = Vector2(room.grid_position.x, room.grid_position.y)
+		minimap_nodes_positions[ room.id ] = (room_grid_position + offset) * MINIMAP_SCALE + Vector2(MINIMAP_MARGIN, MINIMAP_MARGIN)
 	
 	# Set initial state: assume the starting room is room ID 0.
 	minimap_current = 0
@@ -83,10 +84,10 @@ func update_minimap(current_room_index: int) -> void:
 	
 	# Mark neighbors as discovered.
 	var current_room = minimap_nodes[current_room_index]
-	for neighbor in current_room.neighbors:
-		print('The room ' + str(current_room_index) + ' has a neighbor ' + str(neighbor.id))
-		if not minimap_unvisited_neighbors.has(neighbor.id):
-			minimap_unvisited_neighbors.append(neighbor.id)
+	for neighbor in current_room.get_tlbr_neighbours():
+		print('The room ' + str(current_room_index) + ' has a neighbor ' + str(neighbor))
+		if not minimap_unvisited_neighbors.has(neighbor):
+			minimap_unvisited_neighbors.append(neighbor)
 	
 	redraw_minimap()
 	
@@ -113,13 +114,13 @@ func redraw_minimap() -> void:
 	# Draw corridors.
 	for room in minimap_nodes:
 		var room_id = room.id
-		for edge in room.neighbors:
+		for edge in room.get_tlbr_neighbours():
 			# Avoid duplicating corridors by only drawing one direction.
-			if room_id < edge.id:
-				if _is_room_visible(room_id) and _is_room_visible(edge.id):
+			if room_id < edge:
+				if _is_room_visible(room_id) and _is_room_visible(edge):
 					# Get the center positions of each room.
 					var center_a = minimap_nodes_positions[room_id] + Vector2(ROOM_SIZE_MINIMAP/2, ROOM_SIZE_MINIMAP/2)
-					var center_b = minimap_nodes_positions[edge.id] + Vector2(ROOM_SIZE_MINIMAP/2, ROOM_SIZE_MINIMAP/2)
+					var center_b = minimap_nodes_positions[edge] + Vector2(ROOM_SIZE_MINIMAP/2, ROOM_SIZE_MINIMAP/2)
 					
 					# Compute the normalized direction from room A to room B.
 					var dir = (center_b - center_a).normalized()
@@ -152,9 +153,7 @@ func redraw_minimap() -> void:
 		var tile_instance = MINIMAP_TILE.instantiate()
 		tile_instance.position = minimap_nodes_positions[room_id]
 		tile_instance.size = Vector2(ROOM_SIZE_MINIMAP, ROOM_SIZE_MINIMAP)
-		
-		var label = room_labels.get(room.type, "?")
-		tile_instance.update_text(label)
+		tile_instance.update_text(room.room_type)
 		if room_id == minimap_current:
 			tile_instance.update_style("current")
 		elif minimap_visited.has(room_id):
