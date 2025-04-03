@@ -15,7 +15,7 @@ func _init(_corridor_tilemap: TileMapLayer, _corridor_wall_tilemap: TileMapLayer
 #
 # This function iterates over each connection (each edge in the dungeon graph) and
 # draws a corridor between the two rooms. It uses the room scenes (which were placed earlier)
-# to retrieve the door tile coordinates. For a vertical connection (DIR_TOP/DIR_BOTTOM),
+# to retrieve the door tile coordinates. For a vertical connection (Direction.TOP/Direction.BOTTOM),
 # the corridor floor is drawn as a 2–tile–wide vertical column (using the door tile X coordinate
 # and one tile to its right). For horizontal connections the corridor floor is drawn as a 2–tile–high
 # horizontal row (using the door tile Y coordinate and one tile below it). Walls are then drawn
@@ -49,7 +49,7 @@ func draw_corridors(rooms: Array[Dungen.Room], room_scenes: Array[RoomBase]) -> 
 				var door_b_tile: Vector2 = door_b_world / tile_size
 				
 				# Draw corridor floors and walls based on the connection orientation.
-				if d == Dungen.DIR_TOP or d == Dungen.DIR_BOTTOM:
+				if d == Dungen.Direction.TOP or d == Dungen.Direction.BOTTOM:
 					# Vertical corridor.
 					# For vertical corridors, we use door_a_tile.x as the left floor column.
 					# The floor occupies two columns: door_a_tile.x and door_a_tile.x + 1
@@ -71,7 +71,7 @@ func draw_corridors(rooms: Array[Dungen.Room], room_scenes: Array[RoomBase]) -> 
 						_draw_wall(Vector2i(col - 1, y))
 						_draw_wall(Vector2i(col + 2, y))
 						
-				elif d == Dungen.DIR_LEFT or d == Dungen.DIR_RIGHT:
+				elif d == Dungen.Direction.LEFT or d == Dungen.Direction.RIGHT:
 					# Horizontal corridor.
 					# For horizontal corridors, we use door_a_tile.y as the top floor row.
 					# The floor occupies two rows: door_a_tile.y and door_a_tile.y + 1

@@ -26,49 +26,52 @@ class Neighbours extends RefCounted:
 class Room extends RefCounted:
 	var room_type: RoomType
 	var neighbours: Neighbours
-	var connected_rooms: Array[int]
+	var grid_position: Vector2i
 	
 	func _init():
 		neighbours = Neighbours.new()
-		connected_rooms = []
+		grid_position = Vector2i(0, 0)
 	
 	func get_tlbr_neighbours() -> Array[int]:
 		return [neighbours.top, neighbours.left, neighbours.bottom, neighbours.right]
 	
 	func get_neighbour_direction(neighbour: int) -> int:
 		if neighbour == neighbours.top:
-			return DIR_TOP
+			return Direction.TOP
 		elif neighbour == neighbours.left:
-			return DIR_LEFT
+			return Direction.LEFT
 		elif neighbour == neighbours.bottom:
-			return DIR_BOTTOM
+			return Direction.BOTTOM
 		elif neighbour == neighbours.right:
-			return DIR_RIGHT
+			return Direction.RIGHT
 		return -1
+	
+	func get_neighbor_position(dir: Direction) -> Vector2i:
+		match dir:
+			Direction.TOP: return grid_position + Vector2i(0, -1)
+			Direction.RIGHT: return grid_position + Vector2i(1, 0)
+			Direction.BOTTOM: return grid_position + Vector2i(0, 1)
+			Direction.LEFT: return grid_position + Vector2i(-1, 0)
+			_: return grid_position
 
-
-const DIR_TOP = 1  
-const DIR_LEFT = 2  
-const DIR_BOTTOM = 3
-const DIR_RIGHT = 4 
 
 # Opposite direction mapping (for the reverse connection)
 var opposite_direction = {
-	DIR_TOP: DIR_BOTTOM,
-	DIR_LEFT: DIR_RIGHT,
-	DIR_BOTTOM: DIR_TOP,
-	DIR_RIGHT: DIR_LEFT,
+	Direction.TOP: Direction.BOTTOM,
+	Direction.LEFT: Direction.RIGHT,
+	Direction.BOTTOM: Direction.TOP,
+	Direction.RIGHT: Direction.LEFT,
 }
 
-func get_door_value(scene_instance: Node, dir_code: int) -> Vector2:
+func get_door_value(scene_instance: Node, dir_code: Direction) -> Vector2:
 	match dir_code:
-		Dungen.DIR_TOP:
+		Direction.TOP:
 			return scene_instance.entrances_top
-		Dungen.DIR_LEFT:
+		Direction.LEFT:
 			return scene_instance.entrances_left
-		Dungen.DIR_BOTTOM:
+		Direction.BOTTOM:
 			return scene_instance.entrances_bottom
-		Dungen.DIR_RIGHT:
+		Direction.RIGHT:
 			return scene_instance.entrances_right
 		_:
 			return Vector2.ZERO

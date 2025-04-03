@@ -43,6 +43,9 @@ func _ready():
 	label_timeout.timeout.connect(handle_label_timeout)
 	shield_timer.timeout.connect(handle_shield_timeout)
 	reload_progress_bar.visible = false
+	
+	if Main.IS_DEBUG_MODE:
+		self.set_collision_mask_value(1, false)
 
 func _process(delta: float) -> void:
 	if is_dead:

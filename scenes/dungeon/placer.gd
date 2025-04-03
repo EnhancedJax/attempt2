@@ -44,50 +44,30 @@ func _calculate_positions() -> void:
 
 		if neighbours.left != -1 and not _room_positions.has(neighbours.left):
 			var left_scene = room_scenes[neighbours.left]
-			var left_pos = _compute_neighbor_position(current_pos, current_scene, left_scene, Dungen.DIR_LEFT)
+			var left_pos = _compute_neighbor_position(current_pos, current_scene, left_scene, Dungen.Direction.LEFT)
 			_room_positions[neighbours.left] = left_pos
 			queue.append(neighbours.left)
 		if neighbours.right != -1 and not _room_positions.has(neighbours.right):
 			var right_scene = room_scenes[neighbours.right]
-			var right_pos = _compute_neighbor_position(current_pos, current_scene, right_scene, Dungen.DIR_RIGHT)
+			var right_pos = _compute_neighbor_position(current_pos, current_scene, right_scene, Dungen.Direction.RIGHT)
 			_room_positions[neighbours.right] = right_pos
 			queue.append(neighbours.right)
 		if neighbours.top != -1 and not _room_positions.has(neighbours.top):
 			var top_scene = room_scenes[neighbours.top]
-			var top_pos = _compute_neighbor_position(current_pos, current_scene, top_scene, Dungen.DIR_TOP)
+			var top_pos = _compute_neighbor_position(current_pos, current_scene, top_scene, Dungen.Direction.TOP)
 			_room_positions[neighbours.top] = top_pos
 			queue.append(neighbours.top)
 		if neighbours.bottom != -1 and not _room_positions.has(neighbours.bottom):
 			var bottom_scene = room_scenes[neighbours.bottom]
-			var bottom_pos = _compute_neighbor_position(current_pos, current_scene, bottom_scene, Dungen.DIR_BOTTOM)
+			var bottom_pos = _compute_neighbor_position(current_pos, current_scene, bottom_scene, Dungen.Direction.BOTTOM)
 			_room_positions[neighbours.bottom] = bottom_pos
 			queue.append(neighbours.bottom)
-
-		
-		# # For every potential neighbor:
-		# for neighbor_id in range(_rooms.size()):
-		#     var code = matrix[current_id][neighbor_id]
-		#     if code != 0:
-		#         # We have a connection from current room at current_id to neighbor_id in direction "code".
-		#         var neighbor_scene = room_scenes[neighbor_id]
-		#         var computed_pos = _compute_neighbor_position(current_pos, current_scene, neighbor_scene, code)
-		#         # If the neighbor hasn't been placed, set its position.
-		#         if not room_positions.has(neighbor_id):
-		#             room_positions[neighbor_id] = computed_pos
-		#             queue.append(neighbor_id)
-		#         else:
-		#             # If already set, check for conflict and warn if misaligned.
-		#             if room_positions[neighbor_id] != computed_pos:
-		#                 push_warning("Conflict detected for room %d alignment. Expected %s but found %s" %
-		#                     [neighbor_id, str(room_positions[neighbor_id]), str(computed_pos)])
-		#                 # In a full implementation, you might resolve this conflict.
 
 func _spawn_rooms() -> void:
 	# Now that all room positions are computed, place the instanced room scenes.
 	# The computed position represents the room's top-left corner in world space (in pixels).
 	for i in range(_rooms.size()):
 		var scene_instance = room_scenes[i]
-		# var room_type = nodes[i].type
 		
 		# Configure door settings based on connections from the matrix.
 		var door_config: Array[bool] = [false, false, false, false]  # [top, left, bottom, right]
@@ -103,7 +83,6 @@ func _spawn_rooms() -> void:
 		
 		# Apply door configuration (for door placement/dimension data) and open all doors.
 		scene_instance.door_config = door_config
-		# scene_instance.room_id = i
 
 		# Compute world position relative to the parent Node2D.
 		var world_position = _room_positions[i]
@@ -130,13 +109,13 @@ func _compute_neighbor_position(current_pos: Vector2, current_scene: Node, neigh
 	# from the passed code to add a GAP in the proper direction (normalized).
 	var vec: Vector2
 	match dir_code:
-		Dungen.DIR_TOP:
+		Dungen.Direction.TOP:
 			vec = Vector2(0, -1)
-		Dungen.DIR_LEFT:
+		Dungen.Direction.LEFT:
 			vec = Vector2(-1, 0)
-		Dungen.DIR_BOTTOM:
+		Dungen.Direction.BOTTOM:
 			vec = Vector2(0, 1)
-		Dungen.DIR_RIGHT:
+		Dungen.Direction.RIGHT:
 			vec = Vector2(1, 0)
 		_:
 			vec = Vector2.ZERO

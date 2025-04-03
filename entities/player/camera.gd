@@ -17,6 +17,8 @@ var focus_timer: float = 0.0
 
 func _ready() -> void:
 	Main.register_camera(self)
+	if Main.IS_DEBUG_MODE:
+		self.zoom = Vector2(0.12,0.12)
 
 func apply_shake(strength: float = 5.0):
 	shake_strength = strength / 4
@@ -35,6 +37,8 @@ func _process(delta: float) -> void:
 			_process_shift_enemy(delta)
 	
 	_process_shake(delta)
+	if Input.is_action_pressed("ui_text_scroll_up"):
+		print('scorll')
 
 func _process_shake(delta: float) -> void:
 	if shake_strength > 0:
