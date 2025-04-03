@@ -6,11 +6,11 @@ func _ready() -> void:
 	MusicManager.play("bgm", "bgm", 1.0, true)
 	Main.show_title_ui('Level 0')
 	Main.register_control(self)
-	await $TileLayer.generate()
+	var result_dict = $TileLayer.generate()
 
 	# Main.hud.draw_minimap(result_dict.nodes)
-	#var place_player_at = (Vector2(result_dict.room_scenes[0].dimension) / 2) * 16 * $TileLayer.global_scale
-	#Main.player.global_position = place_player_at
+	var place_player_at = (Vector2(result_dict.room_scenes[0].dimension) / 2) * 16 * $TileLayer.global_scale
+	Main.player.global_position = place_player_at
 	# for i in result_dict.room_scenes.size():
 	# 	var scene = result_dict.room_scenes[i]
 	

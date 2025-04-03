@@ -2,7 +2,7 @@ extends Node2D
 
 func generate() -> Dictionary:
 	var graph_builder = DungeonGraphBuilder.new()
-	var placer = DungeonRoomPlacer.new(self, $FloorTileLayer.tile_set.tile_size.x, 15)
+	var placer = DungeonRoomPlacer.new(self, $FloorTileLayer.tile_set.tile_size.x, 20)
 	var drawer = DungeonCorridorDrawer.new($FloorTileLayer, $WallTileLayer)
 
 	var rooms = graph_builder.generate()

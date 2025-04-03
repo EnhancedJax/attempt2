@@ -2,6 +2,7 @@ class_name DungeonGraphBuilder
 
 var _rooms: Array[Dungen.Room]
 var _rng: RandomNumberGenerator
+var _flag_regenerate: bool = false
 
 func _init():
 	_rooms = []
@@ -12,21 +13,29 @@ func _add_room(type: Dungen.RoomType) -> int:
 	var room := Dungen.Room.new()
 	room.room_type = type
 	_rooms.append(room)
+	print("[GraphBuilder] Created new room: %s at index %d" % [Dungen.RoomType.keys()[type], _rooms.size() - 1])
 	return _rooms.size() - 1
 
 func _connect_rooms(room1: int, room2: int, forced_direction: Dungen.Direction = -1) -> void:
+	print("[GraphBuilder] Attempting to connect room %d to room %d" % [room1, room2])
 	var directions: Array[Dungen.Direction]
 	if forced_direction != -1:
 		directions = [forced_direction]
+		print("[GraphBuilder] Using forced direction: %s" % Dungen.Direction.keys()[forced_direction])
 	else:
 		directions = [Dungen.Direction.TOP, Dungen.Direction.RIGHT, Dungen.Direction.BOTTOM, Dungen.Direction.LEFT]
 		directions.shuffle()
+		print("[GraphBuilder] Testing shuffled directions: %s" % directions)
 	
 	for dir in directions:
 		if _can_assign_direction(room1, room2, dir):
+			print("[GraphBuilder] Successfully connected rooms using direction: %s" % Dungen.Direction.keys()[dir])
 			_assign_direction(room1, room2, dir)
 			_update_grid_position(room2, room1, dir)
-			break
+			return
+	
+	print("[GraphBuilder] WARNING: Failed to connect rooms %d and %d" % [room1, room2])
+	_flag_regenerate = true
 
 func _update_grid_position(new_room: int, base_room: int, dir: Dungen.Direction) -> void:
 	var new_pos: Vector2i = _rooms[base_room].get_neighbor_position(dir)
@@ -84,13 +93,16 @@ func _assign_direction(room1: int, room2: int, dir: Dungen.Direction) -> void:
 			_rooms[room2].neighbours.right = room1
 
 func generate() -> Array[Dungen.Room]:
+	print("[GraphBuilder] Starting dungeon generation")
 	_rooms.clear()
+	_flag_regenerate = false
 	
 	var start := _add_room(Dungen.RoomType.ENTRANCE)
-	# Start room remains at (0,0) by default
+	print("[GraphBuilder] Created entrance room at (0,0)")
 	
 	var last_room := start
 	var num_enemies := _rng.randi_range(0, 2)
+	print("[GraphBuilder] Generating initial path with %d enemy rooms" % num_enemies)
 	for i in num_enemies:
 		var enemy := _add_room(Dungen.RoomType.ENEMY)
 		_connect_rooms(last_room, enemy)
@@ -116,11 +128,16 @@ func generate() -> Array[Dungen.Room]:
 		_connect_rooms(loop_rooms[i], enemy, loop_directions[i])
 		loop_rooms.append(enemy)
 	
-	# Connect the loop back if possible
+	print("[GraphBuilder] Creating loop with %d rooms" % loop_rooms.size())
+	print("[GraphBuilder] Connecting loop back to start")
 	if _can_assign_direction(loop_rooms[-1], loop_rooms[0], loop_directions[-1]):
 		_assign_direction(loop_rooms[-1], loop_rooms[0], loop_directions[-1])
+		print("[GraphBuilder] Successfully closed the loop")
+	else:
+		print("[GraphBuilder] Failed to close the loop")
 	
 	# Continue with the rest of the generation
+	print("[GraphBuilder] Generating final section of dungeon")
 	var loop_connection := _rng.randi_range(1, 2)  # Changed from (1,3) to avoid potential overlaps
 	var loot1 := _add_room(Dungen.RoomType.LOOT)
 	_connect_rooms(loop_rooms[loop_connection], loot1)
@@ -149,6 +166,10 @@ func generate() -> Array[Dungen.Room]:
 	var loot2 := _add_room(Dungen.RoomType.LOOT)
 	_connect_rooms(last_additional, loot2)
 	
+	if _flag_regenerate:
+		print("[GraphBuilder] Regeneration flag set, retrying dungeon generation")
+		return generate()
+	print("[GraphBuilder] Dungeon generation complete with %d total rooms" % _rooms.size())
 	return _rooms
 
 func get_last_result() -> Array[Dungen.Room]:

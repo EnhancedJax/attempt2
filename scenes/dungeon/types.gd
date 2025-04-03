@@ -23,6 +23,14 @@ class Neighbours extends RefCounted:
 	var left: int = -1
 	# indices of the rooms that are connected to this room
 
+	func has_connection_to(direction: Direction) -> bool:
+		match direction:
+			Direction.TOP: return top != -1
+			Direction.RIGHT: return right != -1
+			Direction.BOTTOM: return bottom != -1
+			Direction.LEFT: return left != -1
+			_: return false
+
 class Room extends RefCounted:
 	var room_type: RoomType
 	var neighbours: Neighbours

@@ -37,8 +37,12 @@ func _process(delta: float) -> void:
 			_process_shift_enemy(delta)
 	
 	_process_shake(delta)
-	if Input.is_action_pressed("ui_text_scroll_up"):
-		print('scorll')
+
+func _input(event: InputEvent) -> void:
+	if Main.IS_DEBUG_MODE and event is InputEventPanGesture:
+		var mouse_event := event as InputEventPanGesture
+		if mouse_event.delta != Vector2.ZERO:
+			zoom += Vector2(mouse_event.delta.x, mouse_event.delta.x) * 0.1
 
 func _process_shake(delta: float) -> void:
 	if shake_strength > 0:
