@@ -1,12 +1,63 @@
-[gd_scene load_steps=6 format=4 uid="uid://oue2kr2eaavc"]
+[gd_scene load_steps=13 format=4 uid="uid://oue2kr2eaavc"]
 
 [ext_resource type="Script" uid="uid://drxtp5a6b6sav" path="res://scenes/rooms/room_base.gd" id="1_ptmbc"]
 [ext_resource type="PackedScene" uid="uid://l1w7huts8bj7" path="res://scenes/rooms/level1/door/door_vertical.tscn" id="2_8w0xn"]
 [ext_resource type="PackedScene" uid="uid://c6wj0t80kybli" path="res://scenes/rooms/level1/door/door_horizontal.tscn" id="3_a820y"]
 [ext_resource type="TileSet" uid="uid://b3hq822pff26v" path="res://scenes/rooms/level1/tileset_level1.tres" id="3_y663u"]
 [ext_resource type="PackedScene" uid="uid://bv73sleuk00k6" path="res://scenes/enemy_spawner/enemy_spawner.tscn" id="4_a820y"]
+[ext_resource type="Shader" uid="uid://d27aqidg7jdlx" path="res://scenes/rooms/fow.gdshader" id="6_ssqhp"]
 
-[node name="RoomBase" type="Node2D" node_paths=PackedStringArray("wall_tilemap", "floor_tilemap", "fow_canvas", "fow")]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ql374"]
+resource_local_to_scene = true
+shader = ExtResource("6_ssqhp")
+
+[sub_resource type="Gradient" id="Gradient_02pj5"]
+colors = PackedColorArray(1, 0, 1, 1, 1, 0, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8y6lc"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_02pj5")
+fill_to = Vector2(1, 1)
+
+[sub_resource type="Animation" id="Animation_ssqhp"]
+resource_name = "fade_out"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FowDrawer:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_ql374"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FowDrawer:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_02pj5"]
+resource_local_to_scene = true
+_data = {
+&"RESET": SubResource("Animation_ql374"),
+&"fade_out": SubResource("Animation_ssqhp")
+}
+
+[node name="RoomBase" type="Node2D" node_paths=PackedStringArray("wall_tilemap", "floor_tilemap", "fow_canvas", "fow_texture", "fow_animation_player")]
 y_sort_enabled = true
 script = ExtResource("1_ptmbc")
 id = "base"
@@ -20,8 +71,9 @@ door_horizontal = ExtResource("3_a820y")
 enemy_spawner = ExtResource("4_a820y")
 wall_tilemap = NodePath("WallTileLayer")
 floor_tilemap = NodePath("FloorTileLayer")
-fow_canvas = NodePath("CanvasLayer")
-fow = NodePath("CanvasLayer/Sprite2D")
+fow_canvas = NodePath("FowLayer")
+fow_texture = NodePath("FowLayer/FowDrawer")
+fow_animation_player = NodePath("FowLayer/FOWAnimationPlayer")
 
 [node name="FloorTileLayer" type="TileMapLayer" parent="."]
 z_as_relative = false
@@ -33,8 +85,15 @@ y_sort_enabled = true
 tile_map_data = PackedByteArray("AAAAAAEAAQAAAAAAAAAAAAIAAQABAAAAAAAAAAMAAQAAAAAAAAAAAAYAAQABAAAAAAAAAAcAAQABAAAAAAAIAAIAAQAAAAAAAAAIAAUAAQABAAAAAAAIAAYAAQABAAAAAAAIAAcAAQAAAAAAAAAIAAgAAQAAAAAAAAAAAAgAAQAAAAAAAAABAAgAAQAAAAAAAAACAAgAAQAAAAAAAAADAAgAAQABAAAAAAAHAAgAAQAAAAAAAAAFAAAAAQAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAGAAAAAQAAAAAAAAAHAAAAAQAAAAAAAAAIAAAAAQAAAAAAAAAIAAEAAQABAAAAAAAEAAAAAQABAAAAAAAEAAgAAQABAAAAAAAAAAQAAQAAAAAAAAAAAAUAAQAAAAAAAAACAAAAAQAAAAAAAAADAAAAAQAAAAAAAAAIAAMAAQAAAAAAAAAIAAQAAQAAAAAAAAAFAAgAAQAAAAAAAAAGAAgAAQAAAAAAAAA=")
 tile_set = ExtResource("3_y663u")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="FowLayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
 
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+[node name="FowDrawer" type="Sprite2D" parent="FowLayer"]
+material = SubResource("ShaderMaterial_ql374")
+texture = SubResource("GradientTexture2D_8y6lc")
 centered = false
+
+[node name="FOWAnimationPlayer" type="AnimationPlayer" parent="FowLayer"]
+libraries = {
+&"": SubResource("AnimationLibrary_02pj5")
+}
