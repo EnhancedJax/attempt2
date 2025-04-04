@@ -11,10 +11,10 @@ func _ready() -> void:
 	var rooms = tile_layer.rooms
 	var room_scenes = tile_layer.room_scenes
 
-	# Main.hud.draw_minimap(rooms)
+	Main.hud.draw_minimap(rooms)
 
-	# _place_player_at_entrance()
-	# _register_all_rooms()
+	_place_player_at_entrance()
+	_register_all_rooms()
 
 func _place_player_at_entrance() -> void:
 	var place_player_at = (Vector2(tile_layer.room_scenes[0].dimension) / 2) * 16 * tile_layer.global_scale
