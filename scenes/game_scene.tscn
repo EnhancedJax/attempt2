@@ -101,7 +101,7 @@ color = Color(0.550979, 0.521307, 0.660582, 1)
 environment = SubResource("Environment_y3j0m")
 
 [node name="Viewport" type="CanvasLayer" parent="."]
-layer = 0
+layer = 2
 
 [node name="HUD" parent="Viewport" instance=ExtResource("4_ujnmn")]
 process_mode = 3

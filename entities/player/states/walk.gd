@@ -17,7 +17,7 @@ func physics_update(delta):
 	if input_direction != Vector2.ZERO:
 		var speed : float = FAST_SPEED
 		if Main.IS_DEBUG_MODE:
-			speed *= 8
+			speed *= 1 / Main.camera.zoom.x
 		if Main.player_room_at and Main.player_room_at.room_state == 1:
 			speed = BASE_SPEED
 		p.velocity = p.velocity.move_toward(speed * input_direction, 40000 * delta)

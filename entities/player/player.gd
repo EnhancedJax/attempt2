@@ -44,8 +44,14 @@ func _ready():
 	shield_timer.timeout.connect(handle_shield_timeout)
 	reload_progress_bar.visible = false
 	
-	if Main.IS_DEBUG_MODE:
+	Main.signal_debug_mode_changed.connect(self._on_debug_mode_changed)
+	_on_debug_mode_changed(Main.IS_DEBUG_MODE)
+
+func _on_debug_mode_changed(is_debug: bool) -> void:
+	if is_debug:
 		self.set_collision_mask_value(1, false)
+	else:
+		self.set_collision_mask_value(1, true)
 
 func _process(delta: float) -> void:
 	if is_dead:

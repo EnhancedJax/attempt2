@@ -23,14 +23,23 @@ signal signal_player_entered()
 @export var floor_tilemap : TileMapLayer
 @onready var tilemap_px : int = wall_tilemap.tile_set.tile_size.x
 
+@export var fow_canvas : CanvasLayer
+@export var fow : Sprite2D
+@export var should_fow: bool = true
+
+#region Customizable constants
 ## Amount of tiles away from the player that the enemy must not be randomly spawned at
 const spawn_player_margin : int = 3
 ## Amount of tiles away from walls that the enemy must not be randomly spawned at
 const spawn_room_margin : int = 1
 
+const ENTRANCE_WIDTH: int = 2  # tiles wide. Changing this requires a refactor of the whole project!
+const DOOR_PADDING_FROM_ENTRANCE: float = 1.5
+
 const entrance_detector_scene = preload("res://scenes/rooms/entrance_detector.tscn")
 const coin_scene = preload("res://scenes/coin/coin_spawner.tscn")
 
+#region Internals
 var _enemy_remaining: int = 0
 var _room_enemies : Array[EntityBase] = []
 var _current_wave_index : int = 0
@@ -40,7 +49,10 @@ var _boss_counter : int = 0
 var total_bosses : int = 0
 var _room_bosses : Array[EntityBase] = []
 
-# values to be set by generator
+var _shuffled_used_cells : Array[Vector2i] = []
+var _current_doors: Array[Door] = []
+
+#region Values set by generator
 var room_state : int = 0 # 0: unvisited, 1: visited, 2: cleared
 var door_config : Array[bool] =  [true, true, true, true]
 var room_data : Dungen.Room = null
@@ -52,12 +64,14 @@ const ENTRANCES : Dictionary[int, String] = {
 	3: "right"
 }
 
-const ENTRANCE_WIDTH: int = 2  # tiles wide
-const DOOR_PADDING_FROM_ENTRANCE: float = 1.5
-
-var current_doors: Array[Door] = []
-
-var _shuffled_used_cells : Array[Vector2i] = []
+#region FOW
+var fow_is_animating := false
+var fow_animation_time := 0.0
+var fow_animation_duration := 1.0
+var fow_entrance_point := Vector2.ZERO
+var fow_image: Image
+var fow_texture: ImageTexture
+const FOW_PADDING: int = 0 # tiles wide
 
 func _ready() -> void:
 	randomize()
@@ -68,6 +82,17 @@ func _ready() -> void:
 	_shuffled_used_cells = floor_tilemap.get_used_cells()
 	_shuffled_used_cells.shuffle()
 	_calculate_total_enemies()
+	if should_fow:
+		_setup_fog_of_war()
+
+func _process(delta: float) -> void:
+	if fow_is_animating:
+		fow_animation_time += delta
+		var progress = fow_animation_time / fow_animation_duration
+		if progress >= 1.0:
+			fow_is_animating = false
+			progress = 1.0
+		_update_fow_animation(progress)
 
 func _calculate_total_enemies() -> void:
 	if not waves_data or waves_data.waves.is_empty() or Main.IS_DEBUG_MODE:
@@ -83,6 +108,8 @@ func _calculate_total_enemies() -> void:
 func _on_player_entered(entrance_index: int) -> void:
 	print("Player entered through entrance: ", entrance_index)
 	signal_player_entered.emit()
+	if should_fow and room_state == 0:
+		_start_fow_animation(entrance_index)
 	if is_peaceful_room:
 		room_state = 2
 	elif room_state == 0:
@@ -254,14 +281,14 @@ func _setup_doors_and_entrances() -> void:
 					door_pos.x += tilemap_px * DOOR_PADDING_FROM_ENTRANCE
 			
 			door_instance.position = door_pos
-			current_doors.append(door_instance)
+			_current_doors.append(door_instance)
 
 func _open_doors() -> void:
-	for d in current_doors:
+	for d in _current_doors:
 		d.call_open_door()
 
 func _close_doors() -> void:
-	for d in current_doors:
+	for d in _current_doors:
 		d.call_lock_door()
 		d.call_close_door()
 
@@ -303,3 +330,48 @@ func _setup_entrance_detection() -> void:
 		collision.position = pos
 		detector.add_child(collision)
 		self.add_child(detector)
+
+
+func _setup_fog_of_war() -> void:
+	# note: all fow positions relative to the origin of world, as canvas layers are positioned at origin.
+	var padded_size = Vector2(
+		(dimension.x + FOW_PADDING * 2) * tilemap_px,
+		(dimension.y + FOW_PADDING * 2) * tilemap_px
+	)
+	fow.position = self.global_position - Vector2(FOW_PADDING * tilemap_px, FOW_PADDING * tilemap_px)
+	
+	# Create the fog image
+	fow_image = Image.create(padded_size.x, padded_size.y, false, Image.FORMAT_RGBA8)
+	fow_image.fill(Color.html("#191919"))
+	fow_texture = ImageTexture.create_from_image(fow_image)
+	fow.texture = fow_texture
+
+func _start_fow_animation(entrance_index: int) -> void:
+	fow_is_animating = true
+	fow_animation_time = 0.0
+	
+	# Calculate entrance point based on entrance_index
+	var entrance: Vector2i = get("entrances_" + ENTRANCES[entrance_index])
+	fow_entrance_point = Vector2(entrance) * tilemap_px + self.global_position
+
+func _update_fow_animation(progress: float) -> void:
+	if not fow_image or not fow_texture:
+		return
+		
+	var center = fow_entrance_point - fow.position
+	var max_dimension = max(fow_image.get_width(), fow_image.get_height())
+	var radius = max_dimension * progress
+	var gradient_size = 100.0  # Size of the gradient border in pixels
+	
+	# Create circular reveal effect with gradient
+	for y in range(fow_image.get_height()):
+		for x in range(fow_image.get_width()):
+			var dist = Vector2(x, y).distance_to(center)
+			var alpha = 1.0
+			if dist < radius - gradient_size:
+				alpha = 0.0
+			elif dist < radius:
+				alpha = (dist - (radius - gradient_size)) / gradient_size
+			fow_image.set_pixel(x, y, Color(0, 0, 0, alpha))
+	
+	fow_texture.update(fow_image)

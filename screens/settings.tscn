@@ -11,6 +11,7 @@
 bg_color = Color(0, 0, 0, 1)
 
 [node name="CanvasLayer" type="CanvasLayer"]
+layer = 11
 script = ExtResource("1_5em86")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]

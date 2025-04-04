@@ -28,6 +28,7 @@ signal signal_r_control()
 signal signal_r_hud()
 
 signal signal_reactive_setting_updated(setting: ggsSetting, value: Variant)
+signal signal_debug_mode_changed(value: bool)
 
 func _process(_delta: float) -> void:
 	_update_player_autoaim_target()
@@ -39,6 +40,9 @@ func _process(_delta: float) -> void:
 		scene.item_id = weapons[randi() % weapons.size()]
 		scene.global_position = player.global_position 
 		control.get_child(3).add_child(scene)
+	if Input.is_action_just_pressed("dev_debug"):
+		IS_DEBUG_MODE = !IS_DEBUG_MODE
+		signal_debug_mode_changed.emit(IS_DEBUG_MODE)
 
 # /* ------------ Registers ----------- */
 

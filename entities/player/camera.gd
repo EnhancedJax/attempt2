@@ -18,7 +18,14 @@ var focus_timer: float = 0.0
 func _ready() -> void:
 	Main.register_camera(self)
 	if Main.IS_DEBUG_MODE:
-		self.zoom = Vector2(0.12,0.12)
+		self.zoom = Vector2(.5,.5)
+	Main.signal_debug_mode_changed.connect(self._on_debug_mode_changed)
+
+func _on_debug_mode_changed(is_debug: bool) -> void:
+	if is_debug:
+		self.zoom = Vector2(.5,.5)
+	else:
+		self.zoom = Vector2(1,1)
 
 func apply_shake(strength: float = 5.0):
 	shake_strength = strength / 4
