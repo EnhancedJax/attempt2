@@ -24,9 +24,9 @@ var is_dead : bool = false
 
 func _ready() -> void:
 	animatedSprite2D.play("default")
-	_health.connect("signal_health_deducted", rsignal_health_deducted)
-	_health.connect("signal_health_depleted", rsignal_health_depleted)
-	_hurtbox.connect("signal_hit", rsignal_hitbox_hit)
+	_health.connect("signal_health_deducted", _on_health_deducted)
+	_health.connect("signal_health_depleted", _on_health_depleted)
+	_hurtbox.connect("signal_hit", _on_hitbox_hit)
 
 func _process(_delta: float) -> void:
 	if not is_dead:
@@ -52,7 +52,7 @@ func get_aim_position() -> Vector2:
 	else:
 		return Vector2.ZERO
 
-func rsignal_hitbox_hit(attack: AttackBase):
+func _on_hitbox_hit(attack: AttackBase):
 	if is_invincible:
 		return
 	
@@ -60,17 +60,17 @@ func rsignal_hitbox_hit(attack: AttackBase):
 	apply_force(attack.knockback_vector)
 	_health.take_damage(attack.damage)
 
-func rsignal_health_deducted(health: int, max_health: int):
+func _on_health_deducted(health: int, max_health: int):
 	animationPlayer.play("RESET")
 	animationPlayer.play("take_attack")
 
-func rsignal_health_depleted():
+func _on_health_depleted():
 	if not is_dead:
 		is_dead = true
 		signal_death.emit()
 		do_die()
 
-func rsignal_weapon_did_use(kickback_vector: Vector2):
+func _on_weapon_did_use(kickback_vector: Vector2):
 	apply_force(kickback_vector)
 
 func do_die():
@@ -91,7 +91,7 @@ func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
 		weapon_node.queue_free()
 	
 	weapon_node = weapon.scene.instantiate()
-	weapon_node.connect("signal_weapon_did_use", rsignal_weapon_did_use)
+	weapon_node.connect("signal_weapon_did_use", _on_weapon_did_use)
 	weapon_node.position = weaponOrigin.position
 	weapon_node.visible = false
 	add_child(weapon_node)

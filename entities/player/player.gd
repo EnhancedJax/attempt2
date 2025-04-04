@@ -128,11 +128,11 @@ func get_aim_position() -> Vector2:
 	
 	return _last_aiming_at
 
-func rsignal_weapon_did_use(kickback_vector: Vector2):
-	super.rsignal_weapon_did_use(kickback_vector)
+func _on_weapon_did_use(kickback_vector: Vector2):
+	super._on_weapon_did_use(kickback_vector)
 	_update_ui_ammo()
 
-func rsignal_weapon_reloading(duration: float):
+func _on_weapon_reloading(duration: float):
 	is_reloading = true
 	reload_duration = duration
 	reload_timer = 0
@@ -141,12 +141,12 @@ func rsignal_weapon_reloading(duration: float):
 	label.visible = false
 	label_timeout.stop()
 
-func rsignal_weapon_did_reload():
+func _on_weapon_did_reload():
 	_update_ui_ammo()
 	label.visible = true
 	label_timeout.start()
 
-func rsignal_hitbox_hit(attack: AttackBase):
+func _on_hitbox_hit(attack: AttackBase):
 	if is_invincible:
 		return
 	
@@ -172,8 +172,8 @@ func rsignal_hitbox_hit(attack: AttackBase):
 	invincibility_timer.start()
 	
 
-func rsignal_health_deducted(health: int, max_health: int):
-	super.rsignal_health_deducted(health, max_health)
+func _on_health_deducted(health: int, max_health: int):
+	super._on_health_deducted(health, max_health)
 	Main.update_health_ui()
 
 # Overrides base class implementation
@@ -198,9 +198,9 @@ func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
 	else:
 		# Instantiate weapon node and save it in the same index as the inventory slot.
 		weapon_node = weapon.scene.instantiate()
-		weapon_node.signal_weapon_did_use.connect(rsignal_weapon_did_use)
-		weapon_node.signal_weapon_reloading.connect(rsignal_weapon_reloading)
-		weapon_node.signal_weapon_did_reload.connect(rsignal_weapon_did_reload)
+		weapon_node.signal_weapon_did_use.connect(_on_weapon_did_use)
+		weapon_node.signal_weapon_reloading.connect(_on_weapon_reloading)
+		weapon_node.signal_weapon_did_reload.connect(_on_weapon_did_reload)
 		weapon_node.position = weaponOrigin.position
 		weapon_node.visible = true
 		add_child(weapon_node)

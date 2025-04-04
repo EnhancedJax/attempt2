@@ -80,7 +80,7 @@ func _calculate_total_enemies() -> void:
 			if enemy.enemy_is_boss:
 				total_bosses += enemy.spawn_count
 
-func rsignal_player_entered(entrance_index: int) -> void:
+func _on_player_entered(entrance_index: int) -> void:
 	print("Player entered through entrance: ", entrance_index)
 	signal_player_entered.emit()
 	if is_peaceful_room:
@@ -118,7 +118,7 @@ func start_wave() -> void:
 			var enemy: EntityBase = enemy_props.enemy.instantiate()
 			
 			if enemy_props.enemy_is_boss:
-				enemy.connect("signal_death", rsignal_boss_died)
+				enemy.connect("signal_death", _on_boss_died)
 				_room_bosses.append(enemy)
 				
 				if enemy_props.splash_scene:
@@ -133,7 +133,7 @@ func start_wave() -> void:
 				# Play boss music
 				MusicManager.play("bgm", enemy_props.boss_bgm, 1.0, true)
 			
-			enemy.connect("signal_death", rsignal_spawned_enemy_died)
+			enemy.connect("signal_death", _on_spawned_enemy_died)
 			
 			var spawn_position: Vector2
 			if enemy_props.spawn_at_center:
@@ -149,7 +149,7 @@ func start_wave() -> void:
 			if enemy_props.spawn_delay > 0:
 				await get_tree().create_timer(enemy_props.spawn_delay).timeout
 
-func rsignal_spawned_enemy_died() -> void:
+func _on_spawned_enemy_died() -> void:
 	_enemy_remaining -= 1
 	if _enemy_remaining <= 0:
 		if _current_wave_index < waves_data.waves.size() - 1:
@@ -158,7 +158,7 @@ func rsignal_spawned_enemy_died() -> void:
 		else:
 			clear_room()
 
-func rsignal_boss_died() -> void:
+func _on_boss_died() -> void:
 	_boss_counter += 1
 	if _boss_counter == total_bosses:
 		MusicManager.play("bgm", "bgm", 1.0, true)
@@ -271,7 +271,7 @@ func _setup_entrance_detection() -> void:
 			continue
 			
 		var detector = entrance_detector_scene.instantiate()
-		detector.connect('signal_player_entered', rsignal_player_entered.bind(dir))
+		detector.connect('signal_player_entered', _on_player_entered.bind(dir))
 		var shape = RectangleShape2D.new()
 		var collision = CollisionShape2D.new()
 		collision.shape = shape

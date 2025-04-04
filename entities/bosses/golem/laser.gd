@@ -26,7 +26,7 @@ func enter() -> void:
 	current_laser = laser.bullet_scene.instantiate()
 	laser_spawn_point.add_child(current_laser)
 	current_laser.initialize(laser, initial_angle)
-	current_laser.signal_bullet_removed.connect(rsignal_bullet_remove)
+	current_laser.signal_bullet_removed.connect(_on_bullet_remove)
 	
 	await get_tree().process_frame
 	
@@ -53,7 +53,7 @@ func physics_update(delta: float):
 	
 	p.physics_update(delta)
 
-func rsignal_bullet_remove() -> void:
+func _on_bullet_remove() -> void:
 	if current_laser:
 		current_laser.queue_free()
 		current_laser = null

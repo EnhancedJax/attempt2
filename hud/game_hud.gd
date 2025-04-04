@@ -40,10 +40,10 @@ var _has_interactions : bool = false
 
 func _ready() -> void:
 	Main.register_hud(self)
-	Main.signal_interaction_changed.connect(rsignal_interaction_changed)
-	Main.signal_player_room_cleared.connect(rsignal_player_room_cleared)
-	Main.signal_player_room_changed.connect(rsignal_player_room_changed)
-	GGS.setting_applied.connect(rsignal_setting_updated)
+	Main.signal_interaction_changed.connect(_on_interaction_changed)
+	Main.signal_player_room_cleared.connect(_on_player_room_cleared)
+	Main.signal_player_room_changed.connect(_on_player_room_changed)
+	GGS.setting_applied.connect(_on_setting_updated)
 	_update_initial_settings()
 
 func _update_initial_settings():
@@ -51,7 +51,7 @@ func _update_initial_settings():
 	_update_margins(control_margin, GGS.get_value_state(controls_margin_setting))
 	_update_aim_stick(GGS.get_value_state(self_aim_setting))
 
-func rsignal_setting_updated(setting: ggsSetting, value: Variant):
+func _on_setting_updated(setting: ggsSetting, value: Variant):
 	if setting == self_aim_setting:
 		_update_aim_stick(value)
 	elif setting == display_margin_setting:
@@ -62,7 +62,7 @@ func rsignal_setting_updated(setting: ggsSetting, value: Variant):
 func _process(_delta: float) -> void:
 	fps_label.text = "FPS: %d" % Engine.get_frames_per_second()
 
-func rsignal_interaction_changed(i: Interaction):
+func _on_interaction_changed(i: Interaction):
 	if i == null:
 		action_texture.texture = action_shoot_texture
 		_has_interactions = false
@@ -98,20 +98,20 @@ func _display_aim_stick(display: bool):
 func register_boss(boss: BossBase):
 	print('Registrating boss:', boss)
 	boss_bar.visible = true
-	boss.signal_boss_health_changed.connect(rsignal_boss_health_changed)
-	boss.signal_boss_health_depleted.connect(rsignal_boss_health_depleted)
+	boss.signal_boss_health_changed.connect(_on_boss_health_changed)
+	boss.signal_boss_health_depleted.connect(_on_boss_health_depleted)
 
 func deregister_boss(boss: BossBase):
 	print('Deregistrating boss:', boss)
 	boss_bar.visible = false
-	boss.signal_boss_health_changed.disconnect(rsignal_boss_health_changed)
-	boss.signal_boss_health_depleted.disconnect(rsignal_boss_health_depleted)
+	boss.signal_boss_health_changed.disconnect(_on_boss_health_changed)
+	boss.signal_boss_health_depleted.disconnect(_on_boss_health_depleted)
 
-func rsignal_boss_health_changed(value:int,max:int):
+func _on_boss_health_changed(value:int,max:int):
 	boss_bar_progress.max_value = max
 	boss_bar_progress.value = value
 
-func rsignal_boss_health_depleted():
+func _on_boss_health_depleted():
 	pass
 	
 func update_health(value: int = 1, max: int = 1):
@@ -186,10 +186,10 @@ func draw_minimap(n):
 func update_minimap(id):
 	minimap_generator.update_minimap(id)
 
-func rsignal_player_room_cleared():
+func _on_player_room_cleared():
 	$AnimationPlayer.play_backwards("room_enter")
 
-func rsignal_player_room_changed(r: RoomBase):
+func _on_player_room_changed(r: RoomBase):
 	if r.room_state != 2 and not r.is_peaceful_room:
 		$AnimationPlayer.play("room_enter")
 

@@ -9,7 +9,7 @@ func _process(delta: float) -> void:
 	speed = min(speed + acceleration * delta, max_speed)
 	position += direction * speed * delta
 
-func rsignal_body_entered(body: Node2D) -> void:
+func _on_body_entered(body: Node2D) -> void:
 	if body is Player:
 		Main.update_coins(1)
 		SoundManager.play("coin", "pickup")

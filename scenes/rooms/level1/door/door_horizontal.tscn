@@ -143,5 +143,5 @@ collision_mask = 2
 position = Vector2(12, 14)
 shape = SubResource("RectangleShape2D_hpvv5")
 
-[connection signal="body_entered" from="EntranceLeft" to="." method="rsignal_player_entered_top"]
-[connection signal="body_entered" from="EntranceRight" to="." method="rsignal_player_entered_bottom"]
+[connection signal="body_entered" from="EntranceLeft" to="." method="_on_player_entered_top"]
+[connection signal="body_entered" from="EntranceRight" to="." method="_on_player_entered_bottom"]

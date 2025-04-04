@@ -73,5 +73,5 @@ metadata/_edit_lock_ = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_n8yc3")
 
-[connection signal="signal_player_entered" from="InteractionComponent" to="." method="rsignal_player_entered"]
-[connection signal="signal_player_exited" from="InteractionComponent" to="." method="rsignal_player_exited"]
+[connection signal="signal_player_entered" from="InteractionComponent" to="." method="_on_player_entered"]
+[connection signal="signal_player_exited" from="InteractionComponent" to="." method="_on_player_exited"]

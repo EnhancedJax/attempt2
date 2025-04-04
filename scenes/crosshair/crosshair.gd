@@ -12,12 +12,12 @@ var player_is_dead : bool = false
 
 func _ready() -> void:
 	current_position = global_position
-	Main.signal_player_landed_hit.connect(rsignal_player_landed_hit)
-	Main.player.signal_player_death.connect(rsignal_player_death)
-	GGS.setting_applied.connect(rsignal_setting_updated)
+	Main.signal_player_landed_hit.connect(_on_player_landed_hit)
+	Main.player.signal_player_death.connect(_on_player_death)
+	GGS.setting_applied.connect(_on_setting_updated)
 	_update_crosshair_mode(GGS.get_value_state(self_aim_setting))
 
-func rsignal_setting_updated(setting: ggsSetting, value: Variant):
+func _on_setting_updated(setting: ggsSetting, value: Variant):
 	if setting == self_aim_setting:
 		_update_crosshair_mode(value)
 
@@ -60,10 +60,10 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 			animation_player.play("RESET")
 			animation_player2.play("RESET")
 
-func rsignal_player_landed_hit():
+func _on_player_landed_hit():
 	animation_player2.play("RESET")
 	animation_player2.play("hit")
 
-func rsignal_player_death():
+func _on_player_death():
 	player_is_dead = true
 	animation_player2.play("exit")

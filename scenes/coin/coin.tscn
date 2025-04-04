@@ -147,4 +147,4 @@ label = "coin"
 events = Array[ExtResource("4_8afc0")]([SubResource("Resource_4qh87")])
 metadata/_custom_type_script = "uid://b7r334bhuu4yk"
 
-[connection signal="body_entered" from="Area2D" to="." method="rsignal_body_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_body_entered"]

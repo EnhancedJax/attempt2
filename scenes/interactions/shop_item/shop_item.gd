@@ -30,11 +30,11 @@ func interaction_action() -> void:
 		Main.deregister_interaction(interaction)
 		queue_free()
 
-func rsignal_player_entered() -> void:
+func _on_player_entered() -> void:
 	Main.register_interaction(interaction)
 	item_sprite.material.set_shader_parameter("width", 1)
 
-func rsignal_player_exited() -> void:
+func _on_player_exited() -> void:
 	Main.deregister_interaction(interaction)
 	item_sprite.material.set_shader_parameter("width", 0)
 

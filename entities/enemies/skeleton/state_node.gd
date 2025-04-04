@@ -6,7 +6,7 @@ extends StateMachine
 
 func _ready() -> void:
 	super._ready()
-	parent.signal_death.connect(rsignal_parent_death)
+	parent.signal_death.connect(_on_parent_death)
 
-func rsignal_parent_death():
+func _on_parent_death():
 	on_child_transition(current_state, "Death")

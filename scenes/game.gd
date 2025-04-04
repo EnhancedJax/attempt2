@@ -16,9 +16,9 @@ func _place_player_at_entrance() -> void:
 	Main.player.global_position = place_player_at
 	Main.signal_player_room_changed.emit(tile_layer.room_scenes[0])
 
-func rsignal_player_entered(room_index: int, scene: RoomBase) -> void:
+func _on_player_entered(room_index: int, scene: RoomBase) -> void:
 	Main.hud.update_minimap(room_index)
 	Main.handle_room_entered(scene)
 
-func rsignal_room_cleared() -> void:
+func _on_room_cleared() -> void:
 	Main.handle_room_cleared()

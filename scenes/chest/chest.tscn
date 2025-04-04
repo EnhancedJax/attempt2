@@ -227,5 +227,5 @@ label = "chest"
 events = Array[ExtResource("6_xcaki")]([SubResource("Resource_uigkj")])
 metadata/_custom_type_script = "uid://b7r334bhuu4yk"
 
-[connection signal="signal_player_entered" from="InteractionComponent" to="." method="rsignal_player_entered"]
-[connection signal="signal_player_exited" from="InteractionComponent" to="." method="rsignal_player_exited"]
+[connection signal="signal_player_entered" from="InteractionComponent" to="." method="_on_player_entered"]
+[connection signal="signal_player_exited" from="InteractionComponent" to="." method="_on_player_exited"]

@@ -56,10 +56,10 @@ func set_collision(b: bool) -> void:
 	self.set_collision_layer_value(1,b)
 	self.set_collision_layer_value(1,b)
 
-func rsignal_player_entered_top(body: Node2D) -> void:
+func _on_player_entered_top(body: Node2D) -> void:
 	if not is_opened and not is_locked:
 		_handle_open_door(false)
 
-func rsignal_player_entered_bottom(body: Node2D) -> void:
+func _on_player_entered_bottom(body: Node2D) -> void:
 	if not is_opened and not is_locked:
 		_handle_open_door(true)

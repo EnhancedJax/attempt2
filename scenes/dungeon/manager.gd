@@ -19,10 +19,10 @@ func generate() -> void:
 	# drawer.draw_corridors(rooms, room_scenes)
 
 	register_all_rooms()
-	Main.signal_player_room_changed.connect(rsignal_player_room_changed)
+	Main.signal_player_room_changed.connect(_on_player_room_changed)
 
 # Implement only showing neighbouring rooms
-func rsignal_player_room_changed(room_scene: RoomBase) -> void:
+func _on_player_room_changed(room_scene: RoomBase) -> void:
 	var room_data = room_scene.room_data
 	# Get all scenes to enable
 	var scenes_to_enable : Array[RoomBase]= [room_scene]
@@ -55,15 +55,15 @@ func register_all_rooms() -> void:
 	for i in self.room_scenes.size():
 		var scene = self.room_scenes[i]
 	
-		scene.signal_player_entered.connect(Main.rsignal_player_room_entered.bind(i, scene))
-		scene.signal_room_cleared.connect(Main.rsignal_player_room_cleared)
+		scene.signal_player_entered.connect(Main._on_player_room_entered.bind(i, scene))
+		scene.signal_room_cleared.connect(Main._on_player_room_cleared)
 
 func clear_all_signals() -> void:
 	for i in self.room_scenes.size():
 		var scene = self.room_scenes[i]
 	
-		scene.signal_player_entered.disconnect(Main.rsignal_player_room_entered)
-		scene.signal_room_cleared.disconnect(Main.rsignal_player_room_cleared)
+		scene.signal_player_entered.disconnect(Main._on_player_room_entered)
+		scene.signal_room_cleared.disconnect(Main._on_player_room_cleared)
 
 # /* -------------- Tests ------------- */
 

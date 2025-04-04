@@ -6,8 +6,8 @@ extends WeaponBase
 func _ready() -> void:
 	mag_size = 30
 	mag_count = mag_size
-	Main.signal_player_equipped_weapon.connect(rsignal_weapon_equipped)
-	bullet_spawner.signal_shot.connect(rsignal_shot)
+	Main.signal_player_equipped_weapon.connect(_on_weapon_equipped)
+	bullet_spawner.signal_shot.connect(_on_shot)
 	reload_timer_2.timeout.connect(play_second_reload_sound)
 	reload_timer_3.timeout.connect(play_third_reload_sound)
 
@@ -34,11 +34,11 @@ func handle_finish_reload() -> void:
 	super.handle_finish_reload()
 	$AnimatedSprite2D.play('idle')
 
-func rsignal_weapon_equipped(node: Node2D):
+func _on_weapon_equipped(node: Node2D):
 	if self == node:
 		SoundManager.play("firm", "rack")
 		$AnimatedSprite2D/AnimationPlayer.play("equip")
 
-func rsignal_shot():
+func _on_shot():
 	$AnimatedSprite2D.play('idle')
 	$AnimatedSprite2D.play('shot')

@@ -1,6 +1,6 @@
 ## Code naming
 
-rsignal for signal receivers which require `connect`
+\_on for signal receivers which require `connect`
 
 ## Collision layers
 

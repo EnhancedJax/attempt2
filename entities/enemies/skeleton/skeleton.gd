@@ -13,8 +13,8 @@ func _process(delta: float) -> void:
 		weapon_node.update_sprite_flip(get_aim_position())
 		weapon_node.visible = true
 
-func rsignal_hitbox_hit(attack: AttackBase):
-	super.rsignal_hitbox_hit(attack)
+func _on_hitbox_hit(attack: AttackBase):
+	super._on_hitbox_hit(attack)
 	Main.signal_player_landed_hit.emit()
 	SoundManager.play_at_position_varied("skeleton", "hit", global_position, randf_range(0.8,1.2), 2)
 

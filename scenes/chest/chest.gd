@@ -25,9 +25,9 @@ func _ready() -> void:
 	if parent is RoomBase:
 		parent_room = parent
 	
-	Main.signal_player_entered_room.connect(rsignal_player_entered_room)
+	Main.signal_player_entered_room.connect(_on_player_entered_room)
 	if spawned_in_active_room:
-		rsignal_player_entered_room(parent_room)
+		_on_player_entered_room(parent_room)
 	
 func interaction_action() -> void:
 	SoundManager.play('chest', 'open')
@@ -56,17 +56,17 @@ func interaction_action() -> void:
 	$AnimationPlayer.play("open")
 	Main.deregister_interaction(interaction)
 
-func rsignal_player_entered() -> void:
+func _on_player_entered() -> void:
 	if is_opened:
 		return
 	Main.register_interaction(interaction)
 
-func rsignal_player_exited() -> void:
+func _on_player_exited() -> void:
 	if is_opened:
 		return
 	Main.deregister_interaction(interaction)
 
-func rsignal_player_entered_room(room: RoomBase) -> void:
+func _on_player_entered_room(room: RoomBase) -> void:
 	if room == parent_room:
 		if not _is_player_in_parent_room:
 			$AnimationPlayer.play("enter")

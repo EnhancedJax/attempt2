@@ -121,7 +121,7 @@ func update_ammo_ui(count: int, max: int) -> void:
 	if hud:
 		hud.update_ammo(count, max)
 
-func rsignal_player_room_entered(id: int, room: RoomBase) -> void:
+func _on_player_room_entered(id: int, room: RoomBase) -> void:
 	if room != player_room_at:
 		signal_player_room_changed.emit(room)
 	player_room_at = room
@@ -129,7 +129,7 @@ func rsignal_player_room_entered(id: int, room: RoomBase) -> void:
 	if hud:
 		hud.update_minimap(id)
 
-func rsignal_player_room_cleared() -> void:
+func _on_player_room_cleared() -> void:
 	signal_player_room_cleared.emit()
 
 # /* ------------- Helpers ------------ */
