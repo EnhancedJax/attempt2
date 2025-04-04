@@ -6,6 +6,7 @@ enum RoomType {
 	LOOT,
 	SHOP,
 	BOSS,
+	BOSS_PREP,
 	EXIT,
 }
 

@@ -38,6 +38,7 @@ func draw_room_corridors(room: Dungen.Room, room_scenes: Array[RoomBase]) -> voi
 		if room.id < neighbour_idx:
 			var scene_b: RoomBase = room_scenes[neighbour_idx]
 			var d: int = room.get_neighbour_direction(neighbour_idx)
+			var is_vertical : bool = d == Dungen.Direction.TOP or d == Dungen.Direction.BOTTOM
 			
 			var door_a_offset: Vector2 = Dungen.get_door_value(scene, d)
 			var door_b_offset: Vector2 = Dungen.get_door_value(scene_b, Dungen.opposite_direction[d])
@@ -48,19 +49,21 @@ func draw_room_corridors(room: Dungen.Room, room_scenes: Array[RoomBase]) -> voi
 			var door_a_tile: Vector2i = Vector2i(door_a_world / tile_size)
 			var door_b_tile: Vector2i = Vector2i(door_b_world / tile_size)
 			
-			_draw_corridor_between_points(door_a_tile, door_b_tile)
+			_draw_corridor_between_points(door_a_tile, door_b_tile, 1 if is_vertical else 0)
 
 func _clear_corridors() -> void:
 	corridor_tilemap.clear()
 	corridor_wall_tilemap.clear()
 
-func _draw_corridor_between_points(point_a: Vector2i, point_b: Vector2i) -> void:
+func _draw_corridor_between_points(point_a: Vector2i, point_b: Vector2i, is_vertical: int = -1) -> void:
 	# Check if the points are aligned (share an x or y coordinate)
 	if point_a.x == point_b.x or point_a.y == point_b.y:
 		# Aligned corridor - draw directly
-		var is_vertical: bool = point_a.x == point_b.x
-		var length: int = point_b.y - point_a.y if is_vertical else point_b.x - point_a.x
-		_draw_straight_corridor(point_a, length, [0,0,0,0], is_vertical)
+		var _is_vertical: bool = point_a.x == point_b.x
+		if is_vertical != -1:
+			_is_vertical = is_vertical
+		var length: int = point_b.y - point_a.y if _is_vertical else point_b.x - point_a.x
+		_draw_straight_corridor(point_a, length, [0,0,0,0], _is_vertical)
 	else:
 		# Non-aligned corridor - create three segments with a bend
 		var mid_x: int = (point_a.x + point_b.x) / 2
@@ -78,8 +81,7 @@ func _draw_corridor_between_points(point_a: Vector2i, point_b: Vector2i) -> void
 			quadrant = 1 if direction < 0 else 4
 		else:
 			quadrant = 2 if direction < 0 else 3
-		print(quadrant)
-		if abs(point_a.x - point_b.x) > abs(point_a.y - point_b.y):
+		if abs(point_a.x - point_b.x) > abs(point_a.y - point_b.y) or is_vertical == 0:
 			# Longer in x direction - make horizontal corridors at ends and vertical in the middle
 			var h1_length: int = abs(mid_x - point_a.x) + 2
 			var v_length: int = abs(point_b.y - point_a.y) + 1

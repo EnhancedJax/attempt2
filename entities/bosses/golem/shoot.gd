@@ -1,6 +1,6 @@
 extends State
 
-@export var fire_wait : float = 1.5
+@export var fire_wait : float = 4
 @export var walk_speed : float = 80
 
 var cooldown_timer : float = 0.0

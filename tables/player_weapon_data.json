@@ -28,11 +28,5 @@
 		"desc": "Generic submachine gun",
 		"rarity": 1.0,
 		"code_name": "smg"
-	},
-	"5": {
-		"name": "Crossbow",
-		"desc": "Pow",
-		"rarity": 1.0,
-		"code_name": "crossbow"
 	}
 }

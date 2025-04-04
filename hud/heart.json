@@ -1,12 +1,12 @@
 { "frames": [
    {
-    "filename": "heart.aseprite",
-    "frame": { "x": 0, "y": 0, "w": 15, "h": 14 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 15, "h": 14 },
-    "sourceSize": { "w": 15, "h": 14 },
-    "duration": 100
+	"filename": "heart.aseprite",
+	"frame": { "x": 0, "y": 0, "w": 15, "h": 14 },
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": { "x": 0, "y": 0, "w": 15, "h": 14 },
+	"sourceSize": { "w": 15, "h": 14 },
+	"duration": 100
    }
  ],
  "meta": {

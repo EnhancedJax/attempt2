@@ -21,8 +21,8 @@ func _ready() -> void:
 		self.zoom = Vector2(.5,.5)
 	Main.signal_debug_mode_changed.connect(self._on_debug_mode_changed)
 
-func _on_debug_mode_changed(is_debug: bool) -> void:
-	if is_debug:
+func _on_debug_mode_changed() -> void:
+	if Main.IS_DEBUG_MODE:
 		self.zoom = Vector2(.5,.5)
 	else:
 		self.zoom = Vector2(1,1)

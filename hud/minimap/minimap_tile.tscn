@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ga3jop4y2drr"]
+[gd_scene load_steps=11 format=3 uid="uid://ga3jop4y2drr"]
 
 [ext_resource type="Script" uid="uid://ck6w2tayss4yv" path="res://minimap_tile.gd" id="1_8i6iv"]
 [ext_resource type="StyleBox" uid="uid://w3ks0dtiestu" path="res://hud/minimap/visited.tres" id="1_lggtc"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://ljujc21po7j3" path="res://hud/minimap/icons/icon_entrance.png" id="3_8g41g"]
 [ext_resource type="Script" uid="uid://cij3wb0xdpwi2" path="res://hud/minimap/icon_bank.gd" id="3_xvvys"]
 [ext_resource type="Texture2D" uid="uid://cp3p5ema8lj4m" path="res://hud/minimap/icons/icon_finish.png" id="4_erwkv"]
+[ext_resource type="Texture2D" uid="uid://d4jtc0wygmi7i" path="res://hud/minimap/icons/icon_smile.png" id="5_5ackm"]
 [ext_resource type="Texture2D" uid="uid://6msmcfikwj27" path="res://hud/minimap/icons/icon_shop.png" id="6_5ackm"]
 [ext_resource type="Texture2D" uid="uid://c44yxw7nab5u8" path="res://hud/minimap/icons/icon_chest.png" id="6_8g41g"]
 
@@ -13,6 +14,7 @@
 script = ExtResource("3_xvvys")
 icon_beginning = ExtResource("3_8g41g")
 icon_loot = ExtResource("6_8g41g")
+icon_boss_prep = ExtResource("5_5ackm")
 icon_boss = ExtResource("3_7bkb4")
 icon_finish = ExtResource("4_erwkv")
 icon_shop = ExtResource("6_5ackm")

@@ -27,7 +27,7 @@ func _connect_rooms(room1: int, room2: int, forced_direction: Dungen.Direction =
 	else:
 		directions = [Dungen.Direction.TOP, Dungen.Direction.RIGHT, Dungen.Direction.BOTTOM, Dungen.Direction.LEFT]
 		directions.shuffle()
-		print("[GraphBuilder] Testing shuffled directions: %s" % directions)
+		# print("[GraphBuilder] Testing shuffled directions: %s" % directions)
 	
 	for dir in directions:
 		if _can_assign_direction(room1, room2, dir):
@@ -120,37 +120,72 @@ func generate() -> Array[Dungen.Room]:
 	]
 	
 	# Create first loop room with explicit connection
-	var first_loop := _add_room(Dungen.RoomType.ENEMY)
-	_connect_rooms(last_room, first_loop, Dungen.Direction.RIGHT)
-	loop_rooms.append(first_loop)
-	
-	# Create remaining loop rooms with forced directions
-	for i in 3:
+	# First, create all loop rooms but don't connect them yet
+	for i in 4:
 		var enemy := _add_room(Dungen.RoomType.ENEMY)
-		_connect_rooms(loop_rooms[i], enemy, loop_directions[i])
 		loop_rooms.append(enemy)
 	
+	print("[GraphBuilder] Created loop rooms")
+	
+	# First, connect the main chain to a random loop room (without forced direction)
+	var main_chain_connection := _rng.randi_range(0, loop_rooms.size() - 1)
+	var first_loop_room: int = loop_rooms[main_chain_connection]
+	_connect_rooms(last_room, first_loop_room)
+	
+	# Determine the connection direction that was established
+	var established_direction: Dungen.Direction = -1
+	var first_room_pos := _rooms[first_loop_room].grid_position
+	var last_room_pos := _rooms[last_room].grid_position
+	var diff := first_room_pos - last_room_pos
+	
+	if diff.x > 0: established_direction = Dungen.Direction.RIGHT
+	elif diff.x < 0: established_direction = Dungen.Direction.LEFT
+	elif diff.y > 0: established_direction = Dungen.Direction.BOTTOM
+	elif diff.y < 0: established_direction = Dungen.Direction.TOP
+	
+	# Rotate loop_directions array to match the established direction
+	while loop_directions[0] != established_direction:
+		loop_directions.push_back(loop_directions.pop_front())
+	
+	# Now connect the loop rooms in sequence, starting from the connected room
+	for i in 4:
+		var current_idx: int = (main_chain_connection + i) % 4
+		var next_idx: int = (main_chain_connection + i + 1) % 4
+		if i < 3:  # Don't force direction for the last connection
+			_connect_rooms(loop_rooms[current_idx], loop_rooms[next_idx], loop_directions[i])
+	
 	print("[GraphBuilder] Creating loop with %d rooms" % loop_rooms.size())
-	print("[GraphBuilder] Connecting loop back to start")
-	if _can_assign_direction(loop_rooms[-1], loop_rooms[0], loop_directions[-1]):
-		_assign_direction(loop_rooms[-1], loop_rooms[0], loop_directions[-1])
+	
+	# Try to close the loop with the last direction
+	if _can_assign_direction(loop_rooms[(main_chain_connection + 3) % 4], 
+			loop_rooms[main_chain_connection], loop_directions[3]):
+		_assign_direction(loop_rooms[(main_chain_connection + 3) % 4], 
+			loop_rooms[main_chain_connection], loop_directions[3])
 		print("[GraphBuilder] Successfully closed the loop")
 	else:
 		print("[GraphBuilder] Failed to close the loop")
+		_flag_regenerate = true
 	
-	# Continue with the rest of the generation
+	# Continue with the rest of the generation, ensuring different connection point
 	print("[GraphBuilder] Generating final section of dungeon")
-	var loop_connection := _rng.randi_range(1, 2)  # Changed from (1,3) to avoid potential overlaps
 	var loot1 := _add_room(Dungen.RoomType.LOOT)
-	_connect_rooms(loop_rooms[loop_connection], loot1)
-	
-	var hub_connection := (loop_connection + 2) % 4  # Changed to ensure more space between connections
+	var loot_connection := main_chain_connection
+	# Keep selecting until we get a different connection point
+	while loot_connection == main_chain_connection:
+		loot_connection = _rng.randi_range(0, loop_rooms.size() - 1)
+	var room_connect = loop_rooms.pop_at(loot_connection)
+	_connect_rooms(room_connect, loot1)
+
 	var hub := _add_room(Dungen.RoomType.ENEMY)
-	_connect_rooms(loop_rooms[hub_connection], hub)
+	var room_index_connect = _rng.randi_range(0, loop_rooms.size() - 1)
+	room_connect = loop_rooms.pop_at(room_index_connect)
+	_connect_rooms(room_connect, hub)
 	
+	var boss_prep := _add_room(Dungen.RoomType.BOSS_PREP)
 	var boss := _add_room(Dungen.RoomType.BOSS)
 	var exit := _add_room(Dungen.RoomType.EXIT)
-	_connect_rooms(hub, boss)
+	_connect_rooms(hub, boss_prep)
+	_connect_rooms(boss_prep, boss)
 	_connect_rooms(boss, exit)
 	
 	var hub2 := _add_room(Dungen.RoomType.ENEMY)

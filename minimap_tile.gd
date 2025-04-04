@@ -5,9 +5,14 @@ const panel_visited = preload("res://hud/minimap/visited.tres")
 const panel_current = preload("res://hud/minimap/current.tres")
 
 @export var icon_bank : MinimapIconBank
+var style : String = "unvisited"
+const should_show_icon_unvisited : Array[Dungen.RoomType] = [Dungen.RoomType.SHOP, Dungen.RoomType.ENTRANCE, Dungen.RoomType.EXIT]
 
-func update_text(type: Dungen.RoomType): # might be ran when not ready?!
+func update_room_type(type: Dungen.RoomType): # might be ran when not ready?!
 	var icon = $CenterContainer/Img
+	if style == "unvisited":
+		icon.texture = null
+		return
 	match type:
 		Dungen.RoomType.ENEMY:
 			icon.texture = icon_bank.icon_enemy
@@ -21,8 +26,11 @@ func update_text(type: Dungen.RoomType): # might be ran when not ready?!
 			icon.texture = icon_bank.icon_shop
 		Dungen.RoomType.BOSS:
 			icon.texture = icon_bank.icon_boss
+		Dungen.RoomType.BOSS_PREP:
+			icon.texture = icon_bank.icon_boss_prep
 
 func update_style(sty: String):
+	style = sty
 	if sty == "current":
 		add_theme_stylebox_override("panel", panel_current)
 	if sty == "visited":

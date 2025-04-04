@@ -45,10 +45,10 @@ func _ready():
 	reload_progress_bar.visible = false
 	
 	Main.signal_debug_mode_changed.connect(self._on_debug_mode_changed)
-	_on_debug_mode_changed(Main.IS_DEBUG_MODE)
+	_on_debug_mode_changed()
 
-func _on_debug_mode_changed(is_debug: bool) -> void:
-	if is_debug:
+func _on_debug_mode_changed() -> void:
+	if Main.IS_DEBUG_MODE:
 		self.set_collision_mask_value(1, false)
 	else:
 		self.set_collision_mask_value(1, true)

@@ -1,5 +1,7 @@
 extends Node2D
 
+@export var animation_player : AnimationPlayer
+
 var item_id : int = -1
 
 var interaction : Interaction
@@ -43,3 +45,8 @@ func _update_item_metadata() -> void:
 		$Sprite2D.texture = Lookup.get_weapon_texture(-1, weapon)
 		
 		interaction.label = weapon.name
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "init":
+		animation_player.play("float")

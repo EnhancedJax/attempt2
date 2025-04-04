@@ -3,6 +3,7 @@
     "entrance": ["start"],
     "boss": ["boss"],
     "exit": ["exit"],
+    "boss_prep": ["exit"],
     "enemy": ["enemy1", "enemy2", "enemy3", "long", "storage"],
     "loot": ["loot"],
     "shop": ["shop"]

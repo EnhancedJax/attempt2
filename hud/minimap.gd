@@ -117,7 +117,7 @@ func redraw_minimap() -> void:
 		for edge in room.get_tlbr_neighbours():
 			# Avoid duplicating corridors by only drawing one direction.
 			if room_id < edge:
-				if _is_room_visible(room_id) and _is_room_visible(edge):
+				if _should_draw_corridor(room_id, edge):
 					# Get the center positions of each room.
 					var center_a = minimap_nodes_positions[room_id] + Vector2(ROOM_SIZE_MINIMAP/2, ROOM_SIZE_MINIMAP/2)
 					var center_b = minimap_nodes_positions[edge] + Vector2(ROOM_SIZE_MINIMAP/2, ROOM_SIZE_MINIMAP/2)
@@ -144,22 +144,22 @@ func redraw_minimap() -> void:
 					
 					positioner.add_child(corridor_instance)
 	
-	# Draw rooms.
+	# Draw rooms - only if they are visited
 	for room in minimap_nodes:
 		var room_id = room.id
-		if not _is_room_visible(room_id):
+		if not minimap_visited.has(room_id) and not minimap_unvisited_neighbors.has(room_id):
 			continue
 		
 		var tile_instance = MINIMAP_TILE.instantiate()
 		tile_instance.position = minimap_nodes_positions[room_id]
 		tile_instance.size = Vector2(ROOM_SIZE_MINIMAP, ROOM_SIZE_MINIMAP)
-		tile_instance.update_text(room.room_type)
 		if room_id == minimap_current:
 			tile_instance.update_style("current")
 		elif minimap_visited.has(room_id):
 			tile_instance.update_style("visited")
 		else:
 			tile_instance.update_style("unvisited")
+		tile_instance.update_room_type(room.room_type)
 		
 		positioner.add_child(tile_instance)
 	
@@ -173,10 +173,18 @@ func redraw_minimap() -> void:
 # ─────────────────────────────────────────────────────────────────────────────
 
 # Returns true if a room is visible on the minimap.
-# A room is visible if it either has been visited (or is the current room) or if
-# it is adjacent to one of the visited (or current) rooms.
+# A room is visible if it has been visited or is adjacent to a visited room.
 func _is_room_visible(room_id: int) -> bool:
-	# If the room is visited or is the current room, it is visible.
-	if minimap_visited.has(room_id) or minimap_unvisited_neighbors.has(room_id):
+	return minimap_visited.has(room_id) or minimap_unvisited_neighbors.has(room_id)
+
+# Returns true if a corridor between two rooms should be drawn
+func _should_draw_corridor(room_a_id: int, room_b_id: int) -> bool:
+	# Draw corridor if both rooms are visited
+	if minimap_visited.has(room_a_id) and minimap_visited.has(room_b_id):
+		return true
+	# Draw corridor if one room is visited and connects to an unvisited room
+	if minimap_visited.has(room_a_id) and minimap_unvisited_neighbors.has(room_b_id):
+		return true
+	if minimap_visited.has(room_b_id) and minimap_unvisited_neighbors.has(room_a_id):
 		return true
 	return false

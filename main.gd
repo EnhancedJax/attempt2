@@ -42,7 +42,7 @@ func _process(_delta: float) -> void:
 		control.get_child(3).add_child(scene)
 	if Input.is_action_just_pressed("dev_debug"):
 		IS_DEBUG_MODE = !IS_DEBUG_MODE
-		signal_debug_mode_changed.emit(IS_DEBUG_MODE)
+		signal_debug_mode_changed.emit()
 
 # /* ------------ Registers ----------- */
 

@@ -24,6 +24,7 @@ class RoomScenesList:
 	var shop: Array[PackedScene] = []
 	var enemy: Array[PackedScene] = []
 	var boss: Array[PackedScene] = []
+	var boss_prep : Array[PackedScene] = []
 	var loot: Array[PackedScene] = []
 	var exit: Array[PackedScene] = []
 
@@ -88,6 +89,7 @@ func _load_rooms():
 			"shop": scenes = level1.shop
 			"enemy": scenes = level1.enemy
 			"boss": scenes = level1.boss
+			"boss_prep": scenes = level1.boss_prep
 			"loot": scenes = level1.loot
 			"exit": scenes = level1.exit
 			
@@ -134,6 +136,8 @@ func get_room_list(room_type: Dungen.RoomType) -> Array[PackedScene]:
 			return _level_room_scenes_list.level1.shop
 		Dungen.RoomType.BOSS:
 			return _level_room_scenes_list.level1.boss
+		Dungen.RoomType.BOSS_PREP:
+			return _level_room_scenes_list.level1.boss_prep
 		Dungen.RoomType.LOOT:
 			return _level_room_scenes_list.level1.loot
 		Dungen.RoomType.ENEMY:

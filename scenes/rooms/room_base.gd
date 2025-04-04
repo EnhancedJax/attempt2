@@ -35,14 +35,13 @@ const spawn_player_margin : int = 3
 const spawn_room_margin : int = 1
 
 const ENTRANCE_WIDTH: int = 2  # tiles wide. Changing this requires a refactor of the whole project!
-const DOOR_PADDING_FROM_ENTRANCE: float = 1.5
+const door_entrance_distance: float = 1.5
 
-const entrance_detector_scene = preload("res://scenes/rooms/entrance_detector.tscn")
+const fow_padding: int = 1 # tiles wide
+var fow_color : String = "#191919"
+
 const coin_scene = preload("res://scenes/coin/coin_spawner.tscn")
-
-const FOW_PADDING: int = 1 # tiles wide
-# const fow_color : String = "#191919"
-const fow_color : String = "#FF0000"
+const entrance_detector_scene = preload("res://scenes/rooms/entrance_detector.tscn")
 
 #region Internals
 var _enemy_remaining: int = 0
@@ -80,6 +79,21 @@ func _ready() -> void:
 	_calculate_total_enemies()
 
 	_setup_fog_of_war()
+
+	Main.signal_debug_mode_changed.connect(_on_debug_mode_changed)
+	_on_debug_mode_changed()
+
+func _on_debug_mode_changed() -> void:
+	var setup_again = true
+	if fow_color == "#191919" and not Main.IS_DEBUG_MODE:
+		setup_again = false
+	print(setup_again)
+	if Main.IS_DEBUG_MODE:
+		fow_color = "#FF0000"
+	else:
+		fow_color = "#191919"
+	if setup_again:
+		_setup_fog_of_war()
 
 func _calculate_total_enemies() -> void:
 	if not waves_data or waves_data.waves.is_empty() or Main.IS_DEBUG_MODE:
@@ -262,13 +276,13 @@ func _setup_doors_and_entrances() -> void:
 			var door_pos = Vector2(entrance) * tilemap_px
 			match dir:
 				0: # top
-					door_pos.y -= tilemap_px * DOOR_PADDING_FROM_ENTRANCE
+					door_pos.y -= tilemap_px * door_entrance_distance
 				1: # left
-					door_pos.x -= tilemap_px * DOOR_PADDING_FROM_ENTRANCE
+					door_pos.x -= tilemap_px * door_entrance_distance
 				2: # bottom
-					door_pos.y += tilemap_px * DOOR_PADDING_FROM_ENTRANCE
+					door_pos.y += tilemap_px * door_entrance_distance
 				3: # right
-					door_pos.x += tilemap_px * DOOR_PADDING_FROM_ENTRANCE
+					door_pos.x += tilemap_px * door_entrance_distance
 			
 			door_instance.position = door_pos
 			_current_doors.append(door_instance)
@@ -327,15 +341,16 @@ func _setup_fog_of_war() -> void:
 	if should_fow:
 		# note: all fow positions relative to the origin of world, as canvas layers are positioned at origin.
 		var padded_size = Vector2(
-			(dimension.x + FOW_PADDING * 2) * tilemap_px,
-			(dimension.y + FOW_PADDING * 2) * tilemap_px
+			(dimension.x + fow_padding * 2) * tilemap_px,
+			(dimension.y + fow_padding * 2) * tilemap_px
 		)
-		fow_texture.position = self.global_position - Vector2(FOW_PADDING * tilemap_px, FOW_PADDING * tilemap_px)
+		fow_texture.position = self.global_position - Vector2(fow_padding * tilemap_px, fow_padding * tilemap_px)
 		
 		# Create the fog image
 		var fow_image = Image.create(padded_size.x, padded_size.y, false, Image.FORMAT_RGBA8)
 		fow_image.fill(Color.html(fow_color))
 		fow_texture.texture = ImageTexture.create_from_image(fow_image)
+		fow_texture.material.set_shader_parameter("progress", 0.0)
 
 func _play_fow_animation(entrance_index: int) -> void:
 	if should_fow and room_state == 0:
@@ -343,11 +358,11 @@ func _play_fow_animation(entrance_index: int) -> void:
 		var entrance_pos = Vector2(entrance) * tilemap_px
 		
 		# Calculate relative position (0-1) including padding
-		var total_width = (dimension.x + FOW_PADDING * 2) * tilemap_px
-		var total_height = (dimension.y + FOW_PADDING * 2) * tilemap_px
+		var total_width = (dimension.x + fow_padding * 2) * tilemap_px
+		var total_height = (dimension.y + fow_padding * 2) * tilemap_px
 		
-		var origin_x = (entrance_pos.x + FOW_PADDING * tilemap_px) / total_width
-		var origin_y = (entrance_pos.y + FOW_PADDING * tilemap_px) / total_height
+		var origin_x = (entrance_pos.x + fow_padding * tilemap_px) / total_width
+		var origin_y = (entrance_pos.y + fow_padding * tilemap_px) / total_height
 		
 		fow_texture.material.set_shader_parameter("origin_x", origin_x)
 		fow_texture.material.set_shader_parameter("origin_y", origin_y)

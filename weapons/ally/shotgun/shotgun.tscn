@@ -206,9 +206,10 @@ metadata/_custom_type_script = "uid://d1ylqbvjqhtj8"
 [node name="Gun" type="Node2D" node_paths=PackedStringArray("bullet_spawner")]
 y_sort_enabled = true
 script = ExtResource("2_p0o1h")
+kickback = 300.0
 bullet_spawner = NodePath("BulletSpawner")
 mag_size = 5
-reload_time = 1.0
+reload_time = 0.8
 audio_streams = Array[AudioStream]([ExtResource("4_pgxrn"), ExtResource("5_wx0gl")])
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
