@@ -9,6 +9,51 @@ func _init(_corridor_tilemap: TileMapLayer, _corridor_wall_tilemap: TileMapLayer
 	corridor_wall_tilemap = _corridor_wall_tilemap
 	tile_size = _corridor_tilemap.tile_set.tile_size.x
 
+func draw_all_corridors(rooms: Array[Dungen.Room], room_scenes: Array[RoomBase]) -> void:
+	# Iterate over every node.
+	for idx in range(rooms.size()):
+		var room: Dungen.Room = rooms[idx]
+		var scene_a: RoomBase = room_scenes[idx]
+		
+		for neighbour_idx in room.get_tlbr_neighbours():
+			if idx < neighbour_idx:
+				var scene_b: RoomBase = room_scenes[neighbour_idx]
+				var d: int = room.get_neighbour_direction(neighbour_idx)
+				
+				var door_a_offset: Vector2 = Dungen.get_door_value(scene_a, d)
+				var door_b_offset: Vector2 = Dungen.get_door_value(scene_b, Dungen.opposite_direction[d])
+				
+				var door_a_world: Vector2 = scene_a.position + door_a_offset * tile_size
+				var door_b_world: Vector2 = scene_b.position + door_b_offset * tile_size
+				
+				var door_a_tile: Vector2i = Vector2i(door_a_world / tile_size)
+				var door_b_tile: Vector2i = Vector2i(door_b_world / tile_size)
+				
+				_draw_corridor_between_points(door_a_tile, door_b_tile)
+
+func draw_room_corridors(room: Dungen.Room, room_scenes: Array[RoomBase]) -> void:
+	# Iterate over every node.
+	var scene: RoomBase = room_scenes[room.id]
+	for neighbour_idx in room.get_tlbr_neighbours():
+		if room.id < neighbour_idx:
+			var scene_b: RoomBase = room_scenes[neighbour_idx]
+			var d: int = room.get_neighbour_direction(neighbour_idx)
+			
+			var door_a_offset: Vector2 = Dungen.get_door_value(scene, d)
+			var door_b_offset: Vector2 = Dungen.get_door_value(scene_b, Dungen.opposite_direction[d])
+			
+			var door_a_world: Vector2 = scene.position + door_a_offset * tile_size
+			var door_b_world: Vector2 = scene_b.position + door_b_offset * tile_size
+			
+			var door_a_tile: Vector2i = Vector2i(door_a_world / tile_size)
+			var door_b_tile: Vector2i = Vector2i(door_b_world / tile_size)
+			
+			_draw_corridor_between_points(door_a_tile, door_b_tile)
+
+func _clear_corridors() -> void:
+	corridor_tilemap.clear()
+	corridor_wall_tilemap.clear()
+
 func _draw_corridor_between_points(point_a: Vector2i, point_b: Vector2i) -> void:
 	# Check if the points are aligned (share an x or y coordinate)
 	if point_a.x == point_b.x or point_a.y == point_b.y:
@@ -163,28 +208,6 @@ func _draw_straight_corridor(point_a: Vector2i, length: int, skip_wall_tlrbrl: A
 				_draw_wall(top_wall)
 			if i >= skip_wall_tlrbrl[3] and i <= end_i - skip_wall_tlrbrl[2]:
 				_draw_wall(bottom_wall)
-
-func draw_corridors(rooms: Array[Dungen.Room], room_scenes: Array[RoomBase]) -> void:
-	# Iterate over every node.
-	for idx in range(rooms.size()):
-		var room: Dungen.Room = rooms[idx]
-		var scene_a: RoomBase = room_scenes[idx]
-		
-		for neighbour_idx in room.get_tlbr_neighbours():
-			if idx < neighbour_idx:
-				var scene_b: RoomBase = room_scenes[neighbour_idx]
-				var d: int = room.get_neighbour_direction(neighbour_idx)
-				
-				var door_a_offset: Vector2 = Dungen.get_door_value(scene_a, d)
-				var door_b_offset: Vector2 = Dungen.get_door_value(scene_b, Dungen.opposite_direction[d])
-				
-				var door_a_world: Vector2 = scene_a.position + door_a_offset * tile_size
-				var door_b_world: Vector2 = scene_b.position + door_b_offset * tile_size
-				
-				var door_a_tile: Vector2i = Vector2i(door_a_world / tile_size)
-				var door_b_tile: Vector2i = Vector2i(door_b_world / tile_size)
-				
-				_draw_corridor_between_points(door_a_tile, door_b_tile)
 
 func _draw_floor(coords: Vector2i):
 	corridor_tilemap.set_cell(coords, 0, Vector2i(0,0))

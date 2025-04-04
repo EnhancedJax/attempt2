@@ -1,3 +1,19 @@
-[gd_scene format=3 uid="uid://bvgxitiswymaj"]
+[gd_scene load_steps=3 format=3 uid="uid://gxgyfaxcopp7"]
+
+[ext_resource type="PackedScene" uid="uid://df1iqa5x7jsoh" path="res://scenes/rooms/level1/enemy1.tscn" id="1_8uh7m"]
+[ext_resource type="PackedScene" uid="uid://qgtqua65lnyp" path="res://entities/player/player.tscn" id="2_6uqi0"]
 
 [node name="Node2D" type="Node2D"]
+
+[node name="RoomBase" parent="." instance=ExtResource("1_8uh7m")]
+
+[node name="FloorTileLayer" parent="RoomBase" index="0"]
+enabled = false
+
+[node name="WallTileLayer" parent="RoomBase" index="1"]
+enabled = false
+collision_enabled = false
+
+[node name="Player" parent="." instance=ExtResource("2_6uqi0")]
+
+[editable path="RoomBase"]

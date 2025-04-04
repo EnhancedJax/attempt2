@@ -15,7 +15,7 @@ const ENEMY_SWITCH_MINIMUM_DISTANCE = 64
 var player_room_at: RoomBase = null
 
 var coins = 0
-var IS_DEBUG_MODE : bool = true
+var IS_DEBUG_MODE : bool = false
 
 signal signal_player_equipped_weapon(node: Node2D)
 signal signal_player_landed_hit()
@@ -121,13 +121,15 @@ func update_ammo_ui(count: int, max: int) -> void:
 	if hud:
 		hud.update_ammo(count, max)
 
-func handle_room_entered(room: RoomBase) -> void:
+func rsignal_player_room_entered(id: int, room: RoomBase) -> void:
 	if room != player_room_at:
 		signal_player_room_changed.emit(room)
 	player_room_at = room
 	signal_player_entered_room.emit(room)
+	if hud:
+		hud.update_minimap(id)
 
-func handle_room_cleared() -> void:
+func rsignal_player_room_cleared() -> void:
 	signal_player_room_cleared.emit()
 
 # /* ------------- Helpers ------------ */

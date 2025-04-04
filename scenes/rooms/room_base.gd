@@ -19,8 +19,8 @@ signal signal_player_entered()
 @export var reward_coins_min : int = 1
 @export var reward_coins_max : int = 3
 
-@onready var wall_tilemap : TileMapLayer = $WallTileLayer
-@onready var floor_tilemap : TileMapLayer = $FloorTileLayer
+@export var wall_tilemap : TileMapLayer
+@export var floor_tilemap : TileMapLayer
 @onready var tilemap_px : int = wall_tilemap.tile_set.tile_size.x
 
 ## Amount of tiles away from the player that the enemy must not be randomly spawned at
@@ -43,6 +43,7 @@ var _room_bosses : Array[EntityBase] = []
 # values to be set by generator
 var room_state : int = 0 # 0: unvisited, 1: visited, 2: cleared
 var door_config : Array[bool] =  [true, true, true, true]
+var room_data : Dungen.Room = null
 
 const ENTRANCES : Dictionary[int, String] = {
 	0: "top",
@@ -161,6 +162,18 @@ func rsignal_boss_died() -> void:
 	_boss_counter += 1
 	if _boss_counter == total_bosses:
 		MusicManager.play("bgm", "bgm", 1.0, true)
+
+func enable() -> void:
+	self.visible = true
+	self.process_mode = Node2D.PROCESS_MODE_INHERIT
+	self.wall_tilemap.enabled = true
+	self.floor_tilemap.enabled = true
+
+func disable() -> void:
+	self.visible = false
+	self.process_mode = Node2D.PROCESS_MODE_DISABLED
+	self.wall_tilemap.enabled = false
+	self.floor_tilemap.enabled = false
 
 # /* ------------ Internals ----------- */
 

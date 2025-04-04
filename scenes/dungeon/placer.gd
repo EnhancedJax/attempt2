@@ -6,6 +6,8 @@ var room_parent : Node2D
 var room_scenes : Array[RoomBase] = []
 var _room_positions : Dictionary[int, Vector2] = {}
 var _rooms : Array[Dungen.Room] = []
+var _shuffled_room_lists: Dictionary = {}
+var _current_indices: Dictionary = {}
 
 func _init(_room_parent: Node2D, _tile_size: int, _gap_size: int) -> void:
 	room_parent = _room_parent
@@ -21,11 +23,23 @@ func place_rooms(rooms : Array[Dungen.Room]) -> Array[RoomBase]:
 
 func _pick_room_scenes() -> void:
 	for i in range(_rooms.size()):
-		# Get the room's type from its 'nodes' dictionary.
 		var room_type: Dungen.RoomType = _rooms[i].room_type
-		var room_scenes_list = Lookup.get_room_list(room_type)
-		# Instantiate the scene based on the room's type.
-		var picked_scene = room_scenes_list[randi() % room_scenes_list.size()]
+		
+		# Initialize shuffled list if needed
+		if not _shuffled_room_lists.has(room_type):
+			var room_scenes_list = Lookup.get_room_list(room_type)
+			_shuffled_room_lists[room_type] = room_scenes_list.duplicate()
+			_shuffled_room_lists[room_type].shuffle()
+			_current_indices[room_type] = 0
+		
+		# Reset and reshuffle if we've used all scenes
+		if _current_indices[room_type] >= _shuffled_room_lists[room_type].size():
+			_shuffled_room_lists[room_type].shuffle()
+			_current_indices[room_type] = 0
+		
+		# Get next scene from shuffled list
+		var picked_scene = _shuffled_room_lists[room_type][_current_indices[room_type]]
+		_current_indices[room_type] += 1
 		room_scenes.append(picked_scene.instantiate())
 
 func _calculate_positions() -> void:
@@ -68,6 +82,7 @@ func _spawn_rooms() -> void:
 	# The computed position represents the room's top-left corner in world space (in pixels).
 	for i in range(_rooms.size()):
 		var scene_instance = room_scenes[i]
+		scene_instance.room_data = _rooms[i]
 		
 		# Configure door settings based on connections from the matrix.
 		var door_config: Array[bool] = [false, false, false, false]  # [top, left, bottom, right]
@@ -87,6 +102,9 @@ func _spawn_rooms() -> void:
 		# Compute world position relative to the parent Node2D.
 		var world_position = _room_positions[i]
 		scene_instance.position = world_position
+
+		# Disable and hide all rooms by default
+		scene_instance.disable()
 		
 		# Defer adding the scene instance as a child so that it gets properly added.
 		room_parent.call_deferred("add_child", scene_instance)
