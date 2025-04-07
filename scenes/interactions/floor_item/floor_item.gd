@@ -1,52 +1,33 @@
-extends Node2D
+class_name FloorItem
+extends InteractionSource
 
 @export var animation_player : AnimationPlayer
-
-var item_id : int = -1
-
-var interaction : Interaction
+@export var label_position : Marker2D
+@export var item_sprite : Sprite2D
 
 func _ready() -> void:
 	Main.signal_interaction_changed.connect(handle_interaction_changed)
-	if item_id == null:
-		print('Floor item_id is -1. Removing.')
-		queue_free()
-	interaction = Interaction.new()
-	interaction.callable = interaction_action
-	interaction.source = self
-	interaction.label_position = $LabelPosition.global_position
-	_update_item_metadata()
-	
-func handle_interaction_changed(i: Interaction) -> void:
-	if i != interaction:
-		$Sprite2D.material.set_shader_parameter("width", 0)
+	# _update_item_metadata()
 
-func interaction_action() -> void:
-	var dropped_item = Main.player.pickup_weapon(item_id)
-	if dropped_item != -1:
-		item_id = dropped_item
-		_update_item_metadata()
-		Main.reregister_interaction(interaction)
-	else:
-		Main.deregister_interaction(interaction)
-		queue_free()
+func register(callable: Callable, params : Array[int]) -> void:
+	i = Interaction.new()
+	i.callable = callable
+	i.source = self
+	i.label_position = label_position.global_position
+	i_params = params
+
+func update_item_meta(label: String, texture: Texture2D) -> void:
+	i.label = label
+	item_sprite.texture = texture
+	
+func handle_interaction_changed(_i: Interaction) -> void:
+	if _i != i:
+		item_sprite.material.set_shader_parameter("width", 0)
 
 func _on_player_entered() -> void:
-	Main.register_interaction(interaction)
-	$Sprite2D.material.set_shader_parameter("width", 1)
+	Main.register_interaction(i)
+	item_sprite.material.set_shader_parameter("width", 1)
 
 func _on_player_exited() -> void:
-	Main.deregister_interaction(interaction)
-	$Sprite2D.material.set_shader_parameter("width", 0)
-
-func _update_item_metadata() -> void:
-	if item_id != -1:
-		var weapon = Lookup.get_weapon(item_id)
-		$Sprite2D.texture = Lookup.get_weapon_texture(-1, weapon)
-		
-		interaction.label = weapon.name
-
-
-func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	if anim_name == "init":
-		animation_player.play("float")
+	Main.deregister_interaction(i)
+	item_sprite.material.set_shader_parameter("width", 0)

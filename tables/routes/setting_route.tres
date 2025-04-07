@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Route" load_steps=3 format=3 uid="uid://bhwdbrm7xyisn"]
+
+[ext_resource type="PackedScene" uid="uid://cd50vx7w0su6n" path="res://screens/settings.tscn" id="1_ap04x"]
+[ext_resource type="Script" uid="uid://c7lkjuweiyatv" path="res://managers/router/route.gd" id="2_k5drx"]
+
+[resource]
+script = ExtResource("2_k5drx")
+name = "settings"
+scene = ExtResource("1_ap04x")
+subroutes = Array[ExtResource("2_k5drx")]([])
+is_root = false
+metadata/_custom_type_script = "uid://c7lkjuweiyatv"

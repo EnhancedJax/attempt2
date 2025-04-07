@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnlryqu5m8g2b"
-path="res://.godot/imported/heart.png-ce05a614477c031518cfb36da52e87a2.ctex"
+uid="uid://5j2l2j7blxil"
+path="res://.godot/imported/double_tap_bullet.png-dd5c6be5529204d3b9aee5bc33578d59.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://pickups/heart/heart.png"
-dest_files=["res://.godot/imported/heart.png-ce05a614477c031518cfb36da52e87a2.ctex"]
+source_file="res://weapons/ally/double_tap/double_tap_bullet.png"
+dest_files=["res://.godot/imported/double_tap_bullet.png-dd5c6be5529204d3b9aee5bc33578d59.ctex"]
 
 [params]
 

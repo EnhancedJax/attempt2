@@ -9,7 +9,6 @@ signal signal_weapon_did_reload() # to be called by weapon implementation
 @export var bullet_spawner: BulletSpawner
 @export var mag_size : int = -1
 @export var reload_time : float = 0.5
-@export var audio_streams : Array[AudioStream]
 
 var firing_handler : FiringHandlerBase
 @onready var mag_count : int = mag_size

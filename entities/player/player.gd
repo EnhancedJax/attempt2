@@ -1,7 +1,7 @@
 class_name Player extends EntityBase
 
 # Inventory: each element is the weapon ID. If the same ID appears twice, the player owns two separate instances.
-var weapons : Array[int] = [3]
+var weapons : Array[int] = [0]
 var equipped_weapon_index : int = 0
 var max_weapons_count : int = 2
 
@@ -45,6 +45,7 @@ func _ready():
 	reload_progress_bar.visible = false
 	
 	Main.signal_debug_mode_changed.connect(self._on_debug_mode_changed)
+	_health.signal_health_healed.connect(_on_health_healed)
 	_on_debug_mode_changed()
 
 func _on_debug_mode_changed() -> void:
@@ -87,7 +88,7 @@ func _update_reload_progress(delta: float) -> void:
 func _handle_fire_input() -> void:
 	if Input.is_action_just_pressed("fire"):
 		if Main.interactions.size() > 0:
-			Main.interactions[0].callable.call()
+			Main.call_topmost_interaction()
 			_can_hold_down_fire = false
 		else:
 			is_just_pressed_fire = true
@@ -182,6 +183,9 @@ func _on_health_deducted(health: int, max_health: int):
 	super._on_health_deducted(health, max_health)
 	Main.update_health_ui()
 
+func _on_health_healed(health: int, max_health: int):
+	Main.update_health_ui()
+
 # Overrides base class implementation
 # This function now uses the equipped_weapon_index to cache/reuse a weapon node.
 func equip_weapon(weapon_id: int) -> Lookup.WeaponType:
@@ -265,3 +269,6 @@ func pickup_weapon(weapon_id: int) -> int:
 
 func _update_ui_ammo():
 	Main.update_ammo_ui(weapon_node.mag_count, weapon_node.mag_size)
+
+func pickup_heart(is_full_heart: bool = true) -> void:
+	_health.heal(2 if is_full_heart else 1)

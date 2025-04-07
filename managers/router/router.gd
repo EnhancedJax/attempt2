@@ -1,6 +1,6 @@
 extends Node
 
-var routes = preload('res://routes.tres')
+var routes = preload('res://tables/routes/routes.tres')
 var history: Array[Route] = []
 var scene_stack: Array[Node] = []
 

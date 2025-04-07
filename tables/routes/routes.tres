@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="Route" load_steps=10 format=3 uid="uid://byvls7iq82eh1"]
+
+[ext_resource type="PackedScene" uid="uid://cxlq1tiessvhr" path="res://root.tscn" id="1_mf2e3"]
+[ext_resource type="Script" uid="uid://c7lkjuweiyatv" path="res://managers/router/route.gd" id="2_12rsh"]
+[ext_resource type="PackedScene" uid="uid://dekqwlr8se2cx" path="res://screens/game_start.tscn" id="3_u12dq"]
+[ext_resource type="Resource" uid="uid://bhwdbrm7xyisn" path="res://tables/routes/setting_route.tres" id="4_umo54"]
+[ext_resource type="PackedScene" uid="uid://5crhgeqe0yf4" path="res://scenes/game_scene.tscn" id="5_xyemo"]
+[ext_resource type="PackedScene" uid="uid://cm78ga1w34dcv" path="res://screens/pause.tscn" id="6_h4imu"]
+
+[sub_resource type="Resource" id="Resource_da13w"]
+script = ExtResource("2_12rsh")
+name = "main_menu"
+scene = ExtResource("3_u12dq")
+subroutes = Array[ExtResource("2_12rsh")]([ExtResource("4_umo54")])
+is_root = true
+metadata/_custom_type_script = "uid://c7lkjuweiyatv"
+
+[sub_resource type="Resource" id="Resource_cvxl5"]
+script = ExtResource("2_12rsh")
+name = "pause"
+scene = ExtResource("6_h4imu")
+subroutes = Array[ExtResource("2_12rsh")]([ExtResource("4_umo54")])
+is_root = false
+metadata/_custom_type_script = "uid://c7lkjuweiyatv"
+
+[sub_resource type="Resource" id="Resource_xbiis"]
+script = ExtResource("2_12rsh")
+name = "game"
+scene = ExtResource("5_xyemo")
+subroutes = Array[ExtResource("2_12rsh")]([SubResource("Resource_cvxl5")])
+is_root = true
+metadata/_custom_type_script = "uid://c7lkjuweiyatv"
+
+[resource]
+script = ExtResource("2_12rsh")
+name = "root"
+scene = ExtResource("1_mf2e3")
+subroutes = Array[ExtResource("2_12rsh")]([SubResource("Resource_da13w"), SubResource("Resource_xbiis")])
+is_root = true
+metadata/_custom_type_script = "uid://c7lkjuweiyatv"

@@ -98,16 +98,16 @@ func _display_aim_stick(display: bool):
 func register_boss(boss: BossBase):
 	print('Registrating boss:', boss)
 	boss_bar.visible = true
-	boss.signal_boss_health_changed.connect(_on_boss_health_changed)
+	boss.signal_boss_health_deducted.connect(_on_boss_health_deducted)
 	boss.signal_boss_health_depleted.connect(_on_boss_health_depleted)
 
 func deregister_boss(boss: BossBase):
 	print('Deregistrating boss:', boss)
 	boss_bar.visible = false
-	boss.signal_boss_health_changed.disconnect(_on_boss_health_changed)
+	boss.signal_boss_health_deducted.disconnect(_on_boss_health_deducted)
 	boss.signal_boss_health_depleted.disconnect(_on_boss_health_depleted)
 
-func _on_boss_health_changed(value:int,max:int):
+func _on_boss_health_deducted(value:int,max:int):
 	boss_bar_progress.max_value = max
 	boss_bar_progress.value = value
 

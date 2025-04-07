@@ -35,11 +35,8 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("menu"):
 		Router.navigate('pause')
 	if Input.is_action_just_pressed("dev"):
-		var scene = floor_item.instantiate()
-		var weapons = Lookup.get_droppable_items()
-		scene.item_id = weapons[randi() % weapons.size()]
-		scene.global_position = player.global_position 
-		control.get_child(3).add_child(scene)
+		# PickupManager.spawn_weapon(player.global_position)
+		PickupManager.spawn_heart(player.global_position)
 	if Input.is_action_just_pressed("dev_debug"):
 		IS_DEBUG_MODE = !IS_DEBUG_MODE
 		signal_debug_mode_changed.emit()
@@ -75,18 +72,18 @@ func deregister_boss(boss: BossBase) -> void:
 		b.handle_hit()
 
 func register_interaction(i: Interaction):
-	print('Interaction register', i)
+	print('[Interaction] register: "%s" at %s' % [i.label, i.label_position])
 	interactions.push_front(i)
 	interaction_label.display(i.label, i.label_position)
 	signal_interaction_changed.emit(i)
 
 func reregister_interaction(i: Interaction):
-	print('Interaction reregister', i)
+	print('[Interaction] reregister: "%s" at %s' % [i.label, i.label_position])
 	interaction_label.remove()
 	signal_interaction_changed.emit(i)
 
 func deregister_interaction(i: Interaction):
-	print('Interaction deregister', i)
+	print('[Interaction] deregister: "%s" at %s' % [i.label, i.label_position])
 	var index = 0
 	for interaction in interactions:
 		if interaction == i:
@@ -99,6 +96,11 @@ func deregister_interaction(i: Interaction):
 	else:
 		interaction_label.visible = false
 		signal_interaction_changed.emit(null)
+
+func call_topmost_interaction() -> void:
+	var i = interactions[0]
+	assert(i.callable.get_argument_count() == 2, "Interaction callable must have a InteractionSource argument and an integer params argument.")
+	i.callable.call(i.source, i.source.i_params)
 
 # /* ------------- Methods ------------ */
 

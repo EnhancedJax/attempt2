@@ -1,101 +1,96 @@
-[gd_scene load_steps=45 format=3 uid="uid://dxlgc31vimg28"]
+[gd_scene load_steps=36 format=3 uid="uid://b70wqtx62s4xe"]
 
-[ext_resource type="Script" uid="uid://bmj74ev3l60k5" path="res://weapons/ally/firm/firm.gd" id="1_8l8y3"]
-[ext_resource type="Shader" uid="uid://ctc7jwnjkk8is" path="res://weapons/ally/color_hand.gdshader" id="2_4v54v"]
-[ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="3_4upuw"]
-[ext_resource type="Texture2D" uid="uid://qp0ljm0fs7kc" path="res://weapons/ally/firm/firm.png" id="4_krsku"]
-[ext_resource type="Script" uid="uid://d3sjvr8ju7j8h" path="res://addons/resonate/sound_manager/sound_event_resource.gd" id="6_2n7jg"]
-[ext_resource type="AudioStream" uid="uid://chk7br650rjjr" path="res://weapons/ally/firm/shot.wav" id="7_gi5sp"]
-[ext_resource type="AudioStream" uid="uid://bo1d4nn0g26ui" path="res://weapons/ally/firm/rack.wav" id="8_6jhw5"]
-[ext_resource type="AudioStream" uid="uid://i2tne4sem7yn" path="res://weapons/ally/firm/reload_1.wav" id="9_givrx"]
-[ext_resource type="AudioStream" uid="uid://dx88ugl6ka6jp" path="res://weapons/ally/firm/reload_2.wav" id="10_yenhv"]
-[ext_resource type="PackedScene" uid="uid://da0l8m01w4qxl" path="res://components/bullets/bullet_spawner.tscn" id="11_5giwu"]
-[ext_resource type="Script" uid="uid://dyy3wgjoku8xv" path="res://components/bullets/variants/projectile/projectile_props.gd" id="11_6jhw5"]
-[ext_resource type="PackedScene" uid="uid://difktybkx5rre" path="res://components/bullets/shared_hit_particles/basic_sprite.tscn" id="11_givrx"]
-[ext_resource type="Texture2D" uid="uid://cins8k8r442gt" path="res://weapons/ally/firm/firm_bullet.png" id="12_givrx"]
-[ext_resource type="Script" uid="uid://d1ylqbvjqhtj8" path="res://components/bullets/patterns/pattern_points.gd" id="13_yenhv"]
+[ext_resource type="Script" uid="uid://bhxbdrhadqa0h" path="res://weapons/ally/double_tap/double_tap.gd" id="1_fkr6v"]
+[ext_resource type="Shader" uid="uid://ctc7jwnjkk8is" path="res://weapons/ally/color_hand.gdshader" id="2_jgdpm"]
+[ext_resource type="Texture2D" uid="uid://qp0ljm0fs7kc" path="res://weapons/ally/firm/firm.png" id="3_qoxgk"]
+[ext_resource type="Script" uid="uid://b7r334bhuu4yk" path="res://addons/resonate/sound_manager/sound_bank.gd" id="4_0sfg2"]
+[ext_resource type="PackedScene" uid="uid://da0l8m01w4qxl" path="res://components/bullets/bullet_spawner.tscn" id="10_ilyc6"]
+[ext_resource type="PackedScene" uid="uid://difktybkx5rre" path="res://components/bullets/shared_hit_particles/basic_sprite.tscn" id="11_yysl5"]
+[ext_resource type="Script" uid="uid://dyy3wgjoku8xv" path="res://components/bullets/variants/projectile/projectile_props.gd" id="12_3ybbn"]
+[ext_resource type="Texture2D" uid="uid://cins8k8r442gt" path="res://weapons/ally/firm/firm_bullet.png" id="13_byhvo"]
+[ext_resource type="Script" uid="uid://d1ylqbvjqhtj8" path="res://components/bullets/patterns/pattern_points.gd" id="14_p6vl6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_okj6a"]
-shader = ExtResource("2_4v54v")
+shader = ExtResource("2_jgdpm")
 shader_parameter/og_color_1 = Color(0.675, 0, 0.776, 1)
 shader_parameter/hand_color_1 = Color(0.914, 0.678, 0.49, 1)
 shader_parameter/og_color_2 = Color(0.87, 0, 1, 1)
 shader_parameter/hand_color_2 = Color(0.73, 0.43, 0.34, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2n7jg"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6ktr4"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(0, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7jfy5"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(32, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5giwu"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(64, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gi5sp"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(96, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6jhw5"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(128, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_givrx"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(0, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yenhv"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(32, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2yue8"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(64, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j4b5i"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(96, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_81r35"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(128, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_whglb"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(0, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_osk5h"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(32, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7h8ch"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(64, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gqoeu"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(96, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bstew"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g4dcp"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pa0wa"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7kab0"]
-atlas = ExtResource("4_krsku")
+atlas = ExtResource("3_qoxgk")
 region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_s60ps"]
@@ -234,76 +229,39 @@ _data = {
 &"equip": SubResource("Animation_gi5sp")
 }
 
-[sub_resource type="Resource" id="Resource_6ktr4"]
-script = ExtResource("6_2n7jg")
-name = "shot"
-bus = ""
-volume = 0.0
-pitch = 1.0
-streams = Array[AudioStream]([ExtResource("7_gi5sp")])
-metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
-
-[sub_resource type="Resource" id="Resource_7jfy5"]
-script = ExtResource("6_2n7jg")
-name = "rack"
-bus = ""
-volume = 0.0
-pitch = 1.0
-streams = Array[AudioStream]([ExtResource("8_6jhw5")])
-metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
-
-[sub_resource type="Resource" id="Resource_5giwu"]
-script = ExtResource("6_2n7jg")
-name = "reload_1"
-bus = ""
-volume = 0.0
-pitch = 1.0
-streams = Array[AudioStream]([ExtResource("9_givrx")])
-metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
-
-[sub_resource type="Resource" id="Resource_gi5sp"]
-script = ExtResource("6_2n7jg")
-name = "reload_2"
-bus = ""
-volume = 0.0
-pitch = 1.0
-streams = Array[AudioStream]([ExtResource("10_yenhv")])
-metadata/_custom_type_script = "uid://d3sjvr8ju7j8h"
-
 [sub_resource type="Resource" id="Resource_2yue8"]
-script = ExtResource("11_6jhw5")
-sprite_texture = ExtResource("12_givrx")
+script = ExtResource("12_3ybbn")
+sprite_texture = ExtResource("13_byhvo")
 should_rotate = false
 has_shadow = true
 life_time = 30
 bullet_pierce_count = 0
 bullet_bounce_count = 0
-damage = 3.0
+damage = 6
 knockback_magnitude = 100.0
 is_player_bullet = true
 bullet_modulate = Color(2, 2, 2, 1)
-hit_particle = ExtResource("11_givrx")
+hit_particle = ExtResource("11_yysl5")
 metadata/_custom_type_script = "uid://dyy3wgjoku8xv"
 
 [sub_resource type="Resource" id="Resource_j4b5i"]
-script = ExtResource("13_yenhv")
+script = ExtResource("14_p6vl6")
 points = Array[Vector2]([Vector2(0, 0)])
-randomized_angle_spread = 5.0
+randomized_angle_spread = 0.0
 speed = 600.0
-amount_of_bullets = 1
-time_between_bullets = 0.0
+amount_of_bullets = 2
+time_between_bullets = 0.2
 time_before_move = 0.0
 time_between_bullets_before_move = 0.0
-time_between_fire = 0.2
-continous_shoot_position = false
+time_between_fire = 1.0
+continous_shoot_position = true
 metadata/_custom_type_script = "uid://d1ylqbvjqhtj8"
 
-[node name="Firm" type="Node2D" node_paths=PackedStringArray("bullet_spawner")]
-script = ExtResource("1_8l8y3")
-kickback = 0.0
+[node name="DoubleTap" type="Node2D" node_paths=PackedStringArray("bullet_spawner")]
+script = ExtResource("1_fkr6v")
 bullet_spawner = NodePath("BulletSpawner")
-mag_size = 8
-reload_time = 1.0
+mag_size = 10
+reload_time = 2.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
@@ -337,20 +295,10 @@ libraries = {
 }
 
 [node name="SoundBank" type="Node" parent="."]
-script = ExtResource("3_4upuw")
-label = "firm"
-events = Array[ExtResource("6_2n7jg")]([SubResource("Resource_6ktr4"), SubResource("Resource_7jfy5"), SubResource("Resource_5giwu"), SubResource("Resource_gi5sp")])
+script = ExtResource("4_0sfg2")
 metadata/_custom_type_script = "uid://b7r334bhuu4yk"
 
-[node name="ReloadSound2Timer" type="Timer" parent="."]
-wait_time = 0.3
-one_shot = true
-
-[node name="ReloadSound3Timer" type="Timer" parent="."]
-wait_time = 0.8
-one_shot = true
-
-[node name="BulletSpawner" parent="." instance=ExtResource("11_5giwu")]
+[node name="BulletSpawner" parent="." instance=ExtResource("10_ilyc6")]
 target_position = Vector2(20, 0)
 bullet_props = SubResource("Resource_2yue8")
 bullet_pattern = SubResource("Resource_j4b5i")

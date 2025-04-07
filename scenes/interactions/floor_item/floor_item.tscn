@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b77l7kr0ugsc0" path="res://scenes/interactions/floor_item/floor_item.gd" id="1_3uol4"]
 [ext_resource type="PackedScene" uid="uid://ct60dg4e24be8" path="res://components/interaction/_interaction.tscn" id="1_p8q7i"]
 [ext_resource type="Shader" uid="uid://chycovuryio5l" path="res://scenes/select.gdshader" id="3_0piie"]
-[ext_resource type="Texture2D" uid="uid://cnlryqu5m8g2b" path="res://pickups/heart/heart.png" id="4_tl3qu"]
+[ext_resource type="Texture2D" uid="uid://cnlryqu5m8g2b" path="res://tables/pickups/heart/heart.png" id="4_tl3qu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hqwej"]
 radius = 12.0
@@ -39,7 +39,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0.8, 0.8)]
+"values": [Vector2(1, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -66,6 +66,23 @@ tracks/2/keys = {
 "values": [1]
 }
 
+[sub_resource type="Animation" id="Animation_tl3qu"]
+resource_name = "float"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -8), Vector2(0, -10), Vector2(0, -8), Vector2(0, -6), Vector2(0, -8)]
+}
+
 [sub_resource type="Animation" id="Animation_0piie"]
 resource_name = "init"
 length = 1.8
@@ -79,7 +96,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.4, 1.8),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(0.5, 0.5), Vector2(0.8, 0.8), Vector2(0.8, 0.8)]
+"values": [Vector2(0.5, 0.5), Vector2(1, 1), Vector2(1, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -106,23 +123,6 @@ tracks/2/keys = {
 "values": [1]
 }
 
-[sub_resource type="Animation" id="Animation_tl3qu"]
-resource_name = "float"
-length = 4.0
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3, 4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(0, -8), Vector2(0, -10), Vector2(0, -8), Vector2(0, -6), Vector2(0, -8)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ekk7k"]
 _data = {
 &"RESET": SubResource("Animation_ssg6e"),
@@ -130,9 +130,11 @@ _data = {
 &"init": SubResource("Animation_0piie")
 }
 
-[node name="FloorItem" type="Node2D" node_paths=PackedStringArray("animation_player")]
+[node name="FloorItem" type="Node2D" node_paths=PackedStringArray("animation_player", "label_position", "item_sprite")]
 script = ExtResource("1_3uol4")
 animation_player = NodePath("AnimationPlayer")
+label_position = NodePath("LabelPosition")
+item_sprite = NodePath("Sprite2D")
 
 [node name="LabelPosition" type="Marker2D" parent="."]
 position = Vector2(0, -24)
@@ -146,11 +148,9 @@ shape = SubResource("CircleShape2D_hqwej")
 self_modulate = Color(1.5, 1.5, 1.5, 1)
 material = SubResource("ShaderMaterial_ssg6e")
 position = Vector2(0, -8)
-scale = Vector2(0.8, 0.8)
 texture = ExtResource("4_tl3qu")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-visible = false
 emission_shape = 2
 emission_sphere_radius = 16.0
 direction = Vector2(0, -10)
@@ -162,7 +162,6 @@ color_ramp = SubResource("Gradient_ssods")
 metadata/_edit_lock_ = true
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-visible = false
 rotation = 0.785398
 scale = Vector2(0.436664, 0.436664)
 texture = SubResource("GradientTexture2D_ssg6e")
