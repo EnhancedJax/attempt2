@@ -8,8 +8,11 @@ const heart_full = preload("res://tables/pickups/heart/heart.png")
 
 #region Heart pickup
 
-func spawn_heart(global_position: Vector2) -> void:
-	_spawn_pickup(_action_pickup_heart, [], global_position, "Heart", heart_full)
+func spawn_heart(global_position: Vector2, have_price: bool = false) -> void:
+	var price = -1
+	if have_price:
+		price = Lookup.get_pickups_cost(Lookup.PICKUPS.HEART)
+	_spawn_pickup(_action_pickup_heart, [], global_position, "Heart", heart_full, price)
 
 func _action_pickup_heart(ref: InteractionSource, _params: Array[int]) -> void:
 	Main.player.pickup_heart()
@@ -18,14 +21,17 @@ func _action_pickup_heart(ref: InteractionSource, _params: Array[int]) -> void:
 
 #region Weapon pickup
 
-func spawn_weapon(global_position: Vector2, weapon_id: int = -1) -> void:
+func spawn_weapon(global_position: Vector2, weapon_id: int = -1, have_price: bool = false) -> void:
+	var price = -1
 	if weapon_id == -1:
 		var weapons = Lookup.get_droppable_items()
 		weapon_id = weapons[randi() % weapons.size()]
+	if have_price:
+		price = Lookup.get_item_cost(weapon_id)
 	
 	var l = Lookup.get_weapon(weapon_id).name
 	var t = Lookup.get_weapon_texture(weapon_id)
-	_spawn_pickup(_action_pickup_weapon, [weapon_id], global_position, l, t)
+	_spawn_pickup(_action_pickup_weapon, [weapon_id], global_position, l, t, price)
 
 func _action_pickup_weapon(ref: InteractionSource, params: Array[int]) -> void:
 	var weapon_id = params[0]
@@ -40,8 +46,8 @@ func _action_pickup_weapon(ref: InteractionSource, params: Array[int]) -> void:
 
 #region Internals
 
-func _spawn_pickup(callable: Callable, params : Array[int], _pos: Vector2, label: String, texture: Texture2D) -> void:
+func _spawn_pickup(callable: Callable, params : Array[int], _pos: Vector2, label: String, texture: Texture2D, price: int) -> void:
 	var ref = floor_item.instantiate()
 	Main.spawn_node(ref, _pos, 3)
-	ref.register(callable, params) # register after adding to tree for label position to update.
+	ref.register(callable, params, price) # register after adding to tree for label position to update.
 	ref.update_item_meta(label, texture)

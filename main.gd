@@ -36,7 +36,7 @@ func _process(_delta: float) -> void:
 		Router.navigate('pause')
 	if Input.is_action_just_pressed("dev"):
 		# PickupManager.spawn_weapon(player.global_position)
-		PickupManager.spawn_heart(player.global_position)
+		PickupManager.spawn_heart(player.global_position, true)
 	if Input.is_action_just_pressed("dev_debug"):
 		IS_DEBUG_MODE = !IS_DEBUG_MODE
 		signal_debug_mode_changed.emit()
@@ -74,7 +74,7 @@ func deregister_boss(boss: BossBase) -> void:
 func register_interaction(i: Interaction):
 	print('[Interaction] register: "%s" at %s' % [i.label, i.label_position])
 	interactions.push_front(i)
-	interaction_label.display(i.label, i.label_position)
+	interaction_label.display(i.label, i.label_position, i.price)
 	signal_interaction_changed.emit(i)
 
 func reregister_interaction(i: Interaction):
@@ -99,6 +99,11 @@ func deregister_interaction(i: Interaction):
 
 func call_topmost_interaction() -> void:
 	var i = interactions[0]
+	if i.price != -1:
+		if coins < i.price:
+			interaction_label.shake()
+			return
+		update_coins(-i.price)
 	assert(i.callable.get_argument_count() == 2, "Interaction callable must have a InteractionSource argument and an integer params argument.")
 	i.callable.call(i.source, i.source.i_params)
 

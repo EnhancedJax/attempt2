@@ -28,6 +28,11 @@ class RoomScenesList:
 	var loot: Array[PackedScene] = []
 	var exit: Array[PackedScene] = []
 
+enum PICKUPS {
+	HEART,
+	HALF_HEART,
+}
+
 func _ready() -> void:
 	_load_ally_weapons()
 	_load_enemy_weapons()
@@ -146,5 +151,18 @@ func get_room_list(room_type: Dungen.RoomType) -> Array[PackedScene]:
 			return _level_room_scenes_list.level1.exit
 	return []
 
-func get_item_cost(rarity: int, level: int = 1):
-	return 15 * (rarity + 1) * 1.1 * level
+func get_item_cost(weapon_id: int, _rarity: int = -1, level: int = 1) -> int:
+	var rarity = _rarity
+	if rarity == -1:
+		var weapon = get_weapon(weapon_id)
+		rarity = weapon.rarity
+		
+	var price =  15 * (rarity + 1) * 1.1 * level
+	return price
+
+func get_pickups_cost(pickup_type: PICKUPS) -> int:
+	match pickup_type:
+		PICKUPS.HEART: return 10
+		PICKUPS.HALF_HEART: return 5
+		_: return 0
+		

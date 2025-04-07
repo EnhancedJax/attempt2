@@ -1,18 +1,16 @@
-class_name FloorItem
 extends InteractionSource
 
-@export var animation_player : AnimationPlayer
 @export var label_position : Marker2D
 @export var item_sprite : Sprite2D
 
 func _ready() -> void:
 	Main.signal_interaction_changed.connect(handle_interaction_changed)
-	# _update_item_metadata()
 
-func register(callable: Callable, params : Array[int]) -> void:
+func register(callable: Callable, params : Array[int], price: int) -> void:
 	i = Interaction.new()
 	i.callable = callable
 	i.source = self
+	i.price = price
 	i.label_position = label_position.global_position
 	i_params = params
 

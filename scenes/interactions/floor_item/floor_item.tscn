@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://bfd2sd1k4hm71"]
 
-[ext_resource type="Script" uid="uid://b77l7kr0ugsc0" path="res://scenes/interactions/floor_item/floor_item.gd" id="1_3uol4"]
+[ext_resource type="Script" uid="uid://pkpj36u8015i" path="res://scenes/interactions/pickup_base.gd" id="1_3uol4"]
 [ext_resource type="PackedScene" uid="uid://ct60dg4e24be8" path="res://components/interaction/_interaction.tscn" id="1_p8q7i"]
 [ext_resource type="Shader" uid="uid://chycovuryio5l" path="res://scenes/select.gdshader" id="3_0piie"]
 [ext_resource type="Texture2D" uid="uid://cnlryqu5m8g2b" path="res://tables/pickups/heart/heart.png" id="4_tl3qu"]
@@ -130,9 +130,8 @@ _data = {
 &"init": SubResource("Animation_0piie")
 }
 
-[node name="FloorItem" type="Node2D" node_paths=PackedStringArray("animation_player", "label_position", "item_sprite")]
+[node name="FloorItem" type="Node2D" node_paths=PackedStringArray("label_position", "item_sprite")]
 script = ExtResource("1_3uol4")
-animation_player = NodePath("AnimationPlayer")
 label_position = NodePath("LabelPosition")
 item_sprite = NodePath("Sprite2D")
 

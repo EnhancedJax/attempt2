@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://btlqootllbmyi"]
 
 [ext_resource type="Texture2D" uid="uid://ctm4onc6qj0jm" path="res://scenes/interactions/shop_item/base.png" id="1_mbwks"]
-[ext_resource type="Script" uid="uid://b2ymmumljj1oi" path="res://scenes/interactions/shop_item/shop_item.gd" id="1_ryt8a"]
+[ext_resource type="Script" uid="uid://pkpj36u8015i" path="res://scenes/interactions/pickup_base.gd" id="1_ryt8a"]
 [ext_resource type="PackedScene" uid="uid://ct60dg4e24be8" path="res://components/interaction/_interaction.tscn" id="2_n8yc3"]
 [ext_resource type="Shader" uid="uid://chycovuryio5l" path="res://scenes/select.gdshader" id="3_ryt8a"]
 [ext_resource type="Texture2D" uid="uid://chgrqc0ex7y3p" path="res://weapons/ally/rifle/static.png" id="4_q5lr7"]
@@ -31,8 +31,9 @@ fill_from = Vector2(0.5, 0.5)
 [sub_resource type="CircleShape2D" id="CircleShape2D_n8yc3"]
 radius = 7.0
 
-[node name="ShopItem" type="StaticBody2D" node_paths=PackedStringArray("item_sprite")]
+[node name="ShopItem" type="StaticBody2D" node_paths=PackedStringArray("label_position", "item_sprite")]
 script = ExtResource("1_ryt8a")
+label_position = NodePath("LabelPosition")
 item_sprite = NodePath("ItemSprite")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
