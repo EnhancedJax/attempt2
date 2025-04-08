@@ -37,7 +37,6 @@ const spawn_room_margin : int = 1
 const ENTRANCE_WIDTH: int = 2  # tiles wide. Changing this requires a refactor of the whole project!
 const door_entrance_distance: float = 1.5
 
-const fow_padding: int = 0 # tiles wide
 var fow_color : String = "#191919"
 
 const coin_scene = preload("res://scenes/coin/coin_spawner.tscn")
@@ -55,6 +54,7 @@ var _room_bosses : Array[EntityBase] = []
 
 var _shuffled_used_cells : Array[Vector2i] = []
 var _current_doors: Array[Door] = []
+var _cached_wall_cells : Array[Vector2i] = []
 
 #region Values set by generator
 var room_state : int = 0 # 0: unvisited, 1: visited, 2: cleared
@@ -72,13 +72,14 @@ func _ready() -> void:
 	randomize()
 	if not door_config:
 		door_config = [true, true, true, true]
-	_setup_doors_and_entrances()
-	_setup_entrance_detection()
 	_shuffled_used_cells = floor_tilemap.get_used_cells()
 	_shuffled_used_cells.shuffle()
-	_calculate_total_enemies()
+	_cached_wall_cells = wall_tilemap.get_used_cells()
 
-	_setup_fog_of_war()
+	_setup_fog_of_war(_cached_wall_cells)
+	_setup_entrance_detection()
+	_calculate_total_enemies()
+	_setup_doors_and_entrances()
 
 	Main.signal_debug_mode_changed.connect(_on_debug_mode_changed)
 	_on_debug_mode_changed()
@@ -93,7 +94,7 @@ func _on_debug_mode_changed() -> void:
 	else:
 		fow_color = "#191919"
 	if setup_again:
-		_setup_fog_of_war()
+		_setup_fog_of_war(_cached_wall_cells)
 
 func _calculate_total_enemies() -> void:
 	if not waves_data or waves_data.waves.is_empty() or Main.IS_DEBUG_MODE:
@@ -335,35 +336,128 @@ func _setup_entrance_detection() -> void:
 		detector.add_child(collision)
 		self.add_child(detector)
 
-
-func _setup_fog_of_war() -> void:	
+func _setup_fog_of_war(wall_cells: Array[Vector2i]) -> void:
 	fow_canvas.visible = should_fow
 	if should_fow:
-		# note: all fow positions relative to the origin of world, as canvas layers are positioned at origin.
-		var padded_size = Vector2(
-			(dimension.x + fow_padding * 2) * tilemap_px,
-			(dimension.y + fow_padding * 2) * tilemap_px
-		)
-		fow_texture.position = self.global_position - Vector2(fow_padding * tilemap_px, fow_padding * tilemap_px)
+		var min_x = dimension.x
+		var min_y = dimension.y
+		var max_x = 0
+		var max_y = 0
 		
-		# Create the fog image
-		var fow_image = Image.create(padded_size.x, padded_size.y, false, Image.FORMAT_RGBA8)
-		fow_image.fill(Color.html(fow_color))
+		for cell in wall_cells:
+			min_x = min(min_x, cell.x)
+			min_y = min(min_y, cell.y)
+			max_x = max(max_x, cell.x)
+			max_y = max(max_y, cell.y)
+		
+		var room_width = (max_x - min_x + 1) * tilemap_px
+		var room_height = (max_y - min_y + 1) * tilemap_px
+		
+		fow_texture.position = self.global_position + Vector2(min_x, min_y) * tilemap_px
+		fow_texture.position.y -= 0.5 * tilemap_px
+		room_height += 0.5 * tilemap_px
+		
+		var fow_image = Image.create(room_width, room_height, false, Image.FORMAT_RGBA8)
+		fow_image.fill(Color(0, 0, 0, 0))
+		
+		var fog_color = Color.html(fow_color)
+		var room_mask = _create_room_mask(wall_cells, min_x, min_y)
+		
+		for y in range(room_height):
+			for x in range(room_width):
+				var tile_x = x / tilemap_px
+				var tile_y = y / tilemap_px
+				
+				if _is_inside_room(tile_x, tile_y, room_mask):
+					fow_image.set_pixel(x, y, fog_color)
+		
 		fow_texture.texture = ImageTexture.create_from_image(fow_image)
 		fow_texture.material.set_shader_parameter("progress", 0.0)
 
 func _play_fow_animation(entrance_index: int) -> void:
 	if should_fow and room_state == 0:
-		var entrance: Vector2i = get("entrances_" + ENTRANCES[entrance_index])
+		var entrance = get("entrances_" + ENTRANCES[entrance_index])
 		var entrance_pos = Vector2(entrance) * tilemap_px
 		
-		# Calculate relative position (0-1) including padding
-		var total_width = (dimension.x + fow_padding * 2) * tilemap_px
-		var total_height = (dimension.y + fow_padding * 2) * tilemap_px
+		var texture_size = fow_texture.texture.get_size()
 		
-		var origin_x = (entrance_pos.x + fow_padding * tilemap_px) / total_width
-		var origin_y = (entrance_pos.y + fow_padding * tilemap_px) / total_height
+		var local_entrance_pos = entrance_pos - (fow_texture.position - self.global_position)
+		var origin_x = local_entrance_pos.x / texture_size.x
+		var origin_y = local_entrance_pos.y / texture_size.y
 		
 		fow_texture.material.set_shader_parameter("origin_x", origin_x)
 		fow_texture.material.set_shader_parameter("origin_y", origin_y)
 		fow_animation_player.play("fade_out")
+
+func _create_room_mask(wall_cells, min_x, min_y):
+	var max_x = 0
+	var max_y = 0
+	
+	for cell in wall_cells:
+		max_x = max(max_x, cell.x - min_x)
+		max_y = max(max_y, cell.y - min_y)
+	
+	var grid_width = max_x + 3
+	var grid_height = max_y + 3
+	var grid = []
+	
+	for y in range(grid_height):
+		var row = []
+		for x in range(grid_width):
+			row.append(0)
+		grid.append(row)
+	
+	for cell in wall_cells:
+		var grid_x = cell.x - min_x + 1
+		var grid_y = cell.y - min_y + 1
+		
+		if grid_x >= 0 and grid_x < grid_width and grid_y >= 0 and grid_y < grid_height:
+			grid[grid_y][grid_x] = 1
+	
+	_flood_fill_outside(grid, grid_width, grid_height)
+	
+	for y in range(grid_height):
+		for x in range(grid_width):
+			if grid[y][x] == 0:
+				grid[y][x] = 3
+	
+	return grid
+
+func _flood_fill_outside(grid, width, height):
+	var queue = []
+	
+	for x in range(width):
+		queue.append(Vector2i(x, 0))
+		queue.append(Vector2i(x, height - 1))
+	
+	for y in range(height):
+		queue.append(Vector2i(0, y))
+		queue.append(Vector2i(width - 1, y))
+	
+	while not queue.is_empty():
+		var pos = queue.pop_front()
+		var x = pos.x
+		var y = pos.y
+		
+		if x < 0 or x >= width or y < 0 or y >= height or grid[y][x] != 0:
+			continue
+		
+		grid[y][x] = 2
+		
+		queue.append(Vector2i(x + 1, y))
+		queue.append(Vector2i(x - 1, y))
+		queue.append(Vector2i(x, y + 1))
+		queue.append(Vector2i(x, y - 1))
+
+func _is_inside_room(tile_x, tile_y, room_mask):
+	var grid_x = int(tile_x) + 1
+	var grid_y = int(tile_y) + 1
+	
+	if grid_y < 0 or grid_y >= room_mask.size():
+		return false
+	
+	var row = room_mask[grid_y]
+	if grid_x < 0 or grid_x >= row.size():
+		return false
+	
+	return row[grid_x] == 3 or row[grid_x] == 1
