@@ -2,19 +2,12 @@
 
 [ext_resource type="Script" uid="uid://pkpj36u8015i" path="res://scenes/interactions/pickup_base.gd" id="1_3uol4"]
 [ext_resource type="PackedScene" uid="uid://ct60dg4e24be8" path="res://components/interaction/_interaction.tscn" id="1_p8q7i"]
-[ext_resource type="Shader" uid="uid://chycovuryio5l" path="res://scenes/select.gdshader" id="3_0piie"]
+[ext_resource type="Material" uid="uid://dmeooekglhyk6" path="res://scenes/interactions/shine_material.tres" id="3_tl3qu"]
+[ext_resource type="Material" uid="uid://bw404v00fp3ns" path="res://scenes/interactions/selected_material.tres" id="3_v23mp"]
 [ext_resource type="Texture2D" uid="uid://cnlryqu5m8g2b" path="res://tables/pickups/heart/heart.png" id="4_tl3qu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hqwej"]
 radius = 12.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ssg6e"]
-resource_local_to_scene = true
-shader = ExtResource("3_0piie")
-shader_parameter/width = 1
-shader_parameter/outline_color = Color(4, 4, 4, 1)
-shader_parameter/flickering_speed = 0.0
-shader_parameter/minimal_flickering_alpha = 0.0
 
 [sub_resource type="Gradient" id="Gradient_ssods"]
 colors = PackedColorArray(0.987013, 0.727503, 1.15514e-06, 1, 0.882353, 0.0156863, 0, 0)
@@ -90,7 +83,7 @@ tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite2D:scale")
-tracks/0/interp = 2
+tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.4, 1.8),
@@ -134,6 +127,8 @@ _data = {
 script = ExtResource("1_3uol4")
 label_position = NodePath("LabelPosition")
 item_sprite = NodePath("Sprite2D")
+shine_material = ExtResource("3_tl3qu")
+selected_material = ExtResource("3_v23mp")
 
 [node name="LabelPosition" type="Marker2D" parent="."]
 position = Vector2(0, -24)
@@ -145,7 +140,7 @@ shape = SubResource("CircleShape2D_hqwej")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(1.5, 1.5, 1.5, 1)
-material = SubResource("ShaderMaterial_ssg6e")
+material = ExtResource("3_tl3qu")
 position = Vector2(0, -8)
 texture = ExtResource("4_tl3qu")
 

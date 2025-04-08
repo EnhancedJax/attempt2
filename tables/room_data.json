@@ -4,7 +4,14 @@
     "boss": ["boss"],
     "exit": ["exit"],
     "boss_prep": ["exit"],
-    "enemy": ["enemy1", "enemy2", "enemy3", "long", "storage"],
+    "enemy": [
+      { "id": "enemy1", "tlbr": "1111" },
+      { "id": "enemy2", "tlbr": "1111" },
+      { "id": "enemy3", "tlbr": "1111" },
+      { "id": "long", "tlbr": "0101" },
+      { "id": "storage", "tlbr": "1111" },
+      { "id": "walls", "tlbr": "1111" }
+    ],
     "loot": ["loot"],
     "shop": ["shop"]
   }

@@ -57,14 +57,13 @@ atlas = ExtResource("3_76abd")
 region = Rect2(4, 4, 8, 8)
 
 [node name="InteractionLabel" type="CenterContainer" node_paths=PackedStringArray("animation_player", "label", "price_group", "price_label")]
-anchors_preset = -1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1, 0.968)
 theme = SubResource("Theme_dn8rj")
 use_top_left = true
 script = ExtResource("2_87jry")
@@ -79,13 +78,16 @@ libraries = {
 }
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
+use_parent_material = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_76abd")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+use_parent_material = true
 layout_mode = 2
 
 [node name="Label" type="Label" parent="PanelContainer/HBoxContainer"]
+use_parent_material = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Some super long name"
@@ -93,18 +95,22 @@ horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="PriceGroup" type="HBoxContainer" parent="PanelContainer/HBoxContainer"]
+use_parent_material = true
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer/PriceGroup"]
+use_parent_material = true
 layout_mode = 2
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="PanelContainer/HBoxContainer/PriceGroup/VBoxContainer"]
+use_parent_material = true
 layout_mode = 2
 texture = SubResource("AtlasTexture_g017o")
 stretch_mode = 2
 
 [node name="Price" type="Label" parent="PanelContainer/HBoxContainer/PriceGroup"]
+use_parent_material = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "123"

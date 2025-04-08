@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=4 uid="uid://by5iku176u12u"]
+[gd_scene load_steps=16 format=4 uid="uid://by5iku176u12u"]
 
 [ext_resource type="PackedScene" uid="uid://oue2kr2eaavc" path="res://scenes/rooms/room_base.tscn" id="1_ulujo"]
 [ext_resource type="Script" uid="uid://c3qj4srig7lck" path="res://scenes/rooms/waves.gd" id="2_xsmtr"]
 [ext_resource type="Script" uid="uid://b0go2xseedfsk" path="res://scenes/rooms/wave.gd" id="3_igk5t"]
 [ext_resource type="Script" uid="uid://d4lhirdyf3f86" path="res://scenes/rooms/wave_enemy_props.gd" id="4_le0y6"]
 [ext_resource type="PackedScene" uid="uid://dvecs081bwo7i" path="res://entities/enemies/skeleton/skeleton.tscn" id="5_r6k42"]
+[ext_resource type="Shader" uid="uid://d27aqidg7jdlx" path="res://scenes/rooms/fow.gdshader" id="6_xsmtr"]
 
 [sub_resource type="Resource" id="Resource_d6ajo"]
 script = ExtResource("4_le0y6")
@@ -27,11 +28,65 @@ script = ExtResource("2_xsmtr")
 waves = Array[ExtResource("3_igk5t")]([SubResource("Resource_ot41k")])
 metadata/_custom_type_script = "uid://c3qj4srig7lck"
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_igk5t"]
+resource_local_to_scene = true
+shader = ExtResource("6_xsmtr")
+shader_parameter/origin_x = 0.0
+shader_parameter/origin_y = 0.0
+shader_parameter/progress = 0.0
+shader_parameter/fade_off = 0.2
+
+[sub_resource type="Gradient" id="Gradient_02pj5"]
+colors = PackedColorArray(1, 0, 1, 1, 1, 0, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_le0y6"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_02pj5")
+fill_to = Vector2(1, 1)
+
+[sub_resource type="Animation" id="Animation_ql374"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FowDrawer:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ssqhp"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FowDrawer:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_r6k42"]
+resource_local_to_scene = true
+_data = {
+&"RESET": SubResource("Animation_ql374"),
+&"fade_out": SubResource("Animation_ssqhp")
+}
+
 [node name="RoomBase" instance=ExtResource("1_ulujo")]
 dimension = Vector2i(32, 12)
+entrances_top = Vector2i(-1, -1)
 entrances_left = Vector2i(0, 5)
-entrances_bottom = Vector2i(28, 11)
-entrances_right = Vector2i(31, 8)
+entrances_bottom = Vector2i(-1, -1)
+entrances_right = Vector2i(31, 5)
 waves_data = SubResource("Resource_u47xk")
 
 [node name="FloorTileLayer" parent="." index="0"]
@@ -39,3 +94,12 @@ tile_map_data = PackedByteArray("AAABAAEAAAAAAAAAAAABAAIAAAAAAAEAAAABAAQAAAAAAAA
 
 [node name="WallTileLayer" parent="." index="1"]
 tile_map_data = PackedByteArray("AAAAAAEAAQABAAAAAAAAAAIAAQABAAAAAAAAAAMAAQABAAAAAAAAAAYAAQABAAAAAAAAAAcAAQABAAAAAAAAAAgAAQABAAAAAAAFAAAAAQABAAAAAAABAAAAAQABAAAAAAAAAAAAAQAAAAAAAAAGAAAAAQAAAAAAAAAHAAAAAQAAAAAAAAAIAAAAAQABAAAAAAAEAAAAAQAAAAAAAAAAAAQAAQAAAAAAAAAAAAUAAQAAAAAAAAACAAAAAQAAAAAAAAADAAAAAQABAAAAAAAJAAAAAQABAAAAAAAKAAAAAQAAAAAAAAALAAAAAQAAAAAAAAAMAAAAAQAAAAAAAAANAAAAAQABAAAAAAANAAEAAQABAAAAAAAOAAEAAQABAAAAAAAPAAEAAQABAAAAAAAQAAEAAQABAAAAAAARAAEAAQAAAAAAAAASAAEAAQAAAAAAAAASAAAAAQAAAAAAAAATAAAAAQABAAAAAAAUAAAAAQABAAAAAAAVAAAAAQAAAAAAAAAWAAAAAQAAAAAAAAAXAAAAAQABAAAAAAAYAAAAAQAAAAAAAAAZAAAAAQAAAAAAAAAaAAAAAQAAAAAAAAAbAAAAAQAAAAAAAAAcAAAAAQAAAAAAAAAdAAAAAQABAAAAAAAeAAAAAQAAAAAAAAAfAAAAAQABAAAAAAAfAAEAAQAAAAAAAAAfAAIAAQAAAAAAAAAfAAMAAQAAAAAAAAAfAAQAAQABAAAAAAAfAAUAAQABAAAAAAAfAAYAAQABAAAAAAAfAAcAAQABAAAAAAAfAAgAAQABAAAAAAAfAAkAAQABAAAAAAAfAAoAAQAAAAAAAAAfAAsAAQABAAAAAAAeAAsAAQAAAAAAAAAdAAsAAQAAAAAAAAAcAAsAAQAAAAAAAAAbAAsAAQABAAAAAAAaAAsAAQAAAAAAAAAZAAsAAQAAAAAAAAAYAAsAAQAAAAAAAAAXAAsAAQAAAAAAAAAWAAsAAQABAAAAAAAVAAsAAQABAAAAAAAUAAsAAQABAAAAAAATAAsAAQABAAAAAAASAAsAAQAAAAAAAAASAAoAAQABAAAAAAARAAoAAQABAAAAAAAQAAoAAQAAAAAAAAAPAAoAAQABAAAAAAAOAAoAAQABAAAAAAANAAoAAQAAAAAAAAANAAsAAQAAAAAAAAAMAAsAAQABAAAAAAALAAsAAQAAAAAAAAAKAAsAAQABAAAAAAAJAAsAAQAAAAAAAAAIAAsAAQAAAAAAAAAHAAsAAQAAAAAAAAAGAAsAAQAAAAAAAAAFAAsAAQAAAAAAAAAEAAsAAQABAAAAAAADAAsAAQAAAAAAAAAAAAkAAQAAAAAAAAAAAAoAAQAAAAAAAAAAAAsAAQAAAAAAAAACAAsAAQAAAAAAAAABAAsAAQAAAAAAAAA=")
+
+[node name="FowDrawer" parent="FowLayer" index="0"]
+material = SubResource("ShaderMaterial_igk5t")
+texture = SubResource("GradientTexture2D_le0y6")
+
+[node name="FOWAnimationPlayer" parent="FowLayer" index="1"]
+libraries = {
+&"": SubResource("AnimationLibrary_r6k42")
+}

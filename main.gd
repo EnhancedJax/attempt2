@@ -36,7 +36,7 @@ func _process(_delta: float) -> void:
 		Router.navigate('pause')
 	if Input.is_action_just_pressed("dev"):
 		# PickupManager.spawn_weapon(player.global_position)
-		PickupManager.spawn_heart(player.global_position, true)
+		PickupManager.spawn_heart(player.global_position, true, true)
 	if Input.is_action_just_pressed("dev_debug"):
 		IS_DEBUG_MODE = !IS_DEBUG_MODE
 		signal_debug_mode_changed.emit()

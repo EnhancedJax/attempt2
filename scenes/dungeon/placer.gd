@@ -8,6 +8,7 @@ var _room_positions : Dictionary[int, Vector2] = {}
 var _rooms : Array[Dungen.Room] = []
 var _shuffled_room_lists: Dictionary = {}
 var _current_indices: Dictionary = {}
+var _used_special_rooms: Array[PackedScene] = []
 
 func _init(_room_parent: Node2D, _tile_size: int, _gap_size: int) -> void:
 	room_parent = _room_parent
@@ -22,8 +23,18 @@ func place_rooms(rooms : Array[Dungen.Room]) -> Array[RoomBase]:
 	return room_scenes
 
 func _pick_room_scenes() -> void:
+	_used_special_rooms.clear()
 	for i in range(_rooms.size()):
 		var room_type: Dungen.RoomType = _rooms[i].room_type
+		
+		# For enemy rooms, check if we can use a special room based on TLBR
+		if room_type == Dungen.RoomType.ENEMY:
+			var tlbr_string = _get_tlbr_string(_rooms[i])
+			var special_room = _try_get_special_room(tlbr_string)
+			
+			if special_room:
+				room_scenes.append(special_room.instantiate())
+				continue
 		
 		# Initialize shuffled list if needed
 		if not _shuffled_room_lists.has(room_type):
@@ -117,6 +128,34 @@ func _spawn_rooms() -> void:
 # 
 # This function computes the neighbor room’s position so that the two rooms’ doors are aligned,
 # and then adds a GAP (in the connection direction) so that the rooms are spaced apart.
+func _get_tlbr_string(room: Dungen.Room) -> String:
+	# Convert the room's neighbor connections to a TLBR string (1 for connection, 0 for no connection)
+	var tlbr = ""
+	tlbr += "1" if room.neighbours.top != -1 else "0"
+	tlbr += "1" if room.neighbours.left != -1 else "0"
+	tlbr += "1" if room.neighbours.bottom != -1 else "0"
+	tlbr += "1" if room.neighbours.right != -1 else "0"
+	return tlbr
+
+func _try_get_special_room(tlbr_string: String) -> PackedScene:
+	# Get all special enemy rooms
+	var special_rooms = Lookup.get_special_enemy_room_list()
+	
+	# Filter rooms that match the TLBR pattern and haven't been used yet
+	var matching_rooms: Array[Lookup.SpecialEnemyRoom] = []
+	for special_room in special_rooms:
+		if special_room.tlbr == tlbr_string and not _used_special_rooms.has(special_room.scene):
+			matching_rooms.append(special_room)
+	
+	# If we have matching rooms, pick one randomly and mark it as used
+	if matching_rooms.size() > 0:
+		var random_index = randi() % matching_rooms.size()
+		var selected_room = matching_rooms[random_index]
+		_used_special_rooms.append(selected_room.scene)
+		return selected_room.scene
+	
+	return null
+
 func _compute_neighbor_position(current_pos: Vector2, current_scene: Node, neighbor_scene: Node, dir_code: int) -> Vector2:
 	# Obtain the door positions (in tile coordinates) for current room and the neighbor.
 	var door_current: Vector2 = Dungen.get_door_value(current_scene, dir_code)

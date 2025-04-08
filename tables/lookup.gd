@@ -7,6 +7,15 @@ var _ally_weapons: Dictionary = {}
 var _enemy_weapons: Dictionary = {}
 var _texture_cache: Dictionary = {}
 var _level_room_scenes_list: LevelRoomScenesList
+var _special_enemy_rooms: Array[SpecialEnemyRoom] = []
+
+class SpecialEnemyRoom:
+	var scene: PackedScene
+	var tlbr: String
+
+	func _init(p_scene: PackedScene, p_tlbr: String) -> void:
+		scene = p_scene
+		tlbr = p_tlbr
 
 class WeaponType:
 	var id: int
@@ -85,6 +94,7 @@ func _load_rooms():
 		
 	var level_rooms = LevelRoomScenesList.new()
 	var level1 = RoomScenesList.new()
+	_special_enemy_rooms.clear()
 	
 	var level_data = json_object["1"]  # Level 1 data
 	for room_type in level_data:
@@ -97,13 +107,22 @@ func _load_rooms():
 			"boss_prep": scenes = level1.boss_prep
 			"loot": scenes = level1.loot
 			"exit": scenes = level1.exit
-			
-		for room_name in level_data[room_type]:
-			var path = "res://scenes/rooms/level1/%s.tscn" % room_name
-			var scene = load(path)
-			print('loaded %s' % path)
-			print(scene)
-			scenes.append(scene)
+		
+		for room in level_data[room_type]:
+			var path: String
+			if room_type == "enemy" and room.has("id"):
+				path = "res://scenes/rooms/level1/%s.tscn" % room["id"]
+				var scene = load(path)
+				if scene:
+					if room.has("tlbr") and room["tlbr"] != "1111":
+						_special_enemy_rooms.append(SpecialEnemyRoom.new(scene, room["tlbr"]))
+					else:
+						scenes.append(scene)
+			else:
+				path = "res://scenes/rooms/level1/%s.tscn" % room
+				var scene = load(path)
+				if scene:
+					scenes.append(scene)
 	
 	level_rooms.level1 = level1
 	_level_room_scenes_list = level_rooms
@@ -165,4 +184,6 @@ func get_pickups_cost(pickup_type: PICKUPS) -> int:
 		PICKUPS.HEART: return 10
 		PICKUPS.HALF_HEART: return 5
 		_: return 0
-		
+
+func get_special_enemy_room_list() -> Array[SpecialEnemyRoom]:
+	return _special_enemy_rooms

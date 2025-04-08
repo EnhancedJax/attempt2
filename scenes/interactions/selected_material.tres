@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bw404v00fp3ns"]
+
+[ext_resource type="Shader" uid="uid://chycovuryio5l" path="res://scenes/select.gdshader" id="1_s1d32"]
+
+[resource]
+shader = ExtResource("1_s1d32")
+shader_parameter/clr = Color(1, 1, 1, 1)
+shader_parameter/type = 1
+shader_parameter/thickness = 1.0

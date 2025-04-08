@@ -111,9 +111,9 @@ metadata/_custom_type_script = "uid://dn6saeqlvy3bq"
 [sub_resource type="Resource" id="Resource_shonb"]
 script = ExtResource("7_hqkos")
 points = Array[Vector2]([Vector2(0, 0)])
-randomized_angle_spread = 70.0
-speed = 250.0
-amount_of_bullets = 66
+randomized_angle_spread = 66.0
+speed = 200.0
+amount_of_bullets = 70
 time_between_bullets = 0.06
 time_before_move = 0.0
 time_between_bullets_before_move = 0.0

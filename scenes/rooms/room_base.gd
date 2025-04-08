@@ -37,7 +37,7 @@ const spawn_room_margin : int = 1
 const ENTRANCE_WIDTH: int = 2  # tiles wide. Changing this requires a refactor of the whole project!
 const door_entrance_distance: float = 1.5
 
-const fow_padding: int = 1 # tiles wide
+const fow_padding: int = 0 # tiles wide
 var fow_color : String = "#191919"
 
 const coin_scene = preload("res://scenes/coin/coin_spawner.tscn")

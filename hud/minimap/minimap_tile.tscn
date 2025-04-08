@@ -7,8 +7,8 @@
 [ext_resource type="Script" uid="uid://cij3wb0xdpwi2" path="res://hud/minimap/icon_bank.gd" id="3_xvvys"]
 [ext_resource type="Texture2D" uid="uid://cp3p5ema8lj4m" path="res://hud/minimap/icons/icon_finish.png" id="4_erwkv"]
 [ext_resource type="Texture2D" uid="uid://d4jtc0wygmi7i" path="res://hud/minimap/icons/icon_smile.png" id="5_5ackm"]
-[ext_resource type="Texture2D" uid="uid://6msmcfikwj27" path="res://hud/minimap/icons/icon_shop.png" id="6_5ackm"]
 [ext_resource type="Texture2D" uid="uid://c44yxw7nab5u8" path="res://hud/minimap/icons/icon_chest.png" id="6_8g41g"]
+[ext_resource type="Texture2D" uid="uid://eh1xvqietn6u" path="res://hud/minimap/icons/Icon_52.png" id="8_5ackm"]
 
 [sub_resource type="Resource" id="Resource_lp1jg"]
 script = ExtResource("3_xvvys")
@@ -17,7 +17,7 @@ icon_loot = ExtResource("6_8g41g")
 icon_boss_prep = ExtResource("5_5ackm")
 icon_boss = ExtResource("3_7bkb4")
 icon_finish = ExtResource("4_erwkv")
-icon_shop = ExtResource("6_5ackm")
+icon_shop = ExtResource("8_5ackm")
 metadata/_custom_type_script = "uid://cij3wb0xdpwi2"
 
 [node name="MinimapTile" type="PanelContainer"]

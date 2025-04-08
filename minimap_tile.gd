@@ -6,11 +6,11 @@ const panel_current = preload("res://hud/minimap/current.tres")
 
 @export var icon_bank : MinimapIconBank
 var style : String = "unvisited"
-const should_show_icon_unvisited : Array[Dungen.RoomType] = [Dungen.RoomType.SHOP, Dungen.RoomType.ENTRANCE, Dungen.RoomType.EXIT]
+const should_show_icon_unvisited : Array[Dungen.RoomType] = [Dungen.RoomType.SHOP, Dungen.RoomType.ENTRANCE, Dungen.RoomType.EXIT, Dungen.RoomType.BOSS]
 
 func update_room_type(type: Dungen.RoomType): # might be ran when not ready?!
 	var icon = $CenterContainer/Img
-	if style == "unvisited":
+	if style == "unvisited" and not should_show_icon_unvisited.has(type):
 		icon.texture = null
 		return
 	match type:

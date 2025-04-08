@@ -2,20 +2,26 @@ extends Node
 
 const floor_item = preload("res://scenes/interactions/floor_item/floor_item.tscn")
 const heart_full = preload("res://tables/pickups/heart/heart.png")
+const heart_half = preload("res://tables/pickups/heart/heart_half.png")
 
 # All actions should have first parameter as InteractionSource, and params as Array[int]
 # InteractionSource will store the passed array of parameters. If an interaction needs to be registered, you can update the InteractionSource's parameters, and call 
-
 #region Heart pickup
 
-func spawn_heart(global_position: Vector2, have_price: bool = false) -> void:
+func spawn_heart(global_position: Vector2, is_full_heart: bool = true, have_price: bool = false) -> void:
 	var price = -1
+	var heart_texture = heart_full
+	var heart_label = "Heart"
+	if not is_full_heart:
+		heart_texture = heart_half
+		heart_label = "Half a heart"
 	if have_price:
 		price = Lookup.get_pickups_cost(Lookup.PICKUPS.HEART)
-	_spawn_pickup(_action_pickup_heart, [], global_position, "Heart", heart_full, price)
+	_spawn_pickup(_action_pickup_heart, [is_full_heart], global_position, heart_label, heart_texture, price)
 
-func _action_pickup_heart(ref: InteractionSource, _params: Array[int]) -> void:
-	Main.player.pickup_heart()
+func _action_pickup_heart(ref: InteractionSource, params: Array[int]) -> void:
+	var is_full_heart = params[0]
+	Main.player.pickup_heart(is_full_heart)
 	Main.deregister_interaction(ref.i)
 	ref.queue_free()
 
@@ -39,6 +45,7 @@ func _action_pickup_weapon(ref: InteractionSource, params: Array[int]) -> void:
 	if dropped_weapon_id != -1:
 		ref.i_params = [dropped_weapon_id]
 		ref.update_item_meta(Lookup.get_weapon(dropped_weapon_id).name, Lookup.get_weapon_texture(dropped_weapon_id))
+		ref.i.price = -1
 		Main.reregister_interaction(ref.i)
 	else:
 		Main.deregister_interaction(ref.i)

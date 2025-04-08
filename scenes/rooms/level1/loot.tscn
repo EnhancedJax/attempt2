@@ -1,19 +1,83 @@
-[gd_scene load_steps=3 format=4 uid="uid://bbkf8runrydg1"]
+[gd_scene load_steps=10 format=4 uid="uid://bbkf8runrydg1"]
 
 [ext_resource type="PackedScene" uid="uid://oue2kr2eaavc" path="res://scenes/rooms/room_base.tscn" id="1_4w6sn"]
+[ext_resource type="Shader" uid="uid://d27aqidg7jdlx" path="res://scenes/rooms/fow.gdshader" id="2_hu2ms"]
 [ext_resource type="PackedScene" uid="uid://c3f8flnplphu5" path="res://scenes/chest/chest.tscn" id="2_tiqfi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vq7ca"]
+resource_local_to_scene = true
+shader = ExtResource("2_hu2ms")
+shader_parameter/origin_x = 0.0
+shader_parameter/origin_y = 0.0
+shader_parameter/progress = 0.0
+shader_parameter/fade_off = 0.0
+
+[sub_resource type="Gradient" id="Gradient_02pj5"]
+colors = PackedColorArray(1, 0, 1, 1, 1, 0, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_640cm"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_02pj5")
+fill_to = Vector2(1, 1)
+
+[sub_resource type="Animation" id="Animation_ql374"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FowDrawer:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ssqhp"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FowDrawer:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n1f6t"]
+resource_local_to_scene = true
+_data = {
+&"RESET": SubResource("Animation_ql374"),
+&"fade_out": SubResource("Animation_ssqhp")
+}
 
 [node name="RoomBase" instance=ExtResource("1_4w6sn")]
 dimension = Vector2i(16, 9)
 entrances_bottom = Vector2i(12, 8)
 entrances_right = Vector2i(15, 4)
 is_peaceful_room = true
+should_fow = false
 
 [node name="FloorTileLayer" parent="." index="0"]
 tile_map_data = PackedByteArray("AAABAAEAAAACAAAAAAABAAIAAAACAAAAAAABAAQAAAABAAAAAAABAAUAAAAAAAAAAAABAAYAAAAAAAEAAAABAAcAAAACAAAAAAACAAEAAAAAAAAAAAACAAIAAAABAAAAAAACAAQAAAABAAAAAAACAAUAAAABAAEAAAACAAYAAAAAAAAAAAACAAcAAAAAAAEAAAADAAEAAAACAAAAAAADAAIAAAABAAEAAAADAAQAAAABAAAAAAADAAUAAAACAAAAAAADAAYAAAABAAAAAAADAAcAAAADAAAAAAAEAAIAAAABAAAAAAAEAAQAAAAAAAAAAAAEAAUAAAAAAAEAAAAEAAYAAAADAAAAAAAEAAcAAAABAAAAAAAFAAEAAAABAAAAAAAFAAIAAAAAAAEAAAAFAAMAAAABAAAAAAAFAAQAAAABAAAAAAAFAAUAAAABAAAAAAAFAAYAAAABAAAAAAAFAAcAAAABAAAAAAAGAAEAAAADAAAAAAAGAAIAAAABAAAAAAAGAAMAAAAAAAAAAAAGAAQAAAAAAAAAAAAGAAUAAAADAAAAAAAGAAYAAAABAAEAAAAGAAcAAAABAAAAAAAHAAEAAAABAAEAAAAHAAIAAAACAAAAAAAHAAMAAAAAAAAAAAAHAAQAAAAAAAEAAAAHAAUAAAAAAAEAAAAHAAYAAAABAAEAAAAHAAcAAAACAAAAAAABAAMAAAADAAAAAAACAAMAAAABAAAAAAADAAMAAAACAAAAAAAEAAMAAAABAAAAAAAEAAEAAAABAAAAAAAIAAEAAAADAAAAAAAIAAIAAAACAAAAAAAIAAMAAAAAAAEAAAAIAAQAAAABAAEAAAAIAAUAAAABAAAAAAAIAAYAAAAAAAAAAAAIAAcAAAABAAAAAAAJAAEAAAAAAAEAAAAJAAIAAAACAAAAAAAJAAMAAAADAAAAAAAJAAQAAAAAAAAAAAAJAAUAAAABAAEAAAAJAAYAAAADAAAAAAAJAAcAAAACAAAAAAAKAAEAAAAAAAAAAAAKAAIAAAACAAAAAAAKAAMAAAACAAAAAAAKAAQAAAAAAAAAAAAKAAUAAAACAAAAAAAKAAYAAAAAAAAAAAAKAAcAAAAAAAEAAAALAAEAAAACAAAAAAALAAIAAAABAAEAAAALAAMAAAAAAAAAAAALAAQAAAAAAAAAAAALAAUAAAACAAAAAAALAAYAAAAAAAEAAAALAAcAAAABAAEAAAAMAAEAAAAAAAAAAAAMAAIAAAABAAEAAAAMAAMAAAAAAAEAAAAMAAQAAAACAAAAAAAMAAUAAAAAAAEAAAAMAAYAAAACAAAAAAAMAAcAAAABAAEAAAANAAEAAAABAAAAAAANAAIAAAACAAAAAAANAAMAAAABAAAAAAANAAQAAAACAAAAAAANAAUAAAABAAAAAAANAAYAAAABAAEAAAANAAcAAAAAAAEAAAAOAAEAAAAAAAEAAAAOAAIAAAACAAAAAAAOAAMAAAACAAAAAAAOAAQAAAABAAAAAAAOAAUAAAABAAAAAAAOAAYAAAACAAAAAAAOAAcAAAAAAAEAAAA=")
 
 [node name="WallTileLayer" parent="." index="1"]
 tile_map_data = PackedByteArray("AAAAAAEAAQAAAAAAAAAAAAIAAQABAAAAAAAAAAMAAQAAAAAAAAAAAAYAAQABAAAAAAAAAAcAAQABAAAAAAAIAAgAAQAAAAAAAAAAAAgAAQAAAAAAAAABAAgAAQAAAAAAAAACAAgAAQAAAAAAAAADAAgAAQABAAAAAAAHAAgAAQAAAAAAAAAFAAAAAQAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAGAAAAAQABAAAAAAAHAAAAAQAAAAAAAAAIAAAAAQAAAAAAAAAEAAAAAQAAAAAAAAAEAAgAAQAAAAAAAAAAAAQAAQABAAAAAAAAAAUAAQAAAAAAAAACAAAAAQAAAAAAAAADAAAAAQABAAAAAAAFAAgAAQAAAAAAAAAGAAgAAQABAAAAAAAJAAAAAQABAAAAAAAKAAAAAQAAAAAAAAALAAAAAQAAAAAAAAAMAAAAAQAAAAAAAAANAAAAAQABAAAAAAAOAAAAAQAAAAAAAAAPAAAAAQABAAAAAAAPAAEAAQAAAAAAAAAPAAIAAQABAAAAAAAPAAMAAQABAAAAAAAPAAQAAQAAAAAAAAAPAAUAAQABAAAAAAAPAAYAAQAAAAAAAAAPAAcAAQABAAAAAAAPAAgAAQABAAAAAAAJAAgAAQABAAAAAAAKAAgAAQABAAAAAAALAAgAAQAAAAAAAAAMAAgAAQABAAAAAAANAAgAAQAAAAAAAAAOAAgAAQAAAAAAAAA=")
+
+[node name="FowDrawer" parent="FowLayer" index="0"]
+material = SubResource("ShaderMaterial_vq7ca")
+texture = SubResource("GradientTexture2D_640cm")
+
+[node name="FOWAnimationPlayer" parent="FowLayer" index="1"]
+libraries = {
+&"": SubResource("AnimationLibrary_n1f6t")
+}
 
 [node name="Chest" parent="." index="3" instance=ExtResource("2_tiqfi")]
 position = Vector2(128, 70)

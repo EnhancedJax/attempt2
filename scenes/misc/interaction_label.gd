@@ -1,6 +1,7 @@
 class_name InteractionLabel extends Control
 
 @export var animation_player : AnimationPlayer
+#@export var shake_animation_player : AnimationPlayer
 @export var label : Label
 @export var price_group: Container
 @export var price_label : Label
@@ -21,6 +22,7 @@ func display(text: String, gp: Vector2, price: int = -1) -> void:
 
 func shake() -> void:
 	pass
+	#shake_animation_player.play("shake")
 
 func remove():
 	visible = false

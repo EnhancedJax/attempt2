@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://df1iqa5x7jsoh"]
+[gd_scene load_steps=19 format=4 uid="uid://df1iqa5x7jsoh"]
 
 [ext_resource type="PackedScene" uid="uid://oue2kr2eaavc" path="res://scenes/rooms/room_base.tscn" id="1_351je"]
 [ext_resource type="Script" uid="uid://c3qj4srig7lck" path="res://scenes/rooms/waves.gd" id="2_0ihxw"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bjxxktcqu5a4e" path="res://scenes/rooms/misc/box.tscn" id="3_1t734"]
 [ext_resource type="Script" uid="uid://b0go2xseedfsk" path="res://scenes/rooms/wave.gd" id="3_s1ct4"]
 [ext_resource type="Script" uid="uid://d4lhirdyf3f86" path="res://scenes/rooms/wave_enemy_props.gd" id="4_u6fhh"]
+[ext_resource type="Shader" uid="uid://d27aqidg7jdlx" path="res://scenes/rooms/fow.gdshader" id="7_s1ct4"]
 
 [sub_resource type="Resource" id="Resource_06lt0"]
 script = ExtResource("4_u6fhh")
@@ -42,6 +43,59 @@ metadata/_custom_type_script = "uid://b0go2xseedfsk"
 script = ExtResource("2_0ihxw")
 waves = Array[ExtResource("3_s1ct4")]([SubResource("Resource_rkn63"), SubResource("Resource_s1ct4")])
 metadata/_custom_type_script = "uid://c3qj4srig7lck"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u6fhh"]
+resource_local_to_scene = true
+shader = ExtResource("7_s1ct4")
+shader_parameter/origin_x = 0.0
+shader_parameter/origin_y = 0.0
+shader_parameter/progress = 0.0
+shader_parameter/fade_off = 0.2
+
+[sub_resource type="Gradient" id="Gradient_02pj5"]
+colors = PackedColorArray(1, 0, 1, 1, 1, 0, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_06lt0"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_02pj5")
+fill_to = Vector2(1, 1)
+
+[sub_resource type="Animation" id="Animation_ql374"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FowDrawer:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ssqhp"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FowDrawer:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rkn63"]
+resource_local_to_scene = true
+_data = {
+&"RESET": SubResource("Animation_ql374"),
+&"fade_out": SubResource("Animation_ssqhp")
+}
 
 [node name="RoomBase" instance=ExtResource("1_351je")]
 dimension = Vector2i(19, 19)
@@ -80,3 +134,12 @@ position = Vector2(121, 132)
 
 [node name="Box3" parent="." index="9" instance=ExtResource("3_1t734")]
 position = Vector2(203, 132)
+
+[node name="FowDrawer" parent="FowLayer" index="0"]
+material = SubResource("ShaderMaterial_u6fhh")
+texture = SubResource("GradientTexture2D_06lt0")
+
+[node name="FOWAnimationPlayer" parent="FowLayer" index="1"]
+libraries = {
+&"": SubResource("AnimationLibrary_rkn63")
+}
