@@ -37,7 +37,7 @@ const spawn_room_margin : int = 1
 const ENTRANCE_WIDTH: int = 2  # tiles wide. Changing this requires a refactor of the whole project!
 const door_entrance_distance: float = 1.5
 
-var fow_color : String = "#191919"
+var fow_color: String = "#191919"
 
 const coin_scene = preload("res://scenes/coin/coin_spawner.tscn")
 const entrance_detector_scene = preload("res://scenes/rooms/entrance_detector.tscn")
@@ -339,83 +339,97 @@ func _setup_entrance_detection() -> void:
 func _setup_fog_of_war(wall_cells: Array[Vector2i]) -> void:
 	fow_canvas.visible = should_fow
 	if should_fow:
-		var min_x = dimension.x
-		var min_y = dimension.y
-		var max_x = 0
-		var max_y = 0
+		var min_x: int = dimension.x
+		var min_y: int = dimension.y
+		var max_x: int = 0
+		var max_y: int = 0
 		
+		# Find the bounds of the room
 		for cell in wall_cells:
 			min_x = min(min_x, cell.x)
 			min_y = min(min_y, cell.y)
 			max_x = max(max_x, cell.x)
 			max_y = max(max_y, cell.y)
 		
-		var room_width = (max_x - min_x + 1) * tilemap_px
-		var room_height = (max_y - min_y + 1) * tilemap_px
+		var room_width: int = (max_x - min_x + 1) * tilemap_px
+		var room_height: int = (max_y - min_y + 1) * tilemap_px
 		
+		# Position the fog texture
 		fow_texture.position = self.global_position + Vector2(min_x, min_y) * tilemap_px
 		fow_texture.position.y -= 0.5 * tilemap_px
 		room_height += 0.5 * tilemap_px
 		
-		var fow_image = Image.create(room_width, room_height, false, Image.FORMAT_RGBA8)
+		# Create the fog image
+		var fow_image: Image = Image.create(room_width, room_height, false, Image.FORMAT_RGBA8)
 		fow_image.fill(Color(0, 0, 0, 0))
 		
-		var fog_color = Color.html(fow_color)
-		var room_mask = _create_room_mask(wall_cells, min_x, min_y)
+		var fog_color: Color = Color.html(fow_color)
+		var room_mask: Array[Array] = _create_room_mask(wall_cells, min_x, min_y)
 		
-		for y in range(room_height):
-			for x in range(room_width):
-				var tile_x = x / tilemap_px
-				var tile_y = y / tilemap_px
+		# Batch operations to reduce individual pixel operations
+		for y in range(0, room_height, 4):
+			for x in range(0, room_width, 4):
+				var tile_x: float = x / tilemap_px
+				var tile_y: float = y / tilemap_px
 				
 				if _is_inside_room(tile_x, tile_y, room_mask):
-					fow_image.set_pixel(x, y, fog_color)
+					# Fill a 4x4 block for better performance
+					for dy in range(min(4, room_height - y)):
+						for dx in range(min(4, room_width - x)):
+							fow_image.set_pixel(x + dx, y + dy, fog_color)
 		
 		fow_texture.texture = ImageTexture.create_from_image(fow_image)
 		fow_texture.material.set_shader_parameter("progress", 0.0)
 
 func _play_fow_animation(entrance_index: int) -> void:
 	if should_fow and room_state == 0:
-		var entrance = get("entrances_" + ENTRANCES[entrance_index])
-		var entrance_pos = Vector2(entrance) * tilemap_px
+		var entrance: Vector2i = get("entrances_" + ENTRANCES[entrance_index])
+		var entrance_pos: Vector2 = Vector2(entrance) * tilemap_px
 		
-		var texture_size = fow_texture.texture.get_size()
+		var texture_size: Vector2 = fow_texture.texture.get_size()
 		
-		var local_entrance_pos = entrance_pos - (fow_texture.position - self.global_position)
-		var origin_x = local_entrance_pos.x / texture_size.x
-		var origin_y = local_entrance_pos.y / texture_size.y
+		var local_entrance_pos: Vector2 = entrance_pos - (fow_texture.position - self.global_position)
+		var origin_x: float = local_entrance_pos.x / texture_size.x
+		var origin_y: float = local_entrance_pos.y / texture_size.y
 		
 		fow_texture.material.set_shader_parameter("origin_x", origin_x)
 		fow_texture.material.set_shader_parameter("origin_y", origin_y)
 		fow_animation_player.play("fade_out")
 
-func _create_room_mask(wall_cells, min_x, min_y):
-	var max_x = 0
-	var max_y = 0
+func _create_room_mask(wall_cells: Array[Vector2i], min_x: int, min_y: int) -> Array[Array]:
+	var max_x: int = 0
+	var max_y: int = 0
 	
+	# Find maximum bounds
 	for cell in wall_cells:
 		max_x = max(max_x, cell.x - min_x)
 		max_y = max(max_y, cell.y - min_y)
 	
-	var grid_width = max_x + 3
-	var grid_height = max_y + 3
-	var grid = []
+	var grid_width: int = max_x + 3
+	var grid_height: int = max_y + 3
+	var grid: Array[Array] = []
 	
+	# Pre-allocate the grid with proper size
+	grid.resize(grid_height)
 	for y in range(grid_height):
-		var row = []
+		var row: Array[int] = []
+		row.resize(grid_width)
 		for x in range(grid_width):
-			row.append(0)
-		grid.append(row)
+			row[x] = 0
+		grid[y] = row
 	
+	# Mark wall cells
 	for cell in wall_cells:
-		var grid_x = cell.x - min_x + 1
-		var grid_y = cell.y - min_y + 1
+		var grid_x: int = cell.x - min_x + 1
+		var grid_y: int = cell.y - min_y + 1
 		
 		if grid_x >= 0 and grid_x < grid_width and grid_y >= 0 and grid_y < grid_height:
 			grid[grid_y][grid_x] = 1
 	
+	# Fill outside areas
 	_flood_fill_outside(grid, grid_width, grid_height)
 	
+	# Mark inside areas
 	for y in range(grid_height):
 		for x in range(grid_width):
 			if grid[y][x] == 0:
@@ -423,41 +437,52 @@ func _create_room_mask(wall_cells, min_x, min_y):
 	
 	return grid
 
-func _flood_fill_outside(grid, width, height):
-	var queue = []
+func _flood_fill_outside(grid: Array[Array], width: int, height: int) -> void:
+	var queue: Array[Vector2i] = []
+	queue.resize(2 * (width + height)) # Pre-allocate for better performance
 	
+	# Add border cells to queue`
 	for x in range(width):
 		queue.append(Vector2i(x, 0))
 		queue.append(Vector2i(x, height - 1))
 	
-	for y in range(height):
+	for y in range(1, height - 1): # Skip corners already added
 		queue.append(Vector2i(0, y))
 		queue.append(Vector2i(width - 1, y))
 	
+	# Directions for flood fill (right, left, down, up)
+	var directions: Array[Vector2i] = [
+		Vector2i(1, 0),
+		Vector2i(-1, 0),
+		Vector2i(0, 1),
+		Vector2i(0, -1)
+	]
+	
 	while not queue.is_empty():
-		var pos = queue.pop_front()
-		var x = pos.x
-		var y = pos.y
+		var pos: Vector2i = queue.pop_front()
+		var x: int = pos.x
+		var y: int = pos.y
 		
 		if x < 0 or x >= width or y < 0 or y >= height or grid[y][x] != 0:
 			continue
 		
 		grid[y][x] = 2
 		
-		queue.append(Vector2i(x + 1, y))
-		queue.append(Vector2i(x - 1, y))
-		queue.append(Vector2i(x, y + 1))
-		queue.append(Vector2i(x, y - 1))
+		# Use pre-defined directions
+		for dir in directions:
+			queue.append(Vector2i(x + dir.x, y + dir.y))
 
-func _is_inside_room(tile_x, tile_y, room_mask):
-	var grid_x = int(tile_x) + 1
-	var grid_y = int(tile_y) + 1
+func _is_inside_room(tile_x: float, tile_y: float, room_mask: Array[Array]) -> bool:
+	var grid_x: int = int(tile_x) + 1
+	var grid_y: int = int(tile_y) + 1
 	
+	# Boundary check
 	if grid_y < 0 or grid_y >= room_mask.size():
 		return false
 	
-	var row = room_mask[grid_y]
+	var row: Array = room_mask[grid_y]
 	if grid_x < 0 or grid_x >= row.size():
 		return false
 	
+	# Check if the cell is part of the room (3) or a wall (1)
 	return row[grid_x] == 3 or row[grid_x] == 1
